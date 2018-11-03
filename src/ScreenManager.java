@@ -16,7 +16,7 @@ class ScreenManager {
 
     public void init() {
         this.frame = new JFrame("University Software");
-        this.loginScreen = new LoginScreen(this.width, this.height);
+        this.loginScreen = new LoginScreen(this.width, this.height, this);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setSize(this.width, this.height);
 
@@ -26,8 +26,9 @@ class ScreenManager {
 
     public void navToProfile() {
 
-        // this.loginScreen.destroy();
-        this.profileScreen = new ProfileScreen();
+        this.loginScreen.destroy();
+
+        this.profileScreen = new ProfileScreen(this.width, this.height, this);
         this.frame.add(this.profileScreen.draw());
     }
 

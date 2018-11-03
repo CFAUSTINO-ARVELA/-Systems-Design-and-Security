@@ -1,13 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 
-class ProfileScreen {
+class ProfileScreen extends ScreenManager {
 
     // protected string accountType;
     private JPanel profileScreen;
+    private ScreenManager screen;
 
-    ProfileScreen() {
-        // super();
+    public ProfileScreen(int w, int h, ScreenManager screen) {
+        super(w, h);
+        this.screen = screen;
         // this.accountType = accType;
     }
 

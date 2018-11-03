@@ -6,9 +6,11 @@ class LoginScreen extends ScreenManager implements ActionListener {
 
     // private JFrame frame;
     private JPanel loginScreen;
+    private ScreenManager screen;
 
-    public LoginScreen(int w, int h) {
+    public LoginScreen(int w, int h, ScreenManager screen) {
         super(w, h);
+        this.screen = screen;
     }
 
     public JPanel draw() {
@@ -42,7 +44,7 @@ class LoginScreen extends ScreenManager implements ActionListener {
     public void login() {
 
         // //authenticate here
-        navToProfile();
+        screen.navToProfile();
     }
 
     public void destroy() {
