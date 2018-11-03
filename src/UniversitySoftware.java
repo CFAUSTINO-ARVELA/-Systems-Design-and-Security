@@ -1,4 +1,4 @@
-import Canvas;
+import ScreenManager;
 
 class UniversitySoftware {
 
