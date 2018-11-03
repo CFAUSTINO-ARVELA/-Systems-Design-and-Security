@@ -1,5 +1,5 @@
 
-class StudentScreen extends ProfileScreen {
+class StudentScreen {
 
     StudentScreen() {
         this.accountType = "Student";

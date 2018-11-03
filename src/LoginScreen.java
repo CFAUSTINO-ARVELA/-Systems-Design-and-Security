@@ -4,30 +4,15 @@ import java.awt.event.*;
 
 class LoginScreen extends ScreenManager implements ActionListener {
 
+    // private JFrame frame;
+    private JPanel loginScreen;
+
     public LoginScreen(int w, int h) {
         super(w, h);
-        // this.panel = ;
     }
 
-    public void init() {
-        this.frame = new JFrame("University Software");
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.setSize(this.width, this.height);
-
-        this.panel = new JPanel();
-        this.panel.setBackground(new Color(150, 200, 250));
-        this.panel.setLayout(new FlowLayout());
-
-        this.frame.add(panel);
-        this.addComponents();
-        this.redraw();
-    }
-
-    public void redraw() {
-        this.frame.setVisible(true);
-    }
-
-    public void addComponents() {
+    public JPanel draw() {
+        this.loginScreen = new JPanel();
         JLabel welcomeText = new JLabel("Welcome! Please login below");
         JLabel emailText = new JLabel("Email:");
         JLabel passwordText = new JLabel("Password:");
@@ -44,22 +29,23 @@ class LoginScreen extends ScreenManager implements ActionListener {
         passwordInput.setBounds(300, 200, 200, 30);
         submitButton.setBounds(300, 300, 200, 30);
 
-        this.panel.add(welcomeText);
-        this.panel.add(emailText);
-        this.panel.add(emailInput);
-        this.panel.add(passwordText);
-        this.panel.add(passwordInput);
-        this.panel.add(submitButton);
+        this.loginScreen.add(welcomeText);
+        this.loginScreen.add(emailText);
+        this.loginScreen.add(emailInput);
+        this.loginScreen.add(passwordText);
+        this.loginScreen.add(passwordInput);
+        this.loginScreen.add(submitButton);
 
-        this.panel.setLayout(null);
+        return this.loginScreen;
     }
 
     public void login() {
 
+        // //authenticate here
+        navToProfile();
     }
 
     public void destroy() {
-        super.destroy();
+        this.loginScreen.setVisible(false);
     }
-
 }

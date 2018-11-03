@@ -4,21 +4,31 @@ class ScreenManager {
 
     protected int width;
     protected int height;
-    protected String screen;
-    protected JFrame frame;
     protected JPanel panel;
+    private JFrame frame;
+    private LoginScreen loginScreen;
+    private ProfileScreen profileScreen;
 
     public ScreenManager(int w, int h) {
-        this.screen = "login";
         this.width = w;
         this.height = h;
     }
 
-    protected void addComponents() {
-        
+    public void init() {
+        this.frame = new JFrame("University Software");
+        this.loginScreen = new LoginScreen(this.width, this.height);
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setSize(this.width, this.height);
+
+        this.frame.add(this.loginScreen.draw());
+        this.frame.setVisible(true);
     }
 
-    protected void destroy() {
+    public void navToProfile() {
 
+        // this.loginScreen.destroy();
+        this.profileScreen = new ProfileScreen();
+        this.frame.add(this.profileScreen.draw());
     }
+
 }
