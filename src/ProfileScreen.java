@@ -1,28 +1,40 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
-class ProfileScreen extends ScreenManager {
+class ProfileScreen implements ActionListener {
 
     // protected string accountType;
     private JPanel profileScreen;
     private ScreenManager screen;
+    private String profileType;
 
-    public ProfileScreen(int w, int h, ScreenManager screen) {
-        super(w, h);
-        this.screen = screen;
-        // this.accountType = accType;
+    public ProfileScreen(String profType, ScreenManager screenManager) {
+        this.screen = screenManager;
+        this.profileType = profType;
     }
 
     public JPanel draw() {
         this.profileScreen = new JPanel();
         this.profileScreen.setBackground(new Color(250, 100, 250));
-        JLabel profileText = new JLabel("Profile");
-        this.profileScreen.add(profileText);
+        
+        this.addComponents();
 
         return this.profileScreen;
     }
 
     public void addComponents() {
+        JLabel profileText = new JLabel("Profile");
+        JButton logoutButton = new JButton("Log-out");
 
+        logoutButton.addActionListener(e -> this.logout());
+
+        this.profileScreen.add(logoutButton);
+        this.profileScreen.add(profileText);
+    } 
+
+    private void logout() {
+        this.profileScreen.setVisible(false);
+        screen.navToLogin();
     }
 }

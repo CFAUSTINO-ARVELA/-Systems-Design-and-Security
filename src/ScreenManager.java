@@ -14,22 +14,26 @@ class ScreenManager {
         this.height = h;
     }
 
-    public void init() {
+    public void createWindow() {
         this.frame = new JFrame("University Software");
-        this.loginScreen = new LoginScreen(this.width, this.height, this);
+        this.loginScreen = new LoginScreen(this);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setSize(this.width, this.height);
-
-        this.frame.add(this.loginScreen.draw());
+        
+        this.navToLogin();
         this.frame.setVisible(true);
     }
 
-    public void navToProfile() {
+    public void navToProfile(String profileType) {
 
         this.loginScreen.destroy();
 
-        this.profileScreen = new ProfileScreen(this.width, this.height, this);
+        this.profileScreen = new ProfileScreen(profileType, this);
         this.frame.add(this.profileScreen.draw());
+    }
+
+    public void navToLogin() {
+        this.frame.add(this.loginScreen.draw());
     }
 
 }

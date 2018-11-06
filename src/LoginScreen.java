@@ -2,14 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-class LoginScreen extends ScreenManager implements ActionListener {
+class LoginScreen implements ActionListener {
 
     // private JFrame frame;
     private JPanel loginScreen;
     private ScreenManager screen;
 
-    public LoginScreen(int w, int h, ScreenManager screen) {
-        super(w, h);
+    public LoginScreen(ScreenManager screen) {
         this.screen = screen;
     }
 
@@ -43,8 +42,9 @@ class LoginScreen extends ScreenManager implements ActionListener {
 
     public void login() {
 
+        String profileType = "Student";
         // //authenticate here
-        screen.navToProfile();
+        screen.navToProfile(profileType);
     }
 
     public void destroy() {
