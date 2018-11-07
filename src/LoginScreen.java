@@ -30,6 +30,7 @@ class LoginScreen implements ActionListener {
         passwordInput.setBounds(300, 200, 200, 30);
         submitButton.setBounds(300, 300, 200, 30);
 
+        this.loginScreen.setLayout(null);
         this.loginScreen.add(welcomeText);
         this.loginScreen.add(emailText);
         this.loginScreen.add(emailInput);
