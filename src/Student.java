@@ -5,11 +5,21 @@ class Student {
     private int registrationNumber;
     private String tutor; // needs to be type Teacher
 
-    Student() {
-
+    Student(String d, int r, String t) {
+      this.degree = d;
+      this.registrationNumber = r;
+      this.tutor = t;
     }
 
-    public void create() {
-
+    public String getDegree() {
+        return this.degree;
+    }
+    
+    public int getRegistrationNumber() {
+    	return this.registrationNumber;
+    }
+    
+    public String getTutor() {
+    	return this.tutor;
     }
 }
