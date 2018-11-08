@@ -7,5 +7,4 @@ class UniversitySoftware {
         ScreenManager screen = new ScreenManager(900, 600);
         screen.createWindow();
     }
-
 }

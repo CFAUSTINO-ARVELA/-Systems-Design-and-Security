@@ -19,7 +19,7 @@ class ScreenManager {
         this.loginScreen = new LoginScreen(this);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setSize(this.width, this.height);
-        
+
         this.navToLogin();
         this.frame.setVisible(true);
     }
@@ -35,5 +35,4 @@ class ScreenManager {
     public void navToLogin() {
         this.frame.add(this.loginScreen.draw());
     }
-
 }

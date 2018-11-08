@@ -6,11 +6,13 @@ class Student {
     private String tutor; // needs to be type Teacher
     private int level;
     private int period;
+    private Account accountDetails;
 
-    Student(String d, int r, String t) {
-      this.degree = d;
-      this.registrationNumber = r;
-      this.tutor = t;
+    Student(String deg, int reg, String tut, Account acc) {  
+      this.degree = deg;
+      this.registrationNumber = reg;
+      this.tutor = tut;
+      this.accountDetails = acc;
     }
 
     public String getDegree() {
