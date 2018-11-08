@@ -34,6 +34,4 @@ class Student {
     public int getPeriod() {
     	return this.period;
     }
-    
-    
 }
