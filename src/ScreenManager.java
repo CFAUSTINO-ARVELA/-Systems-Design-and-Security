@@ -8,7 +8,7 @@ class ScreenManager {
     private JFrame frame;
     private LoginScreen loginScreen;
     private ProfileScreen profileScreen;
-    private AdminScreen adminScreen;
+    private AccountManagementScreen accountScreen;
 
     public ScreenManager(int w, int h) {
         this.width = w;
@@ -27,7 +27,7 @@ class ScreenManager {
 
     public void navToProfile(Account account) {
 
-        this.loginScreen.destroy();
+        System.out.println(this.accountScreen);
 
         this.profileScreen = new ProfileScreen(account, this);
         this.frame.add(this.profileScreen.draw());
@@ -37,9 +37,8 @@ class ScreenManager {
         this.frame.add(this.loginScreen.draw());
     }
 
-    public void navToAdminScreen() {
-        //this.profileScreen.destroy();
-        this.adminScreen = new AdminScreen(this);
-        this.frame.add(this.adminScreen.draw());
+    public void navToAccountManagementScreen(Account account) {
+        this.accountScreen = new AccountManagementScreen(this, account);
+        this.frame.add(this.accountScreen.draw());
     }
 }

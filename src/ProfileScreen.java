@@ -27,7 +27,10 @@ class ProfileScreen implements ActionListener {
         JLabel profileText = new JLabel("Profile: " + this.account.getForename());
         JButton logoutButton = new JButton("Log-out");
 
-        logoutButton.addActionListener(e -> this.logout());
+        logoutButton.addActionListener(e -> {
+            this.profileScreen.setVisible(false);
+            screen.navToLogin();
+        });
 
         this.profileScreen.add(logoutButton);
         this.profileScreen.add(profileText);
@@ -37,6 +40,7 @@ class ProfileScreen implements ActionListener {
                 this.studentComponents();
             case "Admin":  
                 this.adminComponents();
+            // others 
         }
     }
 
@@ -51,28 +55,21 @@ class ProfileScreen implements ActionListener {
         JButton createAccountButton = new JButton("Create Account");
         JButton editAccountButton = new JButton("Edit account");
 
-        createAccountButton.addActionListener(e -> this.createAccount());
-        editAccountButton.addActionListener(e -> this.editAccount());
+        createAccountButton.addActionListener(e -> {
+            this.profileScreen.setVisible(false);
+            screen.navToAccountManagementScreen(account);;
+        });
+        editAccountButton.addActionListener(e -> {
+            this.profileScreen.setVisible(false);
+            screen.navToAccountManagementScreen(account);
+        });
 
         this.profileScreen.add(welcomeText);
         this.profileScreen.add(createAccountButton);
         this.profileScreen.add(editAccountButton);
     }
 
-    private void logout() {
-        this.destroy();
-        screen.navToLogin();
-    }
-
-    public void destroy() {
-        this.profileScreen.setVisible(false);
-    }
-
-    public void createAccount() {
-
-    }
-
-    public void editAccount() {
-        
-    }
+    // private void logout() {
+    //     screen.navToLogin();
+    // }
 }

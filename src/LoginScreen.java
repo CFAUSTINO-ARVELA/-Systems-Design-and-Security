@@ -21,7 +21,10 @@ class LoginScreen implements ActionListener {
         JPasswordField passwordInput = new JPasswordField();
         JButton submitButton = new JButton("Submit");
 
-        submitButton.addActionListener(e -> this.login());
+        submitButton.addActionListener(e -> {
+            this.loginScreen.setVisible(false);
+            this.login();
+        });
 
         welcomeText.setBounds(100, 30, 400, 30);
         emailText.setBounds(80, 70, 200, 30);
@@ -66,9 +69,5 @@ class LoginScreen implements ActionListener {
         }
 
         //Query rest
-    }
-
-    public void destroy() {
-        this.loginScreen.setVisible(false);
     }
 }
