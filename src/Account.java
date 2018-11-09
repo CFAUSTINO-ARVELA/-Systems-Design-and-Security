@@ -19,10 +19,11 @@ class Account {
 
     }
 
-    private void getUsername() {
+    private String getUsername() {
         // generate username based on details
         //this needs to be split later into get and generate username so
         // we don't generate it everytime
+        return "PlaceHolderUsername123";
     }
 
     private void generateEmail() {

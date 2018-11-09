@@ -46,7 +46,12 @@ class ProfileScreen implements ActionListener {
 
     public void studentComponents() {
         JLabel profileText = new JLabel("Student Profile");
+        JLabel titleText = new JLabel("Title: " + this.account.getTitle());
+        JLabel nameText = new JLabel("Name: " + this.account.getForename() + " " + this.account.getSurname());
+        
         this.profileScreen.add(profileText);
+        this.profileScreen.add(titleText);
+        this.profileScreen.add(nameText);
     }
 
     public void adminComponents() {

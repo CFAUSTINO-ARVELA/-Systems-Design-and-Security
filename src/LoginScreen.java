@@ -46,7 +46,7 @@ class LoginScreen implements ActionListener {
 
     public void login() {
 
-        String profileType = "Admin";
+        String profileType = "Student";
         // //authenticate here
         // I think the easiest way will be to check each table and if it exists in the table and the passwords match, we know they
         // they are a ___ and set profileType accordingly
