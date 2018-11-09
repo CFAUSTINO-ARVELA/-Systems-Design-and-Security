@@ -25,11 +25,11 @@ class ScreenManager {
         this.frame.setVisible(true);
     }
 
-    public void navToProfile(String profileType) {
+    public void navToProfile(Account account) {
 
         this.loginScreen.destroy();
 
-        this.profileScreen = new ProfileScreen(profileType, this);
+        this.profileScreen = new ProfileScreen(account, this);
         this.frame.add(this.profileScreen.draw());
     }
 
@@ -38,7 +38,7 @@ class ScreenManager {
     }
 
     public void navToAdminScreen() {
-        this.profileScreen.destroy();
+        //this.profileScreen.destroy();
         this.adminScreen = new AdminScreen(this);
         this.frame.add(this.adminScreen.draw());
     }

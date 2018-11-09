@@ -7,24 +7,24 @@ class ProfileScreen implements ActionListener {
     // protected string accountType;
     private JPanel profileScreen;
     private ScreenManager screen;
-    private String profileType;
+    private Account account;
 
-    public ProfileScreen(String profType, ScreenManager screenManager) {
+    public ProfileScreen(Account acc, ScreenManager screenManager) {
         this.screen = screenManager;
-        this.profileType = profType;
+        this.account = acc;
     }
 
     public JPanel draw() {
         this.profileScreen = new JPanel();
         this.profileScreen.setBackground(new Color(250, 100, 250));
 
-        this.addComponents();
+        this.addSharedComponents();
 
         return this.profileScreen;
     }
 
-    public void addComponents() {
-        JLabel profileText = new JLabel("Profile");
+    public void addSharedComponents() {
+        JLabel profileText = new JLabel("Profile: " + this.account.getForename());
         JButton logoutButton = new JButton("Log-out");
 
         logoutButton.addActionListener(e -> this.logout());
@@ -32,12 +32,11 @@ class ProfileScreen implements ActionListener {
         this.profileScreen.add(logoutButton);
         this.profileScreen.add(profileText);
 
-        switch (this.profileType) {
+        switch (this.account.getClearance()) {
             case "Student": 
                 this.studentComponents();
-                break;
             case "Admin":  
-                screen.navToAdminScreen();
+                this.adminComponents();
         }
     }
 
@@ -47,10 +46,18 @@ class ProfileScreen implements ActionListener {
     }
 
     public void adminComponents() {
+        System.out.print("Drawing admin");
+        JLabel welcomeText = new JLabel("Welcome to edit accounts");
+        JButton createAccountButton = new JButton("Create Account");
+        JButton editAccountButton = new JButton("Edit account");
 
+        createAccountButton.addActionListener(e -> this.createAccount());
+        editAccountButton.addActionListener(e -> this.editAccount());
+
+        this.profileScreen.add(welcomeText);
+        this.profileScreen.add(createAccountButton);
+        this.profileScreen.add(editAccountButton);
     }
-
-    // etc
 
     private void logout() {
         this.destroy();
@@ -59,5 +66,13 @@ class ProfileScreen implements ActionListener {
 
     public void destroy() {
         this.profileScreen.setVisible(false);
+    }
+
+    public void createAccount() {
+
+    }
+
+    public void editAccount() {
+        
     }
 }

@@ -6,9 +6,9 @@ class Account {
     private String email;
     private String username;
     private String password;
-    private int clearance;
+    private String clearance;
 
-    Account(String _title, String _forname, String _password, String _surname, int _clearance) {
+    Account(String _title, String _forname, String _password, String _surname, String _clearance) {
         this.title = _title;
         this.forename = _forname;
         this.surname = _surname;
@@ -19,8 +19,10 @@ class Account {
 
     }
 
-    private void generateUsername() {
-        // generate username based 
+    private void getUsername() {
+        // generate username based on details
+        //this needs to be split later into get and generate username so
+        // we don't generate it everytime
     }
 
     private void generateEmail() {
@@ -49,6 +51,10 @@ class Account {
 
     public void setSurname() {
 
+    }
+
+    public String getClearance() {
+        return this.clearance;
     }
 
     

@@ -45,12 +45,24 @@ class LoginScreen implements ActionListener {
 
         String profileType = "Admin";
         // //authenticate here
-        // I think the best way will be to check each table and if it exists in the table and the passwords match, we know they
-        // they are a ___ and therefore nav to their specific screen
+        // I think the easiest way will be to check each table and if it exists in the table and the passwords match, we know they
+        // they are a ___ and set profileType accordingly
 
         // Query student table
         if (true) {
-            screen.navToProfile(profileType);
+
+            // get data
+            String title = "Miss";
+            String forename = "Katie";
+            String surname = "Walker";
+            String email = "katie@katie.com";
+            String username = "acaklw";
+            String password = "password";
+            String clearance = "Student";
+
+
+            Account account = new Account(title, forename, surname, password, clearance);
+            screen.navToProfile(account);
         }
 
         //Query rest

@@ -1,0 +1,8 @@
+class EditAccountScreen {
+
+    EditAccountScreen() {
+
+    }
+
+    
+}
