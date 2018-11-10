@@ -27,7 +27,6 @@ class ScreenManager {
     }
 
     public void navToProfile(Account account) {
-
         this.profileScreen = new ProfileScreen(account, this);
         this.frame.add(this.profileScreen.draw());
     }

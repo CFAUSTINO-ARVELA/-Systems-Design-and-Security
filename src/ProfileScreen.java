@@ -17,7 +17,7 @@ class ProfileScreen implements ActionListener {
     public JPanel draw() {
         this.profileScreen = new JPanel();
         this.profileScreen.setBackground(new Color(250, 100, 250));
-  
+
         this.addSharedComponents();
         return this.profileScreen;
     }
@@ -34,14 +34,16 @@ class ProfileScreen implements ActionListener {
         this.profileScreen.add(logoutButton);
         this.profileScreen.add(profileText);
 
+        System.out.println(this.account.getClearance());
+
         switch (this.account.getClearance()) {
-        case "Student":
-            this.studentComponents();
-            break;
-        case "Admin":
-            this.adminComponents();
-            break;
-            // others
+            case "Student":
+                this.studentComponents();
+                break;
+             case "Admin":
+                this.adminComponents();
+                break;
+        // others
         }
     }
 
