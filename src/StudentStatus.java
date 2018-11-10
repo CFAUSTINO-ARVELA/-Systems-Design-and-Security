@@ -16,6 +16,7 @@ class StudentStatus implements ActionListener {
     StudentStatus(Account loggedInAcc, Account stuAcc, ScreenManager screen) {
         this.loggedInAccount = loggedInAcc;
         this.stuAccount = stuAcc;
+	this.screen = screen;
     }
 
     public JPanel draw() {
