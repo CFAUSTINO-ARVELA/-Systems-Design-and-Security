@@ -9,6 +9,7 @@ class ScreenManager {
     private LoginScreen loginScreen;
     private ProfileScreen profileScreen;
     private AccountManagementScreen accountScreen;
+    private StudentStatus studentStatus;
 
     public ScreenManager(int w, int h) {
         this.width = w;
@@ -27,8 +28,6 @@ class ScreenManager {
 
     public void navToProfile(Account account) {
 
-        System.out.println(this.accountScreen);
-
         this.profileScreen = new ProfileScreen(account, this);
         this.frame.add(this.profileScreen.draw());
     }
@@ -40,5 +39,10 @@ class ScreenManager {
     public void navToAccountManagementScreen(Account account) {
         this.accountScreen = new AccountManagementScreen(this, account);
         this.frame.add(this.accountScreen.draw());
+    }
+
+    public void navToStudentStatus(Account loggedInAcc, Account stuAcc) {
+        this.studentStatus = new StudentStatus(loggedInAcc, stuAcc, this);
+        this.frame.add(this.studentStatus.draw());
     }
 }

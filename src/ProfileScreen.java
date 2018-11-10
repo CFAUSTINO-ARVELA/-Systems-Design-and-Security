@@ -17,9 +17,8 @@ class ProfileScreen implements ActionListener {
     public JPanel draw() {
         this.profileScreen = new JPanel();
         this.profileScreen.setBackground(new Color(250, 100, 250));
-
+  
         this.addSharedComponents();
-
         return this.profileScreen;
     }
 
@@ -36,33 +35,41 @@ class ProfileScreen implements ActionListener {
         this.profileScreen.add(profileText);
 
         switch (this.account.getClearance()) {
-            case "Student": 
-                this.studentComponents();
-            case "Admin":  
-                this.adminComponents();
-            // others 
+        case "Student":
+            this.studentComponents();
+            break;
+        case "Admin":
+            this.adminComponents();
+            break;
+            // others
         }
     }
 
     public void studentComponents() {
-        JLabel profileText = new JLabel("Student Profile");
-        JLabel titleText = new JLabel("Title: " + this.account.getTitle());
-        JLabel nameText = new JLabel("Name: " + this.account.getForename() + " " + this.account.getSurname());
-        
-        this.profileScreen.add(profileText);
-        this.profileScreen.add(titleText);
-        this.profileScreen.add(nameText);
+        JLabel profileTxt = new JLabel("Student Profile");
+        JLabel titleTxt = new JLabel("Title: " + this.account.getTitle());
+        JLabel nameTxt = new JLabel("Name: " + this.account.getForename() + " " + this.account.getSurname());
+        JButton statusBtn = new JButton("Student Status");
+
+        this.profileScreen.add(profileTxt);
+        this.profileScreen.add(titleTxt);
+        this.profileScreen.add(nameTxt);
+        this.profileScreen.add(statusBtn);
+
+        statusBtn.addActionListener(e -> {
+            this.profileScreen.setVisible(false);
+            screen.navToStudentStatus(this.account, this.account);
+        });
     }
 
     public void adminComponents() {
-        System.out.print("Drawing admin");
         JLabel welcomeText = new JLabel("Welcome to edit accounts");
         JButton createAccountButton = new JButton("Create Account");
         JButton editAccountButton = new JButton("Edit account");
 
         createAccountButton.addActionListener(e -> {
             this.profileScreen.setVisible(false);
-            screen.navToAccountManagementScreen(account);;
+            screen.navToAccountManagementScreen(account);
         });
         editAccountButton.addActionListener(e -> {
             this.profileScreen.setVisible(false);
@@ -74,7 +81,11 @@ class ProfileScreen implements ActionListener {
         this.profileScreen.add(editAccountButton);
     }
 
+    public void regComponents() {
+
+    }
+
     // private void logout() {
-    //     screen.navToLogin();
+    // screen.navToLogin();
     // }
 }
