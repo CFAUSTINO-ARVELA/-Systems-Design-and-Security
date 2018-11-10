@@ -23,13 +23,13 @@ class StudentStatus implements ActionListener {
         JLabel titleTxt = new JLabel("Welcome to student status"); 
         JButton backToProfileBtn = new JButton("Back to profile");
 
+        this.studentStatusScreen.add(titleTxt);
+        this.studentStatusScreen.add(backToProfileBtn);
+
         backToProfileBtn.addActionListener(e -> {
             this.studentStatusScreen.setVisible(false);
             screen.navToProfile(this.loggedInAccount);
         });
-
-        this.studentStatusScreen.add(titleTxt);
-        this.studentStatusScreen.add(backToProfileBtn);
 
         return this.studentStatusScreen;
     }

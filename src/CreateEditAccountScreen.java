@@ -3,7 +3,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.event.*;
 
-class AccountManagementScreen {
+class AccountManagementScreen implements ActionListener {
 
     public JPanel accountManagement; 
     private ScreenManager screen;
@@ -16,13 +16,13 @@ class AccountManagementScreen {
 
     public JPanel draw() {
         this.accountManagement = new JPanel();
-        JLabel titleText = new JLabel("Welcome to account management");
-        JButton backToProfileButton = new JButton("Back");
+        JLabel titleTxt = new JLabel("Welcome to account management");
+        JButton backToProfileBtn = new JButton("Back");
 
-        this.accountManagement.add(titleText);
-        this.accountManagement.add(backToProfileButton);
+        this.accountManagement.add(titleTxt);
+        this.accountManagement.add(backToProfileBtn);
 
-        backToProfileButton.addActionListener(e -> {
+        backToProfileBtn.addActionListener(e -> {
             this.accountManagement.setVisible(false);
             screen.navToProfile(this.account);
         });
