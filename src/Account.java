@@ -18,7 +18,8 @@ class Account {
         
         this.username = this.generateUsername();
         this.email = this.generateEmail();
-        this.createAccount();
+        // Implement actual password generation!
+        this.password = "password";
     }
 
     private void createAccount() {
