@@ -6,9 +6,9 @@ class Account {
     private String email;
     private String username;
     private String password;
-    private String clearance;
+    private int clearance;
 
-    Account(String _title, String _forname, String _password, String _surname, String _clearance) {
+    Account(String _title, String _forname, String _password, String _surname, int _clearance) {
         this.title = _title;
         this.forename = _forname;
         this.surname = _surname;
@@ -54,7 +54,7 @@ class Account {
 
     }
 
-    public String getClearance() {
+    public int getClearance() {
         return this.clearance;
     }
 
