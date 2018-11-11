@@ -1,3 +1,5 @@
+import java.sql.*;
+
 class Account {
 
     private String title;
@@ -16,7 +18,23 @@ class Account {
     }
 
     private void createAccount() {
+    	
+    	Connection con = null;
+		Statement stmt = null;
 
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+			stmt = con.createStatement();
+            int count = stmt.executeUpdate(String.format("INSERT INTO account (title, forename, surname) VALUES (%s, %s, %s);", this.title, this.forename, this.surname));
+
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+        
     }
 
     private String getUsername() {
