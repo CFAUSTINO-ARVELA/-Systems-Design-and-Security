@@ -17,6 +17,7 @@ class Account {
         this.clearance = _clearance;
         
         this.username = this.generateUsername();
+        this.email = this.generateEmail();
         this.createAccount();
     }
 
@@ -66,9 +67,14 @@ class Account {
 		
 		return this.forename.charAt(0) + this.surname + count;
     }
+    
+    public String getEmail() {
+    	return this.email;
+    }
 
-    private void generateEmail() {
+    private String generateEmail() {
         // generate email based on name and number
+    	return this.username + "@sheffield.ac.uk";
     }
 
     public String getTitle() {
