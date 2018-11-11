@@ -8,9 +8,9 @@ class Account {
     private String password;
     private int clearance;
 
-    Account(String _title, String _forname, String _password, String _surname, int _clearance) {
+    Account(String _title, String _forename, String _password, String _surname, int _clearance) {
         this.title = _title;
-        this.forename = _forname;
+        this.forename = _forename;
         this.surname = _surname;
         this.clearance = _clearance;
     }
