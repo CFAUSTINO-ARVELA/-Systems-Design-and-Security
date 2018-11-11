@@ -60,7 +60,7 @@ class LoginScreen implements ActionListener {
             String email = "katie@katie.com";
             String username = "acaklw";
             String password = "password";
-            String clearance = "Student";
+            Clearance clearance = Clearance.STUDENT;
 
 
             Account account = new Account(title, forename, surname, password, clearance);

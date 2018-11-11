@@ -12,6 +12,7 @@ public class CreateTables {
 			stmt = con.createStatement();
 			int count = stmt.executeUpdate(
 					"CREATE TABLE student (RegistrationNumber int, Degree varchar(255), Tutor varchar(255));");
+			count += stmt.executeUpdate("CREATE TABLE account (Title varchar(255), Forename varchar(255), Surname varchar(255), Username varchar(255), Password varchar(255), Email varchar(255), Clearance int);");
 
 			System.out.println(count);
 		} catch (SQLException ex) {

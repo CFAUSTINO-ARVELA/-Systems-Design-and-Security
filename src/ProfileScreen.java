@@ -37,10 +37,11 @@ class ProfileScreen implements ActionListener {
         System.out.println(this.account.getClearance());
 
         switch (this.account.getClearance()) {
-            case "Student":
+        // Implement cases for teacher and registrar
+            case STUDENT:
                 this.studentComponents();
                 break;
-             case "Admin":
+             case ADMIN:
                 this.adminComponents();
                 break;
         // others
