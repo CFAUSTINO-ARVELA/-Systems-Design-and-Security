@@ -16,13 +16,18 @@ class Account {
         this.surname = _surname;
         this.clearance = _clearance;
         
-        this.username = this.generateUsername();
+        try {
+        	this.username = this.generateUsername();
+        } catch (SQLException ex) {
+        	this.username = this.forename.charAt(0) + this.surname + '0';
+        }
+        
         this.email = this.generateEmail();
         // Implement actual password generation!
         this.password = "password";
     }
 
-    private void createAccount() {
+    private void createAccount() throws SQLException {
     	
     	Connection con = null;
 		Statement stmt = null;
@@ -46,7 +51,7 @@ class Account {
     	return this.username;
     }
 
-    private String generateUsername() {
+    private String generateUsername() throws SQLException {
         // generate username based on details
     	
     	Connection con = null;
@@ -82,7 +87,7 @@ class Account {
         return this.title;
     }
 
-    public void setTitle(String t) {
+    public void setTitle(String t) throws SQLException {
     	
     	Connection con = null;
 		Statement stmt = null;
@@ -108,7 +113,7 @@ class Account {
         return this.forename;
     }
 
-    public void setForename(String f) {
+    public void setForename(String f) throws SQLException {
     	
     	Connection con = null;
 		Statement stmt = null;
@@ -134,7 +139,7 @@ class Account {
         return this.surname;
     }
 
-    public void setSurname(String s) {
+    public void setSurname(String s) throws SQLException {
     	
     	Connection con = null;
 		Statement stmt = null;

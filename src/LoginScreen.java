@@ -44,7 +44,7 @@ class LoginScreen implements ActionListener {
         return this.loginScreen;
     }
 
-    public void login() {
+    public void login(){
 
         // //authenticate here
         // I think the easiest way will be to check each table and if it exists in the table and the passwords match, we know they
