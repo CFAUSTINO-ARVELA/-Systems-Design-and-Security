@@ -99,6 +99,8 @@ class Account {
 			if (stmt != null)
 				stmt.close();
 		}
+		
+		this.title = t;
 
     }
 
@@ -123,6 +125,8 @@ class Account {
 			if (stmt != null)
 				stmt.close();
 		}
+		
+		this.forename = f;
 
     }
 
@@ -147,6 +151,8 @@ class Account {
 			if (stmt != null)
 				stmt.close();
 		}
+		
+		this.surname = s;
 
     }
 
