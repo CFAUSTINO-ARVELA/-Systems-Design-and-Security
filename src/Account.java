@@ -81,7 +81,23 @@ class Account {
         return this.title;
     }
 
-    public void setTitle() {
+    public void setTitle(String t) {
+    	
+    	Connection con = null;
+		Statement stmt = null;
+
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+			stmt = con.createStatement();
+            int count = stmt.executeUpdate(String.format("UPDATE account SET title = %s WHERE username = %s;", t, this.username));
+
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
 
     }
 
@@ -89,7 +105,23 @@ class Account {
         return this.forename;
     }
 
-    public void setForename() {
+    public void setForename(String f) {
+    	
+    	Connection con = null;
+		Statement stmt = null;
+
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+			stmt = con.createStatement();
+            int count = stmt.executeUpdate(String.format("UPDATE account SET forename = %s WHERE username = %s;", f, this.username));
+
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
 
     }
 
@@ -97,7 +129,23 @@ class Account {
         return this.surname;
     }
 
-    public void setSurname() {
+    public void setSurname(String s) {
+    	
+    	Connection con = null;
+		Statement stmt = null;
+
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+			stmt = con.createStatement();
+            int count = stmt.executeUpdate(String.format("UPDATE account SET surname = %s WHERE username = %s;", s, this.username));
+
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
 
     }
 
