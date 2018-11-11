@@ -1,5 +1,3 @@
-import ScreenManager;
-
 class UniversitySoftware {
 
     public static void main(String[] args) {
