@@ -63,7 +63,7 @@ class LoginScreen implements ActionListener {
             Clearance clearance = Clearance.STUDENT;
 
 
-            Account account = new Account(title, forename, surname, password, clearance);
+            Account account = new Account(title, forename, surname, username, password, clearance);
             screen.navToProfile(account);
         }
 

@@ -10,17 +10,12 @@ class Account {
     private String password;
     private Clearance clearance;
 
-    Account(String _title, String _forename, String _password, String _surname, Clearance _clearance) {
+    Account(String _title, String _forename, String _password, String _username, String _surname, Clearance _clearance) {
         this.title = _title;
         this.forename = _forename;
         this.surname = _surname;
         this.clearance = _clearance;
-        
-        try {
-        	this.username = this.generateUsername();
-        } catch (SQLException ex) {
-        	this.username = this.forename.charAt(0) + this.surname + '0';
-        }
+        this.username = _username;
         
         this.email = this.generateEmail();
         // Implement actual password generation!
