@@ -41,7 +41,7 @@ class ScreenManager {
     }
 
     public void navToStudentStatus(Account loggedInAcc, Account stuAcc) {
-        this.studentStatus = new StudentStatus(loggedInAcc, stuAcc, this);
+        this.studentStatus = new StudentStatus(loggedInAcc, this);
         this.frame.add(this.studentStatus.draw());
     }
 }
