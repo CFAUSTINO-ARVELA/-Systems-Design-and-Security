@@ -25,12 +25,12 @@ public class CreateTables {
 			//Create table for degree
 			int degree = stmt.executeUpdate ( 
 					"CREATE TABLE degree (code varchar(6) NOT NULL PRIMARY KEY, name varchar(255) NOT NULL, "
-					+ "mainDepart varchar(3) REFERENCES department(code), type varchar(12), placement BOOL);");
+					+ "mainDept varchar(3) REFERENCES department(code), type varchar(12), placement BOOL);");
 			
 			//Create table for the secondary departments of interdisciplinary degrees 
 			int secondDep = stmt.executeUpdate( 
-					"CREATE TABLE seconDep (degreeCode varchar(6) NOT NULL PRIMARY KEY REFERENCES degree(code), "
-					+ "dep varchar(3) NOT NULL REFERENCES department(code));");
+					"CREATE TABLE seconDepts (degreeCode varchar(6) NOT NULL PRIMARY KEY REFERENCES degree(code), "
+					+ "dept varchar(3) NOT NULL REFERENCES department(code));");
 			
 			//Create table for level of study and their name
 			int levels = stmt.executeUpdate( 

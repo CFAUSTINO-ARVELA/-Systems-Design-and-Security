@@ -16,7 +16,7 @@ public class DropTables {
 
 			int dep = stmt.executeUpdate("DROP TABLE department");
 			int degree = stmt.executeUpdate("DROP TABLE degree");
-			int secDep = stmt.executeUpdate("DROP TABLE seconDep");
+			int secDep = stmt.executeUpdate("DROP TABLE seconDepts");
 			int levels = stmt.executeUpdate("DROP TABLE studyLevels");
 			
 //+ dep + degree
