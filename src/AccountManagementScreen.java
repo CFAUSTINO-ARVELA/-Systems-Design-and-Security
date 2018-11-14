@@ -69,6 +69,7 @@ class AccountManagementScreen implements ActionListener {
         this.accountManagement.add(submitBtn);
 
         String cle = (String)clearanceInput.getSelectedItem();
+        System.out.println(cle);
 
         submitBtn.addActionListener(e -> {
             this.accountManagement.setVisible(false);

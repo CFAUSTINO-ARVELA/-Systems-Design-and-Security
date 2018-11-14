@@ -49,8 +49,8 @@ class Account {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
-			String query = String.format("INSERT INTO account (title, forename, surname, username) VALUES (\"%s\", \"%s\", \"%s\", \"%s\");",
-					this.title, this.forename, this.surname, this.username);
+			String query = String.format("INSERT INTO account (title, forename, surname, username, clearance) VALUES (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\");",
+					this.title, this.forename, this.surname, this.username, clearanceToInt(this.clearance));
 			int count = stmt.executeUpdate(query);
 					
 
@@ -207,6 +207,7 @@ class Account {
 		case TEACHER: return 1;
 		case REGISTRAR: return 2;
 		case ADMIN: return 3;
+		default: return 0;
 		}
 	}
 
