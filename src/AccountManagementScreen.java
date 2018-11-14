@@ -13,12 +13,10 @@ class AccountManagementScreen implements ActionListener {
     public JPanel accountManagement;
     private ScreenManager screen;
     private Account account;
-    private String task;
 
-    AccountManagementScreen(ScreenManager scr, Account acc, String tsk) {
+    AccountManagementScreen(ScreenManager scr, Account acc) {
         this.screen = scr;
         this.account = acc;
-        this.task = "Create";
     }
 
     public JPanel draw() {

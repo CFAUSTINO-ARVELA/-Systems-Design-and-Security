@@ -67,21 +67,15 @@ class ProfileScreen implements ActionListener {
 
     public void adminComponents() {
         JLabel welcomeText = new JLabel("Welcome to edit accounts");
-        JButton createAccountButton = new JButton("Create Account");
-        JButton editAccountButton = new JButton("Edit account");
+        JButton accountManagementBtn = new JButton("Create Account");
 
-        createAccountButton.addActionListener(e -> {
-            this.profileScreen.setVisible(false);
-            screen.navToAccountManagementScreen(account);
-        });
-        editAccountButton.addActionListener(e -> {
+        accountManagementBtn.addActionListener(e -> {
             this.profileScreen.setVisible(false);
             screen.navToAccountManagementScreen(account);
         });
 
         this.profileScreen.add(welcomeText);
-        this.profileScreen.add(createAccountButton);
-        this.profileScreen.add(editAccountButton);
+        this.profileScreen.add(accountManagementBtn);
     }
 
     public void regComponents() {

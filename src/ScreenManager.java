@@ -36,7 +36,7 @@ class ScreenManager {
     }
 
     public void navToAccountManagementScreen(Account account) {
-        this.accountScreen = new AccountManagementScreen(this, account, "Create");
+        this.accountScreen = new AccountManagementScreen(this, account);
         this.frame.add(this.accountScreen.draw());
     }
 
