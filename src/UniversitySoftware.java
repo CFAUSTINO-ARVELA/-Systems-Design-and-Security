@@ -2,7 +2,7 @@ class UniversitySoftware {
 
     public static void main(String[] args) {
 
-        ScreenManager screen = new ScreenManager(900, 600);
+        ScreenManager screen = new ScreenManager(1000, 600);
         screen.createWindow();
     }
 }

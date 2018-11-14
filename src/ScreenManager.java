@@ -33,6 +33,7 @@ class ScreenManager {
     }
 
     public void navToLogin() {
+        // this.frame.add(this.loginScreen.draw());
         this.frame.add(this.loginScreen.draw());
     }
 
