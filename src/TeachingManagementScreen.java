@@ -12,6 +12,7 @@ class TeachingManagementScreen implements ActionListener {
 
     public JPanel teachingManagement;
     private ScreenManager screen;
+    private Account account;
 
     TeachingManagementScreen(ScreenManager scr, Account acc) {
         this.screen = scr;
@@ -29,40 +30,41 @@ class TeachingManagementScreen implements ActionListener {
 
         backToProfileBtn.addActionListener(e -> {
             this.teachingManagement.setVisible(false);
+            screen.navToProfile(this.account);
         });
 
         this.create();
-        return this.accountManagement;
+        return this.teachingManagement;
     }
 
     private void create() {
-        JLabel titleTxt = new JLabel("Title: ");
-        JTextField titleInput = new JTextField();
-        JLabel forenameTxt = new JLabel("Forename: ");
-        JTextField forenameInput = new JTextField();
-        JLabel surnameTxt = new JLabel("Surname: ");
-        JTextField surnameInput = new JTextField();
-        JLabel usernameTxt = new JLabel("Username: ");
+        // JLabel titleTxt = new JLabel("Title: ");
+        // JTextField titleInput = new JTextField();
+        // JLabel forenameTxt = new JLabel("Forename: ");
+        // JTextField forenameInput = new JTextField();
+        // JLabel surnameTxt = new JLabel("Surname: ");
+        // JTextField surnameInput = new JTextField();
+        // JLabel usernameTxt = new JLabel("Username: ");
 
-        // change to drop down
-        JLabel clearanceTxt = new JLabel("Clearance: ");
-        JTextField clearanceInput = new JTextField();
-        JTextField usernameInput = new JTextField();
-        JButton submitBtn = new JButton("Submit");
+        // // change to drop down
+        // JLabel clearanceTxt = new JLabel("Clearance: ");
+        // JTextField clearanceInput = new JTextField();
+        // JTextField usernameInput = new JTextField();
+        // JButton submitBtn = new JButton("Submit");
 
-        this.teachingManagement.add(titleTxt);
-        this.teachingManagement.add(titleInput);
-        this.teachingManagement.add(forenameTxt);
-        this.teachingManagement.add(forenameInput);
-        this.teachingManagement.add(surnameTxt);
-        this.teachingManagement.add(surnameInput);
-        this.teachingManagement.add(usernameTxt);
-        this.teachingManagement.add(usernameInput);
-        this.teachingManagement.add(submitBtn);
+        // this.teachingManagement.add(titleTxt);
+        // this.teachingManagement.add(titleInput);
+        // this.teachingManagement.add(forenameTxt);
+        // this.teachingManagement.add(forenameInput);
+        // this.teachingManagement.add(surnameTxt);
+        // this.teachingManagement.add(surnameInput);
+        // this.teachingManagement.add(usernameTxt);
+        // this.teachingManagement.add(usernameInput);
+        // this.teachingManagement.add(submitBtn);
 
-        submitBtn.addActionListener(e -> {
-            this.teachingManagement.setVisible(false);
-        });
+        // submitBtn.addActionListener(e -> {
+        //     this.teachingManagement.setVisible(false);
+        // });
     }
 
     private void edit() {

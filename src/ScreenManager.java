@@ -9,6 +9,7 @@ class ScreenManager {
     private LoginScreen loginScreen;
     private ProfileScreen profileScreen;
     private AccountManagementScreen accountScreen;
+    private TeachingManagementScreen teachingScreen;
     private StudentStatus studentStatus;
 
     public ScreenManager(int w, int h) {
@@ -38,6 +39,11 @@ class ScreenManager {
     public void navToAccountManagementScreen(Account account) {
         this.accountScreen = new AccountManagementScreen(this, account);
         this.frame.add(this.accountScreen.draw());
+    }
+
+    public void navToTeachingManagementScreen(Account account) {
+        this.teachingScreen = new TeachingManagementScreen(this, account);
+        this.frame.add(this.teachingScreen.draw());
     }
 
     public void navToStudentStatus(Account loggedInAcc, Account stuAcc) {

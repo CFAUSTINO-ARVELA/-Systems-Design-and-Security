@@ -1,6 +1,7 @@
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 import java.awt.GridLayout;
@@ -45,12 +46,15 @@ class AccountManagementScreen implements ActionListener {
         JTextField forenameInput = new JTextField();
         JLabel surnameTxt = new JLabel("Surname: ");
         JTextField surnameInput = new JTextField();
-        JLabel usernameTxt = new JLabel("Username: ");
+
+        String[] clearanceList = { "Student", "Teacher", "Registrar", "Admin" };
 
         // change to drop down
         JLabel clearanceTxt = new JLabel("Clearance: ");
-        JTextField clearanceInput = new JTextField();
-        JTextField usernameInput = new JTextField();
+        JComboBox clearanceInput = new JComboBox(clearanceList);
+        clearanceInput.setSelectedIndex(0);
+        clearanceInput.addActionListener(this);
+
         JButton submitBtn = new JButton("Submit");
 
         // this.accountManagement.setLayout(GridLayout);
@@ -60,20 +64,23 @@ class AccountManagementScreen implements ActionListener {
         this.accountManagement.add(forenameInput);
         this.accountManagement.add(surnameTxt);
         this.accountManagement.add(surnameInput);
-        this.accountManagement.add(usernameTxt);
-        this.accountManagement.add(usernameInput);
+        this.accountManagement.add(clearanceTxt);
+        this.accountManagement.add(clearanceInput);
         this.accountManagement.add(submitBtn);
+
+        String cle = clearanceInput.GetItemText(clearanceInput.SelectedItem);
 
         submitBtn.addActionListener(e -> {
             this.accountManagement.setVisible(false);
-            Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(), usernameInput.getText(), "password", Clearance.STUDENT);
+            Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(),
+                    usernameInput.getText(), "password", cle);
 
             try {
                 ac.createAccount();
             } catch (SQLException ex) {
                 System.out.println("SQL error");
             }
-            
+
             screen.navToProfile(this.account);
         });
     }
