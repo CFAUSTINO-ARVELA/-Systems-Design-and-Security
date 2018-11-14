@@ -49,7 +49,7 @@ class Account {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
 			String query = String.format("INSERT INTO account (title, forename, surname, username, clearance, email, password) VALUES (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\");",
-					this.title, this.forename, this.surname, this.username, clearanceToInt(this.clearance), this.email, this.password);
+					this.title, this.forename, this.surname, this.username, this.clearance.toInt(), this.email, this.password);
 			int count = stmt.executeUpdate(query);
 					
 
@@ -102,8 +102,6 @@ class Account {
 		return randomString(12);
 	}
 	
-	
-
 	public String getEmail() {
 		return this.email;
 	}
@@ -208,17 +206,7 @@ class Account {
 		}
 	}
 	
-	public int clearanceToInt(Clearance c) {
-		switch (c) {
-		case STUDENT: return 0;
-		case TEACHER: return 1;
-		case REGISTRAR: return 2;
-		case ADMIN: return 3;
-		default: return 0;
-		}
-	}
-	
-	static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!\"#$%&'()*+,-./:;<=>?@[]^_`{|}~";
+	static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 	static SecureRandom rnd = new SecureRandom();
 
 	String randomString( int len ){
