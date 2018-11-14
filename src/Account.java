@@ -10,13 +10,31 @@ class Account {
 	private String password;
 	private Clearance clearance;
 
+	Account(String _title, String _forename, String _surname, String _password,
+			String _clearance) {
+		this.title = _title;
+		this.forename = _forename;
+		this.surname = _surname;
+		this.clearance = this.toClearance(_clearance);
+		
+		try {
+			this.username = this.generateUsername();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+
+		this.email = this.generateEmail();
+		// Implement actual password generation!
+		this.password = "password";
+	}
+	
 	Account(String _title, String _forename, String _surname, String _username, String _password,
 			Clearance _clearance) {
 		this.title = _title;
 		this.forename = _forename;
 		this.surname = _surname;
-		this.clearance = _clearance;
 		this.username = _username;
+		this.clearance = _clearance;
 
 		this.email = this.generateEmail();
 		// Implement actual password generation!
@@ -60,11 +78,15 @@ class Account {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
-			ResultSet res = stmt.executeQuery(
-					String.format("SELECT COUNT(*) FROM account WHERE forename LIKE '%s%' AND surname LIKE '%s';",
-							this.forename.charAt(0), this.surname));
-
+			String query = String.format("SELECT COUNT(*) FROM account WHERE forename LIKE '%s%%' AND surname LIKE '%s';",
+					this.forename.charAt(0), this.surname);
+			System.out.println(query);
+			ResultSet res = stmt.executeQuery(query);
+			
+			res.next();
 			count = res.getInt(1);
+			
+
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -72,7 +94,7 @@ class Account {
 				stmt.close();
 		}
 
-		return this.forename.charAt(0) + this.surname + count;
+		return this.forename.charAt(0) + this.surname + (count + 1);
 	}
 
 	public String getEmail() {
@@ -167,6 +189,16 @@ class Account {
 
 	public Clearance getClearance() {
 		return this.clearance;
+	}
+	
+	public Clearance toClearance(String s) {
+		switch (s) {
+		case "Student": return Clearance.STUDENT;
+		case "Teacher": return Clearance.TEACHER;
+		case "Registrar": return Clearance.REGISTRAR;
+		case "Admin": return Clearance.ADMIN;
+		default: return Clearance.STUDENT;
+		}
 	}
 
 }
