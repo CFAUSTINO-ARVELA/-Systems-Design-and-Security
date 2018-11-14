@@ -31,9 +31,10 @@ class Account {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
-			int count = stmt.executeUpdate(
-					String.format("INSERT INTO account (title, forename, surname, username) VALUES (%s, %s, %s, %s);",
-							this.title, this.forename, this.surname, this.username));
+			String query = String.format("INSERT INTO account (title, forename, surname, username) VALUES (\"%s\", \"%s\", \"%s\", \"%s\");",
+					this.title, this.forename, this.surname, this.username);
+			int count = stmt.executeUpdate(query);
+					
 
 			System.out.println(count);
 		} catch (SQLException ex) {
