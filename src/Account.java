@@ -200,5 +200,14 @@ class Account {
 		default: return Clearance.STUDENT;
 		}
 	}
+	
+	public int clearanceToInt(Clearance c) {
+		switch (c) {
+		case STUDENT: return 0;
+		case TEACHER: return 1;
+		case REGISTRAR: return 2;
+		case ADMIN: return 3;
+		}
+	}
 
 }
