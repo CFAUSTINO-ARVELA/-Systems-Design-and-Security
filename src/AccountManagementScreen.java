@@ -74,7 +74,7 @@ class AccountManagementScreen implements ActionListener {
             Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(),"password", cle);
 
             try {
-                ac.createAccount();
+                Account newAccount = ac.createAccount();
             } catch (SQLException ex) {
                 System.out.println("SQL error");
             }

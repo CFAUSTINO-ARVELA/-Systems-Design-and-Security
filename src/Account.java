@@ -41,7 +41,7 @@ class Account {
 		this.password = "password";
 	}
 
-	public void createAccount() throws SQLException {
+	public Account createAccount() throws SQLException {
 
 		Connection con = null;
 		Statement stmt = null;
@@ -61,6 +61,8 @@ class Account {
 			if (stmt != null)
 				stmt.close();
 		}
+		
+		return this;
 
 	}
 
