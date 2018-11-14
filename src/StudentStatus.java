@@ -3,6 +3,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.event.*;
+import java.sql.Date;
 
 
 class StudentStatus implements ActionListener {
@@ -68,7 +69,7 @@ class StudentStatus implements ActionListener {
         JButton searchBtn = new JButton("Search");
 
         searchBtn.addActionListener(e -> {
-            this.setStudentStatus(searchbox.toText());
+            this.setStudentStatus(searchbox.getText());
         });
     }
 
