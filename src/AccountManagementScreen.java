@@ -84,7 +84,7 @@ class AccountManagementScreen implements ActionListener {
                     cle);
 
             try {
-                ac.createAccount();
+                Account newAccount = ac.createAccount();
             } catch (SQLException ex) {
                 System.out.println("SQL error");
             }
