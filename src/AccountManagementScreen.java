@@ -67,12 +67,10 @@ class AccountManagementScreen implements ActionListener {
         this.accountManagement.add(clearanceTxt);
         this.accountManagement.add(clearanceInput);
         this.accountManagement.add(submitBtn);
-
-        String cle = clearanceInput.getSelectedItem().toString();
-        System.out.println(cle);
-
+        
         submitBtn.addActionListener(e -> {
             this.accountManagement.setVisible(false);
+            String cle = clearanceInput.getSelectedItem().toString();
             Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(),"password", cle);
 
             try {
