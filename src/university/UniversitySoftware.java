@@ -1,3 +1,5 @@
+package university;
+
 class UniversitySoftware {
 
     public static void main(String[] args) {

@@ -1,7 +1,9 @@
+package university.UI;
+import university.ScreenManager;
 import java.awt.*;
 import javax.swing.*;
 
-public class LoginDesign extends JPanel {
+public class LoginScreen extends JPanel {
 
     private ScreenManager screen;
     private JPanel loginScreen;
@@ -14,7 +16,7 @@ public class LoginDesign extends JPanel {
     private JLabel passwordText;
     private JButton submitButton;
 
-    public LoginDesign(ScreenManager scr) {
+    public LoginScreen(ScreenManager scr) {
         initComponents();
         this.screen = scr;
     }

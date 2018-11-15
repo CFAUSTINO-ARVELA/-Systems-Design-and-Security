@@ -1,3 +1,4 @@
+package university.UI;
 import java.awt.*;
 import javax.swing.*;
 /*

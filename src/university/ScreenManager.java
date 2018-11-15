@@ -1,5 +1,8 @@
+package university;
+
 import javax.swing.*; // needs to be changed to not *
-import UI.LoginScreen;
+
+import university.UI.LoginScreen;
 
 public class ScreenManager {
 

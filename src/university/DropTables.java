@@ -1,3 +1,4 @@
+package university;
 import java.sql.*;
 
 public class DropTables {

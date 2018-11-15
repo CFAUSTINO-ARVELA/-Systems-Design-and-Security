@@ -1,3 +1,4 @@
+package university;
 import java.security.SecureRandom;
 import java.sql.*;
 
