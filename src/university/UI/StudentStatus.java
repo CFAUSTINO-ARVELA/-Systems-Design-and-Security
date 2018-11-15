@@ -18,6 +18,7 @@ public class StudentStatus extends JPanel implements ActionListener {
 
     private Account loggedInAccount;
     private JPanel studentStatusScreen;
+    private ProfileScreen profileScreen;
     private ScreenManager screen;
 
     private String username;
@@ -27,9 +28,10 @@ public class StudentStatus extends JPanel implements ActionListener {
     private Semester periodStudies;
     private int grade;
 
-    StudentStatus(Account loggedInAcc, ScreenManager screen) {
+    StudentStatus(Account loggedInAcc, ScreenManager screen, ProfileScreen prof) {
         initComponents();
         this.loggedInAccount = loggedInAcc;
+        this.profileScreen = prof;
         this.screen = screen;
     }
 
@@ -42,7 +44,9 @@ public class StudentStatus extends JPanel implements ActionListener {
         this.studentStatusScreen.add(backToProfileBtn);
 
         backToProfileBtn.addActionListener(e -> {
+            this.profileScreen.draw();
             this.studentStatusScreen.setVisible(false);
+
         });
 
         this.studentStatusScreen.setLayout(null);

@@ -1,5 +1,6 @@
 package university.UI;
 import university.ScreenManager;
+import university.UI;
 import java.awt.*;
 import javax.swing.*;
 
@@ -39,7 +40,7 @@ public class LoginScreen extends JPanel {
 
         submitButton.addActionListener(e -> {
             this.loginScreen.setVisible(false);
-            this.loginScreen();
+            this.login();
         });
 
         this.loginScreen.setLayout(null);
@@ -48,7 +49,7 @@ public class LoginScreen extends JPanel {
         this.screen.frame.add(this.loginScreen);
     }
 
-    public void loginScreen() {
+    public void login() {
 
         // //authenticate here
         // I think the easiest way will be to check each table and if it exists in the
@@ -65,7 +66,7 @@ public class LoginScreen extends JPanel {
             String email = "katie@katie.com";
             String username = "acaklw";
             String password = "password";
-            Clearance clearance = Clearance.STUDENT;
+            Clearance clearance = Clearance.ADMIN;
 
             Account account = new Account(title, forename, surname, username, password, clearance);
             //screen.navToProfile(account);

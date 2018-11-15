@@ -11,7 +11,7 @@ new FormModel {
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 12, false )
 				"horizontalAlignment": 0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 390
+				"x": 389
 				"y": 90
 				"width": 220
 			} )
@@ -20,7 +20,7 @@ new FormModel {
 				"text": "Please enter details below"
 				"horizontalAlignment": 0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 385
+				"x": 387
 				"y": 130
 				"width": 225
 			} )
@@ -30,9 +30,9 @@ new FormModel {
 				"horizontalAlignment": 4
 				"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 0, 3, false )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 325
+				"x": 185
 				"y": 185
-				"width": 45
+				"width": 185
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "forenameTxt"
@@ -40,10 +40,10 @@ new FormModel {
 				"horizontalAlignment": 4
 				"font": #SwingDerivedFont0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"width": 75
+				"width": 140
 				"height": 16
-				"x": 295
-				"y": 225
+				"x": 230
+				"y": 227
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "surnameTxt"
@@ -51,9 +51,9 @@ new FormModel {
 				"horizontalAlignment": 4
 				"font": #SwingDerivedFont0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"width": 75
+				"width": 215
 				"height": 16
-				"x": 295
+				"x": 155
 				"y": 265
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
@@ -62,15 +62,15 @@ new FormModel {
 				"horizontalAlignment": 4
 				"font": #SwingDerivedFont0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"width": 75
+				"width": 215
 				"height": 16
-				"x": 295
+				"x": 155
 				"y": 305
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "titleInput"
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 385
+				"x": 382
 				"y": 180
 				"width": 235
 			} )
@@ -79,7 +79,7 @@ new FormModel {
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 235
 				"height": 30
-				"x": 385
+				"x": 382
 				"y": 220
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
@@ -87,13 +87,13 @@ new FormModel {
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 235
 				"height": 30
-				"x": 385
+				"x": 382
 				"y": 260
 			} )
 			add( new FormComponent( "javax.swing.JComboBox" ) {
 				name: "clearanceInput"
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 385
+				"x": 382
 				"y": 300
 				"width": 235
 			} )
@@ -101,7 +101,7 @@ new FormModel {
 				name: "submitBtn"
 				"text": "Submit"
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 435
+				"x": 432
 				"y": 345
 				"width": 135
 			} )
@@ -111,18 +111,18 @@ new FormModel {
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 135
 				"height": 30
-				"x": 435
+				"x": 432
 				"y": 550
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "welcomeTxt2"
+				name: "accountManagementTxt"
 				"text": "Account Management"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 10, false )
 				"horizontalAlignment": 0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 305
 				"height": 31
-				"x": 345
+				"x": 347
 				"y": 35
 			} )
 		}, new FormLayoutConstraints( null ) {

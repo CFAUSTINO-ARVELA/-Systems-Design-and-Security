@@ -2,13 +2,16 @@ package university.UI;
 
 import java.awt.*;
 import javax.swing.*;
-package university;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import university.UI.ProfileScreen;
+import university.ScreenManager;
+import university.Account;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -17,29 +20,33 @@ import java.awt.event.*;
 
 import java.sql.*;
 
-class OLDAccountManagementScreen implements ActionListener {
+class AccountManagementScreen extends JPanel implements ActionListener {
 
+    private static final long serialVersionUID = 1L;
     public JPanel accountManagement;
     private ScreenManager screen;
+    private ProfileScreen profileScreen;
     private Account account;
 
-    AccountManagementScreen(ScreenManager scr, Account acc) {
+    AccountManagementScreen(ScreenManager scr, Account acc, ProfileScreen prof) {
+        this.initComponents();
+        this.profileScreen = prof;
         this.screen = scr;
         this.account = acc;
     }
 
     public void draw() {
         this.accountManagement = new JPanel();
-        JLabel titleTxt = new JLabel("Welcome to account management");
-        JButton backToProfileBtn = new JButton("Back");
 
-        this.accountManagement.add(titleTxt);
+        accountManagementTxt.setForeground(new Color(255,255,255));
+        this.accountManagement.add(accountManagementTxt);
         this.accountManagement.add(backToProfileBtn);
+        this.accountManagement.setBackground(new Color(70, 70, 70));
         this.accountManagement.setLayout(null);
 
         backToProfileBtn.addActionListener(e -> {
             this.accountManagement.setVisible(false);
-            screen.navToProfile(this.account);
+            this.profileScreen.draw();
         });
 
         this.create();
@@ -48,15 +55,6 @@ class OLDAccountManagementScreen implements ActionListener {
     }
 
     private void create() {
-        JLabel welcomeTxt = new JLabel("");
-        JLabel promptTxt = new JLabel("");
-        JLabel titleTxt = new JLabel("Title: ");
-        JTextField titleInput = new JTextField();
-        JLabel forenameTxt = new JLabel("Forename: ");
-        JTextField forenameInput = new JTextField();
-        JLabel surnameTxt = new JLabel("Surname: ");
-        JTextField surnameInput = new JTextField();
-        JButton submitBtn = new JButton("Submit");
 
         String[] clearanceList = { "Student", "Teacher", "Registrar", "Admin" };
 
@@ -66,7 +64,13 @@ class OLDAccountManagementScreen implements ActionListener {
         clearanceInput.setSelectedIndex(0);
         clearanceInput.addActionListener(this);
 
-        this.accountManagement.setBackground(new Color(120, 30, 250));
+        welcomeTxt.setForeground(new Color(255,255,255));
+        promptTxt.setForeground(new Color(255,255,255));
+        titleTxt.setForeground(new Color(255,255,255));
+        forenameTxt.setForeground(new Color(255,255,255));
+        surnameTxt.setForeground(new Color(255,255,255));
+        clearanceTxt.setForeground(new Color(255,255,255));
+
         this.accountManagement.add(welcomeTxt);
         this.accountManagement.add(promptTxt);
         this.accountManagement.add(titleTxt);
@@ -92,8 +96,7 @@ class OLDAccountManagementScreen implements ActionListener {
             } catch (SQLException ex) {
                 System.out.println("SQL error");
             }
-
-            screen.navToProfile(this.account);
+            this.profileScreen.draw();
         });
     }
 
@@ -117,93 +120,81 @@ class OLDAccountManagementScreen implements ActionListener {
         clearanceInput = new JComboBox();
         submitBtn = new JButton();
         backToProfileBtn = new JButton();
-        welcomeTxt2 = new JLabel();
+        accountManagementTxt = new JLabel();
 
-        // ======== this ========
+        //======== this ========
 
-        // JFormDesigner evaluation mark
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
-                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
-                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
-                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
-        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent e) {
-                if ("border".equals(e.getPropertyName()))
-                    throw new RuntimeException();
-            }
-        });
 
-        setLayout(null);
 
-        // ---- welcomeTxt ----
+        //---- welcomeTxt ----
         welcomeTxt.setText("Create Account");
         welcomeTxt.setFont(welcomeTxt.getFont().deriveFont(welcomeTxt.getFont().getSize() + 12f));
         welcomeTxt.setHorizontalAlignment(SwingConstants.CENTER);
         add(welcomeTxt);
-        welcomeTxt.setBounds(390, 90, 220, welcomeTxt.getPreferredSize().height);
+        welcomeTxt.setBounds(389, 90, 220, welcomeTxt.getPreferredSize().height);
 
-        // ---- promptTxt ----
+        //---- promptTxt ----
         promptTxt.setText("Please enter details below");
         promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
         add(promptTxt);
-        promptTxt.setBounds(385, 130, 225, promptTxt.getPreferredSize().height);
+        promptTxt.setBounds(387, 130, 225, promptTxt.getPreferredSize().height);
 
-        // ---- titleTxt ----
+        //---- titleTxt ----
         titleTxt.setText("Title");
         titleTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         titleTxt.setFont(titleTxt.getFont().deriveFont(titleTxt.getFont().getSize() + 3f));
         add(titleTxt);
-        titleTxt.setBounds(325, 185, 45, titleTxt.getPreferredSize().height);
+        titleTxt.setBounds(185, 185, 185, titleTxt.getPreferredSize().height);
 
-        // ---- forenameTxt ----
+        //---- forenameTxt ----
         forenameTxt.setText("Forename");
         forenameTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         forenameTxt.setFont(forenameTxt.getFont().deriveFont(forenameTxt.getFont().getSize() + 3f));
         add(forenameTxt);
-        forenameTxt.setBounds(295, 225, 75, 16);
+        forenameTxt.setBounds(230, 227, 140, 16);
 
-        // ---- surnameTxt ----
+        //---- surnameTxt ----
         surnameTxt.setText("Surname");
         surnameTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         surnameTxt.setFont(surnameTxt.getFont().deriveFont(surnameTxt.getFont().getSize() + 3f));
         add(surnameTxt);
-        surnameTxt.setBounds(295, 265, 75, 16);
+        surnameTxt.setBounds(155, 265, 215, 16);
 
-        // ---- clearanceTxt ----
+        //---- clearanceTxt ----
         clearanceTxt.setText("Clearance");
         clearanceTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         clearanceTxt.setFont(clearanceTxt.getFont().deriveFont(clearanceTxt.getFont().getSize() + 3f));
         add(clearanceTxt);
-        clearanceTxt.setBounds(295, 305, 75, 16);
+        clearanceTxt.setBounds(155, 305, 215, 16);
         add(titleInput);
-        titleInput.setBounds(385, 180, 235, titleInput.getPreferredSize().height);
+        titleInput.setBounds(382, 180, 235, titleInput.getPreferredSize().height);
         add(forenameInput);
-        forenameInput.setBounds(385, 220, 235, 30);
+        forenameInput.setBounds(382, 220, 235, 30);
         add(surnameInput);
-        surnameInput.setBounds(385, 260, 235, 30);
+        surnameInput.setBounds(382, 260, 235, 30);
         add(clearanceInput);
-        clearanceInput.setBounds(385, 300, 235, clearanceInput.getPreferredSize().height);
+        clearanceInput.setBounds(382, 300, 235, clearanceInput.getPreferredSize().height);
 
-        // ---- submitBtn ----
+        //---- submitBtn ----
         submitBtn.setText("Submit");
         add(submitBtn);
-        submitBtn.setBounds(435, 345, 135, submitBtn.getPreferredSize().height);
+        submitBtn.setBounds(432, 345, 135, submitBtn.getPreferredSize().height);
 
-        // ---- backToProfileBtn ----
+        //---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
-        backToProfileBtn.setBounds(435, 550, 135, 30);
+        backToProfileBtn.setBounds(432, 550, 135, 30);
 
-        // ---- welcomeTxt2 ----
-        welcomeTxt2.setText("Account Management");
-        welcomeTxt2.setFont(welcomeTxt2.getFont().deriveFont(welcomeTxt2.getFont().getSize() + 10f));
-        welcomeTxt2.setHorizontalAlignment(SwingConstants.CENTER);
-        add(welcomeTxt2);
-        welcomeTxt2.setBounds(345, 35, 305, 31);
+        //---- accountManagementTxt ----
+        accountManagementTxt.setText("Account Management");
+        accountManagementTxt.setFont(accountManagementTxt.getFont().deriveFont(accountManagementTxt.getFont().getSize() + 10f));
+        accountManagementTxt.setHorizontalAlignment(SwingConstants.CENTER);
+        add(accountManagementTxt);
+        accountManagementTxt.setBounds(347, 35, 305, 31);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for (int i = 0; i < getComponentCount(); i++) {
+            for(int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -231,6 +222,6 @@ class OLDAccountManagementScreen implements ActionListener {
     private JComboBox clearanceInput;
     private JButton submitBtn;
     private JButton backToProfileBtn;
-    private JLabel welcomeTxt2;
+    private JLabel accountManagementTxt;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 }
