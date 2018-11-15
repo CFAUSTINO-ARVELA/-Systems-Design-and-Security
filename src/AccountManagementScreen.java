@@ -23,7 +23,7 @@ class AccountManagementScreen implements ActionListener {
         this.account = acc;
     }
 
-    public JPanel draw() {
+    public void draw() {
         this.accountManagement = new JPanel();
         JLabel titleTxt = new JLabel("Welcome to account management");
         JButton backToProfileBtn = new JButton("Back");
@@ -39,7 +39,7 @@ class AccountManagementScreen implements ActionListener {
 
         this.create();
 
-        return this.accountManagement;
+        screen.frame.add(this.accountManagement);
     }
 
     private void create() {

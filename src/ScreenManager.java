@@ -1,11 +1,12 @@
 import javax.swing.*; // needs to be changed to not *
 
-class ScreenManager {
+
+public class ScreenManager {
 
     protected int width;
     protected int height;
     protected JPanel panel;
-    private JFrame frame;
+    public JFrame frame;
     private LoginScreen loginScreen;
     private ProfileScreen profileScreen;
     private AccountManagementScreen accountScreen;
@@ -29,26 +30,25 @@ class ScreenManager {
 
     public void navToProfile(Account account) {
         this.profileScreen = new ProfileScreen(account, this);
-        this.frame.add(this.profileScreen.draw());
+        this.profileScreen.draw();
     }
 
     public void navToLogin() {
-        // this.frame.add(this.loginScreen.draw());
-        this.frame.add(this.loginScreen.draw());
+        this.loginScreen.draw();
     }
 
     public void navToAccountManagementScreen(Account account) {
         this.accountScreen = new AccountManagementScreen(this, account);
-        this.frame.add(this.accountScreen.draw());
+        this.accountScreen.draw();
     }
 
     public void navToTeachingManagementScreen(Account account) {
         this.teachingScreen = new TeachingManagementScreen(this, account);
-        this.frame.add(this.teachingScreen.draw());
+        this.teachingScreen.draw();
     }
 
     public void navToStudentStatus(Account loggedInAcc, Account stuAcc) {
         this.studentStatus = new StudentStatus(loggedInAcc, this);
-        this.frame.add(this.studentStatus.draw());
+        this.studentStatus.draw();
     }
 }

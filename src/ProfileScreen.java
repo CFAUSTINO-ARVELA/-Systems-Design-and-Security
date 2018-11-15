@@ -14,12 +14,12 @@ class ProfileScreen implements ActionListener {
         this.account = acc;
     }
 
-    public JPanel draw() {
+    public void draw() {
         this.profileScreen = new JPanel();
         this.profileScreen.setBackground(new Color(250, 100, 250));
 
         this.addSharedComponents();
-        return this.profileScreen;
+        screen.frame.add(this.profileScreen);
     }
 
     public void addSharedComponents() {

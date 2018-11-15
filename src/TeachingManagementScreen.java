@@ -19,7 +19,7 @@ class TeachingManagementScreen implements ActionListener {
         this.account = acc;
     }
 
-    public JPanel draw() {
+    public void draw() {
         this.teachingManagement = new JPanel();
         JLabel titleTxt = new JLabel("Welcome to teaching management");
         JButton backToProfileBtn = new JButton("Back");
@@ -34,7 +34,7 @@ class TeachingManagementScreen implements ActionListener {
         });
 
         this.create();
-        return this.teachingManagement;
+        screen.frame.add(this.teachingManagement);
     }
 
     private void create() {
