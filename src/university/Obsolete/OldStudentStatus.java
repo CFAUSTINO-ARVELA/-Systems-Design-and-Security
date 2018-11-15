@@ -7,7 +7,7 @@ import java.awt.event.*;
 import java.sql.Date;
 
 
-class StudentStatus implements ActionListener {
+class OLDStudentStatus implements ActionListener {
 
     // Who is logged in, eg a register or student
     private Account loggedInAccount;

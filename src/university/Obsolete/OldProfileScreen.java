@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-class ProfileScreen implements ActionListener {
+class OldProfileScreen implements ActionListener {
 
     // protected string accountType;
     private JPanel profileScreen;
@@ -24,7 +24,7 @@ class ProfileScreen implements ActionListener {
     }
 
     public void addSharedComponents() {
-        JLabel profileText = new JLabel("Profile: " + this.account.getForename());
+        JLabel welcomeTxt = new JLabel("Welcome " + this.account.getForename());
         JButton logoutButton = new JButton("Log-out");
 
         logoutButton.addActionListener(e -> {
@@ -33,7 +33,7 @@ class ProfileScreen implements ActionListener {
         });
 
         this.profileScreen.add(logoutButton);
-        this.profileScreen.add(profileText);
+        this.profileScreen.add(welcomeTxt);
 
         System.out.println(this.account.getClearance());
 

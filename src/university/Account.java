@@ -2,7 +2,7 @@ package university;
 import java.security.SecureRandom;
 import java.sql.*;
 
-class Account {
+public class Account {
 
 	private String title;
 	private String forename;
@@ -12,7 +12,7 @@ class Account {
 	private String password;
 	private Clearance clearance;
 
-	Account(String _title, String _forename, String _surname, String _password,
+	public Account(String _title, String _forename, String _surname, String _password,
 			String _clearance) {
 		this.title = _title;
 		this.forename = _forename;
@@ -29,7 +29,7 @@ class Account {
 		this.password = this.generatePassword();
 	}
 	
-	Account(String _title, String _forename, String _surname, String _username, String _password,
+	public Account(String _title, String _forename, String _surname, String _username, String _password,
 			Clearance _clearance) {
 		this.title = _title;
 		this.forename = _forename;

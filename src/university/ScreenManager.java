@@ -3,6 +3,7 @@ package university;
 import javax.swing.*; // needs to be changed to not *
 
 import university.UI.LoginScreen;
+import university.UI.ProfileScreen;
 
 public class ScreenManager {
 
@@ -11,10 +12,7 @@ public class ScreenManager {
     protected JPanel panel;
     public JFrame frame;
     private LoginScreen loginScreen;
-    private ProfileScreen profileScreen;
-    private AccountManagementScreen accountScreen;
-    private TeachingManagementScreen teachingScreen;
-    private StudentStatus studentStatus;
+
 
     public ScreenManager(int w, int h) {
         this.width = w;
@@ -31,27 +29,7 @@ public class ScreenManager {
         this.frame.setVisible(true);
     }
 
-    public void navToProfile(Account account) {
-        this.profileScreen = new ProfileScreen(account, this);
-        this.profileScreen.draw();
-    }
-
     public void navToLogin() {
         this.loginScreen.draw();
-    }
-
-    public void navToAccountManagementScreen(Account account) {
-        this.accountScreen = new AccountManagementScreen(this, account);
-        this.accountScreen.draw();
-    }
-
-    public void navToTeachingManagementScreen(Account account) {
-        this.teachingScreen = new TeachingManagementScreen(this, account);
-        this.teachingScreen.draw();
-    }
-
-    public void navToStudentStatus(Account loggedInAcc, Account stuAcc) {
-        this.studentStatus = new StudentStatus(loggedInAcc, this);
-        this.studentStatus.draw();
     }
 }
