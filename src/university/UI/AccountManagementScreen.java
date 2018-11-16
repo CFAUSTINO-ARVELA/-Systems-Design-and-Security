@@ -20,16 +20,15 @@ import java.awt.event.*;
 
 import java.sql.*;
 
-class AccountCreationScreen extends JPanel implements ActionListener {
+class AccountManagementScreen extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
-    public JPanel accountCreation;
+    public JPanel accountManagement;
     private ScreenManager screen;
     private ProfileScreen profileScreen;
     private Account account;
 
-
-    AccountCreationScreen(ScreenManager scr, Account acc, ProfileScreen prof) {
+    AccountManagementScreen(ScreenManager scr, Account acc, ProfileScreen prof) {
         this.initComponents();
         this.profileScreen = prof;
         this.screen = scr;
@@ -37,42 +36,44 @@ class AccountCreationScreen extends JPanel implements ActionListener {
     }
 
     public void draw() {
-        this.accountCreation = new JPanel();
+        this.accountManagement = new JPanel();
+        this.accountManagement.setBackground(new Color(70, 70, 70));
 
-        this.accountCreation.setLayout(null);
+        this.accountManagement.add(promptTxt);
+        this.accountManagement.add(backToProfileBtn);
+        this.accountManagement.add(accountManagementTxt);
+        this.accountManagement.add(createBtn);
+        this.accountManagement.add(deleteBtn);
+
+        this.accountManagement.setLayout(null);
 
         backToProfileBtn.addActionListener(e -> {
-            this.accountCreation.setVisible(false);
+            this.accountManagement.setVisible(false);
             this.profileScreen.draw();
         });
+        createBtn.addActionListener(e -> {
+            this.accountManagement.setVisible(false);
+            AccountCreationScreen accountCreate = new AccountCreationScreen(this.screen, this);
+            accountCreate.draw();
+        });
 
-        this.create();
+        screen.frame.add(this.accountManagement);
+    }
 
-        screen.frame.add(this.accountCreation);
+    public void returnFromManagement(String status) {
+        JLabel statusTxt = new JLabel(status);
+        this.accountManagement.add(statusTxt);
+        this.draw();
     }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY
         // //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Katie
-        // JFormDesigner - End of component initialization //GEN-END:initComponents
-    }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Katie
-    // JFormDesigner - End of variables declaration //GEN-END:variables
-
-public class AccountManagementScreen extends JPanel {
-    public AccountManagementScreen() {
-        initComponents();
-    }
-
-    private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Katie
         promptTxt = new JLabel();
         backToProfileBtn = new JButton();
         accountManagementTxt = new JLabel();
+        deleteBtn = new JButton();
         createBtn = new JButton();
 
         //======== this ========
@@ -89,6 +90,7 @@ public class AccountManagementScreen extends JPanel {
         //---- promptTxt ----
         promptTxt.setText("output account database here");
         promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
+        promptTxt.setForeground(Color.white);
         add(promptTxt);
         promptTxt.setBounds(390, 260, 225, promptTxt.getPreferredSize().height);
 
@@ -101,13 +103,19 @@ public class AccountManagementScreen extends JPanel {
         accountManagementTxt.setText("Account Management");
         accountManagementTxt.setFont(accountManagementTxt.getFont().deriveFont(accountManagementTxt.getFont().getSize() + 10f));
         accountManagementTxt.setHorizontalAlignment(SwingConstants.CENTER);
+        accountManagementTxt.setForeground(Color.white);
         add(accountManagementTxt);
         accountManagementTxt.setBounds(347, 35, 305, 31);
+
+        //---- deleteBtn ----
+        deleteBtn.setText("Delete Account");
+        add(deleteBtn);
+        deleteBtn.setBounds(415, 465, 170, 30);
 
         //---- createBtn ----
         createBtn.setText("Create Account");
         add(createBtn);
-        createBtn.setBounds(415, 465, 170, 30);
+        createBtn.setBounds(415, 430, 170, 30);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
@@ -122,15 +130,15 @@ public class AccountManagementScreen extends JPanel {
             setMinimumSize(preferredSize);
             setPreferredSize(preferredSize);
         }
-        // JFormDesigner - End of component initialization  //GEN-END:initComponents
+        // JFormDesigner - End of component initialization //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - Katie
     private JLabel promptTxt;
     private JButton backToProfileBtn;
     private JLabel accountManagementTxt;
+    private JButton deleteBtn;
     private JButton createBtn;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
-}
+    // JFormDesigner - End of variables declaration //GEN-END:variables
 }

@@ -6,6 +6,7 @@ import javax.swing.*;
 import university.UI.LoginScreen;
 import university.UI.StudentStatus;
 import university.UI.AccountManagementScreen;
+import university.UI.AccountCreationScreen;
 import university.*;
 
 public class ProfileScreen extends JPanel {
@@ -46,12 +47,6 @@ public class ProfileScreen extends JPanel {
         screen.frame.add(this.profileScreen);
     }
 
-    public void returnFromManagement(String status) {
-        JLabel statusTxt = new JLabel(status);
-        this.profileScreen.add(statusTxt);
-        this.draw();
-    }
-
     public void addSharedComponents() {
         this.profileScreen.add(welcomeTxt);
         this.profileScreen.add(profileTxt);
@@ -83,7 +78,7 @@ public class ProfileScreen extends JPanel {
 
     public void adminComponents() {
         accountManagementBtn.addActionListener(e -> {
-            AccountCreationScreen accountScreen = new AccountCreationScreen(this.screen, this.account, this);
+            AccountManagementScreen accountScreen = new AccountManagementScreen(this.screen, this.account, this);
             accountScreen.draw();
             this.profileScreen.setVisible(false);
         });

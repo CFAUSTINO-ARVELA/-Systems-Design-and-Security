@@ -9,6 +9,7 @@ new FormModel {
 				name: "promptTxt"
 				"text": "output account database here"
 				"horizontalAlignment": 0
+				"foreground": new java.awt.Color( 255, 255, 255, 255 )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"x": 390
 				"y": 260
@@ -28,11 +29,21 @@ new FormModel {
 				"text": "Account Management"
 				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 10, false )
 				"horizontalAlignment": 0
+				"foreground": new java.awt.Color( 255, 255, 255, 255 )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 305
 				"height": 31
 				"x": 347
 				"y": 35
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "deleteBtn"
+				"text": "Delete Account"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 170
+				"height": 30
+				"x": 415
+				"y": 465
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "createBtn"
@@ -41,7 +52,7 @@ new FormModel {
 				"width": 170
 				"height": 30
 				"x": 415
-				"y": 465
+				"y": 430
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 5, 5 )
