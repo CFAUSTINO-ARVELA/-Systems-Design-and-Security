@@ -38,9 +38,14 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
     public void draw() {
         this.teachingManagement = new JPanel();
 
-        accountManagementTxt.setForeground(new Color(255,255,255));
-        this.teachingManagement.add(accountManagementTxt);
+        teachingManagement.setForeground(new Color(255,255,255));
+        this.teachingManagement.add(welcomeTxt);
         this.teachingManagement.add(backToProfileBtn);
+        this.teachingManagement.add(titleTxt);
+        this.teachingManagement.add(degreeBtn);
+        this.teachingManagement.add(departmentBtn);
+        this.teachingManagement.add(moduleBtn);
+
         this.teachingManagement.setBackground(new Color(70, 70, 70));
         this.teachingManagement.setLayout(null);
 
@@ -48,68 +53,26 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
             this.teachingManagement.setVisible(false);
             this.profileScreen.draw();
         });
-
-        this.create();
+        degreeBtn.addActionListener(e -> {
+            this.teachingManagement.setVisible(false);
+            DegreeManagementScreen degreeScreen = new DegreeManagementScreen(this.screen, this);
+            degreeScreen.draw();
+        });
 
         screen.frame.add(this.teachingManagement);
     }
 
-    private void create() {
-        welcomeTxt.setForeground(new Color(255,255,255));
-        promptTxt.setForeground(new Color(255,255,255));
-        titleTxt.setForeground(new Color(255,255,255));
-        forenameTxt.setForeground(new Color(255,255,255));
-        surnameTxt.setForeground(new Color(255,255,255));
-
-        this.teachingManagement.add(welcomeTxt);
-        this.teachingManagement.add(promptTxt);
-        this.teachingManagement.add(titleTxt);
-        this.teachingManagement.add(titleInput);
-        this.teachingManagement.add(forenameTxt);
-        this.teachingManagement.add(forenameInput);
-        this.teachingManagement.add(surnameTxt);
-        this.teachingManagement.add(surnameInput);
-        this.teachingManagement.add(submitBtn);
-
-        // Component Arrangement
-
-        submitBtn.addActionListener(e -> {
-            this.teachingManagement.setVisible(false);
-            // String cle = clearanceInput.getSelectedItem().toString();
-            // Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(), "password",
-            //         cle);
-
-            //         String status;
-            // try {
-            //     Account newAccount = ac.createAccount();
-            //     status = "Successfully created account";
-            // } catch (SQLException ex) {
-            //     status = "SQL error";
-            //     System.out.println("SQL error, please try again");
-            // }
-            this.profileScreen.draw();
-        });
-    }
-
-    private void edit() {
-
-    }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY
         // //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Katie
         welcomeTxt = new JLabel();
-        promptTxt = new JLabel();
-        titleTxt = new JLabel();
-        forenameTxt = new JLabel();
-        surnameTxt = new JLabel();
-        titleInput = new JTextField();
-        forenameInput = new JTextField();
-        surnameInput = new JTextField();
-        submitBtn = new JButton();
         backToProfileBtn = new JButton();
-        accountManagementTxt = new JLabel();
+        titleTxt = new JLabel();
+        degreeBtn = new JButton();
+        departmentBtn = new JButton();
+        moduleBtn = new JButton();
 
         //======== this ========
 
@@ -123,61 +86,38 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
         setLayout(null);
 
         //---- welcomeTxt ----
-        welcomeTxt.setText("Placeholder screen");
+        welcomeTxt.setText("Welcome");
         welcomeTxt.setFont(welcomeTxt.getFont().deriveFont(welcomeTxt.getFont().getSize() + 12f));
         welcomeTxt.setHorizontalAlignment(SwingConstants.CENTER);
         add(welcomeTxt);
         welcomeTxt.setBounds(331, 90, 336, welcomeTxt.getPreferredSize().height);
-
-        //---- promptTxt ----
-        promptTxt.setText("Please enter details below");
-        promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
-        add(promptTxt);
-        promptTxt.setBounds(387, 130, 225, promptTxt.getPreferredSize().height);
-
-        //---- titleTxt ----
-        titleTxt.setText("Title");
-        titleTxt.setHorizontalAlignment(SwingConstants.RIGHT);
-        titleTxt.setFont(titleTxt.getFont().deriveFont(titleTxt.getFont().getSize() + 3f));
-        add(titleTxt);
-        titleTxt.setBounds(185, 185, 185, titleTxt.getPreferredSize().height);
-
-        //---- forenameTxt ----
-        forenameTxt.setText("Forename");
-        forenameTxt.setHorizontalAlignment(SwingConstants.RIGHT);
-        forenameTxt.setFont(forenameTxt.getFont().deriveFont(forenameTxt.getFont().getSize() + 3f));
-        add(forenameTxt);
-        forenameTxt.setBounds(230, 227, 140, 16);
-
-        //---- surnameTxt ----
-        surnameTxt.setText("Surname");
-        surnameTxt.setHorizontalAlignment(SwingConstants.RIGHT);
-        surnameTxt.setFont(surnameTxt.getFont().deriveFont(surnameTxt.getFont().getSize() + 3f));
-        add(surnameTxt);
-        surnameTxt.setBounds(155, 265, 215, 16);
-        add(titleInput);
-        titleInput.setBounds(382, 180, 235, titleInput.getPreferredSize().height);
-        add(forenameInput);
-        forenameInput.setBounds(382, 220, 235, 30);
-        add(surnameInput);
-        surnameInput.setBounds(382, 260, 235, 30);
-
-        //---- submitBtn ----
-        submitBtn.setText("Submit");
-        add(submitBtn);
-        submitBtn.setBounds(432, 345, 135, submitBtn.getPreferredSize().height);
 
         //---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(414, 500, 170, 50);
 
-        //---- accountManagementTxt ----
-        accountManagementTxt.setText("Teaching Management");
-        accountManagementTxt.setFont(accountManagementTxt.getFont().deriveFont(accountManagementTxt.getFont().getSize() + 10f));
-        accountManagementTxt.setHorizontalAlignment(SwingConstants.CENTER);
-        add(accountManagementTxt);
-        accountManagementTxt.setBounds(347, 35, 305, 31);
+        //---- titleTxt ----
+        titleTxt.setText("Teaching Management");
+        titleTxt.setFont(titleTxt.getFont().deriveFont(titleTxt.getFont().getSize() + 10f));
+        titleTxt.setHorizontalAlignment(SwingConstants.CENTER);
+        add(titleTxt);
+        titleTxt.setBounds(347, 35, 305, 31);
+
+        //---- degreeBtn ----
+        degreeBtn.setText("Degree Management");
+        add(degreeBtn);
+        degreeBtn.setBounds(190, 180, 195, 50);
+
+        //---- departmentBtn ----
+        departmentBtn.setText("Department Management");
+        add(departmentBtn);
+        departmentBtn.setBounds(402, 180, 195, 50);
+
+        //---- moduleBtn ----
+        moduleBtn.setText("Module Management");
+        add(moduleBtn);
+        moduleBtn.setBounds(615, 180, 195, 50);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
@@ -198,15 +138,10 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
     // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - Katie
     private JLabel welcomeTxt;
-    private JLabel promptTxt;
-    private JLabel titleTxt;
-    private JLabel forenameTxt;
-    private JLabel surnameTxt;
-    private JTextField titleInput;
-    private JTextField forenameInput;
-    private JTextField surnameInput;
-    private JButton submitBtn;
     private JButton backToProfileBtn;
-    private JLabel accountManagementTxt;
+    private JLabel titleTxt;
+    private JButton degreeBtn;
+    private JButton departmentBtn;
+    private JButton moduleBtn;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 }
