@@ -27,6 +27,8 @@ class AccountManagementScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private ProfileScreen profileScreen;
     private Account account;
+    private String[] clearanceList = { "Student", "Teacher", "Registrar", "Admin" };
+
 
     AccountManagementScreen(ScreenManager scr, Account acc, ProfileScreen prof) {
         this.initComponents();
@@ -55,12 +57,6 @@ class AccountManagementScreen extends JPanel implements ActionListener {
     }
 
     private void create() {
-
-        String[] clearanceList = { "Student", "Teacher", "Registrar", "Admin" };
-
-        // change to drop down
-        JLabel clearanceTxt = new JLabel("Clearance: ");
-        JComboBox clearanceInput = new JComboBox(clearanceList);
         clearanceInput.setSelectedIndex(0);
         clearanceInput.addActionListener(this);
 
@@ -91,12 +87,15 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(), "password",
                     cle);
 
+                    String status;
             try {
                 Account newAccount = ac.createAccount();
+                status = "Successfully created account";
             } catch (SQLException ex) {
-                System.out.println("SQL error");
+                status = "SQL error";
+                System.out.println("SQL error, please try again");
             }
-            this.profileScreen.draw();
+            this.profileScreen.returnFromManagement(status);
         });
     }
 
@@ -117,14 +116,21 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         titleInput = new JTextField();
         forenameInput = new JTextField();
         surnameInput = new JTextField();
-        clearanceInput = new JComboBox();
+        clearanceInput = new JComboBox(clearanceList);
         submitBtn = new JButton();
         backToProfileBtn = new JButton();
         accountManagementTxt = new JLabel();
 
         //======== this ========
 
+        // JFormDesigner evaluation mark
+        setBorder(new javax.swing.border.CompoundBorder(
+            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
+                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
+                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
 
+        setLayout(null);
 
         //---- welcomeTxt ----
         welcomeTxt.setText("Create Account");
