@@ -83,11 +83,13 @@ public class ProfileScreen extends JPanel {
 
     public void adminComponents() {
         accountManagementBtn.addActionListener(e -> {
-            AccountManagementScreen accountScreen = new AccountManagementScreen(this.screen, this.account, this);
+            AccountCreationScreen accountScreen = new AccountCreationScreen(this.screen, this.account, this);
             accountScreen.draw();
             this.profileScreen.setVisible(false);
         });
         teachingManagementBtn.addActionListener(e -> {
+            TeachingManagementScreen teachingScreen = new TeachingManagementScreen(this.screen, this.account, this);
+            teachingScreen.draw();
             this.profileScreen.setVisible(false);
         });
         this.profileScreen.add(teachingManagementBtn);

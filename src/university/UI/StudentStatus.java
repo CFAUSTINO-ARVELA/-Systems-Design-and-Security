@@ -168,7 +168,7 @@ public class StudentStatus extends JPanel implements ActionListener {
         //---- backToProfileBtn ----
         backToProfileBtn.setText("Back To Profile");
         add(backToProfileBtn);
-        backToProfileBtn.setBounds(435, 515, backToProfileBtn.getPreferredSize().width, 45);
+        backToProfileBtn.setBounds(414, 500, 170, 50);
 
         //---- periodStudiesTxt ----
         periodStudiesTxt.setText("Period Of Studies:");
