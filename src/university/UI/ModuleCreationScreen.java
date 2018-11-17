@@ -25,6 +25,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
     public JPanel moduleCreationScreen;
     private ScreenManager screen;
     private ModuleManagementScreen moduleManagement;
+    private String[] durations = { "Autumn", "Spring", "Year"};
 
     ModuleCreationScreen(ScreenManager scr, ModuleManagementScreen moduleManage) {
         this.initComponents();
@@ -75,7 +76,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         creditsTxt = new JLabel();
         creditsInput = new JTextField();
         durationTxt = new JLabel();
-        durationInput = new JComboBox();
+        durationInput = new JComboBox(durations);
 
         //======== this ========
 

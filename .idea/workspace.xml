@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="835c8c0c-f9ab-45c7-a8b2-f77205aad6b9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/university/UI/AccountCreationScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/AccountCreationScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/university/UI/ModuleManagementScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/ModuleManagementScreen.java" afterDir="false" />
-    </list>
+    <list default="true" id="835c8c0c-f9ab-45c7-a8b2-f77205aad6b9" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +12,7 @@
     <session id="98330016">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="4" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.4" value="2" />
           <entry key="project.open.time.5" value="1" />
@@ -50,7 +47,7 @@
             <state relative-caret-position="480">
               <caret line="50" selection-start-line="50" selection-end-line="50" />
               <folding>
-                <marker date="1542458418098" expanded="false" signature="5481:5890" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+                <marker date="1542458643597" expanded="false" signature="5721:6130" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
               </folding>
             </state>
           </provider>
@@ -83,10 +80,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="252">
               <caret line="35" selection-start-line="35" selection-end-line="35" />
-              <folding>
-                <marker date="1542458563413" expanded="false" signature="5563:8571" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
-                <marker date="1542458563413" expanded="false" signature="8583:8970" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -102,10 +95,8 @@
             <state relative-caret-position="225">
               <caret line="32" column="5" lean-forward="true" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
               <folding>
-                <marker date="1542458418097" expanded="false" signature="2081:7261" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
-                <marker date="1542458418097" expanded="false" signature="7273:7907" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
-                <marker date="1542458418097" expanded="false" signature="8073:13352" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
-                <marker date="1542458418097" expanded="false" signature="13364:14004" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+                <marker date="1542458612188" expanded="false" signature="2081:7261" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+                <marker date="1542458612188" expanded="false" signature="7273:7907" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
               </folding>
             </state>
           </provider>
@@ -304,7 +295,7 @@
         <state relative-caret-position="480">
           <caret line="50" selection-start-line="50" selection-end-line="50" />
           <folding>
-            <marker date="1542458418098" expanded="false" signature="5481:5890" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542458643597" expanded="false" signature="5721:6130" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -327,10 +318,8 @@
         <state relative-caret-position="225">
           <caret line="32" column="5" lean-forward="true" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
           <folding>
-            <marker date="1542458418097" expanded="false" signature="2081:7261" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
-            <marker date="1542458418097" expanded="false" signature="7273:7907" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
-            <marker date="1542458418097" expanded="false" signature="8073:13352" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
-            <marker date="1542458418097" expanded="false" signature="13364:14004" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542458612188" expanded="false" signature="2081:7261" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+            <marker date="1542458612188" expanded="false" signature="7273:7907" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>

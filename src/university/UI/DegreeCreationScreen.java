@@ -25,6 +25,9 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
     public JPanel degreeCreation;
     private ScreenManager screen;
     private DegreeManagementScreen degreeManagement;
+    private String[] departments;
+    private String[] degreeTypes = {"Undergraduate", "Postgraduate"};
+    private String[] placementYear = {"No", "Yes"};
 
     DegreeCreationScreen(ScreenManager scr, DegreeManagementScreen degreeManage) {
         this.initComponents();
@@ -63,6 +66,11 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
         screen.frame.add(this.degreeCreation);
     }
 
+    private String[] getDepartments() {
+        // should get dynamically
+        return new String[] {"Computer Science", "Mathematics"} ;
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY
         // //GEN-BEGIN:initComponents
@@ -76,14 +84,14 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
         nameInput = new JTextField();
         codeInput = new JTextField();
         secondInput = new JTextField();
-        mainInput = new JComboBox();
+        mainInput = new JComboBox(this.getDepartments());
         submitBtn = new JButton();
         backToProfileBtn = new JButton();
         degreeTxt = new JLabel();
         typeTxt = new JLabel();
-        typeInput = new JComboBox();
+        typeInput = new JComboBox(degreeTypes);
         placementTxt = new JLabel();
-        placementInput = new JComboBox();
+        placementInput = new JComboBox(placementYear);
 
         //======== this ========
 
