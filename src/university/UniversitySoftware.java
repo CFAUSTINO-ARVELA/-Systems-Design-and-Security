@@ -1,6 +1,6 @@
 package university;
 
-class UniversitySoftware {
+public class UniversitySoftware {
 
     public static void main(String[] args) {
 

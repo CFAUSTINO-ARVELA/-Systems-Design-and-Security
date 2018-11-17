@@ -25,12 +25,13 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
     private static final long serialVersionUID = 1L;
     public JPanel degreeManagement;
     private ScreenManager screen;
-    private ProfileScreen profileScreen;
+    private TeachingManagementScreen teachingScreen;
     private Account account;
 
     DegreeManagementScreen(ScreenManager scr,TeachingManagementScreen teach) {
         this.initComponents();
         this.screen = scr;
+        this.teachingScreen = teach;
     }
 
     public void draw() {
@@ -47,12 +48,12 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
 
         backToTeachingBtn.addActionListener(e -> {
             this.degreeManagement.setVisible(false);
-            // this.profileScreen.draw();
+            this.teachingScreen.draw();
         });
         createBtn.addActionListener(e -> {
             this.degreeManagement.setVisible(false);
-            // AccountCreationScreen accountCreate = new AccountCreationScreen(this.screen, this);
-            // accountCreate.draw();
+            DegreeCreationScreen degreeCreate = new DegreeCreationScreen(this.screen, this);
+            degreeCreate.draw();
         });
 
         screen.frame.add(this.degreeManagement);

@@ -89,6 +89,7 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
         welcomeTxt.setText("Welcome");
         welcomeTxt.setFont(welcomeTxt.getFont().deriveFont(welcomeTxt.getFont().getSize() + 12f));
         welcomeTxt.setHorizontalAlignment(SwingConstants.CENTER);
+        welcomeTxt.setForeground(Color.white);
         add(welcomeTxt);
         welcomeTxt.setBounds(331, 90, 336, welcomeTxt.getPreferredSize().height);
 
@@ -101,6 +102,7 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
         titleTxt.setText("Teaching Management");
         titleTxt.setFont(titleTxt.getFont().deriveFont(titleTxt.getFont().getSize() + 10f));
         titleTxt.setHorizontalAlignment(SwingConstants.CENTER);
+        titleTxt.setForeground(Color.white);
         add(titleTxt);
         titleTxt.setBounds(347, 35, 305, 31);
 
