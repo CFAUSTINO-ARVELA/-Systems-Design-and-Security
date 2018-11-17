@@ -1,6 +1,7 @@
 import java.sql.*;
 import java.util.ArrayList;
 
+
 class Department{
 	private String code;
 	private String name;
@@ -23,7 +24,6 @@ class Department{
 	public void connectToDB() throws Exception {
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
-			   con.setAutoCommit(false); // turn off auto-commit
 		   }
 		   catch(SQLException ex) {
 			   ex.printStackTrace();
@@ -31,35 +31,75 @@ class Department{
 	}
 	
 	//Create Department
-	public void createDept(String c, String n) throws Exception  {
-		PreparedStatement newDept = null;
-		String newDeptString = "INSERT INTO department VALUES (" + c + ", " + n + ")";
+	public int createDept() throws Exception  {
 		connectToDB();
+		int count = 0;
+		PreparedStatement newDept, dept = null;
+		dept = con.prepareStatement("SELECT COUNT(*) FROM department WHERE code = ?");
+		newDept = con.prepareStatement( "INSERT INTO department VALUES (? , ? )");
 		try {
-			newDept = con.prepareStatement(newDeptString);
-		    con.close();
+			dept.setString(1, getCode());
+			ResultSet res = dept.executeQuery();
+			res.next();
+			
+			if (res.getInt(1) == 0) {
+				newDept.setString(1, getCode());
+				newDept.setString(2, getName());
+				count = newDept.executeUpdate();
+			}	
+		    
 		 }catch (SQLException ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (newDept != null)
 					newDept.close();
-			}
+		}
+		con.close();
+		return count;
 	}
 	
 	//Delete Department
-	public void deleteDep(String c,String n) throws Exception  {
-		PreparedStatement delDept = null;
-		String newDeptString = "DELETE FROM department WHERE code = " + c + " AND name = " + n ;
+	//ADICIONAR APAGAR MÓDULOS
+	//TESTAR APAGAR DEGREES E MÓDULOS
+	public int deleteDep() throws Exception  {
 		connectToDB();
+		int count = 0;
+		PreparedStatement dept, delDept, delDeg, delSecDep, delSecDep2 = null;
+		dept = con.prepareStatement("SELECT COUNT(*) FROM department WHERE code = ?");
+		delDept = con.prepareStatement( "DELETE FROM department WHERE code = ?");
+		delDeg = con.prepareStatement("DELETE FROM degree WHERE mainDept = ?");
+		delSecDep = con.prepareStatement("DELETE FROM seconDepts WHERE degreeCode = (SELECT code FROM degree WHERE mainDept = ?)");
+		delSecDep2 = con.prepareStatement("DELETE FROM seconDepts WHERE dept = ?");
+		
 		try {
-			delDept = con.prepareStatement(newDeptString);
-		    con.close();
+			dept.setString(1, getCode());
+			ResultSet res = dept.executeQuery();
+			res.next();
+			
+			
+			if (res.getInt(1) == 1) {
+			
+				delDept.setString(1, getCode());
+				count = delDept.executeUpdate();
+				
+				delDeg.setString(1, getCode());
+				count += delDeg.executeUpdate();
+				
+				delSecDep.setString(1, getCode());
+				count += delSecDep.executeUpdate();
+				
+				
+				delSecDep2.setString(1, getCode());
+				count += delSecDep2.executeUpdate();
+			}
 		 }catch (SQLException ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (delDept != null)
 					delDept.close();
 			}
+		con.close();
+		return count;
 	}
 	
 	//Get all Departments
@@ -76,38 +116,60 @@ class Department{
 				deptList.add(department);
 			}
 			res.close();
-			con.close();
 		 }catch (SQLException ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (stmt != null)
 					stmt.close();
 			}
+		con.close();
 		return deptList;
 	}
 	
-	//get name of department using code
-	public String getName (String code) throws Exception  {
+	//get department using code
+	public Department getDept (String c) throws Exception  {
+		Department d = null;
+		PreparedStatement dept = null;
 		connectToDB();
-		Statement stmt = con.createStatement();
-		String name = null;
+		dept = con.prepareStatement("SELECT name FROM department WHERE code = ?");
 		try {
-			ResultSet res  = stmt.executeQuery("SELECT name FROM department WHERE code = " +code );
+			dept.setString(1, c);
+			ResultSet res  = dept.executeQuery();
+			res.next();
 			name = res.getString("name");
+			d = new Department(c,name);
 			res.close();
-			con.close();
+			
 		 }catch (SQLException ex) {
 			 ex.printStackTrace();
 		 }finally {
-				if (stmt != null)
-					stmt.close();
+				if (dept != null)
+					dept.close();
 			}
-		return name;
+		con.close();
+		return d;
 	}
 	
 	
 	public static void main(String[] args){
 		
+		ArrayList<Department> deptList;
+		Department v = new Department("dos","dflv,");
+		try {
+		
+			deptList = v.getAllDep();
+		 for(Department str:deptList)  
+		        System.out.println(str.getCode() + " - " + str.getName());   
+		 System.out.println(v.getDept("LAN").getName());
+		 
+			
+		 //System.out.println(t.getName("COM"));
+		} catch(Exception ex) {
+			 ex.printStackTrace();
+		}
+		
+		
+		/**
 		//VER PORQUE PRECISO DESTA EXCEPÇÃO
 		Department t = new Department("Computer Science","COM");
 		try {
@@ -115,6 +177,6 @@ class Department{
 		} catch(Exception ex) {
 			 ex.printStackTrace();
 		}
-		System.out.println("REsultou?");
-	}
+		System.out.println("REsultou?"); */
+	} 
 }
