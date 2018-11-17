@@ -63,6 +63,11 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
             DepartmentManagementScreen departmentScreen = new DepartmentManagementScreen(this.screen, this);
             departmentScreen.draw();
         });
+        moduleBtn.addActionListener(e -> {
+            this.teachingManagement.setVisible(false);
+            ModuleManagementScreen moduleScreen = new ModuleManagementScreen(this.screen, this);
+            moduleScreen.draw();
+        });
 
         screen.frame.add(this.teachingManagement);
     }

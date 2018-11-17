@@ -40,7 +40,7 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
 
         this.moduleScreen.add(promptTxt);
         this.moduleScreen.add(backToTeachingBtn);
-        this.moduleScreen.add(ModuleManagementTxt);
+        this.moduleScreen.add(moduleManagementTxt);
         this.moduleScreen.add(createBtn);
         this.moduleScreen.add(deleteBtn);
 
@@ -64,21 +64,6 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
     //     this.moduleScreen.add(statusTxt);
     //     this.draw();
     // }
-
-    private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Katie
-        // JFormDesigner - End of component initialization  //GEN-END:initComponents
-    }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Katie
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
-
-public class ModuleManagementScreen extends JPanel {
-    public ModuleManagementScreen() {
-        initComponents();
-    }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -154,5 +139,5 @@ public class ModuleManagementScreen extends JPanel {
     private JButton deleteBtn;
     private JButton createBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
-}
+
 }
