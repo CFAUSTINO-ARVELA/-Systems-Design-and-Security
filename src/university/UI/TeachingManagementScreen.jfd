@@ -1,0 +1,72 @@
+JFDML JFormDesigner: "6.0.4.1.172" Java: "1.8.0_152-release" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+			name: "this"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "welcomeTxt"
+				"text": "Welcome"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 12, false )
+				"horizontalAlignment": 0
+				"foreground": &Color0 new java.awt.Color( 255, 255, 255, 255 )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 331
+				"y": 90
+				"width": 336
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "backToProfileBtn"
+				"text": "Back"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 170
+				"height": 50
+				"x": 414
+				"y": 500
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "titleTxt"
+				"text": "Teaching Management"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 10, false )
+				"horizontalAlignment": 0
+				"foreground": #Color0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 305
+				"height": 31
+				"x": 347
+				"y": 35
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "degreeBtn"
+				"text": "Degree Management"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 190
+				"y": 180
+				"width": 195
+				"height": 50
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "departmentBtn"
+				"text": "Department Management"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 195
+				"height": 50
+				"x": 402
+				"y": 180
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "moduleBtn"
+				"text": "Module Management"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 195
+				"height": 50
+				"x": 615
+				"y": 180
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 5, 0 )
+			"size": new java.awt.Dimension( 1000, 600 )
+		} )
+	}
+}

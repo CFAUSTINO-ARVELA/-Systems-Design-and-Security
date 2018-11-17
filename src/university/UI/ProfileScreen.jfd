@@ -1,0 +1,92 @@
+JFDML JFormDesigner: "6.0.4.1.172" Java: "1.8.0_152-release" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+			name: "this"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "profileTxt"
+				"text": "Profile"
+				"horizontalAlignment": 0
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 12, false )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 362
+				"y": 20
+				"width": 275
+				"height": 40
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "welcomeTxt"
+				"text": "Welcome"
+				"font": new com.jformdesigner.model.SwingDerivedFont( null, 0, 6, false )
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 305
+				"height": 50
+				"x": 347
+				"y": 95
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "logoutButton"
+				"text": "Logout"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 414
+				"y": 500
+				"width": 170
+				"height": 50
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "accountManagementBtn"
+				"text": "Account Management"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 170
+				"height": 50
+				"x": 315
+				"y": 175
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "teachingManagementBtn"
+				"text": "Teaching Management"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 170
+				"height": 50
+				"x": 510
+				"y": 175
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "statusBtn"
+				"text": "Student Status"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 170
+				"height": 50
+				"x": 414
+				"y": 430
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "titleTxt"
+				"text": "Title:"
+				"horizontalAlignment": 0
+				"font": &SwingDerivedFont0 new com.jformdesigner.model.SwingDerivedFont( null, 0, 4, false )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 363
+				"y": 260
+				"width": 273
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "nameTxt"
+				"text": "Name:"
+				"horizontalAlignment": 0
+				"font": #SwingDerivedFont0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 273
+				"height": 16
+				"x": 363
+				"y": 290
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 1000, 600 )
+		} )
+	}
+}
