@@ -11,10 +11,10 @@ class Degree{
 	private Boolean placement;
 	private Connection con;
 	
+	Degree(){}
 	//Constructor for degree with just one department
-	Degree(String code, String name, Department mainDept,
-			String type,Boolean placement){
-		this.code = code;
+	Degree(String name, Department mainDept,
+			String type,Boolean placement) throws Exception{
 		this.name = name;
 		this.mainDept = mainDept;
 		this.type = type;
@@ -22,14 +22,48 @@ class Degree{
 	}
 	
 	//Constructor for degree with several departments
-	Degree(String code, String name, Department mainDept,
-			 ArrayList<Department> seconDepts, String type,Boolean placement){
-		this.code = code;
+	Degree(String name, Department mainDept,
+			 ArrayList<Department> seconDepts, String type,Boolean placement) throws Exception{
 		this.name = name;
 		this.mainDept = mainDept;
 		this.seconDepts = seconDepts;
 		this.type = type;
 		this.placement = placement;
+	}
+	
+	//Connect to the database
+		public void connectToDB() throws Exception {
+			   try {
+				   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+			   }
+			   catch(SQLException ex) {
+				   ex.printStackTrace();
+			   }
+		}
+		
+	public void setCode() throws Exception{
+		int no = 1;
+		connectToDB();
+		PreparedStatement noDeg = null;
+		noDeg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE mainDept =  ?");
+		try {
+			noDeg.setString(1, getMainDept().getCode());
+			ResultSet res = noDeg.executeQuery();
+			res.next();
+			no = res.getInt(1) + 1;
+		 }catch (SQLException ex) {
+			 ex.printStackTrace();
+		 }finally {
+				if (noDeg != null)
+					noDeg.close();
+			}
+		String code = getMainDept().getCode() + getType().charAt(0) + String.format("%02d", no); 
+		con.close();
+		this.code = code;
+	}
+	
+	public void setCode(String c) {
+		this.code = c;
 	}
 	
 	//get code of Degree
@@ -56,15 +90,6 @@ class Degree{
 	public Boolean getPlacement() {
 		return placement;
 	}
-	//Connect to the database
-	public void connectToDB() throws Exception {
-		   try {
-			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
-		   }
-		   catch(SQLException ex) {
-			   ex.printStackTrace();
-		   }
-	}
 	
 
 	//Create DegrEe with just one department
@@ -81,7 +106,6 @@ class Degree{
 			ResultSet res = deg.executeQuery();
 			
 			res.next();
-			System.out.println(res.getInt(1));
 			if(res.getInt(1) == 0) {
 				newDeg.setString(1,getCode());
 				newDeg.setString(2,getName());
@@ -111,17 +135,20 @@ class Degree{
 	//Delete degree with code and name (just to be safe)
 	public int deleteDegree() throws Exception {
 		int count = 0;
+		connectToDB();
 		PreparedStatement delDeg,delSDept,deg = null;
 		deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE code = ?");
 		delDeg = con.prepareStatement("DELETE FROM degree WHERE code = ?");
 		delSDept = con.prepareStatement("DELETE FROM seconDepts WHERE degreeCode = ?");
-		connectToDB();
+		
 		try {
 			deg.setString(1, getCode());
+			//System.out.println(getCode()+"code" + getCode()=="COMU02");
 			ResultSet res = deg.executeQuery();
 			res.next();
-			
+			//System.out.println("Não Entre?"+res.getInt(1));
 			if(res.getInt(1) == 1){
+				//System.out.println(getCode() + "mklf");
 				delDeg.setString(1, getCode());
 				count += delDeg.executeUpdate();
 				
@@ -153,16 +180,17 @@ class Degree{
 		deg = con.prepareStatement("SELECT * FROM degree JOIN department WHERE degree.mainDept=department.code AND degree.code =  ?");
 		secDep = con.prepareStatement("SELECT dept FROM seconDepts WHERE degreeCode = ?");
 		Statement stmt = con.createStatement();
-		//JOIN WITH THE DEPARTMENTS TABLES
+		
 		try {
 			noDeg.setString(1, c);
 			ResultSet res1 = noDeg.executeQuery();
 			res1.next();
-			System.out.println(res1.getInt(1));
+			
 			if(res1.getInt(1) != 0) {
 				deg.setString(1, c);
 				ResultSet res = deg.executeQuery();
 				res.next();
+				String code = res.getString("code");
 				String name = res.getString("degree.name");
 				String mainDept = res.getString("mainDept");
 				String type = res.getString("type");
@@ -176,7 +204,8 @@ class Degree{
 					deptList.add(dep.getDept(deptC));
 				}
 				
-				degree = new Degree(c, name, dep,deptList,type,placement);
+				degree = new Degree(name, dep,deptList,type,placement);
+				degree.setCode(code);
 				res.close();
 				res1.close();
 			}
@@ -194,16 +223,14 @@ class Degree{
 	
 	//Get all degrees
 		public ArrayList<Degree> getAllDegree() throws Exception {
-			Degree degree = null;
-			Department department = null;
-			ArrayList<Department> deptList = new ArrayList<Department>();
+			Degree degree = new Degree();
 			ArrayList<Degree> degreeList = new ArrayList<Degree>();
 			
 			connectToDB();
 			Statement stmt = con.createStatement();
-			PreparedStatement deg,depName = null;
-			deg = con.prepareStatement("SELECT * FROM degree " );
-			depName = con.prepareStatement("SELECT name FROM department JOIN seconDepts WHERE seconDepts.degreeCode = ?" );
+			PreparedStatement deg = null;
+			deg = con.prepareStatement("SELECT code FROM degree " );
+			
 			
 			try {
 				ResultSet res  = deg.executeQuery();
@@ -211,19 +238,10 @@ class Degree{
 				while(res.next()) {
 					
 					String dCode = res.getString("code");
-					depName.setString(1, dCode);
-					ResultSet res2 = depName.executeQuery();
-					String name = res.getString("name");
-					String mainDept = res.getString("mainDept");
-					String type = res.getString("type");
-					Boolean placement = res.getBoolean("placement");
-					while (res2.next()) {
-						String deptName = res.getString("name");
-						department = new Department(code, deptName);
-						deptList.add(department);
-					}
-					department = department.getDept(mainDept);
-					degree = new Degree(dCode, name, department,deptList,type,placement);
+					System.out.println(dCode + "   oklfm");
+					
+					
+					degree = degree.getDegree(dCode);
 					degreeList.add(degree);
 				}
 				res.close();
@@ -243,23 +261,48 @@ class Degree{
 			ArrayList<Department> deptList = new ArrayList<Department>();
 			Department c = new Department ("COM","Computer Science");
 			Department b,l;
+			Degree v = new Degree();
 			
 			try {
+				c.createDept();
 				b = c.getDept("BUS");
 				l = c.getDept("LAN");
 				deptList.add(b);
 				deptList.add(l);
-				Degree t = new Degree ("COMU23","BSc Information Systems",c,deptList,"undergraduate",false);
+				Degree t = new Degree ("BSc Information Systems",c,deptList,"Undergraduate",false);
+				t.setCode();
+				System.out.println(t.getCode());
+				/*
 				System.out.println(t.getName());
+				System.out.println(t.getMainDept().getName());
+				System.out.println(t.getSeconDepts().toString());
+				System.out.println(t.getType());
+				System.out.println(t.getPlacement());
+				
+				System.out.println("Tudo bem");*/
+				degreeList = t.getAllDegree();
+				//System.out.println("Tudo bem2");
+				for(Degree str:degreeList)  
+			        System.out.println(str.getName()+ str.getCode() + "What1");
 				t.createDegree();
+				//t.deleteDegree();
+				degreeList = t.getAllDegree();
+				for(Degree str:degreeList)  
+			        System.out.println(str.getName()+ str.getCode() + "  What4");
+				t.deleteDegree();
+				
+				
+				degreeList = v.getAllDegree();
+				//System.out.println(degreeList.isEmpty());
+				for(Degree str:degreeList)  
+			        System.out.println(str.getName()+ str.getCode()+ "What2sy");
+				/*
+				t.deleteDegree();
 				
 				degreeList = t.getAllDegree();
-				
 				for(Degree str:degreeList)  
-			        System.out.println(str.getName()+ str.getCode());
-				
-				System.out.println(t.getDegree("COMU23").getCode());
-				
+			        System.out.println(str.getName()+ str.getCode() +"Apagado");
+				*/
 			} catch(Exception ex) {
 				ex.printStackTrace();
 			}

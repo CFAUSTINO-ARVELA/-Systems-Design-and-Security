@@ -8,6 +8,8 @@ class Department{
 	private String name;
 	private Connection con;
 	
+	Department(){}
+	
 	Department(String code,String name){
 		this.code = code;
 		this.name = name;
@@ -65,12 +67,11 @@ class Department{
 	public int deleteDep() throws Exception  {
 		connectToDB();
 		int count = 0;
-		PreparedStatement dept, delDept, delDeg, delSecDep, delSecDep2 = null;
+		Degree c= new Degree();
+		PreparedStatement dept, delDept, deg= null;
 		dept = con.prepareStatement("SELECT COUNT(*) FROM department WHERE code = ?");
 		delDept = con.prepareStatement( "DELETE FROM department WHERE code = ?");
-		delDeg = con.prepareStatement("DELETE FROM degree WHERE mainDept = ?");
-		delSecDep = con.prepareStatement("DELETE FROM seconDepts WHERE degreeCode = (SELECT code FROM degree WHERE mainDept = ?)");
-		delSecDep2 = con.prepareStatement("DELETE FROM seconDepts WHERE dept = ?");
+		deg = con.prepareStatement("SELECT code FROM degree WHERE mainDept = ?");
 		
 		try {
 			dept.setString(1, getCode());
@@ -80,18 +81,20 @@ class Department{
 			
 			if (res.getInt(1) == 1) {
 			
+				deg.setString(1, getCode());
+				ResultSet res2 = deg.executeQuery();
+				while(res2.next()) {
+					String degCode = res2.getString(1);
+					c = c.getDegree(degCode);
+					c.deleteDegree();
+					
+				}
+				
 				delDept.setString(1, getCode());
 				count = delDept.executeUpdate();
 				
-				delDeg.setString(1, getCode());
-				count += delDeg.executeUpdate();
-				
-				delSecDep.setString(1, getCode());
-				count += delSecDep.executeUpdate();
 				
 				
-				delSecDep2.setString(1, getCode());
-				count += delSecDep2.executeUpdate();
 			}
 		 }catch (SQLException ex) {
 			 ex.printStackTrace();
@@ -105,16 +108,15 @@ class Department{
 	
 	//Get all Departments
 	public ArrayList<Department> getAllDep() throws Exception  {
+		Department department = new Department();
+		ArrayList<Department> deptList = new ArrayList<Department>();
 		connectToDB();
 		Statement stmt = con.createStatement();
-		ArrayList<Department> deptList = new ArrayList<Department>();
 		try {
-			ResultSet res  = stmt.executeQuery("SELECT * FROM department");
+			ResultSet res  = stmt.executeQuery("SELECT code FROM department");
 			while (res.next()) {
 				String code = res.getString("code");
-				String name = res.getString("name");
-				Department department = new Department(code, name);
-				deptList.add(department);
+				deptList.add(department.getDept(code));
 			}
 			res.close();
 		 }catch (SQLException ex) {
@@ -129,7 +131,7 @@ class Department{
 	
 	//get department using code
 	public Department getDept (String c) throws Exception  {
-		Department d = null;
+		Department d = new Department();
 		PreparedStatement dept = null;
 		connectToDB();
 		dept = con.prepareStatement("SELECT name FROM department WHERE code = ?");
@@ -155,13 +157,24 @@ class Department{
 	public static void main(String[] args){
 		
 		ArrayList<Department> deptList;
-		Department v = new Department("dos","dflv,");
+		Department v = new Department("dos","dflv");
+		Department c = new Department ("COM","Computer Science");
 		try {
-		
+			//System.out.println(v.getCode()+ " - " + v.getName());
+			/*deptList = v.getAllDep();
+			for(Department str:deptList)  
+		        System.out.println(str.getCode() + " - " + str.getName());  
+			c.createDept();
+			v.createDept();
 			deptList = v.getAllDep();
-		 for(Department str:deptList)  
-		        System.out.println(str.getCode() + " - " + str.getName());   
-		 System.out.println(v.getDept("LAN").getName());
+			for(Department str:deptList)  
+		        System.out.println(str.getCode() + " - " + str.getName());  
+			v.deleteDep();*/
+			deptList = v.getAllDep();
+			for(Department str:deptList)  
+		        System.out.println(str.getCode() + " - " + str.getName());  
+			
+			//System.out.println(v.getDept("LAN").getName());
 		 
 			
 		 //System.out.println(t.getName("COM"));
