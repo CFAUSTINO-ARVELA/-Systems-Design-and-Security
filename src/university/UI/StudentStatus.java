@@ -25,7 +25,7 @@ public class StudentStatus extends JPanel implements ActionListener {
     private Date startDate;
     private Date endDate;
     private int levelStudies;
-    private Semester periodStudies;
+    private char periodStudies;
     private int grade;
 
     StudentStatus(Account loggedInAcc, ScreenManager screen, ProfileScreen prof) {
