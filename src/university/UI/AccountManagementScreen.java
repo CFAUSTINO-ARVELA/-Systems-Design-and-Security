@@ -59,7 +59,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
 
             stmt = con.createStatement();
 
-            ResultSet res = stmt.executeQuery("SELECT * FROM account;");
+            ResultSet res = stmt.executeQuery("SELECT title, forename, surname, username, email, clearance FROM account;");
             JTable accountTable = new JTable(buildTableModel(res));
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(accountTable);
