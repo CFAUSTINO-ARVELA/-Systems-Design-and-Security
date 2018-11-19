@@ -101,7 +101,7 @@ public class Account {
 				stmt.close();
 		}
 
-		return this.forename.charAt(0) + this.surname + count;
+		return this.forename.charAt(0) + this.surname + (count+1);
 	}
 	
 	private String generatePassword() {
