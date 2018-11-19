@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 import university.UI.ProfileScreen;
 import university.ScreenManager;
@@ -27,6 +28,8 @@ class AccountManagementScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private ProfileScreen profileScreen;
     private Account account;
+    private Connection connect = null;
+    private Statement statement = null;
 
     AccountManagementScreen(ScreenManager scr, Account acc, ProfileScreen prof) {
         this.initComponents();
@@ -38,12 +41,14 @@ class AccountManagementScreen extends JPanel implements ActionListener {
     public void draw() {
         this.accountManagement = new JPanel();
         this.accountManagement.setBackground(new Color(70, 70, 70));
+        JTable accountTable = new JTable();
 
         this.accountManagement.add(promptTxt);
         this.accountManagement.add(backToProfileBtn);
         this.accountManagement.add(accountManagementTxt);
         this.accountManagement.add(createBtn);
         this.accountManagement.add(deleteBtn);
+        this.accountManagement.add(accountTable);
 
         this.accountManagement.setLayout(null);
 
@@ -57,6 +62,33 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             accountCreate.draw();
         });
 
+		Connection con = null;
+		Statement stmt = null;
+		
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+
+			stmt = con.createStatement();
+			
+		ResultSet res = stmt.executeQuery("SELECT * FROM account;");
+		
+		ResultSetMetaData rsmd = res.getMetaData();
+		int columnsNumber = rsmd.getColumnCount();
+		while (res.next()) {
+		    for (int i = 1; i <= columnsNumber; i++) {
+		        if (i > 1) System.out.print(",  ");
+		        String columnValue = res.getString(i);
+		        System.out.print(columnValue + " " + rsmd.getColumnName(i));
+		    }
+		    System.out.println("");
+		}
+		
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null) {}
+				//stmt.close();
+		}
         screen.frame.add(this.accountManagement);
     }
 
@@ -76,50 +108,56 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         deleteBtn = new JButton();
         createBtn = new JButton();
 
-        //======== this ========
+        // ======== this ========
 
         // JFormDesigner evaluation mark
-        setBorder(new javax.swing.border.CompoundBorder(
-            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
+                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
+                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
+                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent e) {
+                if ("border".equals(e.getPropertyName()))
+                    throw new RuntimeException();
+            }
+        });
 
         setLayout(null);
 
-        //---- promptTxt ----
+        // ---- promptTxt ----
         promptTxt.setText("output account database here");
         promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
         promptTxt.setForeground(Color.white);
         add(promptTxt);
         promptTxt.setBounds(390, 260, 225, promptTxt.getPreferredSize().height);
 
-        //---- backToProfileBtn ----
+        // ---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(414, 500, 170, 50);
 
-        //---- accountManagementTxt ----
+        // ---- accountManagementTxt ----
         accountManagementTxt.setText("Account Management");
-        accountManagementTxt.setFont(accountManagementTxt.getFont().deriveFont(accountManagementTxt.getFont().getSize() + 10f));
+        accountManagementTxt
+                .setFont(accountManagementTxt.getFont().deriveFont(accountManagementTxt.getFont().getSize() + 10f));
         accountManagementTxt.setHorizontalAlignment(SwingConstants.CENTER);
         accountManagementTxt.setForeground(Color.white);
         add(accountManagementTxt);
         accountManagementTxt.setBounds(347, 35, 305, 31);
 
-        //---- deleteBtn ----
+        // ---- deleteBtn ----
         deleteBtn.setText("Delete Account");
         add(deleteBtn);
         deleteBtn.setBounds(415, 465, 170, 30);
 
-        //---- createBtn ----
+        // ---- createBtn ----
         createBtn.setText("Create Account");
         add(createBtn);
         createBtn.setBounds(415, 430, 170, 30);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
