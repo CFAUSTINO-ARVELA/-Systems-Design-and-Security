@@ -28,7 +28,7 @@ class AccountCreationScreen extends JPanel implements ActionListener {
     private AccountManagementScreen accountManagement;
     private ProfileScreen profileScreen;
     private Account account;
-    private String[] clearanceList = { "Student", "Teacher", "Registar", "Admin" };
+    private String[] clearanceList = { "Teacher", "Registar", "Admin" };
 
     AccountCreationScreen(ScreenManager scr, AccountManagementScreen accManage, ProfileScreen prof) {
         this.initComponents();
@@ -88,10 +88,9 @@ class AccountCreationScreen extends JPanel implements ActionListener {
 
         submitBtn.addActionListener(e -> {
 
-            if (titleInput.getText().equals("") || forenameInput.getText().equals("")
-                    || surnameInput.getText().equals("")) {
+            if (checkInvalid(titleInput) || checkInvalid(forenameInput) || checkInvalid(surnameInput)) {
+                JOptionPane.showMessageDialog(null, "Please enter all fields and ensure there are no symbols");
 
-                JOptionPane.showMessageDialog(null, "Please enter all fields");
             } else {
                 this.accountCreation.setVisible(false);
                 String cle = clearanceInput.getSelectedItem().toString();
@@ -103,12 +102,24 @@ class AccountCreationScreen extends JPanel implements ActionListener {
                     Account newAccount = ac.createAccount();
                     this.profileScreen.draw();
                     JOptionPane.showMessageDialog(null, "Successfully created Account: " + newAccount.getUsername()
-                    + ". Password: " + newAccount.getPassword());
+                            + ". Password: " + newAccount.getPassword());
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "SQL error, please try again");
                 }
             }
         });
+    }
+
+    private boolean checkInvalid(JTextField input) {
+
+        System.out.println(input.getText());
+        if (input.getText().equals("") || !input.getText().matches("[a-zA-Z0-9]+")) {
+            System.out.print("true");
+            return true;
+        } else {
+            System.out.print("false");
+            return false;
+        }
     }
 
     private void initComponents() {

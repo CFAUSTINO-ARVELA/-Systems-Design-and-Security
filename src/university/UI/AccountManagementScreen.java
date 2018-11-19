@@ -7,9 +7,9 @@ import javax.swing.table.DefaultTableModel;
 import university.UI.ProfileScreen;
 import university.ScreenManager;
 import university.Account;
+import university.TableModel;
 
 import java.awt.event.*;
-import java.awt.print.PrinterException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -53,8 +53,6 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         });
         deleteBtn.addActionListener(e -> {
 
-            System.out.println(accountTable.getSelectedRow());
-
             if (accountTable.getSelectedRow() > -1) {
                 String index = (String) accountTable.getValueAt(accountTable.getSelectedRow(), 3);
                 Account accountToDelete = new Account(index);
@@ -65,6 +63,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
                 }
                 this.accountManagement.setVisible(false);
                 this.profileScreen.draw();
+                JOptionPane.showMessageDialog(null, "Successfully deleted account: " + index);
             } else {
                 JOptionPane.showMessageDialog(null, "Please select an Account to delete");
             }
@@ -80,7 +79,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
 
             ResultSet res = stmt
                     .executeQuery("SELECT title, forename, surname, username, email, clearance FROM account;");
-            accountTable = new JTable(buildTableModel(res));
+            accountTable = new JTable(TableModel.buildTableModel(res));
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(accountTable);
 
@@ -107,40 +106,6 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-    }
-
-    public static DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
-
-        ResultSetMetaData metaData = rs.getMetaData();
-
-        // names of columns
-        Vector<String> columnNames = new Vector<String>();
-        int columnCount = metaData.getColumnCount();
-        for (int column = 1; column <= columnCount; column++) {
-            columnNames.add(metaData.getColumnName(column));
-        }
-
-        // data of the table
-        Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-        while (rs.next()) {
-            Vector<Object> vector = new Vector<Object>();
-            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
-                vector.add(rs.getObject(columnIndex));
-            }
-            data.add(vector);
-        }
-
-        return new DefaultTableModel(data, columnNames) {
-
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                // all cells false
-                return false;
-            }
-        };
-
     }
 
     private void initComponents() {

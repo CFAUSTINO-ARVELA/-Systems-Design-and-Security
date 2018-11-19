@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="835c8c0c-f9ab-45c7-a8b2-f77205aad6b9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/university/UI/AccountCreationScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/AccountCreationScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/university/UI/AccountManagementScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/AccountManagementScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/university/UI/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/LoginScreen.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -198,7 +199,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542631361322" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542634764399" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
