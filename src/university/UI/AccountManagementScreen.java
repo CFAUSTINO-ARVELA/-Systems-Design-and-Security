@@ -9,9 +9,10 @@ import university.ScreenManager;
 import university.Account;
 
 import java.awt.event.*;
-
+import java.awt.print.PrinterException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Vector;
 
 class AccountManagementScreen extends JPanel implements ActionListener {
 
@@ -61,20 +62,10 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             stmt = con.createStatement();
 
             ResultSet res = stmt.executeQuery("SELECT * FROM account;");
-
-            ResultSetMetaData rsmd = res.getMetaData();
-            int numberCols = rsmd.getColumnCount();
-            while (res.next()) {
-                ArrayList<String> row = new ArrayList<String>();
-
-                for (int i = 1; i <= numberCols; i++) {
-                    String value = res.getString(i);
-                    row.add(value);
-                }
-                System.out.print(row);
-                model.addRow(row.toArray(new String[row.size()]));
-            }
-
+            JTable accountTable = new JTable(buildTableModel(res));
+            this.accountManagement.add(new JScrollPane(accountTable));
+            
+            JOptionPane.showMessageDialog(null, new JScrollPane(accountTable));
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
@@ -82,8 +73,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             }
             stmt.close();
         }
-        JTable accountTable = new JTable(model);
-        this.accountManagement.add(new JScrollPane(accountTable));
+
         screen.frame.add(this.accountManagement);
     }
 
@@ -96,6 +86,32 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    public static DefaultTableModel buildTableModel(ResultSet rs)
+            throws SQLException {
+
+        ResultSetMetaData metaData = rs.getMetaData();
+
+        // names of columns
+        Vector<String> columnNames = new Vector<String>();
+        int columnCount = metaData.getColumnCount();
+        for (int column = 1; column <= columnCount; column++) {
+            columnNames.add(metaData.getColumnName(column));
+        }
+
+        // data of the table
+        Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+        while (rs.next()) {
+            Vector<Object> vector = new Vector<Object>();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                vector.add(rs.getObject(columnIndex));
+            }
+            data.add(vector);
+        }
+
+        return new DefaultTableModel(data, columnNames);
+
     }
 
     private void initComponents() {
