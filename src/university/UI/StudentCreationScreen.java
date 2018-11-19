@@ -212,4 +212,10 @@ class StudentCreationScreen extends JPanel implements ActionListener {
     private JTextField degreeInput;
     private JTextField tutorInput;
     // JFormDesigner - End of variables declaration //GEN-END:variables
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }

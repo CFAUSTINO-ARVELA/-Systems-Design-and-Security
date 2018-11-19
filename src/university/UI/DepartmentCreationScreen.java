@@ -161,4 +161,10 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
     private JButton backToProfileBtn;
     private JLabel departmentTxt;
     // JFormDesigner - End of variables declaration //GEN-END:variables
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }

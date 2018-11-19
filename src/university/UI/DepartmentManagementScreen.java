@@ -139,4 +139,10 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
     private JButton deleteBtn;
     private JButton createBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
