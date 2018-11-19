@@ -102,7 +102,8 @@ class AccountCreationScreen extends JPanel implements ActionListener {
                 try {
                     Account newAccount = ac.createAccount();
                     this.profileScreen.draw();
-                    JOptionPane.showMessageDialog(null, "Successfully created Account");
+                    JOptionPane.showMessageDialog(null, "Successfully created Account: " + newAccount.getUsername()
+                    + ". Password: " + newAccount.getPassword());
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "SQL error, please try again");
                 }

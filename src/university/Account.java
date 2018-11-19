@@ -74,6 +74,10 @@ public class Account {
 		return this.username;
 	}
 
+	public String getPassword() {
+		return this.password;
+	}
+
 	private String generateUsername() throws SQLException {
 		// generate username based on details
 
