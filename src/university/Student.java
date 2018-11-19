@@ -32,6 +32,7 @@ public class Student {
 			stmt = con.createStatement();
 			String query = String.format("INSERT INTO student (registrationNumber, degree, tutor, username) VALUES (\"%d\", \"%s\", \"%s\", \"%s\");",
 					this.registrationNumber, this.degree.getCode(), this.tutor, this.accountDetails.getUsername());
+			System.out.println(query);
 			int count = stmt.executeUpdate(query);
 					
 
