@@ -2,12 +2,6 @@ package university.UI;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import university.UI.ProfileScreen;
@@ -15,11 +9,11 @@ import university.ScreenManager;
 import university.Account;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 class AccountManagementScreen extends JPanel implements ActionListener {
 
@@ -28,8 +22,6 @@ class AccountManagementScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private ProfileScreen profileScreen;
     private Account account;
-    private Connection connect = null;
-    private Statement statement = null;
 
     AccountManagementScreen(ScreenManager scr, Account acc, ProfileScreen prof) {
         this.initComponents();
@@ -41,16 +33,13 @@ class AccountManagementScreen extends JPanel implements ActionListener {
     public void draw() {
         this.accountManagement = new JPanel();
         this.accountManagement.setBackground(new Color(70, 70, 70));
-        JTable accountTable = new JTable();
 
-        this.accountManagement.add(promptTxt);
         this.accountManagement.add(backToProfileBtn);
         this.accountManagement.add(accountManagementTxt);
         this.accountManagement.add(createBtn);
         this.accountManagement.add(deleteBtn);
-        this.accountManagement.add(accountTable);
-
         this.accountManagement.setLayout(null);
+        this.accountManagement.add(scrollPane1);
 
         backToProfileBtn.addActionListener(e -> {
             this.accountManagement.setVisible(false);
@@ -62,34 +51,42 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             accountCreate.draw();
         });
 
-		Connection con = null;
-		Statement stmt = null;
-		
-		try {
-			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+        DefaultTableModel model = new DefaultTableModel();
+        JTable accountTable = new JTable(model);
 
-			stmt = con.createStatement();
-			
-		ResultSet res = stmt.executeQuery("SELECT * FROM account;");
-		
-		ResultSetMetaData rsmd = res.getMetaData();
-		int columnsNumber = rsmd.getColumnCount();
-		while (res.next()) {
-		    for (int i = 1; i <= columnsNumber; i++) {
-		        if (i > 1) System.out.print(",  ");
-		        String columnValue = res.getString(i);
-		        System.out.print(columnValue + " " + rsmd.getColumnName(i));
-		    }
-		    System.out.println("");
-		}
-		
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} finally {
-			if (stmt != null) {}
-				//stmt.close();
-		}
-        screen.frame.add(this.accountManagement);
+        Connection con = null;
+        Statement stmt = null;
+
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+
+            stmt = con.createStatement();
+
+            ResultSet res = stmt.executeQuery("SELECT * FROM account;");
+
+            ResultSetMetaData rsmd = res.getMetaData();
+            int numberCols = rsmd.getColumnCount();
+            while (res.next()) {
+                ArrayList<String> row = new ArrayList<String>();
+
+                for (int i = 1; i <= numberCols; i++) {
+                    String value = res.getString(i);
+                    row.add(value);
+                }
+                System.out.print(row);
+                model.addRow(row.toArray(new String[row.size()]));
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (stmt != null) {
+            }
+            stmt.close();
+        }
+
+       // scrollPane1.getViewport().add(accountTable);
+        this.accountManagement.setVisible(true);
     }
 
     public void returnFromManagement(String status) {
@@ -102,11 +99,11 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         // JFormDesigner - Component initialization - DO NOT MODIFY
         // //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Katie
-        promptTxt = new JLabel();
         backToProfileBtn = new JButton();
         accountManagementTxt = new JLabel();
         deleteBtn = new JButton();
         createBtn = new JButton();
+        scrollPane1 = new JScrollPane();
 
         // ======== this ========
 
@@ -123,13 +120,6 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         });
 
         setLayout(null);
-
-        // ---- promptTxt ----
-        promptTxt.setText("output account database here");
-        promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
-        promptTxt.setForeground(Color.white);
-        add(promptTxt);
-        promptTxt.setBounds(390, 260, 225, promptTxt.getPreferredSize().height);
 
         // ---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
@@ -154,6 +144,8 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         createBtn.setText("Create Account");
         add(createBtn);
         createBtn.setBounds(415, 430, 170, 30);
+        add(scrollPane1);
+        scrollPane1.setBounds(245, 120, 525, 250);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
@@ -173,16 +165,16 @@ class AccountManagementScreen extends JPanel implements ActionListener {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - Katie
-    private JLabel promptTxt;
     private JButton backToProfileBtn;
     private JLabel accountManagementTxt;
     private JButton deleteBtn;
     private JButton createBtn;
+    private JScrollPane scrollPane1;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        // TODO Auto-generated method stub
+
+    }
 }
