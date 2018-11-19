@@ -89,8 +89,7 @@ public class Account {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
-			String query = String.format("SELECT forename FROM account WHERE surname LIKE '%s';",
-					this.forename.charAt(0), this.surname);
+			String query = String.format("SELECT forename FROM account WHERE surname LIKE '%s';", this.surname);
 			System.out.println(query);
 			ResultSet res = stmt.executeQuery(query);
 			initials = this.splitForename(this.forename);
