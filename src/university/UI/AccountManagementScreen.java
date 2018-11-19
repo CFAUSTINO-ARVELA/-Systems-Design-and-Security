@@ -30,7 +30,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         this.account = acc;
     }
 
-    public void draw() {
+    public void draw() throws SQLException {
         this.accountManagement = new JPanel();
         this.accountManagement.setBackground(new Color(70, 70, 70));
 
@@ -92,7 +92,12 @@ class AccountManagementScreen extends JPanel implements ActionListener {
     public void returnFromManagement(String status) {
         JLabel statusTxt = new JLabel(status);
         this.accountManagement.add(statusTxt);
-        this.draw();
+        
+        try {
+        	this.draw();
+        } catch (SQLException ex) {
+        	ex.printStackTrace();
+        }
     }
 
     private void initComponents() {
