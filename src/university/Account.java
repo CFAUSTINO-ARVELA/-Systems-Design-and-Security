@@ -76,19 +76,22 @@ public class Account {
 		Connection con = null;
 		Statement stmt = null;
 		int count = 1;
+		String initials = "";
 
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
-			String query = String.format("SELECT forename FROM account WHERE forename LIKE '%s%%' AND surname LIKE '%s';",
+			String query = String.format("SELECT forename FROM account WHERE surname LIKE '%s';",
 					this.forename.charAt(0), this.surname);
 			System.out.println(query);
 			ResultSet res = stmt.executeQuery(query);
-			String initials = this.splitForename(this.forename);
+			initials = this.splitForename(this.forename);
 			String name = "";
 			
 			while (res.next()) {
-				name = res.getString("forename");
+				name = res.getString(1);
+				System.out.println(this.splitForename(name));
+				System.out.println(initials);
 				if (this.splitForename(name).equals(initials)) {
 					count += 1;
 				}
@@ -101,7 +104,7 @@ public class Account {
 				stmt.close();
 		}
 
-		return this.forename.charAt(0) + this.surname + (count+1);
+		return initials + this.surname + count;
 	}
 	
 	private String generatePassword() {
