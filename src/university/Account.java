@@ -238,7 +238,7 @@ public class Account {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
 			int count = stmt.executeUpdate(
-					String.format("DELETE FROM account WHERE username = %s;", this.username));
+					String.format("DELETE FROM account WHERE username = \"%s\";", this.username));
 
 			System.out.println(count);
 		} catch (SQLException ex) {
