@@ -7,8 +7,6 @@ class Student {
     private String degree; // needs to be converted to type Degree when created
     private int registrationNumber;
     private String tutor; // needs to be type Teacher
-    private int level;
-    private int period;
     private Account accountDetails;
 
     Student(String deg, int reg, String tut, Account acc) {  
