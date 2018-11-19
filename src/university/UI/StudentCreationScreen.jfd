@@ -138,20 +138,19 @@ new FormModel {
 				"y": 345
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
-				name: "degreeInput"
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"width": 235
-				"height": 30
-				"x": 382
-				"y": 300
-			} )
-			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "tutorInput"
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 235
 				"height": 30
 				"x": 382
 				"y": 340
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "degreeInput"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 382
+				"y": 300
+				"width": 235
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 5, 5 )

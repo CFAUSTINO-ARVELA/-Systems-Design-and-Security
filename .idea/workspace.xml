@@ -3,11 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="835c8c0c-f9ab-45c7-a8b2-f77205aad6b9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/university/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/university/UI/ModuleCreationScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/ModuleCreationScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/university/UI/ProfileScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/ProfileScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/university/Degree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/Degree.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/university/UI/StudentManagementScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/StudentManagementScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.jfd" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.jfd" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -113,8 +111,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/university/UI/StudentCreationScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="50" column="47" selection-start-line="50" selection-start-column="47" selection-end-line="50" selection-end-column="47" />
+            <state relative-caret-position="720">
+              <caret line="58" column="47" selection-start-line="58" selection-start-column="47" selection-end-line="58" selection-end-column="47" />
+              <folding>
+                <marker date="1542645890818" expanded="false" signature="9608:10243" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+                <marker date="1542645890818" expanded="false" signature="10255:10971" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -142,13 +144,13 @@
         <option value="$PROJECT_DIR$/src/university/UI/StudentStatus.jfd" />
         <option value="$PROJECT_DIR$/src/university/UI/ProfileScreen.jfd" />
         <option value="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.java" />
-        <option value="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.jfd" />
         <option value="$PROJECT_DIR$/src/university/UI/AccountManagementScreen.java" />
         <option value="$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.java" />
         <option value="$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.jfd" />
         <option value="$PROJECT_DIR$/src/university/UI/AccountCreationScreen.java" />
         <option value="$PROJECT_DIR$/src/university/UI/AccountManagementScreen.jfd" />
         <option value="$PROJECT_DIR$/src/university/UI/StudentManagementScreen.jfd" />
+        <option value="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.jfd" />
       </list>
     </option>
   </component>
@@ -198,7 +200,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542637701787" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542645082818" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
@@ -351,8 +353,8 @@
         <state relative-caret-position="810">
           <caret line="142" selection-start-line="142" selection-end-line="142" />
           <folding>
-            <marker date="1542637409310" expanded="false" signature="3042:5942" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
-            <marker date="1542637409310" expanded="false" signature="5954:6342" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542644460674" expanded="false" signature="3042:5942" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+            <marker date="1542644460674" expanded="false" signature="5954:6342" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -362,7 +364,7 @@
         <state relative-caret-position="527">
           <caret line="106" column="11" selection-start-line="106" selection-start-column="11" selection-end-line="106" selection-end-column="11" />
           <folding>
-            <marker date="1542637268658" expanded="false" signature="8105:8595" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542644431212" expanded="false" signature="8105:8595" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -389,8 +391,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/university/UI/StudentCreationScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="50" column="47" selection-start-line="50" selection-start-column="47" selection-end-line="50" selection-end-column="47" />
+        <state relative-caret-position="720">
+          <caret line="58" column="47" selection-start-line="58" selection-start-column="47" selection-end-line="58" selection-end-column="47" />
+          <folding>
+            <marker date="1542645890818" expanded="false" signature="9608:10243" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+            <marker date="1542645890818" expanded="false" signature="10255:10971" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -11,7 +11,7 @@ public class Degree{
 	private Boolean placement;
 	private Connection con;
 	
-	Degree(){}
+	public Degree(){}
 	//Constructor for degree with just one department
 	Degree(String name, Department mainDept,
 			String type,Boolean placement) throws Exception{
