@@ -31,7 +31,7 @@ public class Student {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
 			String query = String.format("INSERT INTO student (registrationNumber, degree, tutor, username) VALUES (\"%d\", \"%s\", \"%s\", \"%s\");",
-					this.registrationNumber, this.degree.getCode(), this.tutor, this.accountDetails.getUsername());
+					this.registrationNumber, this.degree.getName(), this.tutor, this.accountDetails.getUsername());
 			System.out.println(query);
 			int count = stmt.executeUpdate(query);
 					
