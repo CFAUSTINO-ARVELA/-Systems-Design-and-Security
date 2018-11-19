@@ -1,9 +1,6 @@
 package university;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 class Student {
 
@@ -48,6 +45,32 @@ class Student {
 
     public String getDegree() {
         return this.degree;
+    }
+    
+    public int generateRegistrationNumber() throws SQLException {
+    	
+    	Connection con = null;
+    	Statement stmt = null;
+    	int count = 1;
+    	
+    	try {
+			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+
+			stmt = con.createStatement();
+			String query = "SELECT COUNT(*) FROM student;";
+			
+			ResultSet res = stmt.executeQuery(query);
+			
+			res.next();
+			count = res.getInt(1);
+    	} catch (SQLException ex) {
+    		ex.printStackTrace();
+    	} finally {
+    		if (stmt != null)
+    			stmt.close();
+    	}
+    	
+    	return (count + 1);
     }
     
     public int getRegistrationNumber() {
