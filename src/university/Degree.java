@@ -2,7 +2,7 @@ package university;
 import java.sql.*;
 import java.util.ArrayList;
 
-class Degree{
+public class Degree{
 	private String code;
 	private String name;
 	private Department mainDept;
@@ -29,6 +29,10 @@ class Degree{
 		this.seconDepts = seconDepts;
 		this.type = type;
 		this.placement = placement;
+	}
+
+	public Degree(String name) {
+		this.name = name;
 	}
 	
 	//Connect to the database

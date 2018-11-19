@@ -59,7 +59,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         });
         createBtn.addActionListener(e -> {
             this.studentManagement.setVisible(false);
-            StudentCreationScreen studentCreate = new StudentCreationScreen(this.screen, this);
+            StudentCreationScreen studentCreate = new StudentCreationScreen(this.screen, this, this.profileScreen);
             studentCreate.draw();
         });
 
@@ -68,8 +68,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
 
             stmt = con.createStatement();
 
-            ResultSet res = stmt
-                    .executeQuery("SELECT * FROM student;");
+            ResultSet res = stmt.executeQuery("SELECT * FROM student;");
             studentTable = new JTable(TableModel.buildTableModel(res));
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(studentTable);
@@ -91,9 +90,9 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         JLabel statusTxt = new JLabel(status);
         this.studentManagement.add(statusTxt);
         try {
-        	this.draw();
-        } catch (SQLException ex) {
-        	ex.printStackTrace();
+            this.draw();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

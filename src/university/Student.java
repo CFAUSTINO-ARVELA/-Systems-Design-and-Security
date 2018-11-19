@@ -2,14 +2,14 @@ package university;
 
 import java.sql.*;
 
-class Student {
+public class Student {
 
     private Degree degree;
     private int registrationNumber;
     private String tutor; // needs to be type Teacher
     private Account accountDetails;
 
-    Student(Degree deg, int reg, String tut, Account acc) {  
+    public Student(Degree deg, String tut, Account acc) {  
       this.degree = deg;
       
       try {

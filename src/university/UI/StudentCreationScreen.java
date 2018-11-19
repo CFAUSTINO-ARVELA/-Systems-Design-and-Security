@@ -10,6 +10,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import university.UI.ProfileScreen;
+import university.Account;
+import university.Student;
+import university.Degree;
 import university.ScreenManager;
 
 import java.awt.Color;
@@ -22,50 +25,80 @@ import java.sql.*;
 class StudentCreationScreen extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
-    public JPanel studentCreationJPanel;
+    public JPanel studentCreation;
     private ScreenManager screen;
+    private ProfileScreen profileScreen;
     private StudentManagementScreen studentManagement;
 
-    StudentCreationScreen(ScreenManager scr, StudentManagementScreen studentManage) {
+    StudentCreationScreen(ScreenManager scr, StudentManagementScreen studentManage, ProfileScreen prof) {
         this.initComponents();
         this.screen = scr;
         this.studentManagement = studentManage;
     }
 
     public void draw() {
-        this.studentCreationJPanel = new JPanel();
-        this.studentCreationJPanel.setBackground(new Color(70, 70, 70));
-        this.studentCreationJPanel.setLayout(null);
+        this.studentCreation = new JPanel();
+        this.studentCreation.setBackground(new Color(70, 70, 70));
+        this.studentCreation.setLayout(null);
 
-        this.studentCreationJPanel.add(submitBtn);
-        this.studentCreationJPanel.add(promptTxt);
-        this.studentCreationJPanel.add(welcomeTxt);
-        this.studentCreationJPanel.add(titleTxt);
-        this.studentCreationJPanel.add(forenameTxt);
-        this.studentCreationJPanel.add(surnameTxt);
-        this.studentCreationJPanel.add(titleInput);
-        this.studentCreationJPanel.add(forenameInput);
-        this.studentCreationJPanel.add(surnameInput);
-        this.studentCreationJPanel.add(backToProfileBtn);
-        this.studentCreationJPanel.add(studentManagementTxt);
-        this.studentCreationJPanel.add(degreeTxt);
-        this.studentCreationJPanel.add(degreeInput);
-        this.studentCreationJPanel.add(submitBtn);
-        this.studentCreationJPanel.add(degreeTxt);
-        this.studentCreationJPanel.add(tutorTxt);
-        this.studentCreationJPanel.add(tutorInput);
-        this.studentCreationJPanel.add(degreeInput);
+        this.studentCreation.add(submitBtn);
+        this.studentCreation.add(promptTxt);
+        this.studentCreation.add(welcomeTxt);
+        this.studentCreation.add(titleTxt);
+        this.studentCreation.add(forenameTxt);
+        this.studentCreation.add(surnameTxt);
+        this.studentCreation.add(titleInput);
+        this.studentCreation.add(forenameInput);
+        this.studentCreation.add(surnameInput);
+        this.studentCreation.add(backToProfileBtn);
+        this.studentCreation.add(studentManagementTxt);
+        this.studentCreation.add(degreeTxt);
+        this.studentCreation.add(degreeInput);
+        this.studentCreation.add(submitBtn);
+        this.studentCreation.add(degreeTxt);
+        this.studentCreation.add(tutorTxt);
+        this.studentCreation.add(tutorInput);
+        this.studentCreation.add(degreeInput);
 
         backToProfileBtn.addActionListener(e -> {
-            this.studentCreationJPanel.setVisible(false);
+            this.studentCreation.setVisible(false);
             try {
-            	this.studentManagement.draw();
+                this.studentManagement.draw();
             } catch (SQLException ex) {
-            	ex.printStackTrace();
+                ex.printStackTrace();
             }
         });
 
-        screen.frame.add(this.studentCreationJPanel);
+        submitBtn.addActionListener(e -> {
+
+            // if (checkInvalid(titleInput) || checkInvalid(forenameInput) ||
+            // checkInvalid(surnameInput)) {
+            // JOptionPane.showMessageDialog(null, "Please enter all fields and ensure there
+            // are no symbols");
+
+            // } else {
+            this.studentCreation.setVisible(false);
+            // String cle = clearanceInput.getSelectedItem().toString();
+            Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(), "password",
+                    "Student");
+            try {
+                Student stu = new Student(new Degree(degreeInput.getText()), tutorInput.getText(), ac.createAccount());
+                stu.createStudent();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            try {
+                Account newAccount = ac.createAccount();
+                this.profileScreen.draw();
+                JOptionPane.showMessageDialog(null, "Successfully created Student: " + newAccount.getUsername()
+                        + ". Password: " + newAccount.getPassword());
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "SQL error, please try again");
+            }
+            // }
+        });
+
+        screen.frame.add(this.studentCreation);
     }
 
     private void initComponents() {
@@ -88,18 +121,23 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         degreeInput = new JTextField();
         tutorInput = new JTextField();
 
-        //======== this ========
+        // ======== this ========
 
         // JFormDesigner evaluation mark
-        setBorder(new javax.swing.border.CompoundBorder(
-            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
+                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
+                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
+                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent e) {
+                if ("border".equals(e.getPropertyName()))
+                    throw new RuntimeException();
+            }
+        });
 
         setLayout(null);
 
-        //---- welcomeTxt ----
+        // ---- welcomeTxt ----
         welcomeTxt.setText("Student Account");
         welcomeTxt.setFont(welcomeTxt.getFont().deriveFont(welcomeTxt.getFont().getSize() + 12f));
         welcomeTxt.setHorizontalAlignment(SwingConstants.CENTER);
@@ -107,14 +145,14 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         add(welcomeTxt);
         welcomeTxt.setBounds(389, 90, 220, welcomeTxt.getPreferredSize().height);
 
-        //---- promptTxt ----
+        // ---- promptTxt ----
         promptTxt.setText("Please enter details below");
         promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
         promptTxt.setForeground(Color.white);
         add(promptTxt);
         promptTxt.setBounds(387, 130, 225, promptTxt.getPreferredSize().height);
 
-        //---- titleTxt ----
+        // ---- titleTxt ----
         titleTxt.setText("Title");
         titleTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         titleTxt.setFont(titleTxt.getFont().deriveFont(titleTxt.getFont().getSize() + 3f));
@@ -122,7 +160,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         add(titleTxt);
         titleTxt.setBounds(185, 185, 185, titleTxt.getPreferredSize().height);
 
-        //---- forenameTxt ----
+        // ---- forenameTxt ----
         forenameTxt.setText("Forename");
         forenameTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         forenameTxt.setFont(forenameTxt.getFont().deriveFont(forenameTxt.getFont().getSize() + 3f));
@@ -130,7 +168,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         add(forenameTxt);
         forenameTxt.setBounds(230, 227, 140, 16);
 
-        //---- surnameTxt ----
+        // ---- surnameTxt ----
         surnameTxt.setText("Surname");
         surnameTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         surnameTxt.setFont(surnameTxt.getFont().deriveFont(surnameTxt.getFont().getSize() + 3f));
@@ -144,25 +182,26 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         add(surnameInput);
         surnameInput.setBounds(382, 260, 235, 30);
 
-        //---- submitBtn ----
+        // ---- submitBtn ----
         submitBtn.setText("Submit");
         add(submitBtn);
         submitBtn.setBounds(432, 465, 135, submitBtn.getPreferredSize().height);
 
-        //---- backToProfileBtn ----
+        // ---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(414, 500, 170, 50);
 
-        //---- studentManagementTxt ----
+        // ---- studentManagementTxt ----
         studentManagementTxt.setText("Account Management");
-        studentManagementTxt.setFont(studentManagementTxt.getFont().deriveFont(studentManagementTxt.getFont().getSize() + 10f));
+        studentManagementTxt
+                .setFont(studentManagementTxt.getFont().deriveFont(studentManagementTxt.getFont().getSize() + 10f));
         studentManagementTxt.setHorizontalAlignment(SwingConstants.CENTER);
         studentManagementTxt.setForeground(Color.white);
         add(studentManagementTxt);
         studentManagementTxt.setBounds(347, 35, 305, 31);
 
-        //---- degreeTxt ----
+        // ---- degreeTxt ----
         degreeTxt.setText("Degree");
         degreeTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         degreeTxt.setFont(degreeTxt.getFont().deriveFont(degreeTxt.getFont().getSize() + 3f));
@@ -170,7 +209,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         add(degreeTxt);
         degreeTxt.setBounds(155, 305, 215, 16);
 
-        //---- tutorTxt ----
+        // ---- tutorTxt ----
         tutorTxt.setText("Tutor");
         tutorTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         tutorTxt.setFont(tutorTxt.getFont().deriveFont(tutorTxt.getFont().getSize() + 3f));
@@ -184,7 +223,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -217,9 +256,9 @@ class StudentCreationScreen extends JPanel implements ActionListener {
     private JTextField tutorInput;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+
+    }
 }
