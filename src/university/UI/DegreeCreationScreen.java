@@ -233,4 +233,10 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
     private JLabel placementTxt;
     private JComboBox placementInput;
     // JFormDesigner - End of variables declaration //GEN-END:variables
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
