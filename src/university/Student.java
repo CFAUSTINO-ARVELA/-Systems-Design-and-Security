@@ -11,7 +11,13 @@ class Student {
 
     Student(Degree deg, int reg, String tut, Account acc) {  
       this.degree = deg;
-      this.registrationNumber = reg;
+      
+      try {
+    	  this.registrationNumber = this.generateRegistrationNumber();
+      } catch (SQLException ex) {
+    	  ex.printStackTrace();
+      }
+      
       this.tutor = tut;
       this.accountDetails = acc;
     }
