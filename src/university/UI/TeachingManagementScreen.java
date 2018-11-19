@@ -1,8 +1,11 @@
-package university;
+package university.UI;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+
+import university.Account;
+import university.ScreenManager;
 
 import java.awt.GridLayout;
 import java.awt.event.*;
@@ -14,10 +17,12 @@ class TeachingManagementScreen implements ActionListener {
     public JPanel teachingManagement;
     private ScreenManager screen;
     private Account account;
+    private ProfileScreen profileScreen;
 
-    TeachingManagementScreen(ScreenManager scr, Account acc) {
+    TeachingManagementScreen(ScreenManager scr, Account acc, ProfileScreen prof) {
         this.screen = scr;
         this.account = acc;
+        this.profileScreen = prof;
     }
 
     public void draw() {
@@ -31,7 +36,7 @@ class TeachingManagementScreen implements ActionListener {
 
         backToProfileBtn.addActionListener(e -> {
             this.teachingManagement.setVisible(false);
-            screen.navToProfile(this.account);
+            //screen.navToProfile(this.account);
         });
 
         this.create();

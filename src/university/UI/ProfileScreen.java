@@ -82,6 +82,8 @@ public class ProfileScreen extends JPanel {
             this.profileScreen.setVisible(false);
         });
         teachingManagementBtn.addActionListener(e -> {
+        	TeachingManagementScreen teachingScreen = new TeachingManagementScreen(this.screen, this.account, this);
+        	teachingScreen.draw();
             this.profileScreen.setVisible(false);
         });
         this.profileScreen.add(teachingManagementBtn);
