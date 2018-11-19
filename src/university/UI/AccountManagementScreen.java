@@ -224,4 +224,10 @@ class AccountManagementScreen extends JPanel implements ActionListener {
     private JButton backToProfileBtn;
     private JLabel accountManagementTxt;
     // JFormDesigner - End of variables declaration //GEN-END:variables
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }

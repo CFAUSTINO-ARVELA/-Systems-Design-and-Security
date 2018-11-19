@@ -1,6 +1,5 @@
 package university.UI;
 import university.ScreenManager;
-import university.UI;
 import java.awt.*;
 import javax.swing.*;
 
