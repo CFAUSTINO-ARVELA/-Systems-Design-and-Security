@@ -6,6 +6,7 @@ import javax.swing.*;
 import university.UI.LoginScreen;
 import university.UI.StudentStatus;
 import university.UI.AccountManagementScreen;
+import university.UI.StudentManagementScreen;
 import university.UI.AccountCreationScreen;
 import university.*;
 
@@ -41,7 +42,12 @@ public class ProfileScreen extends JPanel {
         case ADMIN:
             this.adminComponents();
             break;
-        // others
+        case REGISTRAR:
+            this.registrarComponents();
+            break;
+        case TEACHER:
+            this.teacherComponents();
+            break;
         }
 
         screen.frame.add(this.profileScreen);
@@ -67,9 +73,9 @@ public class ProfileScreen extends JPanel {
         this.profileScreen.add(profileTxt);
         this.profileScreen.add(titleTxt);
         this.profileScreen.add(nameTxt);
-        this.profileScreen.add(statusBtn);
+        this.profileScreen.add(studentManageBtn);
 
-        statusBtn.addActionListener(e -> {
+        studentManageBtn.addActionListener(e -> {
             this.profileScreen.setVisible(false);
             StudentStatus status = new StudentStatus(account, screen, this);
             status.draw();
@@ -91,6 +97,20 @@ public class ProfileScreen extends JPanel {
         this.profileScreen.add(accountManagementBtn);
     }
 
+    private void registrarComponents() {
+        this.profileScreen.add(studentManageBtn);
+
+        studentManageBtn.addActionListener(e -> {
+            this.profileScreen.setVisible(false);
+            StudentManagementScreen studentScreen = new StudentManagementScreen(screen, this);
+            studentScreen.draw();
+        });
+    }
+
+    private void teacherComponents() {
+
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY
         // //GEN-BEGIN:initComponents
@@ -100,7 +120,7 @@ public class ProfileScreen extends JPanel {
         logoutButton = new JButton();
         accountManagementBtn = new JButton();
         teachingManagementBtn = new JButton();
-        statusBtn = new JButton();
+        studentManageBtn = new JButton();
         titleTxt = new JLabel();
         nameTxt = new JLabel();
 
@@ -144,10 +164,10 @@ public class ProfileScreen extends JPanel {
         add(teachingManagementBtn);
         teachingManagementBtn.setBounds(510, 175, 170, 50);
 
-        //---- statusBtn ----
-        statusBtn.setText("Student Status");
-        add(statusBtn);
-        statusBtn.setBounds(414, 430, 170, 50);
+        //---- studentManageBtn ----
+        studentManageBtn.setText("Student Management");
+        add(studentManageBtn);
+        studentManageBtn.setBounds(414, 430, 170, 50);
 
         //---- titleTxt ----
         titleTxt.setText("Title:");
@@ -192,7 +212,7 @@ public class ProfileScreen extends JPanel {
     private JButton logoutButton;
     private JButton accountManagementBtn;
     private JButton teachingManagementBtn;
-    private JButton statusBtn;
+    private JButton studentManageBtn;
     private JLabel titleTxt;
     private JLabel nameTxt;
     // JFormDesigner - End of variables declaration //GEN-END:variables

@@ -110,7 +110,7 @@ class AccountCreationScreen extends JPanel implements ActionListener {
         titleInput = new JTextField();
         forenameInput = new JTextField();
         surnameInput = new JTextField();
-        clearanceInput = new JComboBox(clearanceList);
+        clearanceInput = new JComboBox();
         submitBtn = new JButton();
         backToProfileBtn = new JButton();
         accountManagementTxt = new JLabel();

@@ -76,7 +76,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         creditsTxt = new JLabel();
         creditsInput = new JTextField();
         durationTxt = new JLabel();
-        durationInput = new JComboBox(durations);
+        durationInput = new JComboBox();
 
         //======== this ========
 

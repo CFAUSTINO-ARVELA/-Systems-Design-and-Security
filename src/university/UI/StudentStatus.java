@@ -7,13 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 
 import javax.swing.*;
-/*
- * Created by JFormDesigner on Thu Nov 15 14:23:19 GMT 2018
- */
 
-/**
- * @author Katie
- */
 public class StudentStatus extends JPanel implements ActionListener {
 
     private Account loggedInAccount;
@@ -42,11 +36,12 @@ public class StudentStatus extends JPanel implements ActionListener {
 
         this.studentStatusScreen.add(titleTxt);
         this.studentStatusScreen.add(backToProfileBtn);
+        
+        titleTxt.setForeground(new Color(255,255,255));
 
         backToProfileBtn.addActionListener(e -> {
             this.profileScreen.draw();
             this.studentStatusScreen.setVisible(false);
-
         });
 
         this.studentStatusScreen.setLayout(null);
@@ -56,7 +51,7 @@ public class StudentStatus extends JPanel implements ActionListener {
             this.setStudentStatus(loggedInAccount.getUsername());
             this.drawForm();
             break;
-        case TEACHER:
+        case REGISTRAR:
             this.drawSearch();
             break;
         }
@@ -71,7 +66,6 @@ public class StudentStatus extends JPanel implements ActionListener {
         levelStudiesTxt.setText("Level Studies: " + this.levelStudies);
         periodStudiesTxt.setText("Period Studies: " + this.periodStudies);
 
-        titleTxt.setForeground(new Color(255,255,255));
         nameTxt.setForeground(new Color(255,255,255));
         startDateTxt.setForeground(new Color(255,255,255));
         endDateTxt.setForeground(new Color(255,255,255));
@@ -86,11 +80,12 @@ public class StudentStatus extends JPanel implements ActionListener {
     }
 
     public void drawSearch() {
-        JTextField searchbox = new JTextField();
-        JButton searchBtn = new JButton("Search");
+    	
+        this.studentStatusScreen.add(searchInput);
+        this.studentStatusScreen.add(searchBtn);
 
         searchBtn.addActionListener(e -> {
-            this.setStudentStatus(searchbox.getText());
+            this.setStudentStatus(searchInput.getText());
         });
     }
 
@@ -131,6 +126,8 @@ public class StudentStatus extends JPanel implements ActionListener {
         backToProfileBtn = new JButton();
         periodStudiesTxt = new JLabel();
         endDateTxt = new JLabel();
+        searchInput = new JTextField();
+        searchBtn = new JButton();
 
         //======== this ========
 
@@ -179,6 +176,13 @@ public class StudentStatus extends JPanel implements ActionListener {
         endDateTxt.setText("Start Date: ");
         add(endDateTxt);
         endDateTxt.setBounds(365, 295, 280, 45);
+        add(searchInput);
+        searchInput.setBounds(371, 115, 255, searchInput.getPreferredSize().height);
+
+        //---- searchBtn ----
+        searchBtn.setText("Search For Student");
+        add(searchBtn);
+        searchBtn.setBounds(640, 115, 155, 30);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
@@ -205,5 +209,7 @@ public class StudentStatus extends JPanel implements ActionListener {
     private JButton backToProfileBtn;
     private JLabel periodStudiesTxt;
     private JLabel endDateTxt;
+    private JTextField searchInput;
+    private JButton searchBtn;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 }

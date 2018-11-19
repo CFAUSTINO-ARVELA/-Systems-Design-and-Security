@@ -55,8 +55,8 @@ new FormModel {
 				"y": 175
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "statusBtn"
-				"text": "Student Status"
+				name: "studentManageBtn"
+				"text": "Student Management"
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 170
 				"height": 50
