@@ -44,6 +44,14 @@ new FormModel {
 				"x": 415
 				"y": 430
 			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+				name: "tablePanel"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 177
+				"y": 125
+				"height": 290
+				"width": 645
+			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 5, 5 )
 			"size": new java.awt.Dimension( 1000, 600 )

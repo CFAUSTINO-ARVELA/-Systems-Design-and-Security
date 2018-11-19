@@ -39,7 +39,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         this.accountManagement.add(deleteBtn);
         this.accountManagement.setLayout(null);
 
-        this.accountManagement.setVisible(true);
+        this.accountManagement.add(tablePanel);
 
         backToProfileBtn.addActionListener(e -> {
             this.accountManagement.setVisible(false);
@@ -51,8 +51,6 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             accountCreate.draw();
         });
 
-        DefaultTableModel model = new DefaultTableModel();
-
         Connection con = null;
         Statement stmt = null;
 
@@ -63,9 +61,11 @@ class AccountManagementScreen extends JPanel implements ActionListener {
 
             ResultSet res = stmt.executeQuery("SELECT * FROM account;");
             JTable accountTable = new JTable(buildTableModel(res));
-            this.accountManagement.add(new JScrollPane(accountTable));
+            JScrollPane scrollPane = new JScrollPane();
+            scrollPane.setViewportView(accountTable);
+
+            tablePanel.add(scrollPane);
             
-            JOptionPane.showMessageDialog(null, new JScrollPane(accountTable));
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
@@ -74,6 +74,8 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             stmt.close();
         }
 
+
+        this.accountManagement.setVisible(true);
         screen.frame.add(this.accountManagement);
     }
 
@@ -122,6 +124,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         accountManagementTxt = new JLabel();
         deleteBtn = new JButton();
         createBtn = new JButton();
+        tablePanel = new JPanel();
 
         //======== this ========
 
@@ -157,6 +160,13 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         add(createBtn);
         createBtn.setBounds(415, 430, 170, 30);
 
+        //======== tablePanel ========
+        {
+            tablePanel.setLayout(new BorderLayout());
+        }
+        add(tablePanel);
+        tablePanel.setBounds(177, 125, 645, 290);
+
         { // compute preferred size
             Dimension preferredSize = new Dimension();
             for(int i = 0; i < getComponentCount(); i++) {
@@ -179,6 +189,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
     private JLabel accountManagementTxt;
     private JButton deleteBtn;
     private JButton createBtn;
+    private JPanel tablePanel;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
     @Override
