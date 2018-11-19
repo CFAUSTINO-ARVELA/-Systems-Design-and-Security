@@ -1,6 +1,8 @@
 package university.UI;
 
 import java.awt.*;
+import java.sql.SQLException;
+
 import javax.swing.*;
 
 import university.UI.LoginScreen;
@@ -85,7 +87,12 @@ public class ProfileScreen extends JPanel {
     public void adminComponents() {
         accountManagementBtn.addActionListener(e -> {
             AccountManagementScreen accountScreen = new AccountManagementScreen(this.screen, this.account, this);
-            accountScreen.draw();
+            
+            try {
+            	accountScreen.draw();
+            } catch (SQLException ex) {
+            	ex.printStackTrace();
+            }
             this.profileScreen.setVisible(false);
         });
         teachingManagementBtn.addActionListener(e -> {
