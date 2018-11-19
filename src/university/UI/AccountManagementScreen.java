@@ -8,8 +8,6 @@ import university.UI.ProfileScreen;
 import university.ScreenManager;
 import university.Account;
 
-import java.awt.Color;
-import java.awt.Rectangle;
 import java.awt.event.*;
 
 import java.sql.*;
@@ -39,7 +37,8 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         this.accountManagement.add(createBtn);
         this.accountManagement.add(deleteBtn);
         this.accountManagement.setLayout(null);
-        this.accountManagement.add(scrollPane1);
+
+        this.accountManagement.setVisible(true);
 
         backToProfileBtn.addActionListener(e -> {
             this.accountManagement.setVisible(false);
@@ -52,7 +51,6 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         });
 
         DefaultTableModel model = new DefaultTableModel();
-        JTable accountTable = new JTable(model);
 
         Connection con = null;
         Statement stmt = null;
@@ -84,19 +82,19 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             }
             stmt.close();
         }
-
-       // scrollPane1.getViewport().add(accountTable);
-        this.accountManagement.setVisible(true);
+        JTable accountTable = new JTable(model);
+        this.accountManagement.add(new JScrollPane(accountTable));
+        screen.frame.add(this.accountManagement);
     }
 
     public void returnFromManagement(String status) {
         JLabel statusTxt = new JLabel(status);
         this.accountManagement.add(statusTxt);
-        
+
         try {
-        	this.draw();
+            this.draw();
         } catch (SQLException ex) {
-        	ex.printStackTrace();
+            ex.printStackTrace();
         }
     }
 
@@ -108,53 +106,44 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         accountManagementTxt = new JLabel();
         deleteBtn = new JButton();
         createBtn = new JButton();
-        scrollPane1 = new JScrollPane();
 
-        // ======== this ========
+        //======== this ========
 
         // JFormDesigner evaluation mark
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
-                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
-                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
-                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
-        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent e) {
-                if ("border".equals(e.getPropertyName()))
-                    throw new RuntimeException();
-            }
-        });
+        setBorder(new javax.swing.border.CompoundBorder(
+            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
+                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
+                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
 
         setLayout(null);
 
-        // ---- backToProfileBtn ----
+        //---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(414, 500, 170, 50);
 
-        // ---- accountManagementTxt ----
+        //---- accountManagementTxt ----
         accountManagementTxt.setText("Account Management");
-        accountManagementTxt
-                .setFont(accountManagementTxt.getFont().deriveFont(accountManagementTxt.getFont().getSize() + 10f));
+        accountManagementTxt.setFont(accountManagementTxt.getFont().deriveFont(accountManagementTxt.getFont().getSize() + 10f));
         accountManagementTxt.setHorizontalAlignment(SwingConstants.CENTER);
         accountManagementTxt.setForeground(Color.white);
         add(accountManagementTxt);
         accountManagementTxt.setBounds(347, 35, 305, 31);
 
-        // ---- deleteBtn ----
+        //---- deleteBtn ----
         deleteBtn.setText("Delete Account");
         add(deleteBtn);
         deleteBtn.setBounds(415, 465, 170, 30);
 
-        // ---- createBtn ----
+        //---- createBtn ----
         createBtn.setText("Create Account");
         add(createBtn);
         createBtn.setBounds(415, 430, 170, 30);
-        add(scrollPane1);
-        scrollPane1.setBounds(245, 120, 525, 250);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for (int i = 0; i < getComponentCount(); i++) {
+            for(int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -174,7 +163,6 @@ class AccountManagementScreen extends JPanel implements ActionListener {
     private JLabel accountManagementTxt;
     private JButton deleteBtn;
     private JButton createBtn;
-    private JScrollPane scrollPane1;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
     @Override
