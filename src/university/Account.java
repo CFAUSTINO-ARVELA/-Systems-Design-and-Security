@@ -225,6 +225,26 @@ public class Account {
 		return result;
 	}
 	
+	public void deleteAccount() throws SQLException {
+		
+		Connection con = null;
+		Statement stmt = null;
+
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(
+					String.format("DELETE FROM account WHERE username = %s;", this.username));
+
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+	}
+	
 	static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 	static SecureRandom rnd = new SecureRandom();
 
