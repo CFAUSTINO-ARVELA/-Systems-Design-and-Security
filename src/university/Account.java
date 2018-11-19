@@ -111,7 +111,7 @@ public class Account {
 				stmt.close();
 		}
 
-		return initials + this.surname + count;
+		return initials + this.surname.toLowerCase() + count;
 	}
 	
 	private String generatePassword() {
