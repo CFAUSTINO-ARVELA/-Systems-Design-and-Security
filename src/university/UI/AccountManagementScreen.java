@@ -65,7 +65,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             scrollPane.setViewportView(accountTable);
 
             tablePanel.add(scrollPane);
-            
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
@@ -73,7 +73,6 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             }
             stmt.close();
         }
-
 
         this.accountManagement.setVisible(true);
         screen.frame.add(this.accountManagement);
@@ -89,9 +88,8 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             ex.printStackTrace();
         }
     }
-    
-    public static DefaultTableModel buildTableModel(ResultSet rs)
-            throws SQLException {
+
+    public static DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
 
         ResultSetMetaData metaData = rs.getMetaData();
 
@@ -112,7 +110,16 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             data.add(vector);
         }
 
-        return new DefaultTableModel(data, columnNames);
+        return new DefaultTableModel(data, columnNames) {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // all cells false
+                return false;
+            }
+        };
 
     }
 
@@ -126,41 +133,47 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         createBtn = new JButton();
         tablePanel = new JPanel();
 
-        //======== this ========
+        // ======== this ========
 
         // JFormDesigner evaluation mark
-        setBorder(new javax.swing.border.CompoundBorder(
-            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
+                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
+                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
+                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent e) {
+                if ("border".equals(e.getPropertyName()))
+                    throw new RuntimeException();
+            }
+        });
 
         setLayout(null);
 
-        //---- backToProfileBtn ----
+        // ---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(414, 500, 170, 50);
 
-        //---- accountManagementTxt ----
+        // ---- accountManagementTxt ----
         accountManagementTxt.setText("Account Management");
-        accountManagementTxt.setFont(accountManagementTxt.getFont().deriveFont(accountManagementTxt.getFont().getSize() + 10f));
+        accountManagementTxt
+                .setFont(accountManagementTxt.getFont().deriveFont(accountManagementTxt.getFont().getSize() + 10f));
         accountManagementTxt.setHorizontalAlignment(SwingConstants.CENTER);
         accountManagementTxt.setForeground(Color.white);
         add(accountManagementTxt);
         accountManagementTxt.setBounds(347, 35, 305, 31);
 
-        //---- deleteBtn ----
+        // ---- deleteBtn ----
         deleteBtn.setText("Delete Account");
         add(deleteBtn);
         deleteBtn.setBounds(415, 465, 170, 30);
 
-        //---- createBtn ----
+        // ---- createBtn ----
         createBtn.setText("Create Account");
         add(createBtn);
         createBtn.setBounds(415, 430, 170, 30);
 
-        //======== tablePanel ========
+        // ======== tablePanel ========
         {
             tablePanel.setLayout(new BorderLayout());
         }
@@ -169,7 +182,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
