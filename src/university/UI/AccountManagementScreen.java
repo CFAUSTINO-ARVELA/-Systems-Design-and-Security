@@ -23,6 +23,9 @@ class AccountManagementScreen extends JPanel implements ActionListener {
     private Account account;
     private JTable accountTable;
 
+    private Connection con = null;
+    private Statement stmt = null;
+
     AccountManagementScreen(ScreenManager scr, Account acc, ProfileScreen prof) {
         this.initComponents();
         this.profileScreen = prof;
@@ -68,9 +71,6 @@ class AccountManagementScreen extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Please select an Account to delete");
             }
         });
-
-        Connection con = null;
-        Statement stmt = null;
 
         try {
             con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
