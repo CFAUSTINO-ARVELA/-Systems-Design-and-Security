@@ -2,7 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="835c8c0c-f9ab-45c7-a8b2-f77205aad6b9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/university/StudentStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/university/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/university/CreateTables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/CreateTables.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/university/DropTables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/DropTables.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/university/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/Student.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/university/UI/AccountManagementScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/AccountManagementScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/university/UI/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/LoginScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/university/UI/StudentStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/StudentStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.jfd" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.jfd" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,13 +35,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="16" />
+          <entry key="java" value="17" />
           <entry key="jfd" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="16" />
+          <entry key="JAVA" value="17" />
           <entry key="JFormDesigner_form" value="16" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
@@ -49,9 +60,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.jfd">
           <provider selected="true" editor-type-id="JFormDesigner" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="456">
+              <caret line="47" selection-start-line="47" selection-end-line="47" />
+              <folding>
+                <marker date="1542625024990" expanded="false" signature="1519:4683" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+                <marker date="1542625024990" expanded="false" signature="4695:5106" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -66,14 +90,11 @@
           <provider selected="true" editor-type-id="JFormDesigner" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/university/UI/AccountManagementScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
-              <caret line="65" column="52" lean-forward="true" selection-start-line="65" selection-start-column="52" selection-end-line="65" selection-end-column="52" />
-              <folding>
-                <marker date="1542621465533" expanded="false" signature="6397:6782" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
-              </folding>
+            <state relative-caret-position="487">
+              <caret line="63" selection-start-line="63" selection-end-line="63" />
             </state>
           </provider>
         </entry>
@@ -84,7 +105,8 @@
             <state relative-caret-position="450">
               <caret line="47" column="48" selection-start-line="47" selection-start-column="48" selection-end-line="47" selection-end-column="48" />
               <folding>
-                <marker date="1542620892371" expanded="false" signature="8974:8994" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+                <marker date="1542624671910" expanded="false" signature="2379:8164" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+                <marker date="1542624671910" expanded="false" signature="8176:8893" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
               </folding>
             </state>
           </provider>
@@ -98,18 +120,6 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/university/UI/AccountCreationScreen.jfd">
           <provider selected="true" editor-type-id="JFormDesigner" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/university/UI/StudentStatus.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="76" column="36" selection-start-line="76" selection-start-column="36" selection-end-line="76" selection-end-column="36" />
-              <folding>
-                <marker date="1542582155317" expanded="false" signature="6804:7317" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
-              </folding>
-            </state>
-          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -135,7 +145,6 @@
         <option value="$PROJECT_DIR$/src/university/UI/LoginScreen.jfd" />
         <option value="$PROJECT_DIR$/src/university/UI/AccountManagementScreen.1.jfd" />
         <option value="$PROJECT_DIR$/src/university/UI/AccountManagementScreen.jfd" />
-        <option value="$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.jfd" />
         <option value="$PROJECT_DIR$/src/university/UI/DegreeManagementScreen.jfd" />
         <option value="$PROJECT_DIR$/src/university/UI/ModuleCreationScreen.jfd" />
         <option value="$PROJECT_DIR$/src/university/UI/AccountCreationScreen.java" />
@@ -148,6 +157,8 @@
         <option value="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.java" />
         <option value="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.jfd" />
         <option value="$PROJECT_DIR$/src/university/UI/AccountManagementScreen.java" />
+        <option value="$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.java" />
+        <option value="$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.jfd" />
       </list>
     </option>
   </component>
@@ -197,7 +208,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542621477467" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542625025350" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
@@ -232,10 +243,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16134185" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2167382" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -291,16 +302,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="50" selection-start-line="50" selection-end-line="50" />
-          <folding>
-            <marker date="1542458643597" expanded="false" signature="5721:6130" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/university/UI/DepartmentManagementScreen.jfd">
       <provider selected="true" editor-type-id="JFormDesigner" />
     </entry>
@@ -309,7 +310,7 @@
         <state relative-caret-position="225">
           <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
           <folding>
-            <marker date="1542458418096" expanded="false" signature="6010:6511" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542624622855" expanded="false" signature="6010:6511" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -322,8 +323,8 @@
         <state relative-caret-position="255">
           <caret line="35" selection-start-line="35" selection-end-line="35" />
           <folding>
-            <marker date="1542458708104" expanded="false" signature="1986:4994" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
-            <marker date="1542458708104" expanded="false" signature="5006:5393" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542624622856" expanded="false" signature="1986:4994" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+            <marker date="1542624622856" expanded="false" signature="5006:5393" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -333,7 +334,7 @@
         <state relative-caret-position="240">
           <caret line="33" column="5" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
           <folding>
-            <marker date="1542578883165" expanded="false" signature="7337:7971" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542624622856" expanded="false" signature="7337:7971" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -346,8 +347,8 @@
         <state relative-caret-position="375">
           <caret line="43" column="45" selection-start-line="43" selection-start-column="45" selection-end-line="43" selection-end-column="45" />
           <folding>
-            <marker date="1542458418096" expanded="false" signature="2066:5130" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
-            <marker date="1542458418096" expanded="false" signature="5142:5533" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542624622855" expanded="false" signature="2066:5130" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+            <marker date="1542624622855" expanded="false" signature="5142:5533" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -356,7 +357,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <folding>
-            <marker date="1542579909619" expanded="false" signature="8525:9183" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542624623271" expanded="false" signature="8525:9183" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -373,8 +374,8 @@
         <state relative-caret-position="810">
           <caret line="142" selection-start-line="142" selection-end-line="142" />
           <folding>
-            <marker date="1542620446523" expanded="false" signature="2017:5034" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
-            <marker date="1542620446523" expanded="false" signature="5046:5433" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542624622859" expanded="false" signature="2017:5034" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+            <marker date="1542624622859" expanded="false" signature="5046:5433" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -384,23 +385,17 @@
         <state relative-caret-position="527">
           <caret line="106" column="11" selection-start-line="106" selection-start-column="11" selection-end-line="106" selection-end-column="11" />
           <folding>
-            <marker date="1542620617998" expanded="false" signature="7763:8253" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542624695296" expanded="false" signature="7763:8253" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/university/UI/StudentStatus.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="76" column="36" selection-start-line="76" selection-start-column="36" selection-end-line="76" selection-end-column="36" />
-          <folding>
-            <marker date="1542582155317" expanded="false" signature="6804:7317" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
-          </folding>
+        <state relative-caret-position="344">
+          <caret line="81" column="36" selection-start-line="81" selection-start-column="36" selection-end-line="81" selection-end-column="36" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.jfd">
-      <provider selected="true" editor-type-id="JFormDesigner" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/university/UI/ProfileScreen.jfd">
       <provider selected="true" editor-type-id="JFormDesigner">
@@ -426,7 +421,8 @@
         <state relative-caret-position="450">
           <caret line="47" column="48" selection-start-line="47" selection-start-column="48" selection-end-line="47" selection-end-column="48" />
           <folding>
-            <marker date="1542620892371" expanded="false" signature="8974:8994" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542624671910" expanded="false" signature="2379:8164" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+            <marker date="1542624671910" expanded="false" signature="8176:8893" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -436,13 +432,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/university/UI/AccountManagementScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="65" column="52" lean-forward="true" selection-start-line="65" selection-start-column="52" selection-end-line="65" selection-end-column="52" />
+        <state relative-caret-position="487">
+          <caret line="63" selection-start-line="63" selection-end-line="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="47" selection-start-line="47" selection-end-line="47" />
           <folding>
-            <marker date="1542621465533" expanded="false" signature="6397:6782" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542625024990" expanded="false" signature="1519:4683" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+            <marker date="1542625024990" expanded="false" signature="4695:5106" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/university/UI/TeachingManagementScreen.jfd">
+      <provider selected="true" editor-type-id="JFormDesigner" />
     </entry>
   </component>
 </project>

@@ -80,14 +80,19 @@ public class Account {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
-			String query = String.format("SELECT COUNT(*) FROM account WHERE forename LIKE '%s%%' AND surname LIKE '%s';",
+			String query = String.format("SELECT forename FROM account WHERE forename LIKE '%s%%' AND surname LIKE '%s';",
 					this.forename.charAt(0), this.surname);
 			System.out.println(query);
 			ResultSet res = stmt.executeQuery(query);
+			String initials = this.splitForename(this.forename);
+			String name = "";
 			
-			res.next();
-			count = res.getInt(1);
-			
+			while (res.next()) {
+				name = res.getString("forename");
+				if (this.splitForename(name).equals(initials)) {
+					count += 1;
+				}
+			}
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -96,7 +101,7 @@ public class Account {
 				stmt.close();
 		}
 
-		return this.forename.charAt(0) + this.surname + (count + 1);
+		return this.forename.charAt(0) + this.surname + count;
 	}
 	
 	private String generatePassword() {
@@ -205,6 +210,16 @@ public class Account {
 		case "Admin": return Clearance.ADMIN;
 		default: return Clearance.STUDENT;
 		}
+	}
+	
+	public String splitForename(String f) {
+		
+		String[] names = f.split(" ");
+		String result = "";
+		for (int i = 0; i < names.length; i++) {
+			result += names[i].charAt(0);
+		}
+		return result;
 	}
 	
 	static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";

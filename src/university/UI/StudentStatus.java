@@ -3,6 +3,7 @@ package university.UI;
 import university.*;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 
@@ -10,7 +11,11 @@ import javax.swing.*;
 
 public class StudentStatus extends JPanel implements ActionListener {
 
-    private Account loggedInAccount;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Account loggedInAccount;
     private JPanel studentStatusScreen;
     private ProfileScreen profileScreen;
     private ScreenManager screen;
@@ -212,4 +217,10 @@ public class StudentStatus extends JPanel implements ActionListener {
     private JTextField searchInput;
     private JButton searchBtn;
     // JFormDesigner - End of variables declaration //GEN-END:variables
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
