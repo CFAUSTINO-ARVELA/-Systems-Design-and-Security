@@ -90,7 +90,11 @@ class StudentManagementScreen extends JPanel implements ActionListener {
     public void returnFromManagement(String status) {
         JLabel statusTxt = new JLabel(status);
         this.studentManagement.add(statusTxt);
-        this.draw();
+        try {
+        	this.draw();
+        } catch (SQLException ex) {
+        	ex.printStackTrace();
+        }
     }
 
     private void initComponents() {

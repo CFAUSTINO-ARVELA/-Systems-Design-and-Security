@@ -110,7 +110,11 @@ public class ProfileScreen extends JPanel {
         studentManageBtn.addActionListener(e -> {
             this.profileScreen.setVisible(false);
             StudentManagementScreen studentScreen = new StudentManagementScreen(screen, this);
-            studentScreen.draw();
+            try {
+            	studentScreen.draw();
+            } catch (SQLException ex) {
+            	ex.printStackTrace();
+            }
         });
     }
 
