@@ -69,7 +69,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             stmt = con.createStatement();
 
             ResultSet res = stmt
-                    .executeQuery("SELECT title, forename, surname, username, email, clearance FROM account;");
+                    .executeQuery("SELECT * FROM student;");
             studentTable = new JTable(TableModel.buildTableModel(res));
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(studentTable);
