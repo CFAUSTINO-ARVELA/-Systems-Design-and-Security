@@ -48,19 +48,25 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         });
         createBtn.addActionListener(e -> {
             this.accountManagement.setVisible(false);
-            AccountCreationScreen accountCreate = new AccountCreationScreen(this.screen, this);
+            AccountCreationScreen accountCreate = new AccountCreationScreen(this.screen, this, this.profileScreen);
             accountCreate.draw();
         });
         deleteBtn.addActionListener(e -> {
-            
-            System.out.print(accountTable.getSelectedRow());
-            String deleteUsername = (String)accountTable.getValueAt(accountTable.getSelectedRow(), 4);
-            Account delete = new Account(deleteUsername);
-            try {
-                delete.deleteAccount();
-                this.draw();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
+
+            System.out.println(accountTable.getSelectedRow());
+
+            if (accountTable.getSelectedRow() > -1) {
+                String index = (String) accountTable.getValueAt(accountTable.getSelectedRow(), 3);
+                Account accountToDelete = new Account(index);
+                try {
+                    accountToDelete.deleteAccount();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+                this.accountManagement.setVisible(false);
+                this.profileScreen.draw();
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select an Account to delete");
             }
         });
 
@@ -72,7 +78,8 @@ class AccountManagementScreen extends JPanel implements ActionListener {
 
             stmt = con.createStatement();
 
-            ResultSet res = stmt.executeQuery("SELECT title, forename, surname, username, email, clearance FROM account;");
+            ResultSet res = stmt
+                    .executeQuery("SELECT title, forename, surname, username, email, clearance FROM account;");
             accountTable = new JTable(buildTableModel(res));
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(accountTable);

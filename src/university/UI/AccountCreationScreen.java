@@ -26,12 +26,14 @@ class AccountCreationScreen extends JPanel implements ActionListener {
     public JPanel accountCreation;
     private ScreenManager screen;
     private AccountManagementScreen accountManagement;
+    private ProfileScreen profileScreen;
     private Account account;
     private String[] clearanceList = { "Student", "Teacher", "Registar", "Admin" };
 
-    AccountCreationScreen(ScreenManager scr,AccountManagementScreen accManage) {
+    AccountCreationScreen(ScreenManager scr, AccountManagementScreen accManage, ProfileScreen prof) {
         this.initComponents();
         this.screen = scr;
+        this.profileScreen = prof;
         this.accountManagement = accManage;
     }
 
@@ -46,11 +48,11 @@ class AccountCreationScreen extends JPanel implements ActionListener {
 
         backToProfileBtn.addActionListener(e -> {
             this.accountCreation.setVisible(false);
-            
+
             try {
-            	this.accountManagement.draw();
+                this.accountManagement.draw();
             } catch (SQLException ex) {
-            	ex.printStackTrace();
+                ex.printStackTrace();
             }
         });
 
@@ -85,20 +87,26 @@ class AccountCreationScreen extends JPanel implements ActionListener {
         // Component Arrangement
 
         submitBtn.addActionListener(e -> {
-            this.accountCreation.setVisible(false);
-            String cle = clearanceInput.getSelectedItem().toString();
-            Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(), "password",
-                    cle);
 
-            String status;
-            try {
-                Account newAccount = ac.createAccount();
-                status = "Successfully created account";
-            } catch (SQLException ex) {
-                status = "SQL error";
-                System.out.println("SQL error, please try again");
+            if (titleInput.getText().equals("") || forenameInput.getText().equals("")
+                    || surnameInput.getText().equals("")) {
+
+                JOptionPane.showMessageDialog(null, "Please enter all fields");
+            } else {
+                this.accountCreation.setVisible(false);
+                String cle = clearanceInput.getSelectedItem().toString();
+                Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(),
+                        "password", cle);
+
+                String status;
+                try {
+                    Account newAccount = ac.createAccount();
+                    this.profileScreen.draw();
+                    JOptionPane.showMessageDialog(null, "Successfully created Account");
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "SQL error, please try again");
+                }
             }
-            this.accountManagement.returnFromManagement(status);
         });
     }
 
@@ -120,52 +128,57 @@ class AccountCreationScreen extends JPanel implements ActionListener {
         backToProfileBtn = new JButton();
         accountManagementTxt = new JLabel();
 
-        //======== this ========
+        // ======== this ========
 
         // JFormDesigner evaluation mark
-        setBorder(new javax.swing.border.CompoundBorder(
-            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
+                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
+                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
+                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent e) {
+                if ("border".equals(e.getPropertyName()))
+                    throw new RuntimeException();
+            }
+        });
 
         setLayout(null);
 
-        //---- welcomeTxt ----
+        // ---- welcomeTxt ----
         welcomeTxt.setText("Create Account");
         welcomeTxt.setFont(welcomeTxt.getFont().deriveFont(welcomeTxt.getFont().getSize() + 12f));
         welcomeTxt.setHorizontalAlignment(SwingConstants.CENTER);
         add(welcomeTxt);
         welcomeTxt.setBounds(389, 90, 220, welcomeTxt.getPreferredSize().height);
 
-        //---- promptTxt ----
+        // ---- promptTxt ----
         promptTxt.setText("Please enter details below");
         promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
         add(promptTxt);
         promptTxt.setBounds(387, 130, 225, promptTxt.getPreferredSize().height);
 
-        //---- titleTxt ----
+        // ---- titleTxt ----
         titleTxt.setText("Title");
         titleTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         titleTxt.setFont(titleTxt.getFont().deriveFont(titleTxt.getFont().getSize() + 3f));
         add(titleTxt);
         titleTxt.setBounds(185, 185, 185, titleTxt.getPreferredSize().height);
 
-        //---- forenameTxt ----
+        // ---- forenameTxt ----
         forenameTxt.setText("Forename");
         forenameTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         forenameTxt.setFont(forenameTxt.getFont().deriveFont(forenameTxt.getFont().getSize() + 3f));
         add(forenameTxt);
         forenameTxt.setBounds(230, 227, 140, 16);
 
-        //---- surnameTxt ----
+        // ---- surnameTxt ----
         surnameTxt.setText("Surname");
         surnameTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         surnameTxt.setFont(surnameTxt.getFont().deriveFont(surnameTxt.getFont().getSize() + 3f));
         add(surnameTxt);
         surnameTxt.setBounds(155, 265, 215, 16);
 
-        //---- clearanceTxt ----
+        // ---- clearanceTxt ----
         clearanceTxt.setText("Clearance");
         clearanceTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         clearanceTxt.setFont(clearanceTxt.getFont().deriveFont(clearanceTxt.getFont().getSize() + 3f));
@@ -180,26 +193,27 @@ class AccountCreationScreen extends JPanel implements ActionListener {
         add(clearanceInput);
         clearanceInput.setBounds(382, 300, 235, clearanceInput.getPreferredSize().height);
 
-        //---- submitBtn ----
+        // ---- submitBtn ----
         submitBtn.setText("Submit");
         add(submitBtn);
         submitBtn.setBounds(432, 345, 135, submitBtn.getPreferredSize().height);
 
-        //---- backToProfileBtn ----
+        // ---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(414, 500, 170, 50);
 
-        //---- accountManagementTxt ----
+        // ---- accountManagementTxt ----
         accountManagementTxt.setText("Account Management");
-        accountManagementTxt.setFont(accountManagementTxt.getFont().deriveFont(accountManagementTxt.getFont().getSize() + 10f));
+        accountManagementTxt
+                .setFont(accountManagementTxt.getFont().deriveFont(accountManagementTxt.getFont().getSize() + 10f));
         accountManagementTxt.setHorizontalAlignment(SwingConstants.CENTER);
         add(accountManagementTxt);
         accountManagementTxt.setBounds(347, 35, 305, 31);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -230,9 +244,9 @@ class AccountCreationScreen extends JPanel implements ActionListener {
     private JLabel accountManagementTxt;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        // TODO Auto-generated method stub
+
+    }
 }
