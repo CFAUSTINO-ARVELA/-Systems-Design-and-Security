@@ -225,7 +225,7 @@ public class Account {
 		for (int i = 0; i < names.length; i++) {
 			result += names[i].charAt(0);
 		}
-		return result;
+		return result.toLowerCase();
 	}
 	
 	public void deleteAccount() throws SQLException {
