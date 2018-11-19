@@ -40,6 +40,10 @@ public class Account {
 		this.email = this.generateEmail();
 		this.password = this.generatePassword();
 	}
+	
+	public Account(String _username) {
+		this.username = _username;
+	}
 
 	public Account createAccount() throws SQLException {
 
