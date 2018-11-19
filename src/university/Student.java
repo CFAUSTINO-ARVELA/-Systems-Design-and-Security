@@ -4,12 +4,12 @@ import java.sql.*;
 
 class Student {
 
-    private String degree; // needs to be converted to type Degree when created
+    private Degree degree;
     private int registrationNumber;
     private String tutor; // needs to be type Teacher
     private Account accountDetails;
 
-    Student(String deg, int reg, String tut, Account acc) {  
+    Student(Degree deg, int reg, String tut, Account acc) {  
       this.degree = deg;
       this.registrationNumber = reg;
       this.tutor = tut;
@@ -25,7 +25,7 @@ class Student {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
 			String query = String.format("INSERT INTO student (registrationNumber, degree, tutor, username) VALUES (\"%d\", \"%s\", \"%s\", \"%s\");",
-					this.registrationNumber, this.degree, this.tutor, this.accountDetails.getUsername());
+					this.registrationNumber, this.degree.getCode(), this.tutor, this.accountDetails.getUsername());
 			int count = stmt.executeUpdate(query);
 					
 
@@ -41,7 +41,7 @@ class Student {
 
 	}
 
-    public String getDegree() {
+    public Degree getDegree() {
         return this.degree;
     }
     
