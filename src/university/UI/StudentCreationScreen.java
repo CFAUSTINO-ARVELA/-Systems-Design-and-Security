@@ -34,6 +34,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         this.initComponents();
         this.screen = scr;
         this.studentManagement = studentManage;
+        this.profileScreen = prof;
     }
 
     public void draw() {
@@ -84,15 +85,10 @@ class StudentCreationScreen extends JPanel implements ActionListener {
             try {
                 Student stu = new Student(new Degree(degreeInput.getText()), tutorInput.getText(), ac.createAccount());
                 stu.createStudent();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-            try {
-                Account newAccount = ac.createAccount();
                 this.profileScreen.draw();
-                JOptionPane.showMessageDialog(null, "Successfully created Student: " + newAccount.getUsername()
-                        + ". Password: " + newAccount.getPassword());
-            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Successfully created Student: " + ac.getUsername()
+                        + ". Password: " + ac.getPassword());
+            } catch (SQLException e1) {
                 JOptionPane.showMessageDialog(null, "SQL error, please try again");
             }
             // }
