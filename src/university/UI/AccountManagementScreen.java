@@ -21,6 +21,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private ProfileScreen profileScreen;
     private Account account;
+    private JTable accountTable;
 
     AccountManagementScreen(ScreenManager scr, Account acc, ProfileScreen prof) {
         this.initComponents();
@@ -50,6 +51,18 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             AccountCreationScreen accountCreate = new AccountCreationScreen(this.screen, this);
             accountCreate.draw();
         });
+        deleteBtn.addActionListener(e -> {
+            
+            System.out.print(accountTable.getSelectedRow());
+            String deleteUsername = (String)accountTable.getValueAt(accountTable.getSelectedRow(), 4);
+            Account delete = new Account(deleteUsername);
+            try {
+                delete.deleteAccount();
+                this.draw();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        });
 
         Connection con = null;
         Statement stmt = null;
@@ -60,7 +73,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             stmt = con.createStatement();
 
             ResultSet res = stmt.executeQuery("SELECT title, forename, surname, username, email, clearance FROM account;");
-            JTable accountTable = new JTable(buildTableModel(res));
+            accountTable = new JTable(buildTableModel(res));
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(accountTable);
 
