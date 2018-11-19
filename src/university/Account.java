@@ -207,6 +207,16 @@ public class Account {
 		}
 	}
 	
+	public String splitForename(String f) {
+		
+		String[] names = f.split(" ");
+		String result = "";
+		for (int i = 0; i < names.length; i++) {
+			result += names[i].charAt(0);
+		}
+		return result;
+	}
+	
 	static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 	static SecureRandom rnd = new SecureRandom();
 
