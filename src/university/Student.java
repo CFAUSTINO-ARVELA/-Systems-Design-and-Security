@@ -78,12 +78,4 @@ class Student {
     public String getTutor() {
     	return this.tutor;
     }
-    
-    public int getLevel() {
-    	return this.level;
-    }
-    
-    public int getPeriod() {
-    	return this.period;
-    }
 }

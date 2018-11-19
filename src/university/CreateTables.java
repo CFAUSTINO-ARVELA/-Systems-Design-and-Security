@@ -16,7 +16,8 @@ public class CreateTables {
 			int count = stmt.executeUpdate(
 					"CREATE TABLE student (RegistrationNumber int NOT NULL PRIMARY KEY, Degree varchar(255), Tutor varchar(255));");
 			count += stmt.executeUpdate("CREATE TABLE account (Title varchar(255), Forename varchar(255), Surname varchar(255), Username varchar(255) NOT NULL PRIMARY KEY, Password varchar(255), Email varchar(255), Clearance int);");
-
+			count += stmt.executeUpdate(("CREATE TABLE studentStatus (RegistrationNumber int NOT NULL PRIMARY KEY REFERENCES(student), Level int, Period int, StartDate date, EndDate date);"));
+			
 			System.out.println(count);
 			
 			//Create table for department
