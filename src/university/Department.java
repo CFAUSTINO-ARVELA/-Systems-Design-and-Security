@@ -128,19 +128,19 @@ public class Department{
 		return deptList;
 	}
 	
-	//get department using code
-	public static Department getDept (String c) throws Exception  {
+	//get department using name
+	public static Department getDept (String n) throws Exception  {
 		Department d = new Department();
-		String dname = null;
+		String dcode = null;
 		PreparedStatement dept = null;
 		connectToDB();
-		dept = con.prepareStatement("SELECT name FROM department WHERE code = ?");
+		dept = con.prepareStatement("SELECT code FROM department WHERE name = ?");
 		try {
-			dept.setString(1, c);
+			dept.setString(1, n);
 			ResultSet res  = dept.executeQuery();
 			res.next();
-			dname = res.getString("name");
-			d = new Department(c,dname);
+			dcode = res.getString("code");
+			d = new Department(dcode,n);
 			res.close();
 			
 		 }catch (SQLException ex) {
