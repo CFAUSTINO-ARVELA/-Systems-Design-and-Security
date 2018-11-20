@@ -91,13 +91,13 @@ class StudentCreationScreen extends JPanel implements ActionListener {
             try {
                 Student stu;
                 d = Degree.getDegree(degreeInput.getSelectedItem().toString());
-				try {
+                try {
                     stu = new Student(d, tutorInput.getText(), ac.createAccount());
                     stu.createStudent();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+                } catch (Exception e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
                 this.profileScreen.draw();
                 JOptionPane.showMessageDialog(null,
                         "Successfully created Student: " + ac.getUsername() + ". Password: " + ac.getPassword());
@@ -132,12 +132,15 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         degreeTxt = new JLabel();
         tutorTxt = new JLabel();
         tutorInput = new JTextField();
+        degreeInput = new JComboBox();
         try {
             degreeInput = new JComboBox((Degree.getAllDegreeNames().toArray()));
         } catch (Exception e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
+
+        // ======== this ========
 
         // JFormDesigner evaluation mark
         setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
