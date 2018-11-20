@@ -67,7 +67,7 @@ class Department{
 	public int deleteDep() throws Exception  {
 		connectToDB();
 		int count = 0;
-		Degree c= new Degree();
+		Degree c = null;
 		PreparedStatement dept, delDept, deg= null;
 		dept = con.prepareStatement("SELECT COUNT(*) FROM department WHERE code = ?");
 		delDept = con.prepareStatement( "DELETE FROM department WHERE code = ?");
@@ -85,7 +85,7 @@ class Department{
 				ResultSet res2 = deg.executeQuery();
 				while(res2.next()) {
 					String degCode = res2.getString(1);
-					c = c.getDegree(degCode);
+					c = Degree.getDegree(degCode);
 					c.deleteDegree();
 					
 				}

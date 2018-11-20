@@ -9,9 +9,8 @@ public class Degree{
 	private ArrayList<Department> seconDepts; 
 	private String type;
 	private Boolean placement;
-	private Connection con;
+	private static Connection con;
 	
-	public Degree(){}
 	//Constructor for degree with just one department
 	Degree(String name, Department mainDept,
 			String type,Boolean placement) throws Exception{
@@ -36,7 +35,7 @@ public class Degree{
 	}
 	
 	//Connect to the database
-		public void connectToDB() throws Exception {
+		public static void connectToDB() throws Exception {
 			   try {
 				   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			   }
@@ -173,7 +172,7 @@ public class Degree{
 
 	
 	//Get a degree using the code (return a degree object)
-	public Degree getDegree(String c) throws Exception {
+	public static Degree getDegree(String c) throws Exception {
 		Degree degree = null;
 		ArrayList<Department> deptList = new ArrayList<Department>();
 		Department dep = null;
@@ -226,13 +225,13 @@ public class Degree{
 	}
 	
 	//Get all degrees
-		public ArrayList<String> getAllDegreeCodes() throws Exception {
-			Degree degree = new Degree();
+		public static ArrayList<String> getAllDegreeCodes() throws Exception {
+			Degree degree = null;
 			ArrayList<String> degreeList = new ArrayList<String>();
 			
 			connectToDB();
 			Statement stmt = con.createStatement();
-			PreparedStatement deg = null;
+			PreparedStatement deg= null;
 			deg = con.prepareStatement("SELECT code FROM degree; " );
 			
 			
@@ -245,7 +244,7 @@ public class Degree{
 					System.out.println(dCode + "   oklfm");
 					
 					
-					degree = degree.getDegree(dCode);
+					degree = Degree.getDegree(dCode);
 					degreeList.add(dCode);
 				}
 				res.close();
@@ -265,7 +264,7 @@ public class Degree{
 			ArrayList<Department> deptList = new ArrayList<Department>();
 			Department c = new Department ("COM","Computer Science");
 			Department b,l;
-			Degree v = new Degree();
+			// Degree v = new Degree();
 			
 //			try {
 //				c.createDept();

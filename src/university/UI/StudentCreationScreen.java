@@ -31,7 +31,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private ProfileScreen profileScreen;
     private StudentManagementScreen studentManagement;
-    private Degree d = new Degree();
+    private Degree d = null;
 
     private Connection con = null;
     private Statement stmt = null;
@@ -90,7 +90,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
                     "Student");
             try {
                 Student stu;
-                d = d.getDegree(degreeInput.getSelectedItem().toString());
+                d = Degree.getDegree(degreeInput.getSelectedItem().toString());
 				try {
                     stu = new Student(d, tutorInput.getText(), ac.createAccount());
                     stu.createStudent();
