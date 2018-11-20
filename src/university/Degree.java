@@ -225,14 +225,14 @@ public class Degree{
 	}
 	
 	//Get all degrees
-		public static ArrayList<String> getAllDegreeCodes() throws Exception {
+		public static ArrayList<String> getAllDegreeNames() throws Exception {
 			Degree degree = null;
 			ArrayList<String> degreeList = new ArrayList<String>();
 			
 			connectToDB();
 			Statement stmt = con.createStatement();
 			PreparedStatement deg= null;
-			deg = con.prepareStatement("SELECT code FROM degree; " );
+			deg = con.prepareStatement("SELECT name FROM degree; " );
 			
 			
 			try {
@@ -240,12 +240,12 @@ public class Degree{
 				
 				while(res.next()) {
 					
-					String dCode = res.getString("code");
-					System.out.println(dCode + "   oklfm");
+					String dName = res.getString("name");
+					System.out.println(dName + "   oklfm");
 					
 					
-					degree = Degree.getDegree(dCode);
-					degreeList.add(dCode);
+					degree = Degree.getDegree(dName);
+					degreeList.add(dName);
 				}
 				res.close();
 				con.close();
