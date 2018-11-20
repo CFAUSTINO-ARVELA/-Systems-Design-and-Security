@@ -51,7 +51,7 @@ public class Module {
 	}
 	
 	//Creates module
-	public Module addModule() throws Exception {
+	public Module createModule() throws Exception {
 		connectToDB();
 		PreparedStatement mod, newMod = null;
 		int count = 0;
