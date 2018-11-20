@@ -22,6 +22,10 @@ public class Student {
       this.accountDetails = acc;
     }
     
+    public Student(int r) {
+    	this.registrationNumber = r;
+    }
+    
 	public Student createStudent() throws SQLException {
 
 		Connection con = null;
