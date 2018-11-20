@@ -133,7 +133,6 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         tutorTxt = new JLabel();
         tutorInput = new JTextField();
         try {
-            System.out.print(Degree.getAllDegreeNames());
             degreeInput = new JComboBox((Degree.getAllDegreeNames().toArray()));
         } catch (Exception e1) {
             // TODO Auto-generated catch block

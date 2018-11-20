@@ -12,7 +12,7 @@ public class Degree{
 	private static Connection con;
 	
 	//Constructor for degree with just one department
-	Degree(String name, Department mainDept,
+	public Degree(String name, Department mainDept,
 			String type,Boolean placement) throws Exception{
 		this.name = name;
 		this.mainDept = mainDept;
@@ -21,7 +21,7 @@ public class Degree{
 	}
 	
 	//Constructor for degree with several departments
-	Degree(String name, Department mainDept,
+	public Degree(String name, Department mainDept,
 			 ArrayList<Department> seconDepts, String type,Boolean placement) throws Exception{
 		this.name = name;
 		this.mainDept = mainDept;
@@ -96,7 +96,7 @@ public class Degree{
 	
 
 	//Create DegrEe with just one department
-	public int createDegree() throws Exception  {
+	public Degree createDegree() throws Exception  {
 		connectToDB();
 		PreparedStatement newDeg,deg, newSeconDep= null;
 		int count = 0;
@@ -117,11 +117,14 @@ public class Degree{
 				newDeg.setBoolean(5,getPlacement());
 				count = newDeg.executeUpdate();
 				
-				newSeconDep.setString(1, getCode());
-				for (Department str:getSeconDepts()) {
-					newSeconDep.setString(2, str.getCode());
-					count += newSeconDep.executeUpdate();
-				}
+				if (!this.seconDepts.equals(null)) {
+				
+					newSeconDep.setString(1, getCode());
+					for (Department str:getSeconDepts()) {
+						newSeconDep.setString(2, str.getCode());
+						count += newSeconDep.executeUpdate();
+					}
+			}
 					
 		}
 		}catch (SQLException ex) {
@@ -131,7 +134,7 @@ public class Degree{
 				newDeg.close();
 		}
 		con.close();
-		return count;
+		return this;
 	}
 	
 	
