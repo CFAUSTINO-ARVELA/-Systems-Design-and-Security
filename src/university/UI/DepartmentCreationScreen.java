@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 
 import university.UI.ProfileScreen;
 import university.ScreenManager;
+import university.Department;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -50,6 +51,18 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
         backToProfileBtn.addActionListener(e -> {
             this.departmentScreen.setVisible(false);
             this.departmentManagement.draw();
+        });
+        submitBtn.addActionListener(e -> {
+            this.departmentScreen.setVisible(false);
+            Department dept = new Department(codeInput.getText(), nameInput.getText());
+
+            try {
+                Department newDept = dept.createDept();
+                this.departmentManagement.draw();
+                JOptionPane.showMessageDialog(null, "Successfully created Department: " + newDept.getName());
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "SQL error, please try again");
+            }
         });
 
         screen.frame.add(this.departmentScreen);

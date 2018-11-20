@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="835c8c0c-f9ab-45c7-a8b2-f77205aad6b9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/university/Degree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/Degree.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.jfd" beforeDir="false" afterPath="$PROJECT_DIR$/src/university/UI/StudentCreationScreen.jfd" afterDir="false" />
-    </list>
+    <list default="true" id="835c8c0c-f9ab-45c7-a8b2-f77205aad6b9" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,7 +12,7 @@
     <session id="98330016">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="5" />
+          <entry key="project.closed" value="6" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.4" value="2" />
@@ -114,8 +109,8 @@
             <state relative-caret-position="720">
               <caret line="58" column="47" selection-start-line="58" selection-start-column="47" selection-end-line="58" selection-end-column="47" />
               <folding>
-                <marker date="1542645890818" expanded="false" signature="9608:10243" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
-                <marker date="1542645890818" expanded="false" signature="10255:10971" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+                <marker date="1542651055138" expanded="false" signature="9621:10256" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+                <marker date="1542651055138" expanded="false" signature="10268:10984" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
               </folding>
             </state>
           </provider>
@@ -200,7 +195,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542645082818" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542646371061" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
@@ -394,8 +389,8 @@
         <state relative-caret-position="720">
           <caret line="58" column="47" selection-start-line="58" selection-start-column="47" selection-end-line="58" selection-end-column="47" />
           <folding>
-            <marker date="1542645890818" expanded="false" signature="9608:10243" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
-            <marker date="1542645890818" expanded="false" signature="10255:10971" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542651055138" expanded="false" signature="9621:10256" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+            <marker date="1542651055138" expanded="false" signature="10268:10984" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>

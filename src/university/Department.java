@@ -3,14 +3,14 @@ import java.sql.*;
 import java.util.ArrayList;
 
 
-class Department{
+public class Department{
 	private String code;
 	private String name;
 	private static Connection con;
 	
 	Department(){}
 	
-	Department(String code,String name){
+	public Department(String code,String name){
 		this.code = code;
 		this.name = name;
 	}
@@ -34,7 +34,7 @@ class Department{
 	}
 	
 	//Create Department
-	public int createDept() throws Exception  {
+	public Department createDept() throws Exception  {
 		connectToDB();
 		int count = 0;
 		PreparedStatement newDept, dept = null;
@@ -58,7 +58,7 @@ class Department{
 					newDept.close();
 		}
 		con.close();
-		return count;
+		return this;
 	}
 	
 	//Delete Department

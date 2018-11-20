@@ -65,7 +65,6 @@ class StudentManagementScreen extends JPanel implements ActionListener {
 
         try {
             con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
-
             stmt = con.createStatement();
 
             ResultSet res = stmt.executeQuery("SELECT * FROM student;");
