@@ -107,16 +107,15 @@ public class Department{
 	}
 	
 	//Get all Departments
-	public ArrayList<Department> getAllDep() throws Exception  {
-		Department department = new Department();
-		ArrayList<Department> deptList = new ArrayList<Department>();
+	public ArrayList<String> getAllDepNames() throws Exception  {
+		ArrayList<String> deptList = new ArrayList<String>();
 		connectToDB();
 		Statement stmt = con.createStatement();
 		try {
-			ResultSet res  = stmt.executeQuery("SELECT code FROM department");
+			ResultSet res  = stmt.executeQuery("SELECT name FROM department");
 			while (res.next()) {
-				String code = res.getString("code");
-				deptList.add(department.getDept(code));
+				String name = res.getString("name");
+				deptList.add(name);
 			}
 			res.close();
 		 }catch (SQLException ex) {
