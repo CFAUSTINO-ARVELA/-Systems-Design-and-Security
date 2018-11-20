@@ -175,7 +175,7 @@ public class Degree{
 	}
 
 	
-	//Get a degree using the code (return a degree object)
+	//Get a degree using the name (return a degree object)
 	public static Degree getDegree(String c) throws Exception {
 		System.out.println(c);
 		Degree degree = null;
@@ -231,7 +231,7 @@ public class Degree{
 	}
 	
 	//Get all degrees
-		public static ArrayList<String> getAllDegreeNames() throws Exception {
+		public static ArrayList<String> getAllDegreeCodes() throws Exception {
 			Degree degree = null;
 			ArrayList<String> degreeList = new ArrayList<String>();
 			
@@ -246,11 +246,11 @@ public class Degree{
 				
 				while(res.next()) {
 					
-					String dName = res.getString("code");
-					System.out.println(dName + "   oklfm");
+					String dCode = res.getString("code");
+					System.out.println(dCode + "   oklfm");
 					
 					
-					degreeList.add(dName);
+					degreeList.add(dCode);
 				}
 				res.close();
 				con.close();
