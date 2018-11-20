@@ -31,9 +31,10 @@ public class Degree{
 		this.placement = placement;
 	}
 
-	public Degree(String name) {
-		this.name = name;
+	public Degree(String code) {
+		this.code = code;
 	}
+	
 	
 	//Connect to the database
 		public static void connectToDB() throws Exception {
@@ -144,8 +145,8 @@ public class Degree{
 		int count = 0;
 		connectToDB();
 		PreparedStatement delDeg,delSDept,deg = null;
-		deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE code = ?");
-		delDeg = con.prepareStatement("DELETE FROM degree WHERE code = ?");
+		deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE name = ?");
+		delDeg = con.prepareStatement("DELETE FROM degree WHERE name = ?");
 		delSDept = con.prepareStatement("DELETE FROM seconDepts WHERE degreeCode = ?");
 		
 		try {
