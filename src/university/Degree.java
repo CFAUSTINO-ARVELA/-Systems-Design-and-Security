@@ -186,7 +186,7 @@ public class Degree{
 		Statement stmt = con.createStatement();
 		
 		try {
-			noDeg.setString(1, c);
+			noDeg.setString(1, "\"" + c + "\"");
 			ResultSet res1 = noDeg.executeQuery();
 			res1.next();
 			
@@ -226,14 +226,14 @@ public class Degree{
 	}
 	
 	//Get all degrees
-		public ArrayList<Degree> getAllDegree() throws Exception {
+		public ArrayList<String> getAllDegreeCodes() throws Exception {
 			Degree degree = new Degree();
-			ArrayList<Degree> degreeList = new ArrayList<Degree>();
+			ArrayList<String> degreeList = new ArrayList<String>();
 			
 			connectToDB();
 			Statement stmt = con.createStatement();
 			PreparedStatement deg = null;
-			deg = con.prepareStatement("SELECT code FROM degree " );
+			deg = con.prepareStatement("SELECT code FROM degree; " );
 			
 			
 			try {
@@ -246,7 +246,7 @@ public class Degree{
 					
 					
 					degree = degree.getDegree(dCode);
-					degreeList.add(degree);
+					degreeList.add(dCode);
 				}
 				res.close();
 				con.close();
@@ -267,49 +267,49 @@ public class Degree{
 			Department b,l;
 			Degree v = new Degree();
 			
-			try {
-				c.createDept();
-				b = c.getDept("BUS");
-				l = c.getDept("LAN");
-				deptList.add(b);
-				deptList.add(l);
-				Degree t = new Degree ("BSc Information Systems",c,deptList,"Undergraduate",false);
-				t.setCode();
-				System.out.println(t.getCode());
-				/*
-				System.out.println(t.getName());
-				System.out.println(t.getMainDept().getName());
-				System.out.println(t.getSeconDepts().toString());
-				System.out.println(t.getType());
-				System.out.println(t.getPlacement());
-				
-				System.out.println("Tudo bem");*/
-				degreeList = t.getAllDegree();
-				//System.out.println("Tudo bem2");
-				for(Degree str:degreeList)  
-			        System.out.println(str.getName()+ str.getCode() + "What1");
-				t.createDegree();
-				//t.deleteDegree();
-				degreeList = t.getAllDegree();
-				for(Degree str:degreeList)  
-			        System.out.println(str.getName()+ str.getCode() + "  What4");
-				t.deleteDegree();
-				
-				
-				degreeList = v.getAllDegree();
-				//System.out.println(degreeList.isEmpty());
-				for(Degree str:degreeList)  
-			        System.out.println(str.getName()+ str.getCode()+ "What2sy");
-				/*
-				t.deleteDegree();
-				
-				degreeList = t.getAllDegree();
-				for(Degree str:degreeList)  
-			        System.out.println(str.getName()+ str.getCode() +"Apagado");
-				*/
-			} catch(Exception ex) {
-				ex.printStackTrace();
-			}
+//			try {
+//				c.createDept();
+//				b = c.getDept("BUS");
+//				l = c.getDept("LAN");
+//				deptList.add(b);
+//				deptList.add(l);
+//				Degree t = new Degree ("BSc Information Systems",c,deptList,"Undergraduate",false);
+//				t.setCode();
+//				System.out.println(t.getCode());
+//				/*
+//				System.out.println(t.getName());
+//				System.out.println(t.getMainDept().getName());
+//				System.out.println(t.getSeconDepts().toString());
+//				System.out.println(t.getType());
+//				System.out.println(t.getPlacement());
+//				
+//				System.out.println("Tudo bem");*/
+//				degreeList = t.getAllDegree();
+//				//System.out.println("Tudo bem2");
+//				for(Degree str:degreeList)  
+//			        System.out.println(str.getName()+ str.getCode() + "What1");
+//				t.createDegree();
+//				//t.deleteDegree();
+//				degreeList = t.getAllDegree();
+//				for(Degree str:degreeList)  
+//			        System.out.println(str.getName()+ str.getCode() + "  What4");
+//				t.deleteDegree();
+//				
+//				
+//				degreeList = v.getAllDegree();
+//				//System.out.println(degreeList.isEmpty());
+//				for(Degree str:degreeList)  
+//			        System.out.println(str.getName()+ str.getCode()+ "What2sy");
+//				/*
+//				t.deleteDegree();
+//				
+//				degreeList = t.getAllDegree();
+//				for(Degree str:degreeList)  
+//			        System.out.println(str.getName()+ str.getCode() +"Apagado");
+//				*/
+//			} catch(Exception ex) {
+//				ex.printStackTrace();
+//			} 
 		}
 		
 		
