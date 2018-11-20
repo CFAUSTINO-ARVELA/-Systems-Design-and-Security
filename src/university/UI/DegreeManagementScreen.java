@@ -11,7 +11,9 @@ import javax.swing.SwingConstants;
 
 import university.UI.ProfileScreen;
 import university.ScreenManager;
+import university.TableModel;
 import university.Account;
+import university.Degree;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -27,6 +29,9 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private TeachingManagementScreen teachingScreen;
     private Account account;
+    private JTable degreeTable;
+    private Connection con = null;
+    private Statement stmt = null;
 
     DegreeManagementScreen(ScreenManager scr,TeachingManagementScreen teach) {
         this.initComponents();
@@ -38,11 +43,13 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
         this.degreeManagement = new JPanel();
         this.degreeManagement.setBackground(new Color(70, 70, 70));
 
-        this.degreeManagement.add(promptTxt);
         this.degreeManagement.add(backToTeachingBtn);
         this.degreeManagement.add(degreeManagementTxt);
         this.degreeManagement.add(createBtn);
         this.degreeManagement.add(deleteBtn);
+        this.degreeManagement.add(tablePanel);
+
+        this.tablePanel.setLayout(new BorderLayout());
 
         this.degreeManagement.setLayout(null);
 
@@ -55,6 +62,46 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
             DegreeCreationScreen degreeCreate = new DegreeCreationScreen(this.screen, this);
             degreeCreate.draw();
         });
+        deleteBtn.addActionListener(e -> {
+            if (degreeTable.getSelectedRow() > -1) {
+                String code = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 0);
+                String name = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 1);
+                Degree degToDelete = new Degree(code);
+                try {
+                    degToDelete.deleteDegree();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+                this.degreeManagement.setVisible(false);
+                this.teachingScreen.draw();
+                JOptionPane.showMessageDialog(null, "Successfully deleted degree: " + name);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a Degree to delete");
+            }
+        });
+
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+            stmt = con.createStatement();
+
+            ResultSet res = stmt.executeQuery("SELECT * FROM degree;");
+            degreeTable = new JTable(TableModel.buildTableModel(res));
+            JScrollPane scrollPane = new JScrollPane();
+            scrollPane.setViewportView(degreeTable);
+
+            tablePanel.add(scrollPane);
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (stmt != null) {
+            }
+            try {
+                stmt.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }
 
         screen.frame.add(this.degreeManagement);
     }
@@ -68,11 +115,11 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Katie
-        promptTxt = new JLabel();
         backToTeachingBtn = new JButton();
         degreeManagementTxt = new JLabel();
         deleteBtn = new JButton();
         createBtn = new JButton();
+        tablePanel = new JPanel();
 
         //======== this ========
 
@@ -85,12 +132,7 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
 
         setLayout(null);
 
-        //---- promptTxt ----
-        promptTxt.setText("output for degrees table here");
-        promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
-        promptTxt.setForeground(Color.white);
-        add(promptTxt);
-        promptTxt.setBounds(390, 260, 225, promptTxt.getPreferredSize().height);
+        tablePanel.setBounds(177, 100, 645, 290);
 
         //---- backToTeachingBtn ----
         backToTeachingBtn.setText("Back");
@@ -133,11 +175,11 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - Katie
-    private JLabel promptTxt;
     private JButton backToTeachingBtn;
     private JLabel degreeManagementTxt;
     private JButton deleteBtn;
     private JButton createBtn;
+    private JPanel tablePanel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
 	@Override
