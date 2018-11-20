@@ -6,7 +6,7 @@ import java.util.ArrayList;
 class Department{
 	private String code;
 	private String name;
-	private Connection con;
+	private static Connection con;
 	
 	Department(){}
 	
@@ -24,7 +24,7 @@ class Department{
 		return name;
 	}
 	//Connect to the database
-	public void connectToDB() throws Exception {
+	public static void connectToDB() throws Exception {
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 		   }
