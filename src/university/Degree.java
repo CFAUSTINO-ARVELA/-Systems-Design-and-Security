@@ -145,8 +145,8 @@ public class Degree{
 		int count = 0;
 		connectToDB();
 		PreparedStatement delDeg,delSDept,deg = null;
-		deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE name = ?");
-		delDeg = con.prepareStatement("DELETE FROM degree WHERE name = ?");
+		deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE code = ?");
+		delDeg = con.prepareStatement("DELETE FROM degree WHERE code = ?");
 		delSDept = con.prepareStatement("DELETE FROM seconDepts WHERE degreeCode = ?");
 		
 		try {
