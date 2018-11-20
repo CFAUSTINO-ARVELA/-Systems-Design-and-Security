@@ -11,7 +11,9 @@ import javax.swing.SwingConstants;
 
 import university.UI.ProfileScreen;
 import university.ScreenManager;
+import university.TableModel;
 import university.Account;
+import university.Department;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -27,6 +29,9 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private TeachingManagementScreen teachingScreen;
     private Account account;
+    private JTable departmentTable;
+    private Connection con = null;
+    private Statement stmt = null;
 
     DepartmentManagementScreen(ScreenManager scr,TeachingManagementScreen teach) {
         this.initComponents();
@@ -43,6 +48,10 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
         this.departmentScreen.add(departmentManagementTxt);
         this.departmentScreen.add(createBtn);
         this.departmentScreen.add(deleteBtn);
+        this.departmentScreen.add(tablePanel);
+
+        this.tablePanel.setLayout(new BorderLayout());
+
 
         this.departmentScreen.setLayout(null);
 
@@ -55,6 +64,46 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
             DepartmentCreationScreen departmentCreate = new DepartmentCreationScreen(this.screen, this);
             departmentCreate.draw();
         });
+        deleteBtn.addActionListener(e -> {
+            if (departmentTable.getSelectedRow() > -1) {
+                String code = (String) departmentTable.getValueAt(departmentTable.getSelectedRow(), 0);
+                String name = (String) departmentTable.getValueAt(departmentTable.getSelectedRow(), 1);
+                Department depToDelete = new Department(code);
+                try {
+                    depToDelete.deleteDep();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+                this.departmentScreen.setVisible(false);
+                this.teachingScreen.draw();
+                JOptionPane.showMessageDialog(null, "Successfully deleted department: " + name);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a Department to delete");
+            }
+        });
+
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+            stmt = con.createStatement();
+
+            ResultSet res = stmt.executeQuery("SELECT * FROM department;");
+            departmentTable = new JTable(TableModel.buildTableModel(res));
+            JScrollPane scrollPane = new JScrollPane();
+            scrollPane.setViewportView(departmentTable);
+
+            tablePanel.add(scrollPane);
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (stmt != null) {
+            }
+            try {
+                stmt.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }
 
         screen.frame.add(this.departmentScreen);
     }
@@ -73,6 +122,7 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
         departmentManagementTxt = new JLabel();
         deleteBtn = new JButton();
         createBtn = new JButton();
+        tablePanel = new JPanel();
 
         //======== this ========
 
@@ -115,6 +165,8 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
         add(createBtn);
         createBtn.setBounds(415, 430, 170, 30);
 
+        tablePanel.setBounds(177, 100, 645, 290);
+
         { // compute preferred size
             Dimension preferredSize = new Dimension();
             for(int i = 0; i < getComponentCount(); i++) {
@@ -138,6 +190,7 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
     private JLabel departmentManagementTxt;
     private JButton deleteBtn;
     private JButton createBtn;
+    private JPanel tablePanel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
 	@Override
