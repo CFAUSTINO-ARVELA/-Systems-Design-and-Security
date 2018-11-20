@@ -18,6 +18,7 @@ public class Degree{
 		this.mainDept = mainDept;
 		this.type = type;
 		this.placement = placement;
+		this.seconDepts = new ArrayList<Department>();
 	}
 	
 	//Constructor for degree with several departments
@@ -117,7 +118,7 @@ public class Degree{
 				newDeg.setBoolean(5,getPlacement());
 				count = newDeg.executeUpdate();
 				
-				if (!this.seconDepts.equals(null)) {
+				if (!this.seconDepts.isEmpty()) {
 				
 					newSeconDep.setString(1, getCode());
 					for (Department str:getSeconDepts()) {
