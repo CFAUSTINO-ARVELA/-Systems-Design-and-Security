@@ -15,6 +15,10 @@ public class Department{
 		this.name = name;
 	}
 	
+	public Department(String code) {
+		this.code = code;
+	}
+	
 	//get code of Department
 	public String getCode() {
 		return code;
