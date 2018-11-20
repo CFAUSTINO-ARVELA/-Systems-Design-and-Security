@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 
 import university.UI.ProfileScreen;
 import university.ScreenManager;
+import university.Student;
 import university.TableModel;
 import university.Account;
 
@@ -62,6 +63,23 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             StudentCreationScreen studentCreate = new StudentCreationScreen(this.screen, this, this.profileScreen);
             studentCreate.draw();
         });
+        deleteBtn.addActionListener(e -> {
+            if (studentTable.getSelectedRow() > -1) {
+                int index = (int) studentTable.getValueAt(studentTable.getSelectedRow(), 0);
+                String username = (String) studentTable.getValueAt(studentTable.getSelectedRow(), 3);
+                Student stuToDelete = new Student(index);
+                try {
+                    stuToDelete.deleteStudent();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+                this.studentManagement.setVisible(false);
+                this.profileScreen.draw();
+                JOptionPane.showMessageDialog(null, "Successfully deleted student: " + username);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a Student to delete");
+            }
+        });
 
         try {
             con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
@@ -82,6 +100,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             stmt.close();
         }
 
+        this.studentManagement.setVisible(true);
         screen.frame.add(this.studentManagement);
     }
 
