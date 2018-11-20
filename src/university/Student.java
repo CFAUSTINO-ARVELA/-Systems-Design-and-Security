@@ -47,6 +47,26 @@ public class Student {
 		return this;
 
 	}
+	
+	public void deleteStudent() throws SQLException {
+		
+		Connection con = null;
+		Statement stmt = null;
+
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(
+					String.format("DELETE FROM student WHERE registrationNumber = %d;", this.registrationNumber));
+
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+	}
 
     public Degree getDegree() {
         return this.degree;
