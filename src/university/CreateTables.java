@@ -8,7 +8,7 @@ public class CreateTables {
 
 		Connection con = null;
 		Statement stmt = null;
-
+		
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			con.setAutoCommit(false); // turn off auto-commit
@@ -52,6 +52,10 @@ public class CreateTables {
 			stmt.addBatch("INSERT INTO studyLevels VALUES (4,\"masters\")");
 			stmt.addBatch("INSERT INTO studyLevels VALUES (\"P\",\"placement\")");
 			int[] updateCounts = stmt.executeBatch();
+			
+			// Create table for modules
+			int modules = stmt.executeUpdate(
+					"CREATE TABLE module (name varchar(255) NOT NULL, code varchar(7) PRIMARY KEY, credits int, duration varchar(255) );");
 
 			System.out.println(count + depart + degree + secondDep);
 			con.commit(); // commit manually
