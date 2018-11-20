@@ -107,7 +107,7 @@ public class Department{
 	}
 	
 	//Get all Departments
-	public ArrayList<String> getAllDepNames() throws Exception  {
+	public static ArrayList<String> getAllDepNames() throws Exception  {
 		ArrayList<String> deptList = new ArrayList<String>();
 		connectToDB();
 		Statement stmt = con.createStatement();
@@ -129,8 +129,9 @@ public class Department{
 	}
 	
 	//get department using code
-	public Department getDept (String c) throws Exception  {
+	public static Department getDept (String c) throws Exception  {
 		Department d = new Department();
+		String dname = null;
 		PreparedStatement dept = null;
 		connectToDB();
 		dept = con.prepareStatement("SELECT name FROM department WHERE code = ?");
@@ -138,8 +139,8 @@ public class Department{
 			dept.setString(1, c);
 			ResultSet res  = dept.executeQuery();
 			res.next();
-			name = res.getString("name");
-			d = new Department(c,name);
+			dname = res.getString("name");
+			d = new Department(c,dname);
 			res.close();
 			
 		 }catch (SQLException ex) {
@@ -155,7 +156,7 @@ public class Department{
 	
 	public static void main(String[] args){
 		
-		ArrayList<Department> deptList;
+		ArrayList<String> deptList;
 		Department v = new Department("dos","dflv");
 		Department c = new Department ("COM","Computer Science");
 		try {
@@ -169,9 +170,9 @@ public class Department{
 			for(Department str:deptList)  
 		        System.out.println(str.getCode() + " - " + str.getName());  
 			v.deleteDep();*/
-			deptList = v.getAllDep();
-			for(Department str:deptList)  
-		        System.out.println(str.getCode() + " - " + str.getName());  
+//			deptList = v.getAllDep();
+//			for(Department str:deptList)  
+//		        System.out.println(str.getCode() + " - " + str.getName());  
 			
 			//System.out.println(v.getDept("LAN").getName());
 		 
