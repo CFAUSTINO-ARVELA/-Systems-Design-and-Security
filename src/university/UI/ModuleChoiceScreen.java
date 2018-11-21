@@ -1,21 +1,59 @@
+package university.UI;
+
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
 import javax.swing.*;
 /*
  * Created by JFormDesigner on Wed Nov 21 12:22:16 GMT 2018
  */
 
+import university.ScreenManager;
 
+public class ModuleChoiceScreen extends JPanel implements ActionListener {
 
-/**
- * @author Katie
- */
-public class ModuleChoiceScreen extends JPanel {
-    public ModuleChoiceScreen() {
+    private JPanel moduleScreen;
+    private ScreenManager screen;
+    private StudentManagementScreen studentScreen;
+
+    public ModuleChoiceScreen(ScreenManager scr, StudentManagementScreen stuScreen) {
+        this.screen = scr;
+        this.studentScreen = stuScreen;
         initComponents();
     }
 
+    public void draw() {
+        this.moduleScreen = new JPanel();
+
+        this.moduleScreen.setBackground(new Color(70, 70, 70));
+
+        this.moduleScreen.add(degreeTxt);
+        this.moduleScreen.add(backToProfileBtn);
+        this.moduleScreen.add(submitBtn);
+        this.moduleScreen.add(coreScrollPane);
+        this.moduleScreen.add(optionalScollPane);
+        this.moduleScreen.add(coreTxt);
+        this.moduleScreen.add(optionalTxt);
+        this.moduleScreen.add(promptTxt);
+
+        this.moduleScreen.setLayout(null);
+
+        backToProfileBtn.addActionListener(e -> {
+            try {
+                this.studentScreen.draw();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+			}
+            this.moduleScreen.setVisible(false);
+        });
+
+        this.screen.frame.add(this.moduleScreen);
+    }
+
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
+        // JFormDesigner - Component initialization - DO NOT MODIFY
+        // //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Katie
         degreeTxt = new JLabel();
         backToProfileBtn = new JButton();
@@ -25,8 +63,8 @@ public class ModuleChoiceScreen extends JPanel {
         optionalScollPane = new JScrollPane();
         optionalPanel = new JPanel();
         coreTxt = new JLabel();
-        coreTxt2 = new JLabel();
-        label1 = new JLabel();
+        optionalTxt = new JLabel();
+        promptTxt = new JLabel();
 
         //======== this ========
 
@@ -111,20 +149,23 @@ public class ModuleChoiceScreen extends JPanel {
 
         //---- coreTxt ----
         coreTxt.setText("Core Modules:");
+        coreTxt.setForeground(new Color(225, 255, 255));
         add(coreTxt);
         coreTxt.setBounds(275, 105, 285, coreTxt.getPreferredSize().height);
 
-        //---- coreTxt2 ----
-        coreTxt2.setText("Optional Modules:");
-        add(coreTxt2);
-        coreTxt2.setBounds(275, 280, 285, 16);
+        //---- optionalTxt ----
+        optionalTxt.setText("Optional Modules:");
+        optionalTxt.setForeground(Color.white);
+        add(optionalTxt);
+        optionalTxt.setBounds(275, 280, 285, 16);
 
-        //---- label1 ----
-        label1.setText("Please choose 120 credits");
-        label1.setFont(label1.getFont().deriveFont(label1.getFont().getSize() + 2f));
-        label1.setHorizontalAlignment(SwingConstants.CENTER);
-        add(label1);
-        label1.setBounds(362, 65, 275, 45);
+        //---- promptTxt ----
+        promptTxt.setText("Please choose 120 credits");
+        promptTxt.setFont(promptTxt.getFont().deriveFont(promptTxt.getFont().getSize() + 2f));
+        promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
+        promptTxt.setForeground(Color.white);
+        add(promptTxt);
+        promptTxt.setBounds(362, 65, 275, 45);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
@@ -139,10 +180,10 @@ public class ModuleChoiceScreen extends JPanel {
             setMinimumSize(preferredSize);
             setPreferredSize(preferredSize);
         }
-        // JFormDesigner - End of component initialization  //GEN-END:initComponents
+        // JFormDesigner - End of component initialization //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - Katie
     private JLabel degreeTxt;
     private JButton backToProfileBtn;
@@ -152,7 +193,7 @@ public class ModuleChoiceScreen extends JPanel {
     private JScrollPane optionalScollPane;
     private JPanel optionalPanel;
     private JLabel coreTxt;
-    private JLabel coreTxt2;
-    private JLabel label1;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
+    private JLabel optionalTxt;
+    private JLabel promptTxt;
+    // JFormDesigner - End of variables declaration //GEN-END:variables
 }
