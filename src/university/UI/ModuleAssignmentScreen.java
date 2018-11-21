@@ -12,6 +12,7 @@ import javax.swing.*;
  * Created by JFormDesigner on Wed Nov 21 13:18:41 GMT 2018
  */
 
+import university.Module;
 import university.ScreenManager;
 import university.TableModel;
 
@@ -22,6 +23,7 @@ public class ModuleAssignmentScreen extends JPanel {
     private TeachingManagementScreen teachScreen;
     private Connection con = null;
     private Statement stmt = null;
+    private String[] coreList = {"Yes", "no"};
 
     private JTable degreeTable;
     private JTable moduleTable;
@@ -50,6 +52,40 @@ public class ModuleAssignmentScreen extends JPanel {
         this.moduleAssScreen.setLayout(null);
         this.degreePanel.setLayout(new BorderLayout());
         this.modulePanel.setLayout(new BorderLayout());
+
+        backToProfileBtn.addActionListener(e -> {
+            this.moduleAssScreen.setVisible(false);
+            this.teachScreen.draw();
+        });
+        submitBtn.addActionListener((e -> {
+
+            if (degreeTable.getSelectedRow() > -1 && moduleTable.getSelectedRow() > -1) {
+                String degreeCode = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 0);
+                String moduleCode = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 1);
+
+                int level = Integer.parseInt(levelInput.getText());
+                boolean core;
+
+                if (coreInput.getSelectedItem().equals("Yes")) {
+                    core = true;
+                } else {
+                    core = false;
+                }
+
+                try {
+                    int success = Module.assignModule(degreeCode, moduleCode, level, core);
+
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+                this.moduleAssScreen.setVisible(false);
+                this.teachScreen.draw();
+                JOptionPane.showMessageDialog(null, "Successfully linked modules");
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select both a degree and module to link");
+            }
+
+        }));
 
         try {
             con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
@@ -85,7 +121,7 @@ public class ModuleAssignmentScreen extends JPanel {
         degreeTxt = new JLabel();
         levelTxt = new JLabel();
         coreTxt = new JLabel();
-        coreInput = new JComboBox();
+        coreInput = new JComboBox(coreList);
         levelInput = new JTextField();
         submitBtn = new JButton();
         backToProfileBtn = new JButton();
