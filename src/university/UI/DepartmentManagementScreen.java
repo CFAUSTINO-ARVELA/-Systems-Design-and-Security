@@ -1,26 +1,29 @@
 package university.UI;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
-import university.UI.ProfileScreen;
 import university.ScreenManager;
 import university.TableModel;
 import university.Account;
 import university.Department;
 
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Point;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.*;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 class DepartmentManagementScreen extends JPanel implements ActionListener {
 
@@ -196,6 +199,5 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 }

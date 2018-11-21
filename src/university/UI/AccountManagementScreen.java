@@ -1,18 +1,31 @@
 package university.UI;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
 import university.UI.ProfileScreen;
 import university.ScreenManager;
 import university.Account;
 import university.TableModel;
 
-import java.awt.event.*;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.Vector;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+
 
 class AccountManagementScreen extends JPanel implements ActionListener {
 
@@ -193,6 +206,5 @@ class AccountManagementScreen extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent arg0) {
         // TODO Auto-generated method stub
-
     }
 }

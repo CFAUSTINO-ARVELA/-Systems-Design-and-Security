@@ -1,5 +1,10 @@
 package university.UI;
 
+import university.Degree;
+import university.Module;
+import university.ScreenManager;
+import university.Student;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,17 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
-/*
- * Created by JFormDesigner on Wed Nov 21 12:22:16 GMT 2018
- */
-
-import university.Degree;
-import university.Module;
-import university.ScreenManager;
-import university.Student;
 
 public class ModuleChoiceScreen extends JPanel implements ActionListener {
 
+    private static final long serialVersionUID = 1L;
     private JPanel moduleScreen;
     private ScreenManager screen;
     private StudentManagementScreen studentScreen;
@@ -32,8 +30,8 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
 
     public void draw() {
         this.moduleScreen = new JPanel();
-
         this.moduleScreen.setBackground(new Color(70, 70, 70));
+        this.moduleScreen.setLayout(null);
 
         this.moduleScreen.add(degreeTxt);
         this.moduleScreen.add(backToProfileBtn);
@@ -43,8 +41,6 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         this.moduleScreen.add(coreTxt);
         this.moduleScreen.add(optionalTxt);
         this.moduleScreen.add(promptTxt);
-
-        this.moduleScreen.setLayout(null);
 
         JPanel corePanel = new JPanel();
         JPanel optionalPanel = new JPanel();
@@ -58,9 +54,9 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
             if (this.student.getLevel() != "P") {
 
                 ArrayList<Module> coreModules = Degree.getCoreModules(this.student.getDegree(),
-                Integer.parseInt(this.student.getLevel()));
+                        Integer.parseInt(this.student.getLevel()));
                 ArrayList<Module> optionalModules = Degree.getOptionalModules(this.student.getDegree(),
-                Integer.parseInt(this.student.getLevel()));
+                        Integer.parseInt(this.student.getLevel()));
 
                 for (Module module : coreModules) {
                     String moduleName = module.getName();
@@ -255,7 +251,6 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
-
+        // ActionPerformed
     }
 }
