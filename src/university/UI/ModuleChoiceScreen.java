@@ -52,10 +52,15 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         optionalScollPane.add(optionalPanel);
 
         List<JCheckBox> coreCheckBoxes = new ArrayList<>();
-        ArrayList<Module> coreModules = new ArrayList<Module>();
+        List<JCheckBox> optionalCheckBoxes = new ArrayList<>();
 
         try {
             if (this.student.getLevel() != "P") {
+
+                ArrayList<Module> coreModules = Degree.getCoreModules(this.student.getDegree(),
+                Integer.parseInt(this.student.getLevel()));
+                ArrayList<Module> optionalModules = Degree.getOptionalModules(this.student.getDegree(),
+                Integer.parseInt(this.student.getLevel()));
 
                 for (Module module : coreModules) {
                     String moduleName = module.getName();
@@ -69,6 +74,17 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                 coreModules = Degree.getCoreModules(this.student.getDegree(),
                         Integer.parseInt(this.student.getLevel()));
 
+                for (Module module : optionalModules) {
+                    String moduleName = module.getName();
+                    JCheckBox box = new JCheckBox(moduleName);
+                    optionalCheckBoxes.add(box);
+                    optionalPanel.add(box);
+                }
+
+                coreScrollPane.setViewportView(corePanel);
+                corePanel.setLayout(new BoxLayout(corePanel, BoxLayout.Y_AXIS));
+                optionalScollPane.setViewportView(optionalPanel);
+                optionalPanel.setLayout(new BoxLayout(optionalPanel, BoxLayout.Y_AXIS));
             }
         } catch (Exception e2) {
             e2.printStackTrace();
