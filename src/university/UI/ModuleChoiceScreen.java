@@ -1,6 +1,7 @@
 package university.UI;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
@@ -196,4 +197,10 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
     private JLabel optionalTxt;
     private JLabel promptTxt;
     // JFormDesigner - End of variables declaration //GEN-END:variables
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }
