@@ -49,7 +49,11 @@ public class Module {
 		String name = dep.getName();
 		ResultSet res  = stmt.executeQuery(String.format("SELECT code FROM department WHERE name = \"%s\"", name));
 		res.next();
-		return res.getString("code");
+		
+		if (stmt != null) {
+			stmt.close();
+		}
+ 		return res.getString("code");
 	}
 	
 	//Connect to the database
