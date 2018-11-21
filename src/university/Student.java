@@ -111,4 +111,29 @@ public class Student {
     public String getTutor() {
     	return this.tutor;
     }
+    
+	public String getLevel() throws SQLException {
+		int regNum = this.getRegistrationNumber();
+		
+		Connection con = null;
+		Statement stmt = null;
+		String result = null;
+		
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+			stmt = con.createStatement();
+			ResultSet res = stmt.executeQuery(String.format("SELECT level FROM studentStatus WHERE registrationNumber = %d", regNum));
+			
+			res.next();
+			result = res.getString("level");
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		
+		return result;
+	}
 }
