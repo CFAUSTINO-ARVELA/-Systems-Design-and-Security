@@ -36,7 +36,7 @@ public class CreateTables {
 			// Create table for degree
 			int degree = stmt.executeUpdate(
 					"CREATE TABLE degree (code varchar(6) NOT NULL PRIMARY KEY, name varchar(255) NOT NULL, "
-							+ "mainDept varchar(3) REFERENCES department(code), type varchar(13), placement BOOL);");
+							+ "mainDept varchar(3) REFERENCES department(code), type varchar(13), placement BOOL, fouryears BOOL);");
 
 			// Create table for the secondary departments of interdisciplinary degrees
 			int secondDep = stmt
