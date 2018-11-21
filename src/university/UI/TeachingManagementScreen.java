@@ -45,6 +45,7 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
         this.teachingManagement.add(degreeBtn);
         this.teachingManagement.add(departmentBtn);
         this.teachingManagement.add(moduleBtn);
+        this.teachingManagement.add(moduleAssignmentBtn);
 
         this.teachingManagement.setBackground(new Color(70, 70, 70));
         this.teachingManagement.setLayout(null);
@@ -68,6 +69,16 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
             ModuleManagementScreen moduleScreen = new ModuleManagementScreen(this.screen, this);
             moduleScreen.draw();
         });
+        moduleAssignmentBtn.addActionListener(e -> {
+            this.teachingManagement.setVisible(false);
+            ModuleAssignmentScreen moduleAssScreen = new ModuleAssignmentScreen(this.screen, this);
+            try {
+                moduleAssScreen.draw();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
 
         screen.frame.add(this.teachingManagement);
     }
@@ -83,6 +94,7 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
         degreeBtn = new JButton();
         departmentBtn = new JButton();
         moduleBtn = new JButton();
+        moduleAssignmentBtn = new JButton();
 
         //======== this ========
 
@@ -101,7 +113,7 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
         welcomeTxt.setHorizontalAlignment(SwingConstants.CENTER);
         welcomeTxt.setForeground(Color.white);
         add(welcomeTxt);
-        welcomeTxt.setBounds(331, 90, 336, welcomeTxt.getPreferredSize().height);
+        welcomeTxt.setBounds(331, 90, 336, 31);
 
         //---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
@@ -131,6 +143,11 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
         add(moduleBtn);
         moduleBtn.setBounds(615, 180, 195, 50);
 
+        //---- moduleAssignmentBtn ----
+        moduleAssignmentBtn.setText("Module Assignment");
+        add(moduleAssignmentBtn);
+        moduleAssignmentBtn.setBounds(402, 250, 195, 50);
+
         { // compute preferred size
             Dimension preferredSize = new Dimension();
             for(int i = 0; i < getComponentCount(); i++) {
@@ -155,6 +172,7 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
     private JButton degreeBtn;
     private JButton departmentBtn;
     private JButton moduleBtn;
+    private JButton moduleAssignmentBtn;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
 	@Override

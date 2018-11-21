@@ -135,64 +135,59 @@ public class ProfileScreen extends JPanel {
         titleTxt = new JLabel();
         nameTxt = new JLabel();
 
-        // ======== this ========
+        //======== this ========
 
         // JFormDesigner evaluation mark
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
-                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
-                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
-                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
-        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent e) {
-                if ("border".equals(e.getPropertyName()))
-                    throw new RuntimeException();
-            }
-        });
+        setBorder(new javax.swing.border.CompoundBorder(
+            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
+                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
+                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
 
         setLayout(null);
 
-        // ---- profileTxt ----
+        //---- profileTxt ----
         profileTxt.setText("Profile");
         profileTxt.setHorizontalAlignment(SwingConstants.CENTER);
         profileTxt.setFont(profileTxt.getFont().deriveFont(profileTxt.getFont().getSize() + 12f));
         add(profileTxt);
         profileTxt.setBounds(362, 20, 275, 40);
 
-        // ---- welcomeTxt ----
+        //---- welcomeTxt ----
         welcomeTxt.setText("Welcome");
         welcomeTxt.setFont(welcomeTxt.getFont().deriveFont(welcomeTxt.getFont().getSize() + 6f));
         welcomeTxt.setHorizontalAlignment(SwingConstants.CENTER);
         add(welcomeTxt);
         welcomeTxt.setBounds(347, 95, 305, 50);
 
-        // ---- logoutButton ----
+        //---- logoutButton ----
         logoutButton.setText("Logout");
         add(logoutButton);
         logoutButton.setBounds(414, 500, 170, 50);
 
-        // ---- accountManagementBtn ----
+        //---- accountManagementBtn ----
         accountManagementBtn.setText("Account Management");
         add(accountManagementBtn);
         accountManagementBtn.setBounds(315, 175, 170, 50);
 
-        // ---- teachingManagementBtn ----
+        //---- teachingManagementBtn ----
         teachingManagementBtn.setText("Teaching Management");
         add(teachingManagementBtn);
         teachingManagementBtn.setBounds(510, 175, 170, 50);
 
-        // ---- studentManageBtn ----
+        //---- studentManageBtn ----
         studentManageBtn.setText("Student Management");
         add(studentManageBtn);
         studentManageBtn.setBounds(414, 430, 170, 50);
 
-        // ---- titleTxt ----
+        //---- titleTxt ----
         titleTxt.setText("Title:");
         titleTxt.setHorizontalAlignment(SwingConstants.CENTER);
         titleTxt.setFont(titleTxt.getFont().deriveFont(titleTxt.getFont().getSize() + 4f));
         add(titleTxt);
         titleTxt.setBounds(363, 260, 273, titleTxt.getPreferredSize().height);
 
-        // ---- nameTxt ----
+        //---- nameTxt ----
         nameTxt.setText("Name:");
         nameTxt.setHorizontalAlignment(SwingConstants.CENTER);
         nameTxt.setFont(nameTxt.getFont().deriveFont(nameTxt.getFont().getSize() + 4f));
@@ -201,7 +196,7 @@ public class ProfileScreen extends JPanel {
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for (int i = 0; i < getComponentCount(); i++) {
+            for(int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
