@@ -121,7 +121,7 @@ public class Module {
 		
 		try {
 			noMod.setString(1, c);
-			System.out.println(noDeg);
+			System.out.println(noMod);
 			ResultSet res1 = noMod.executeQuery();
 			res1.next();
 			
