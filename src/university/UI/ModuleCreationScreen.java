@@ -2,6 +2,7 @@ package university.UI;
 
 import java.awt.*;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -9,6 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import university.Department;
+import university.Module;
 import university.ScreenManager;
 
 import java.awt.Color;
@@ -63,37 +65,33 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
 
             ArrayList<Department> secondaryDepts = new ArrayList<Department>();
 
-            String name;
+            String name = nameInput.getText();
             String code;
+            int level = Integer.parseInt(levelInput.getText());
             int credits;
             String duration = durationInput.getSelectedItem().toString();
 
-            if (isDissertationInput.getSelectedItem().equals("Yes")) {
+            if (isDissertationInput.getSelectedItem().equals("No") && level < 4) {
+                credits = 20;
+            } else if (level < 4){
                 credits = 40;
-            }
-
-            this.moduleCreationScreen.setVisible(false);
-
-            //String type = Character.toString((typeInput.getSelectedItem().toString().charAt(0)));
-            boolean placement;
-            String placementText = placementInput.getSelectedItem().toString();
-
-            if (placementText.equals("Yes")) {
-                placement = true;
+            } else if (isDissertationInput.getSelectedItem().equals("No")) {
+                credits = 15;
             } else {
-                placement = false;
+                credits = 60;
             }
+
+            code = //Module.generateCode();
+                "COD111";
 
             try {
-                Department dep = Department.getDept(mainInput.getSelectedItem().toString());
-                Degree deg = new Degree(nameInput.getText(), dep, secondaryDepts, type, placement);
-                deg.setCode();
-                Degree newDeg = deg.createDegree();
-                this.degreeManagement.draw();
-                JOptionPane.showMessageDialog(null, "Successfully created Degree: " + newDeg.getName());
+                Module mod = new Module(name, code, credits, duration);
+                Module newMod = mod.createModule();
+                this.moduleManagement.draw();
+                JOptionPane.showMessageDialog(null, "Successfully created Module: " + newMod.getName());
             } catch (Exception ex) {
                 ex.printStackTrace();
-                this.degreeManagement.draw();
+                this.moduleManagement.draw();
                 JOptionPane.showMessageDialog(null, "SQL error, please try again");
             }
         }));
@@ -104,7 +102,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         // } catch (Exception e1) {
         //     e1.printStackTrace();
         // }
-
+        
         screen.frame.add(this.moduleCreationScreen);
     }
 
