@@ -182,7 +182,9 @@ public class Module {
 		
 		Statement stmt = con.createStatement();
 		
-		int count = stmt.executeUpdate(String.format("INSERT INTO assoModDeg (degCode, modCode, level, mandatory) VALUES (\"%s\", \"%s\", %d, %b);", d, m, l, c));
+		String query = String.format("INSERT INTO assoModDeg (degCode, modCode, year, mandatory) VALUES (\"%s\", \"%s\", %d, %b);", d, m, l, c);
+		System.out.println(query);
+		int count = stmt.executeUpdate(query);
 		
 		if (stmt != null) {
 			stmt.close();
