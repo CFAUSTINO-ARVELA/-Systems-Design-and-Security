@@ -4,19 +4,25 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 /*
  * Created by JFormDesigner on Wed Nov 21 12:22:16 GMT 2018
  */
 
+import university.Degree;
+import university.Module;
 import university.ScreenManager;
+import university.Student;
 
 public class ModuleChoiceScreen extends JPanel implements ActionListener {
 
     private JPanel moduleScreen;
     private ScreenManager screen;
     private StudentManagementScreen studentScreen;
+    private Student student;
 
     public ModuleChoiceScreen(ScreenManager scr, StudentManagementScreen stuScreen) {
         this.screen = scr;
@@ -40,12 +46,40 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
 
         this.moduleScreen.setLayout(null);
 
+        JPanel corePanel = new JPanel();
+        JPanel optionalPanel = new JPanel();
+        coreScrollPane.add(corePanel);
+        optionalScollPane.add(optionalPanel);
+
+        List<JCheckBox> coreCheckBoxes = new ArrayList<>();
+        ArrayList<Module> coreModules = new ArrayList<Module>();
+
+        try {
+            if (this.student.getLevel() != "P") {
+
+                for (Module module : coreModules) {
+                    String moduleName = module.getName();
+                    JCheckBox box = new JCheckBox(moduleName);
+                    coreCheckBoxes.add(box);
+                    corePanel.add(box);
+                }
+
+                coreScrollPane.setViewportView(corePanel);
+                corePanel.setLayout(new BoxLayout(corePanel, BoxLayout.Y_AXIS));
+                coreModules = Degree.getCoreModules(this.student.getDegree(),
+                        Integer.parseInt(this.student.getLevel()));
+
+            }
+        } catch (Exception e2) {
+            e2.printStackTrace();
+        }
+
         backToProfileBtn.addActionListener(e -> {
             try {
                 this.studentScreen.draw();
             } catch (SQLException e1) {
                 e1.printStackTrace();
-			}
+            }
             this.moduleScreen.setVisible(false);
         });
 
@@ -67,18 +101,23 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         optionalTxt = new JLabel();
         promptTxt = new JLabel();
 
-        //======== this ========
+        // ======== this ========
 
         // JFormDesigner evaluation mark
-        setBorder(new javax.swing.border.CompoundBorder(
-            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
+                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
+                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
+                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent e) {
+                if ("border".equals(e.getPropertyName()))
+                    throw new RuntimeException();
+            }
+        });
 
         setLayout(null);
 
-        //---- degreeTxt ----
+        // ---- degreeTxt ----
         degreeTxt.setText("Module Choice");
         degreeTxt.setFont(degreeTxt.getFont().deriveFont(degreeTxt.getFont().getSize() + 10f));
         degreeTxt.setHorizontalAlignment(SwingConstants.CENTER);
@@ -86,26 +125,26 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         add(degreeTxt);
         degreeTxt.setBounds(347, 35, 305, 31);
 
-        //---- backToProfileBtn ----
+        // ---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(415, 500, 170, 50);
 
-        //---- submitBtn ----
+        // ---- submitBtn ----
         submitBtn.setText("Submit");
         add(submitBtn);
         submitBtn.setBounds(415, 465, 170, 30);
 
-        //======== coreScrollPane ========
+        // ======== coreScrollPane ========
         {
 
-            //======== corePanel ========
+            // ======== corePanel ========
             {
                 corePanel.setLayout(null);
 
                 { // compute preferred size
                     Dimension preferredSize = new Dimension();
-                    for(int i = 0; i < corePanel.getComponentCount(); i++) {
+                    for (int i = 0; i < corePanel.getComponentCount(); i++) {
                         Rectangle bounds = corePanel.getComponent(i).getBounds();
                         preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                         preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -122,16 +161,16 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         add(coreScrollPane);
         coreScrollPane.setBounds(275, 130, 450, 140);
 
-        //======== optionalScollPane ========
+        // ======== optionalScollPane ========
         {
 
-            //======== optionalPanel ========
+            // ======== optionalPanel ========
             {
                 optionalPanel.setLayout(null);
 
                 { // compute preferred size
                     Dimension preferredSize = new Dimension();
-                    for(int i = 0; i < optionalPanel.getComponentCount(); i++) {
+                    for (int i = 0; i < optionalPanel.getComponentCount(); i++) {
                         Rectangle bounds = optionalPanel.getComponent(i).getBounds();
                         preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                         preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -148,19 +187,19 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         add(optionalScollPane);
         optionalScollPane.setBounds(275, 300, 450, 155);
 
-        //---- coreTxt ----
+        // ---- coreTxt ----
         coreTxt.setText("Core Modules:");
         coreTxt.setForeground(new Color(225, 255, 255));
         add(coreTxt);
         coreTxt.setBounds(275, 105, 285, coreTxt.getPreferredSize().height);
 
-        //---- optionalTxt ----
+        // ---- optionalTxt ----
         optionalTxt.setText("Optional Modules:");
         optionalTxt.setForeground(Color.white);
         add(optionalTxt);
         optionalTxt.setBounds(275, 280, 285, 16);
 
-        //---- promptTxt ----
+        // ---- promptTxt ----
         promptTxt.setText("Please choose 120 credits");
         promptTxt.setFont(promptTxt.getFont().deriveFont(promptTxt.getFont().getSize() + 2f));
         promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
@@ -170,7 +209,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -198,9 +237,9 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
     private JLabel promptTxt;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        // TODO Auto-generated method stub
+
+    }
 }

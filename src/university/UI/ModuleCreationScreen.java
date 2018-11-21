@@ -26,8 +26,8 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
     public JPanel moduleCreationScreen;
     private ScreenManager screen;
     private ModuleManagementScreen moduleManagement;
-    private String[] durations = { "Autumn", "Spring", "Year"};
-    private String[] isDissertation = { "Yes", "No"};
+    private String[] durations = { "Autumn", "Spring", "Year" };
+    private String[] isDissertation = { "Yes", "No" };
     private ArrayList<String> departments = new ArrayList<String>();
 
     ModuleCreationScreen(ScreenManager scr, ModuleManagementScreen moduleManage) {
@@ -40,7 +40,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         this.moduleCreationScreen = new JPanel();
         this.moduleCreationScreen.setBackground(new Color(70, 70, 70));
         this.moduleCreationScreen.setLayout(null);
-     
+
         this.moduleCreationScreen.add(backToProfileBtn);
         this.moduleCreationScreen.add(createTxt);
         this.moduleCreationScreen.add(promptTxt);
@@ -74,7 +74,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
 
             if (isDissertationInput.getSelectedItem().equals("No") && level < 4) {
                 credits = 20;
-            } else if (level < 4){
+            } else if (level < 4) {
                 credits = 40;
             } else if (isDissertationInput.getSelectedItem().equals("No")) {
                 credits = 15;
@@ -97,12 +97,12 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         }));
 
         // try {
-        //     departments = Department.getAllDepNames();
-        //     departmentInput = new JComboBox((departments.toArray()));
+        // departments = Department.getAllDepNames();
+        // departmentInput = new JComboBox((departments.toArray()));
         // } catch (Exception e1) {
-        //     e1.printStackTrace();
+        // e1.printStackTrace();
         // }
-        
+
         screen.frame.add(this.moduleCreationScreen);
     }
 
@@ -131,18 +131,23 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
             e1.printStackTrace();
         }
 
-        //======== this ========
+        // ======== this ========
 
         // JFormDesigner evaluation mark
-        setBorder(new javax.swing.border.CompoundBorder(
-            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
+                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
+                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
+                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent e) {
+                if ("border".equals(e.getPropertyName()))
+                    throw new RuntimeException();
+            }
+        });
 
         setLayout(null);
 
-        //---- createTxt ----
+        // ---- createTxt ----
         createTxt.setText("Create Module");
         createTxt.setFont(createTxt.getFont().deriveFont(createTxt.getFont().getSize() + 12f));
         createTxt.setHorizontalAlignment(SwingConstants.CENTER);
@@ -150,14 +155,14 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         add(createTxt);
         createTxt.setBounds(350, 90, 299, createTxt.getPreferredSize().height);
 
-        //---- promptTxt ----
+        // ---- promptTxt ----
         promptTxt.setText("Please enter details below");
         promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
         promptTxt.setForeground(Color.white);
         add(promptTxt);
         promptTxt.setBounds(387, 130, 225, promptTxt.getPreferredSize().height);
 
-        //---- nameTxt ----
+        // ---- nameTxt ----
         nameTxt.setText("Name");
         nameTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         nameTxt.setFont(nameTxt.getFont().deriveFont(nameTxt.getFont().getSize() + 3f));
@@ -165,7 +170,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         add(nameTxt);
         nameTxt.setBounds(185, 185, 185, nameTxt.getPreferredSize().height);
 
-        //---- departmentTxt ----
+        // ---- departmentTxt ----
         departmentTxt.setText("Main Department");
         departmentTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         departmentTxt.setFont(departmentTxt.getFont().deriveFont(departmentTxt.getFont().getSize() + 3f));
@@ -177,17 +182,17 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         add(departmentInput);
         departmentInput.setBounds(385, 225, 235, 30);
 
-        //---- submitBtn ----
+        // ---- submitBtn ----
         submitBtn.setText("Submit");
         add(submitBtn);
         submitBtn.setBounds(432, 445, 135, submitBtn.getPreferredSize().height);
 
-        //---- backToProfileBtn ----
+        // ---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(414, 500, 170, 50);
 
-        //---- moduleTxt ----
+        // ---- moduleTxt ----
         moduleTxt.setText("Module Management");
         moduleTxt.setFont(moduleTxt.getFont().deriveFont(moduleTxt.getFont().getSize() + 10f));
         moduleTxt.setHorizontalAlignment(SwingConstants.CENTER);
@@ -195,7 +200,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         add(moduleTxt);
         moduleTxt.setBounds(347, 35, 305, 31);
 
-        //---- levelTxt ----
+        // ---- levelTxt ----
         levelTxt.setText("Level");
         levelTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         levelTxt.setFont(levelTxt.getFont().deriveFont(levelTxt.getFont().getSize() + 3f));
@@ -205,7 +210,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         add(levelTxt);
         levelInput.setBounds(385, 270, 235, 30);
 
-        //---- durationTxt ----
+        // ---- durationTxt ----
         durationTxt.setText("Duration");
         durationTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         durationTxt.setFont(durationTxt.getFont().deriveFont(durationTxt.getFont().getSize() + 3f));
@@ -216,7 +221,8 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         durationInput.setBounds(377, 315, 250, durationInput.getPreferredSize().height);
 
         isDissertationLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        isDissertationLabel.setFont(isDissertationLabel.getFont().deriveFont(isDissertationLabel.getFont().getSize() + 3f));
+        isDissertationLabel
+                .setFont(isDissertationLabel.getFont().deriveFont(isDissertationLabel.getFont().getSize() + 3f));
         isDissertationLabel.setText("Dissertation Module?");
         isDissertationLabel.setBounds(145, 360, 225, isDissertationLabel.getPreferredSize().height);
         isDissertationLabel.setForeground(Color.white);
@@ -225,7 +231,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -259,9 +265,9 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
 
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+
+    }
 }
