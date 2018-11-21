@@ -9,26 +9,29 @@ public class Degree{
 	private ArrayList<Department> seconDepts; 
 	private String type;
 	private Boolean placement;
+	private Boolean fouryears;
 	private static Connection con;
 	
 	//Constructor for degree with just one department
 	public Degree(String name, Department mainDept,
-			String type,Boolean placement) throws Exception{
+			String type,Boolean placement, Boolean fouryears) throws Exception{
 		this.name = name;
 		this.mainDept = mainDept;
 		this.type = type;
 		this.placement = placement;
 		this.seconDepts = new ArrayList<Department>();
+		this.fouryears = fouryears;
 	}
 	
 	//Constructor for degree with several departments
 	public Degree(String name, Department mainDept,
-			 ArrayList<Department> seconDepts, String type,Boolean placement) throws Exception{
+			 ArrayList<Department> seconDepts, String type,Boolean placement, Boolean fouryears) throws Exception{
 		this.name = name;
 		this.mainDept = mainDept;
 		this.seconDepts = seconDepts;
 		this.type = type;
 		this.placement = placement;
+		this.fouryears = fouryears;
 	}
 
 	public Degree(String code) {
@@ -103,7 +106,7 @@ public class Degree{
 		PreparedStatement newDeg,deg, newSeconDep= null;
 		int count = 0;
 		deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE name = ?");
-		newDeg = con.prepareStatement("INSERT INTO degree VALUES (?,?,?,?,?)");
+		newDeg = con.prepareStatement("INSERT INTO degree VALUES (?,?,?,?,?,?)");
 		newSeconDep = con.prepareStatement("INSERT INTO seconDepts VALUES(?,?)");
 	
 		try {
@@ -117,6 +120,7 @@ public class Degree{
 				newDeg.setString(3,getMainDept().getCode());
 				newDeg.setString(4, getType());
 				newDeg.setBoolean(5,getPlacement());
+				newDeg.setBoolean(6, getFourYears());
 				count = newDeg.executeUpdate();
 				
 				if (!this.seconDepts.isEmpty()) {
@@ -140,6 +144,11 @@ public class Degree{
 	}
 	
 	
+	public boolean getFourYears() {
+		// TODO Auto-generated method stub
+		return this.fouryears;
+	}
+
 	//Delete degree with code and name (just to be safe)
 	public int deleteDegree() throws Exception {
 		int count = 0;
@@ -205,6 +214,7 @@ public class Degree{
 				String mainDept = res.getString("mainDept");
 				String type = res.getString("type");
 				Boolean placement = res.getBoolean("placement");
+				Boolean fouryears = res.getBoolean("fouryears");
 				String depName = res.getString("department.name");
 				dep = new Department(mainDept,depName);
 				secDep.setString(1, c);
@@ -214,7 +224,7 @@ public class Degree{
 					deptList.add(dep.getDept(deptC));
 				}
 				
-				degree = new Degree(name, dep,deptList,type,placement);
+				degree = new Degree(name, dep,deptList,type,placement,fouryears);
 				degree.setCode(code);
 				res.close();
 				res1.close();
