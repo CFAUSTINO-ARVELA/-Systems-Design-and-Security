@@ -275,6 +275,44 @@ public class Degree{
 			return degreeList;
 		}
 		
+		public static ArrayList<Module> getCoreModules(Degree d, int l) throws Exception {
+			ArrayList<Module> coreModules = new ArrayList<Module>();
+			Module module = null;
+			
+			connectToDB();
+			Statement stmt = con.createStatement();
+			String degCode = d.getCode();
+			
+			ResultSet res = stmt.executeQuery(String.format("SELECT modCode FROM assoModDeg WHERE degCode = \"%s\" AND year = %d AND mandatory = true;", degCode, l));
+			
+			while (res.next()) {
+				module = Module.getModule(res.getString("modCode"));
+				coreModules.add(module);
+			}
+			
+			
+			return coreModules;
+		}
+		
+		public static ArrayList<Module> getOptionalModules(Degree d, int l) throws Exception {
+			ArrayList<Module> optionalModules = new ArrayList<Module>();
+			Module module = null;
+			
+			connectToDB();
+			Statement stmt = con.createStatement();
+			String degCode = d.getCode();
+			
+			ResultSet res = stmt.executeQuery(String.format("SELECT modCode FROM assoModDeg WHERE degCode = \"%s\" AND year = %d AND mandatory = false;", degCode, l));
+			
+			while (res.next()) {
+				module = Module.getModule(res.getString("modCode"));
+				optionalModules.add(module);
+			}
+			
+			
+			return optionalModules;
+		}
+		
 		public static void main(String[] args){
 			ArrayList<Degree> degreeList;
 			ArrayList<Department> deptList = new ArrayList<Department>();
