@@ -11,7 +11,9 @@ import javax.swing.SwingConstants;
 
 import university.UI.ProfileScreen;
 import university.ScreenManager;
+import university.TableModel;
 import university.Account;
+import university.Module;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -27,6 +29,9 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private TeachingManagementScreen teachingScreen;
     private Account account;
+    private JTable moduleTable;
+    private Connection con = null;
+    private Statement stmt = null;
 
     ModuleManagementScreen(ScreenManager scr,TeachingManagementScreen teach) {
         this.initComponents();
@@ -43,8 +48,12 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
         this.moduleScreen.add(moduleManagementTxt);
         this.moduleScreen.add(createBtn);
         this.moduleScreen.add(deleteBtn);
+        this.moduleScreen.add(tablePanel);
+
+        this.tablePanel.setLayout(new BorderLayout());
 
         this.moduleScreen.setLayout(null);
+
 
         backToTeachingBtn.addActionListener(e -> {
             this.moduleScreen.setVisible(false);
@@ -55,6 +64,46 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
             ModuleCreationScreen moduleCreate = new ModuleCreationScreen(this.screen, this);
             moduleCreate.draw();
         });
+        deleteBtn.addActionListener(e -> {
+            if (moduleTable.getSelectedRow() > -1) {
+                String code = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 0);
+                String username = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 3);
+                Module modToDelete = new Module(code);
+                try {
+                    modToDelete.deleteModule();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+                this.moduleScreen.setVisible(false);
+                this.teachingScreen.draw();
+                JOptionPane.showMessageDialog(null, "Successfully deleted student: " + username);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a Student to delete");
+            }
+        });
+
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+            stmt = con.createStatement();
+
+            ResultSet res = stmt.executeQuery("SELECT * FROM degree;");
+            moduleTable = new JTable(TableModel.buildTableModel(res));
+            JScrollPane scrollPane = new JScrollPane();
+            scrollPane.setViewportView(moduleTable);
+
+            tablePanel.add(scrollPane);
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (stmt != null) {
+            }
+            try {
+                stmt.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }
 
         screen.frame.add(this.moduleScreen);
     }
@@ -73,6 +122,7 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
         moduleManagementTxt = new JLabel();
         deleteBtn = new JButton();
         createBtn = new JButton();
+        tablePanel = new JPanel();
 
         //======== this ========
 
@@ -84,6 +134,7 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
                 java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
 
         setLayout(null);
+        tablePanel.setBounds(177, 100, 645, 290);
 
         //---- promptTxt ----
         promptTxt.setText("output for module table here");
@@ -138,6 +189,7 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
     private JLabel moduleManagementTxt;
     private JButton deleteBtn;
     private JButton createBtn;
+    private JPanel tablePanel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
 	@Override

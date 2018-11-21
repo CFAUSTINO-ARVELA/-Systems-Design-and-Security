@@ -19,6 +19,10 @@ public class Module {
 		this.credits = credits;
 		this.duration = duration;
 	}
+
+	public Module(String code) {
+		this.code = code;
+	}
 	
 	//Get module code
 	public String getCode() {

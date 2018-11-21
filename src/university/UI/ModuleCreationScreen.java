@@ -1,7 +1,6 @@
 package university.UI;
 
 import java.awt.*;
-import javax.swing.*;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -9,15 +8,15 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import university.UI.ProfileScreen;
+import university.Department;
 import university.ScreenManager;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 class ModuleCreationScreen extends JPanel implements ActionListener {
 
@@ -26,6 +25,8 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private ModuleManagementScreen moduleManagement;
     private String[] durations = { "Autumn", "Spring", "Year"};
+    private String[] isDissertation = { "Yes", "No"};
+    private ArrayList<String> departments = new ArrayList<String>();
 
     ModuleCreationScreen(ScreenManager scr, ModuleManagementScreen moduleManage) {
         this.initComponents();
@@ -42,20 +43,67 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         this.moduleCreationScreen.add(createTxt);
         this.moduleCreationScreen.add(promptTxt);
         this.moduleCreationScreen.add(nameTxt);
-        this.moduleCreationScreen.add(codeTxt);
+        this.moduleCreationScreen.add(departmentTxt);
         this.moduleCreationScreen.add(nameInput);
-        this.moduleCreationScreen.add(codeInput);
+        this.moduleCreationScreen.add(departmentInput);
         this.moduleCreationScreen.add(submitBtn);
         this.moduleCreationScreen.add(moduleTxt);
-        this.moduleCreationScreen.add(creditsInput);
-        this.moduleCreationScreen.add(creditsTxt);
+        this.moduleCreationScreen.add(levelTxt);
+        this.moduleCreationScreen.add(levelInput);
         this.moduleCreationScreen.add(durationInput);
         this.moduleCreationScreen.add(durationTxt);
+        this.moduleCreationScreen.add(isDissertationLabel);
+        this.moduleCreationScreen.add(isDissertationInput);
 
         backToProfileBtn.addActionListener(e -> {
             this.moduleCreationScreen.setVisible(false);
             this.moduleManagement.draw();
         });
+        submitBtn.addActionListener((e -> {
+
+            ArrayList<Department> secondaryDepts = new ArrayList<Department>();
+
+            String name;
+            String code;
+            int credits;
+            String duration = durationInput.getSelectedItem().toString();
+
+            if (isDissertationInput.getSelectedItem().equals("Yes")) {
+                credits = 40;
+            }
+
+            this.moduleCreationScreen.setVisible(false);
+
+            //String type = Character.toString((typeInput.getSelectedItem().toString().charAt(0)));
+            boolean placement;
+            String placementText = placementInput.getSelectedItem().toString();
+
+            if (placementText.equals("Yes")) {
+                placement = true;
+            } else {
+                placement = false;
+            }
+
+            try {
+                Department dep = Department.getDept(mainInput.getSelectedItem().toString());
+                Degree deg = new Degree(nameInput.getText(), dep, secondaryDepts, type, placement);
+                deg.setCode();
+                Degree newDeg = deg.createDegree();
+                this.degreeManagement.draw();
+                JOptionPane.showMessageDialog(null, "Successfully created Degree: " + newDeg.getName());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                this.degreeManagement.draw();
+                JOptionPane.showMessageDialog(null, "SQL error, please try again");
+            }
+        }));
+
+        // try {
+        //     departments = Department.getAllDepNames();
+        //     departmentInput = new JComboBox((departments.toArray()));
+        // } catch (Exception e1) {
+        //     e1.printStackTrace();
+        // }
 
         screen.frame.add(this.moduleCreationScreen);
     }
@@ -67,16 +115,23 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         createTxt = new JLabel();
         promptTxt = new JLabel();
         nameTxt = new JLabel();
-        codeTxt = new JLabel();
+        departmentTxt = new JLabel();
         nameInput = new JTextField();
-        codeInput = new JTextField();
         submitBtn = new JButton();
         backToProfileBtn = new JButton();
         moduleTxt = new JLabel();
-        creditsTxt = new JLabel();
-        creditsInput = new JTextField();
+        levelTxt = new JLabel();
+        levelInput = new JTextField();
         durationTxt = new JLabel();
         durationInput = new JComboBox(durations);
+        isDissertationInput = new JComboBox(isDissertation);
+        isDissertationLabel = new JLabel();
+        try {
+            departments = Department.getAllDepNames();
+            departmentInput = new JComboBox((departments.toArray()));
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
 
         //======== this ========
 
@@ -112,17 +167,17 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         add(nameTxt);
         nameTxt.setBounds(185, 185, 185, nameTxt.getPreferredSize().height);
 
-        //---- codeTxt ----
-        codeTxt.setText("Code");
-        codeTxt.setHorizontalAlignment(SwingConstants.RIGHT);
-        codeTxt.setFont(codeTxt.getFont().deriveFont(codeTxt.getFont().getSize() + 3f));
-        codeTxt.setForeground(Color.white);
-        add(codeTxt);
-        codeTxt.setBounds(230, 230, 140, 16);
+        //---- departmentTxt ----
+        departmentTxt.setText("Main Department");
+        departmentTxt.setHorizontalAlignment(SwingConstants.RIGHT);
+        departmentTxt.setFont(departmentTxt.getFont().deriveFont(departmentTxt.getFont().getSize() + 3f));
+        departmentTxt.setForeground(Color.white);
+        add(departmentTxt);
+        departmentTxt.setBounds(230, 230, 140, 16);
         add(nameInput);
         nameInput.setBounds(385, 180, 235, nameInput.getPreferredSize().height);
-        add(codeInput);
-        codeInput.setBounds(385, 225, 235, 30);
+        add(departmentInput);
+        departmentInput.setBounds(385, 225, 235, 30);
 
         //---- submitBtn ----
         submitBtn.setText("Submit");
@@ -142,15 +197,15 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         add(moduleTxt);
         moduleTxt.setBounds(347, 35, 305, 31);
 
-        //---- creditsTxt ----
-        creditsTxt.setText("Default Credits");
-        creditsTxt.setHorizontalAlignment(SwingConstants.RIGHT);
-        creditsTxt.setFont(creditsTxt.getFont().deriveFont(creditsTxt.getFont().getSize() + 3f));
-        creditsTxt.setForeground(Color.white);
-        add(creditsTxt);
-        creditsTxt.setBounds(230, 275, 140, 16);
-        add(creditsInput);
-        creditsInput.setBounds(385, 270, 235, 30);
+        //---- levelTxt ----
+        levelTxt.setText("Level");
+        levelTxt.setHorizontalAlignment(SwingConstants.RIGHT);
+        levelTxt.setFont(levelTxt.getFont().deriveFont(levelTxt.getFont().getSize() + 3f));
+        levelTxt.setForeground(Color.white);
+        add(levelInput);
+        levelTxt.setBounds(230, 275, 140, 16);
+        add(levelTxt);
+        levelInput.setBounds(385, 270, 235, 30);
 
         //---- durationTxt ----
         durationTxt.setText("Duration");
@@ -161,6 +216,14 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         durationTxt.setBounds(230, 320, 140, 16);
         add(durationInput);
         durationInput.setBounds(377, 315, 250, durationInput.getPreferredSize().height);
+
+        isDissertationLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        isDissertationLabel.setFont(isDissertationLabel.getFont().deriveFont(isDissertationLabel.getFont().getSize() + 3f));
+        isDissertationLabel.setText("Dissertation Module?");
+        isDissertationLabel.setBounds(145, 360, 225, isDissertationLabel.getPreferredSize().height);
+        isDissertationLabel.setForeground(Color.white);
+
+        isDissertationInput.setBounds(377, 360, 250, isDissertationInput.getPreferredSize().height);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
@@ -183,16 +246,19 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
     private JLabel createTxt;
     private JLabel promptTxt;
     private JLabel nameTxt;
-    private JLabel codeTxt;
+    private JLabel departmentTxt;
     private JTextField nameInput;
-    private JTextField codeInput;
     private JButton submitBtn;
     private JButton backToProfileBtn;
     private JLabel moduleTxt;
-    private JLabel creditsTxt;
-    private JTextField creditsInput;
+    private JLabel levelTxt;
+    private JTextField levelInput;
     private JLabel durationTxt;
     private JComboBox durationInput;
+    private JComboBox departmentInput;
+    private JComboBox isDissertationInput;
+    private JLabel isDissertationLabel;
+
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
 	@Override
