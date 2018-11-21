@@ -84,7 +84,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
 
             try {
                 dep = Department.getDept(departmentInput.getSelectedItem().toString());
-                code = Module.generateCode(dep);
+                code = Module.generateCode(dep, level);
                 Module mod = new Module(name, code, credits, duration);
                 Module newMod = mod.createModule();
                 this.moduleManagement.draw();

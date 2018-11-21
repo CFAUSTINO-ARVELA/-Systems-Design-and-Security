@@ -43,17 +43,27 @@ public class Module {
 		return duration;
 	}
 
-	public static String generateCode(Department dep) throws Exception {
+	public static String generateCode(Department dep, int level) throws Exception {
 		connectToDB();
 		Statement stmt = con.createStatement();
 		String name = dep.getName();
-		ResultSet res  = stmt.executeQuery(String.format("SELECT code FROM department WHERE name = \"%s\"", name));
+		ResultSet res  = stmt.executeQuery(String.format("SELECT code FROM department WHERE name = \"%s\";", name));
 		res.next();
+		String deptCode = res.getString("code");
+		
+		String codeSoFar = deptCode + Integer.toString(level);
+		
+		res = stmt.executeQuery(String.format("SELECT COUNT(*) FROM module WHERE code LIKE \"%s%%\";", codeSoFar));
+		res.next();
+		int count = res.getInt(1) + 1;
+		
+		String formatted = String.format("%03d", count);
+		String finalCode = codeSoFar + formatted;
 		
 		if (stmt != null) {
 			stmt.close();
 		}
- 		return res.getString("code");
+ 		return finalCode;
 	}
 	
 	//Connect to the database
