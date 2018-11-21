@@ -69,6 +69,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
             String code;
             int level = Integer.parseInt(levelInput.getText());
             int credits;
+            Department dep;
             String duration = durationInput.getSelectedItem().toString();
 
             if (isDissertationInput.getSelectedItem().equals("No") && level < 4) {
@@ -81,10 +82,9 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
                 credits = 60;
             }
 
-            code = //Module.generateCode();
-                "COD111";
-
             try {
+                dep = Department.getDept(departmentInput.getSelectedItem().toString());
+                code = Module.generateCode(dep);
                 Module mod = new Module(name, code, credits, duration);
                 Module newMod = mod.createModule();
                 this.moduleManagement.draw();

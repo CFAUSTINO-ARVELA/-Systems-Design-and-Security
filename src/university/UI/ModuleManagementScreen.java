@@ -86,7 +86,7 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
             con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
             stmt = con.createStatement();
 
-            ResultSet res = stmt.executeQuery("SELECT * FROM degree;");
+            ResultSet res = stmt.executeQuery("SELECT * FROM module;");
             moduleTable = new JTable(TableModel.buildTableModel(res));
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(moduleTable);

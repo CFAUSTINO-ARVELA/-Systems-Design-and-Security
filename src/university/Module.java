@@ -42,6 +42,15 @@ public class Module {
 	public String getDuration() {
 		return duration;
 	}
+
+	public static String generateCode(Department dep) throws Exception {
+		connectToDB();
+		Statement stmt = con.createStatement();
+		String name = dep.getName();
+		ResultSet res  = stmt.executeQuery(String.format("SELECT code FROM department WHERE name = \"%s\"", name));
+		res.next();
+		return res.getString("code");
+	}
 	
 	//Connect to the database
 	public static void connectToDB() throws Exception {
