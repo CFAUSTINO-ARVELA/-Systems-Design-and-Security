@@ -177,6 +177,20 @@ public class Module {
 		return module;
 	}
 	
+	public static int assignModule(String d, String m, int l, boolean c) throws Exception {
+		connectToDB();
+		
+		Statement stmt = con.createStatement();
+		
+		int count = stmt.executeUpdate(String.format("INSERT INTO assoModDeg (degCode, modCode, level, mandatory) VALUES (\"%s\", \"%s\", %d, %b);", d, m, l, c));
+		
+		if (stmt != null) {
+			stmt.close();
+		}
+		
+		return count;
+	}
+	
 	public boolean checkApproval(String d, String l) {
 		return true; // Write an actual function here
 	}
