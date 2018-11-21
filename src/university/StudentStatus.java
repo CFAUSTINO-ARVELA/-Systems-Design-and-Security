@@ -5,7 +5,7 @@ import java.sql.*;
 public class StudentStatus {
 	
 	private int registrationNumber;
-	private int level;
+	private char level;
 	private int period;
 	private Date startDate;
 	private Date endDate;
@@ -18,7 +18,7 @@ public class StudentStatus {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
-			String query = String.format("INSERT INTO studentStatus (registrationNumber, level, period) VALUES (\"%d\", \"%d\", \"%d\");",
+			String query = String.format("INSERT INTO studentStatus (registrationNumber, level, period) VALUES (%d, \"%s\", %d);",
 					this.registrationNumber, this.level, this.period);
 			int count = stmt.executeUpdate(query);
 					
@@ -37,7 +37,7 @@ public class StudentStatus {
 	public int getRegistrationNumber() {
 		return registrationNumber;
 	}
-	public int getLevel() {
+	public char getLevel() {
 		return level;
 	}
 	public int getPeriod() {
