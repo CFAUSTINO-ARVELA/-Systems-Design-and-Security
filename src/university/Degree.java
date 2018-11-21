@@ -11,6 +11,7 @@ public class Degree{
 	private Boolean placement;
 	private static Connection con;
 	
+	public Degree() {};
 	//Constructor for degree with just one department
 	public Degree(String name, Department mainDept,
 			String type,Boolean placement) throws Exception{
@@ -98,16 +99,17 @@ public class Degree{
 	
 
 	//Create DegrEe with just one department
-	public Degree createDegree() throws Exception  {
+	public int createDegree() throws Exception  {
 		connectToDB();
 		PreparedStatement newDeg,deg, newSeconDep= null;
 		int count = 0;
 		deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE name = ?");
-		newDeg = con.prepareStatement("INSERT INTO degree VALUES (?,?,?,?,?)");
+		newDeg = con.prepareStatement("INSERT INTO degree (code, name, mainDept, type, placement)  VALUES (?,?,?,?,?)");
 		newSeconDep = con.prepareStatement("INSERT INTO seconDepts VALUES(?,?)");
 	
 		try {
 			deg.setString(1, getName());
+			//System.out.println(deg.toString());
 			ResultSet res = deg.executeQuery();
 			
 			res.next();
@@ -117,14 +119,17 @@ public class Degree{
 				newDeg.setString(3,getMainDept().getCode());
 				newDeg.setString(4, getType());
 				newDeg.setBoolean(5,getPlacement());
+				//System.out.println(getCode()+getName()+getMainDept().getCode());
+				//System.out.println(getType()+getPlacement());
+				//System.out.println(newDeg.toString());
 				count = newDeg.executeUpdate();
-				
 				if (!this.seconDepts.isEmpty()) {
-				
+				System.out.println("Aqui");
 					newSeconDep.setString(1, getCode());
 					for (Department str:getSeconDepts()) {
 						newSeconDep.setString(2, str.getCode());
-						count += newSeconDep.executeUpdate();
+						System.out.println(newSeconDep.toString());
+				//		count += newSeconDep.executeUpdate();
 					}
 			}
 					
@@ -136,7 +141,7 @@ public class Degree{
 				newDeg.close();
 		}
 		con.close();
-		return this;
+		return count;
 	}
 	
 	
@@ -211,7 +216,7 @@ public class Degree{
 				ResultSet res2 = secDep.executeQuery();
 				while (res2.next()) {
 					String deptC = res2.getString("dept");
-					deptList.add(dep.getDept(deptC));
+					deptList.add(dep.getDeptwCode(deptC));
 				}
 				
 				degree = new Degree(name, dep,deptList,type,placement);
@@ -265,21 +270,22 @@ public class Degree{
 			return degreeList;
 		}
 		
+		/**
 		public static void main(String[] args){
 			ArrayList<Degree> degreeList;
 			ArrayList<Department> deptList = new ArrayList<Department>();
 			Department c = new Department ("COM","Computer Science");
 			Department b,l;
-			// Degree v = new Degree();
+			Degree v = new Degree();
 			
-//			try {
-//				c.createDept();
-//				b = c.getDept("BUS");
-//				l = c.getDept("LAN");
-//				deptList.add(b);
-//				deptList.add(l);
-//				Degree t = new Degree ("BSc Information Systems",c,deptList,"Undergraduate",false);
-//				t.setCode();
+			try {
+				c.createDept();
+				b = c.getDeptwCode("BUS");
+				l = c.getDeptwCode("LAN");
+				deptList.add(b);
+				deptList.add(l);
+				Degree t = new Degree ("BSc Information System4",c,deptList,"Undergraduate",false);
+				t.setCode();
 //				System.out.println(t.getCode());
 //				/*
 //				System.out.println(t.getName());
@@ -288,12 +294,13 @@ public class Degree{
 //				System.out.println(t.getType());
 //				System.out.println(t.getPlacement());
 //				
-//				System.out.println("Tudo bem");*/
+//				System.out.println("Tudo bem");
 //				degreeList = t.getAllDegree();
 //				//System.out.println("Tudo bem2");
 //				for(Degree str:degreeList)  
 //			        System.out.println(str.getName()+ str.getCode() + "What1");
-//				t.createDegree();
+				int y =  t.createDegree();
+				System.out.println(y + "Funcionou");
 //				//t.deleteDegree();
 //				degreeList = t.getAllDegree();
 //				for(Degree str:degreeList)  
@@ -311,11 +318,11 @@ public class Degree{
 //				degreeList = t.getAllDegree();
 //				for(Degree str:degreeList)  
 //			        System.out.println(str.getName()+ str.getCode() +"Apagado");
-//				*/
-//			} catch(Exception ex) {
-//				ex.printStackTrace();
-//			} 
-		}
+//				
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			} 
+		}*/
 		
 		
 	

@@ -38,7 +38,7 @@ public class Department{
 	}
 	
 	//Create Department
-	public Department createDept() throws Exception  {
+	public int createDept() throws Exception  {
 		connectToDB();
 		int count = 0;
 		PreparedStatement newDept, dept = null;
@@ -62,7 +62,7 @@ public class Department{
 					newDept.close();
 		}
 		con.close();
-		return this;
+		return count;
 	}
 	
 	//Delete Department
@@ -131,7 +131,27 @@ public class Department{
 		con.close();
 		return deptList;
 	}
-	
+	public ArrayList<Department> getAllDep() throws Exception  {
+		Department department = new Department();
+		ArrayList<Department> deptList = new ArrayList<Department>();
+		connectToDB();
+		Statement stmt = con.createStatement();
+		try {
+			ResultSet res  = stmt.executeQuery("SELECT code FROM department");
+			while (res.next()) {
+				String code = res.getString("code");
+				deptList.add(department.getDept(code));
+			}
+			res.close();
+		 }catch (SQLException ex) {
+			 ex.printStackTrace();
+		 }finally {
+				if (stmt != null)
+					stmt.close();
+			}
+		con.close();
+		return deptList;
+	}
 	//get department using name
 	public static Department getDept (String n) throws Exception  {
 		Department d = new Department();
@@ -157,15 +177,39 @@ public class Department{
 		return d;
 	}
 	
+	public Department getDeptwCode (String c) throws Exception  {
+		Department d = new Department();
+		PreparedStatement dept = null;
+		connectToDB();
+		dept = con.prepareStatement("SELECT name FROM department WHERE code = ?");
+		try {
+			dept.setString(1, c);
+			ResultSet res  = dept.executeQuery();
+			res.next();
+			name = res.getString("name");
+			d = new Department(c,name);
+			res.close();
+			
+		 }catch (SQLException ex) {
+			 ex.printStackTrace();
+		 }finally {
+				if (dept != null)
+					dept.close();
+			}
+		con.close();
+		return d;
+	}
 	
+	
+	/**
 	public static void main(String[] args){
 		
-		ArrayList<String> deptList;
+		ArrayList<Department> deptList;
 		Department v = new Department("dos","dflv");
 		Department c = new Department ("COM","Computer Science");
 		try {
-			//System.out.println(v.getCode()+ " - " + v.getName());
-			/*deptList = v.getAllDep();
+			System.out.println(v.getCode()+ " - " + v.getName());
+			deptList = v.getAllDep();
 			for(Department str:deptList)  
 		        System.out.println(str.getCode() + " - " + str.getName());  
 			c.createDept();
@@ -173,7 +217,7 @@ public class Department{
 			deptList = v.getAllDep();
 			for(Department str:deptList)  
 		        System.out.println(str.getCode() + " - " + str.getName());  
-			v.deleteDep();*/
+			v.deleteDep();
 //			deptList = v.getAllDep();
 //			for(Department str:deptList)  
 //		        System.out.println(str.getCode() + " - " + str.getName());  
@@ -182,6 +226,8 @@ public class Department{
 		 
 			
 		 //System.out.println(t.getName("COM"));
+			System.out.println(c.createDept());
+			
 		} catch(Exception ex) {
 			 ex.printStackTrace();
 		}
@@ -195,6 +241,6 @@ public class Department{
 		} catch(Exception ex) {
 			 ex.printStackTrace();
 		}
-		System.out.println("REsultou?"); */
-	} 
+		System.out.println("REsultou?"); 
+	} */
 }

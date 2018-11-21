@@ -47,25 +47,40 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
         this.departmentScreen.add(codeInput);
         this.departmentScreen.add(submitBtn);
         this.departmentScreen.add(departmentTxt);
-
+        
+        
         backToProfileBtn.addActionListener(e -> {
             this.departmentScreen.setVisible(false);
             this.departmentManagement.draw();
         });
+        
         submitBtn.addActionListener(e -> {
-            this.departmentScreen.setVisible(false);
-            Department dept = new Department(codeInput.getText(), nameInput.getText());
-
-            try {
-                Department newDept = dept.createDept();
-                this.departmentManagement.draw();
-                JOptionPane.showMessageDialog(null, "Successfully created Department: " + newDept.getName());
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "SQL error, please try again");
-            }
+        	if(nameInput.getText().isEmpty())
+        		JOptionPane.showMessageDialog(null, "Please insert the name of the Department");
+        	else if (codeInput.getText().isEmpty()) {
+        		JOptionPane.showMessageDialog(null, "Please insert the code of the Department");
+        	} else if (codeInput.getText().length() != 3)
+        		JOptionPane.showMessageDialog(null, "Please insert a valid Department three-letter code. ");
+        	else {
+	        	Department dept = new Department(codeInput.getText(), nameInput.getText());
+	            
+	            try {
+	                int count = dept.createDept();
+	                if (count != 0) {
+	                	JOptionPane.showMessageDialog(null, "Successfully created Department: " + dept.getName());
+	                	this.departmentScreen.setVisible(false);
+	                	this.departmentManagement.draw();
+	                } else {
+	                	JOptionPane.showMessageDialog(null, "Please choose a differente Department Code.");
+	                }
+	            } catch (Exception ex) {
+	                JOptionPane.showMessageDialog(null, "SQL error, please try again");
+	            }
+        	}
         });
-
-        screen.frame.add(this.departmentScreen);
+        
+        
+        	screen.frame.add(this.departmentScreen);
     }
 
     private void initComponents() {
