@@ -1,7 +1,6 @@
 package university;
 import java.sql.*;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Module {
 	
@@ -108,6 +107,47 @@ public class Module {
 				delMod.close();
 		}
 		con.close();
+	}
+	
+	public static Module getModule(String c) throws Exception {
+		System.out.println(c);
+		Module module = null;
+		
+		connectToDB();
+		PreparedStatement mod,noMod = null;
+		noMod = con.prepareStatement("SELECT COUNT(*) FROM module WHERE code = ?");
+		mod = con.prepareStatement("SELECT * FROM module WHERE code =  ?");
+		Statement stmt = con.createStatement();
+		
+		try {
+			noMod.setString(1, c);
+			System.out.println(noDeg);
+			ResultSet res1 = noMod.executeQuery();
+			res1.next();
+			
+			if(res1.getInt(1) != 0) {
+				mod.setString(1, c);
+				ResultSet res = mod.executeQuery();
+				res.next();
+				String code = res.getString("code");
+				String name = res.getString("name");
+				String duration = res.getString("duration");
+				int credits = res.getInt("credits");
+				
+				module = new Module(name, code, credits, duration);
+				res.close();
+				res1.close();
+			}
+			
+			
+		 }catch (SQLException ex) {
+			 ex.printStackTrace();
+		 }finally {
+				if (stmt != null)
+					stmt.close();
+			}
+		con.close();
+		return module;
 	}
 	
 	public boolean checkApproval(String d, String l) {
