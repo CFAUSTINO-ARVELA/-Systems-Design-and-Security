@@ -10,6 +10,7 @@ public class StudentStatus {
 	private String period;
 	private Date startDate;
 	private Date endDate;
+	private boolean registered;
 	
 	public StudentStatus createStudentStatus() throws SQLException {
 		
@@ -19,8 +20,8 @@ public class StudentStatus {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
-			String query = String.format("INSERT INTO studentStatus (registrationNumber, level, period) VALUES (%d, \"%s\", \"%s\");",
-					this.registrationNumber, this.level, this.period);
+			String query = String.format("INSERT INTO studentStatus (registrationNumber, level, period, registered) VALUES (%d, \"%s\", \"%s\", %b);",
+					this.registrationNumber, this.level, this.period, false);
 			int count = stmt.executeUpdate(query);
 					
 
