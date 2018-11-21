@@ -196,5 +196,22 @@ public class Module {
 	public boolean checkApproval(String d, String l) {
 		return true; // Write an actual function here
 	}
+	
+	public boolean checkCredits(ArrayList<Module> list, boolean postgrad) {
+		int creditTotal = 0;
+		
+		for (Module module : list) {
+			int credits = module.getCredits();
+			creditTotal += credits;
+		}
+		
+		if (postgrad && credits == 180) {
+			return true;
+		} else if (!postgrad && credits == 120) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }
