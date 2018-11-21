@@ -144,7 +144,8 @@ public class Degree{
 		return count;
 	}
 	
-	
+
+
 	//Delete degree with code and name (just to be safe)
 	public int deleteDegree() throws Exception {
 		int count = 0;
@@ -210,6 +211,7 @@ public class Degree{
 				String mainDept = res.getString("mainDept");
 				String type = res.getString("type");
 				Boolean placement = res.getBoolean("placement");
+				Boolean fouryears = res.getBoolean("fouryears");
 				String depName = res.getString("department.name");
 				dep = new Department(mainDept,depName);
 				secDep.setString(1, c);
@@ -219,7 +221,7 @@ public class Degree{
 					deptList.add(dep.getDeptwCode(deptC));
 				}
 				
-				degree = new Degree(name, dep,deptList,type,placement);
+				degree = new Degree(name, dep,deptList,type,placement,fouryears);
 				degree.setCode(code);
 				res.close();
 				res1.close();
@@ -269,8 +271,48 @@ public class Degree{
 			
 			return degreeList;
 		}
-		
+
 		/**
+=======
+		public static ArrayList<Module> getCoreModules(Degree d, int l) throws Exception {
+			ArrayList<Module> coreModules = new ArrayList<Module>();
+			Module module = null;
+			
+			connectToDB();
+			Statement stmt = con.createStatement();
+			String degCode = d.getCode();
+			
+			ResultSet res = stmt.executeQuery(String.format("SELECT modCode FROM assoModDeg WHERE degCode = \"%s\" AND year = %d AND mandatory = true;", degCode, l));
+			
+			while (res.next()) {
+				module = Module.getModule(res.getString("modCode"));
+				coreModules.add(module);
+			}
+			
+			
+			return coreModules;
+		}
+		
+		public static ArrayList<Module> getOptionalModules(Degree d, int l) throws Exception {
+			ArrayList<Module> optionalModules = new ArrayList<Module>();
+			Module module = null;
+			
+			connectToDB();
+			Statement stmt = con.createStatement();
+			String degCode = d.getCode();
+			
+			ResultSet res = stmt.executeQuery(String.format("SELECT modCode FROM assoModDeg WHERE degCode = \"%s\" AND year = %d AND mandatory = false;", degCode, l));
+			
+			while (res.next()) {
+				module = Module.getModule(res.getString("modCode"));
+				optionalModules.add(module);
+			}
+			
+			
+			return optionalModules;
+		}
+		
+>>>>>>> be6d3e369968de5b9330658105e05417da2e3195
 		public static void main(String[] args){
 			ArrayList<Degree> degreeList;
 			ArrayList<Department> deptList = new ArrayList<Department>();

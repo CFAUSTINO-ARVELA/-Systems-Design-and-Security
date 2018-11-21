@@ -19,7 +19,10 @@ public class CreateTables {
 					"CREATE TABLE account (Title varchar(6), Forename varchar(255), Surname varchar(255), Username varchar(255) NOT NULL PRIMARY KEY, Password varchar(255), Email varchar(255), Clearance int);");
 
 			count += stmt.executeUpdate(
-					("CREATE TABLE studentStatus (RegistrationNumber int NOT NULL PRIMARY KEY, Level int, Period int, StartDate date, EndDate date);"));
+					"CREATE TABLE studentStatus (RegistrationNumber int NOT NULL PRIMARY KEY, Level char, Period int, StartDate date, EndDate date, Registered boolean);");
+			
+			count+= stmt.executeUpdate("CREATE TABLE moduleChoice (RegistrationNumber int NOT NULL PRIMARY KEY, ModuleCode varchar(7) NOT NULL, Period char, Grade int);");
+			
 
 			System.out.println(count);
 
@@ -33,7 +36,7 @@ public class CreateTables {
 			// Create table for degree
 			int degree = stmt.executeUpdate(
 					"CREATE TABLE degree (code varchar(6) NOT NULL PRIMARY KEY, name varchar(255) NOT NULL, "
-							+ "mainDept varchar(3) REFERENCES department(code), type varchar(13), placement BOOL);");
+							+ "mainDept varchar(3) REFERENCES department(code), type varchar(13), placement BOOL, fouryears BOOL);");
 
 			// Create table for the secondary departments of interdisciplinary degrees
 			int secondDep = stmt

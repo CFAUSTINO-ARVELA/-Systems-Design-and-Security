@@ -1,24 +1,24 @@
 package university.UI;
 
-import java.awt.*;
-import javax.swing.*;
+import university.UI.ProfileScreen;
+import university.ScreenManager;
+import university.Account;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import university.UI.ProfileScreen;
-import university.ScreenManager;
-import university.Account;
-
 import java.awt.Color;
-import java.awt.Point;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.Rectangle;
-import java.awt.event.*;
-
-import java.sql.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 class AccountCreationScreen extends JPanel implements ActionListener {
 
@@ -27,7 +27,6 @@ class AccountCreationScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private AccountManagementScreen accountManagement;
     private ProfileScreen profileScreen;
-    private Account account;
     private String[] clearanceList = { "Teacher", "Registar", "Admin" };
 
     AccountCreationScreen(ScreenManager scr, AccountManagementScreen accManage, ProfileScreen prof) {
@@ -97,7 +96,6 @@ class AccountCreationScreen extends JPanel implements ActionListener {
                 Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(),
                         "password", cle);
 
-                String status;
                 try {
                     Account newAccount = ac.createAccount();
                     this.profileScreen.draw();

@@ -33,7 +33,7 @@ new FormModel {
 				"width": 170
 				"height": 30
 				"x": 415
-				"y": 465
+				"y": 470
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "createBtn"
@@ -42,7 +42,7 @@ new FormModel {
 				"width": 170
 				"height": 30
 				"x": 415
-				"y": 430
+				"y": 440
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 				name: "tablePanel"
@@ -51,6 +51,24 @@ new FormModel {
 				"height": 290
 				"x": 177
 				"y": 100
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "moduleBtn"
+				"text": "Add/drop modules"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 170
+				"height": 30
+				"x": 325
+				"y": 410
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "registrationBtn"
+				"text": "Student registration"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 170
+				"height": 30
+				"x": 505
+				"y": 410
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 5, 5 )

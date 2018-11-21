@@ -14,6 +14,7 @@ import university.ScreenManager;
 import university.Student;
 import university.TableModel;
 import university.Account;
+import university.ModuleChoice;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -49,6 +50,8 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         this.studentManagement.add(createBtn);
         this.studentManagement.add(deleteBtn);
         this.studentManagement.add(tablePanel);
+        this.studentManagement.add(registrationBtn);
+        this.studentManagement.add(moduleBtn);
 
         this.tablePanel.setLayout(new BorderLayout());
 
@@ -79,6 +82,11 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Student to delete");
             }
+        });
+        moduleBtn.addActionListener(e -> {
+            ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this);
+            choiceScreen.draw();
+            this.studentManagement.setVisible(false);
         });
 
         try {
@@ -123,57 +131,63 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         deleteBtn = new JButton();
         createBtn = new JButton();
         tablePanel = new JPanel();
+        moduleBtn = new JButton();
+        registrationBtn = new JButton();
 
-        // ======== this ========
+        //======== this ========
 
         // JFormDesigner evaluation mark
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
-                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
-                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
-                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
-        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent e) {
-                if ("border".equals(e.getPropertyName()))
-                    throw new RuntimeException();
-            }
-        });
+        setBorder(new javax.swing.border.CompoundBorder(
+            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
+                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
+                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
 
         setLayout(null);
 
-        // ---- backToProfileBtn ----
+        //---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(414, 500, 170, 50);
 
-        // ---- studentManagementTxt ----
+        //---- studentManagementTxt ----
         studentManagementTxt.setText("Student Management");
-        studentManagementTxt
-                .setFont(studentManagementTxt.getFont().deriveFont(studentManagementTxt.getFont().getSize() + 10f));
+        studentManagementTxt.setFont(studentManagementTxt.getFont().deriveFont(studentManagementTxt.getFont().getSize() + 10f));
         studentManagementTxt.setHorizontalAlignment(SwingConstants.CENTER);
         studentManagementTxt.setForeground(Color.white);
         add(studentManagementTxt);
         studentManagementTxt.setBounds(347, 35, 305, 31);
 
-        // ---- deleteBtn ----
+        //---- deleteBtn ----
         deleteBtn.setText("Delete Student");
         add(deleteBtn);
-        deleteBtn.setBounds(415, 465, 170, 30);
+        deleteBtn.setBounds(415, 470, 170, 30);
 
-        // ---- createBtn ----
+        //---- createBtn ----
         createBtn.setText("Create Student");
         add(createBtn);
-        createBtn.setBounds(415, 430, 170, 30);
+        createBtn.setBounds(415, 440, 170, 30);
 
-        // ======== tablePanel ========
+        //======== tablePanel ========
         {
             tablePanel.setLayout(new BorderLayout());
         }
         add(tablePanel);
         tablePanel.setBounds(177, 100, 645, 290);
 
+        //---- moduleBtn ----
+        moduleBtn.setText("Add/drop modules");
+        add(moduleBtn);
+        moduleBtn.setBounds(325, 410, 170, 30);
+
+        //---- registrationBtn ----
+        registrationBtn.setText("Student registration");
+        add(registrationBtn);
+        registrationBtn.setBounds(505, 410, 170, 30);
+
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for (int i = 0; i < getComponentCount(); i++) {
+            for(int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -194,6 +208,8 @@ class StudentManagementScreen extends JPanel implements ActionListener {
     private JButton deleteBtn;
     private JButton createBtn;
     private JPanel tablePanel;
+    private JButton moduleBtn;
+    private JButton registrationBtn;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
     @Override

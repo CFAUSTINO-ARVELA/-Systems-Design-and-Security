@@ -1,7 +1,6 @@
 package university;
 import java.sql.*;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Module {
 	
@@ -18,6 +17,10 @@ public class Module {
 		this.code = code;
 		this.credits = credits;
 		this.duration = duration;
+	}
+
+	public Module(String code) {
+		this.code = code;
 	}
 	
 	//Get module code
@@ -38,6 +41,29 @@ public class Module {
 	//Get module  duration
 	public String getDuration() {
 		return duration;
+	}
+
+	public static String generateCode(Department dep, int level) throws Exception {
+		connectToDB();
+		Statement stmt = con.createStatement();
+		String name = dep.getName();
+		ResultSet res  = stmt.executeQuery(String.format("SELECT code FROM department WHERE name = \"%s\";", name));
+		res.next();
+		String deptCode = res.getString("code");
+		
+		String codeSoFar = deptCode + Integer.toString(level);
+		
+		res = stmt.executeQuery(String.format("SELECT COUNT(*) FROM module WHERE code LIKE \"%s%%\";", codeSoFar));
+		res.next();
+		int count = res.getInt(1) + 1;
+		
+		String formatted = String.format("%03d", count);
+		String finalCode = codeSoFar + formatted;
+		
+		if (stmt != null) {
+			stmt.close();
+		}
+ 		return finalCode;
 	}
 	
 	//Connect to the database
@@ -110,8 +136,82 @@ public class Module {
 		con.close();
 	}
 	
+	public static Module getModule(String c) throws Exception {
+		System.out.println(c);
+		Module module = null;
+		
+		connectToDB();
+		PreparedStatement mod,noMod = null;
+		noMod = con.prepareStatement("SELECT COUNT(*) FROM module WHERE code = ?");
+		mod = con.prepareStatement("SELECT * FROM module WHERE code =  ?");
+		Statement stmt = con.createStatement();
+		
+		try {
+			noMod.setString(1, c);
+			System.out.println(noMod);
+			ResultSet res1 = noMod.executeQuery();
+			res1.next();
+			
+			if(res1.getInt(1) != 0) {
+				mod.setString(1, c);
+				ResultSet res = mod.executeQuery();
+				res.next();
+				String code = res.getString("code");
+				String name = res.getString("name");
+				String duration = res.getString("duration");
+				int credits = res.getInt("credits");
+				
+				module = new Module(name, code, credits, duration);
+				res.close();
+				res1.close();
+			}
+			
+			
+		 }catch (SQLException ex) {
+			 ex.printStackTrace();
+		 }finally {
+				if (stmt != null)
+					stmt.close();
+			}
+		con.close();
+		return module;
+	}
+	
+	public static int assignModule(String d, String m, int l, boolean c) throws Exception {
+		connectToDB();
+		
+		Statement stmt = con.createStatement();
+		
+		String query = String.format("INSERT INTO assoModDeg (degCode, modCode, year, mandatory) VALUES (\"%s\", \"%s\", %d, %b);", d, m, l, c);
+		System.out.println(query);
+		int count = stmt.executeUpdate(query);
+		
+		if (stmt != null) {
+			stmt.close();
+		}
+		
+		return count;
+	}
+	
 	public boolean checkApproval(String d, String l) {
 		return true; // Write an actual function here
+	}
+	
+	public boolean checkCredits(ArrayList<Module> list, boolean postgrad) {
+		int creditTotal = 0;
+		
+		for (Module module : list) {
+			int credits = module.getCredits();
+			creditTotal += credits;
+		}
+		
+		if (postgrad && credits == 180) {
+			return true;
+		} else if (!postgrad && credits == 120) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

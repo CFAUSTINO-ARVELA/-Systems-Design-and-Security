@@ -28,7 +28,6 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
     public JPanel degreeManagement;
     private ScreenManager screen;
     private TeachingManagementScreen teachingScreen;
-    private Account account;
     private JTable degreeTable;
     private Connection con = null;
     private Statement stmt = null;
