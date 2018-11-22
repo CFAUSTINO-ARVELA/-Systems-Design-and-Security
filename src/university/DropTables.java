@@ -10,8 +10,7 @@ public class DropTables {
 
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
-			stmt.close();
-			/**stmt = con.createStatement();
+			stmt = con.createStatement();
 			
 			int count = stmt.executeUpdate("DROP TABLE student;");
 			count += stmt.executeUpdate("DROP TABLE account;");
@@ -24,7 +23,7 @@ public class DropTables {
 			int levels = stmt.executeUpdate("DROP TABLE studyLevels"); 
 			
 //+ dep + degree
-			System.out.println(count); */
+			System.out.println(count);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {

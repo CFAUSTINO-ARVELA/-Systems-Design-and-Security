@@ -2,6 +2,7 @@ package university.UI;
 
 import university.ScreenManager;
 import university.Department;
+import university.UI.DepartmentManagementScreen;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,6 +24,7 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
     public JPanel departmentScreen;
     private ScreenManager screen;
     private DepartmentManagementScreen departmentManagement;
+    
 
     DepartmentCreationScreen(ScreenManager scr, DepartmentManagementScreen departManage) {
         this.initComponents();
@@ -60,13 +62,13 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
         		JOptionPane.showMessageDialog(null, "Please insert a valid Department three-letter code. ");
         	else {
 	        	Department dept = new Department(codeInput.getText(), nameInput.getText());
-	            
 	            try {
 	                int count = dept.createDept();
 	                if (count != 0) {
 	                	JOptionPane.showMessageDialog(null, "Successfully created Department: " + dept.getName());
 	                	this.departmentScreen.setVisible(false);
-	                	this.departmentManagement.draw();
+	                	DepartmentManagementScreen newDeptMana= new DepartmentManagementScreen(this.screen,departmentManagement.getTecMaangScree());
+	                	newDeptMana.draw();
 	                } else {
 	                	JOptionPane.showMessageDialog(null, "Please choose a differente Department Code.");
 	                }

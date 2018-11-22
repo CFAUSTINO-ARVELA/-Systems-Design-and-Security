@@ -8,7 +8,7 @@ public class Department{
 	private String name;
 	private static Connection con;
 	
-	Department(){}
+	public Department(){}
 	
 	public Department(String code,String name){
 		this.code = code;
@@ -199,16 +199,35 @@ public class Department{
 		con.close();
 		return d;
 	}
-	
-	
+	/**
+	public ResultSet getDeptList() throws Exception  {
+		ResultSet res = null;
+		PreparedStatement dept = null;
+		connectToDB();
+		dept = con.prepareStatement("SELECT * FROM department;");
+		try {
+			res  = dept.executeQuery();
+			
+			res.close();
+			
+		 }catch (SQLException ex) {
+			 ex.printStackTrace();
+		 }finally {
+				if (dept != null)
+					dept.close();
+			}
+		con.close();
+		return res;
+	} 
+	**/
 	/**
 	public static void main(String[] args){
 		
 		ArrayList<Department> deptList;
 		Department v = new Department("dos","dflv");
-		Department c = new Department ("COM","Computer Science");
+		//Department c = new Department ("COM","Computer Science");
 		try {
-			System.out.println(v.getCode()+ " - " + v.getName());
+			/**System.out.println(v.getCode()+ " - " + v.getName());
 			deptList = v.getAllDep();
 			for(Department str:deptList)  
 		        System.out.println(str.getCode() + " - " + str.getName());  
@@ -217,7 +236,7 @@ public class Department{
 			deptList = v.getAllDep();
 			for(Department str:deptList)  
 		        System.out.println(str.getCode() + " - " + str.getName());  
-			v.deleteDep();
+			v.deleteDep(); */
 //			deptList = v.getAllDep();
 //			for(Department str:deptList)  
 //		        System.out.println(str.getCode() + " - " + str.getName());  
@@ -226,11 +245,15 @@ public class Department{
 		 
 			
 		 //System.out.println(t.getName("COM"));
-			System.out.println(c.createDept());
-			
+			//System.out.println(c.createDept());
+			/*ResultSet t = v.getDeptList();
+			t.next();
+			while (t.next()) {
+				System.out.println(t.getString("code") + t.getString("name"));	
+			}
 		} catch(Exception ex) {
 			 ex.printStackTrace();
-		}
+		} */
 		
 		
 		/**
@@ -241,6 +264,6 @@ public class Department{
 		} catch(Exception ex) {
 			 ex.printStackTrace();
 		}
-		System.out.println("REsultou?"); 
-	} */
+		System.out.println("REsultou?");  */
+	//} 
 }

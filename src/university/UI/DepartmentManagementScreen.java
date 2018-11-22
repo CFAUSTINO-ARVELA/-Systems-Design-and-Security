@@ -42,6 +42,9 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
         this.teachingScreen = teach;
     }
 
+    public TeachingManagementScreen getTecMaangScree() {
+    	return teachingScreen;
+    }
     public void draw() {
         this.departmentScreen = new JPanel();
         this.departmentScreen.setBackground(new Color(70, 70, 70));

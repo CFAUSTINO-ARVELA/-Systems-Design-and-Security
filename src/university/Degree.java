@@ -211,7 +211,6 @@ public class Degree{
 				String mainDept = res.getString("mainDept");
 				String type = res.getString("type");
 				Boolean placement = res.getBoolean("placement");
-				Boolean fouryears = res.getBoolean("fouryears");
 				String depName = res.getString("department.name");
 				dep = new Department(mainDept,depName);
 				secDep.setString(1, c);
@@ -221,7 +220,7 @@ public class Degree{
 					deptList.add(dep.getDeptwCode(deptC));
 				}
 				
-				degree = new Degree(name, dep,deptList,type,placement,fouryears);
+				degree = new Degree(name, dep,deptList,type,placement);
 				degree.setCode(code);
 				res.close();
 				res1.close();
