@@ -71,7 +71,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
             this.studentCreation.setVisible(false);
             try {
                 this.studentManagement.draw();
-            } catch (SQLException ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });

@@ -10,7 +10,7 @@ public class Module {
 	private String duration;
 	private static Connection con;
 	
-	
+	public Module() {};
 	//Constructor for module
 	public Module(String name, String code, int credits, String duration) {
 		this.name = name;
@@ -67,7 +67,7 @@ public class Module {
 	}
 	
 	//Connect to the database
-	public static void connectToDB() throws Exception {
+	public static void connectToDB() throws SQLException {
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 		   }
@@ -213,5 +213,43 @@ public class Module {
 			return false;
 		}
 	}
+	
+	public ArrayList<ArrayList<String>> getModList() throws SQLException  {
+		ArrayList<ArrayList<String>> modList = new ArrayList<ArrayList<String>>();
+		ArrayList<String> mod = new ArrayList<String>();
+		ResultSet res = null;
+		PreparedStatement dept = null;
+		connectToDB();
+		dept = con.prepareStatement("SELECT * FROM module;");
+		try {
+			res  = dept.executeQuery();
+			mod.add("Name");
+			mod.add("Code");
+			mod.add("Credits");
+			mod.add("Duration");
+			modList.add((ArrayList) mod.clone());
+			while (res.next()) {
+				mod.clear();
+				mod.add(res.getString("name"));
+				mod.add(res.getString("code"));
+				mod.add(res.getString("credits"));
+				mod.add(res.getString("duration"));
+				//System.out.println("Depart" + depart.toString());
+				modList.add((ArrayList) mod.clone());
+				//for (int o = 0; o < deptList.size(); o++) {
+				//	System.out.println("deptList" + deptList.get(o).toString());
+				//	}
+			}
+			res.close();
+			
+		 }catch (SQLException ex) {
+			 ex.printStackTrace();
+		 }finally {
+				if (dept != null)
+					dept.close();
+			}
+		con.close();
+		return modList;
+	} 
 
 }

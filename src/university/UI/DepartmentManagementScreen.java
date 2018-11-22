@@ -64,7 +64,12 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
 
         backToTeachingBtn.addActionListener(e -> {
             this.departmentScreen.setVisible(false);
-            this.teachingScreen.draw();
+            try {
+				this.teachingScreen.draw();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
         createBtn.addActionListener(e -> {
             this.departmentScreen.setVisible(false);
@@ -87,7 +92,12 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
                     e1.printStackTrace();
                 }
                 this.departmentScreen.setVisible(false);
-                this.teachingScreen.draw();
+                try {
+					this.teachingScreen.draw();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                 JOptionPane.showMessageDialog(null, "Successfully deleted department: " + name);
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Department to delete");

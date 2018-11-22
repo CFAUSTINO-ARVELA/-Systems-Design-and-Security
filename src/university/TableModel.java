@@ -44,7 +44,7 @@ public class TableModel {
         };
 
     }
-
+/**
     public static DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
 
         ResultSetMetaData metaData = rs.getMetaData();
@@ -76,6 +76,6 @@ public class TableModel {
                 return false;
             }
         };
-    }
+    }  */
    
 }

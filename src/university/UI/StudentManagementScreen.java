@@ -41,7 +41,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         this.profileScreen = prof;
     }
 
-    public void draw() throws SQLException {
+    public void draw() throws Exception {
         this.studentManagement = new JPanel();
         this.studentManagement.setBackground(new Color(70, 70, 70));
 
@@ -89,30 +89,21 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             this.studentManagement.setVisible(false);
         });
 
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
-            stmt = con.createStatement();
-
+       
+            Student s = new Student();
             ResultSet res = stmt.executeQuery("SELECT * FROM student;");
-            studentTable = new JTable(TableModel.buildTableModel(res));
+            studentTable = new JTable(TableModel.buildTableModel(s.getStutList()));
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(studentTable);
 
             tablePanel.add(scrollPane);
 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (stmt != null) {
-            }
-            stmt.close();
-        }
 
         this.studentManagement.setVisible(true);
         screen.frame.add(this.studentManagement);
     }
 
-    public void returnFromManagement(String status) {
+    public void returnFromManagement(String status) throws Exception {
         JLabel statusTxt = new JLabel(status);
         this.studentManagement.add(statusTxt);
         try {

@@ -58,7 +58,12 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
 
         backToTeachingBtn.addActionListener(e -> {
             this.degreeManagement.setVisible(false);
-            this.teachingScreen.draw();
+            try {
+				this.teachingScreen.draw();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
         createBtn.addActionListener(e -> {
             this.degreeManagement.setVisible(false);

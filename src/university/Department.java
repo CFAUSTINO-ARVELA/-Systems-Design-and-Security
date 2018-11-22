@@ -28,7 +28,7 @@ public class Department{
 		return name;
 	}
 	//Connect to the database
-	public static void connectToDB() throws Exception {
+	public static void connectToDB() throws SQLException {
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 		   }
@@ -211,6 +211,7 @@ public class Department{
 			res  = dept.executeQuery();
 			depart.add("Code");
 			depart.add("Name");
+			deptList.add((ArrayList) depart.clone());
 			while (res.next()) {
 				depart.clear();
 				depart.add(res.getString("code"));

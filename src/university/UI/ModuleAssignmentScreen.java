@@ -12,6 +12,7 @@ import javax.swing.*;
  * Created by JFormDesigner on Wed Nov 21 13:18:41 GMT 2018
  */
 
+import university.Degree;
 import university.Module;
 import university.ScreenManager;
 import university.TableModel;
@@ -34,7 +35,7 @@ public class ModuleAssignmentScreen extends JPanel {
         initComponents();
     }
 
-    public void draw() throws SQLException {
+    public void draw() throws Exception {
         this.moduleAssScreen = new JPanel();
         this.moduleAssScreen.setBackground(new Color(70,70,70));
 
@@ -55,7 +56,12 @@ public class ModuleAssignmentScreen extends JPanel {
 
         backToProfileBtn.addActionListener(e -> {
             this.moduleAssScreen.setVisible(false);
-            this.teachScreen.draw();
+            try {
+				this.teachScreen.draw();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
         submitBtn.addActionListener((e -> {
 
@@ -79,7 +85,12 @@ public class ModuleAssignmentScreen extends JPanel {
                     e1.printStackTrace();
                 }
                 this.moduleAssScreen.setVisible(false);
-                this.teachScreen.draw();
+                try {
+					this.teachScreen.draw();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                 JOptionPane.showMessageDialog(null, "Successfully linked modules");
             } else {
                 JOptionPane.showMessageDialog(null, "Please select both a degree and module to link");
@@ -87,14 +98,13 @@ public class ModuleAssignmentScreen extends JPanel {
 
         }));
 
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
-            stmt = con.createStatement();
-
+     
+            Degree d = new Degree();
             ResultSet degRes = stmt.executeQuery("SELECT * FROM degree;");
-            degreeTable = new JTable(TableModel.buildTableModel(degRes));
+            degreeTable = new JTable(TableModel.buildTableModel(d.getDegList()));
+            Module m = new Module();
             ResultSet modRes = stmt.executeQuery("SELECT * FROM module;");
-            moduleTable = new JTable(TableModel.buildTableModel(modRes));
+            moduleTable = new JTable(TableModel.buildTableModel(m.getModList()));
             JScrollPane degreeScroll = new JScrollPane();
             JScrollPane moduleScroll = new JScrollPane();
             degreeScroll.setViewportView(degreeTable);
@@ -103,13 +113,6 @@ public class ModuleAssignmentScreen extends JPanel {
             modulePanel.add(moduleScroll);
             degreePanel.add(degreeScroll);
 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (stmt != null) {
-            }
-            stmt.close();
-        }
 
         this.screen.frame.add(this.moduleAssScreen);
 

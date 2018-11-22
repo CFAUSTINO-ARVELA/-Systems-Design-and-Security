@@ -39,7 +39,7 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
         this.teachingScreen = teach;
     }
 
-    public void draw() {
+    public void draw() throws Exception {
         this.moduleScreen = new JPanel();
         this.moduleScreen.setBackground(new Color(70, 70, 70));
 
@@ -57,12 +57,22 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
 
         backToTeachingBtn.addActionListener(e -> {
             this.moduleScreen.setVisible(false);
-            this.teachingScreen.draw();
+            try {
+				this.teachingScreen.draw();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
         createBtn.addActionListener(e -> {
             this.moduleScreen.setVisible(false);
             ModuleCreationScreen moduleCreate = new ModuleCreationScreen(this.screen, this);
-            moduleCreate.draw();
+            try {
+				moduleCreate.draw();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
         deleteBtn.addActionListener(e -> {
             if (moduleTable.getSelectedRow() > -1) {
@@ -75,35 +85,27 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
                     e1.printStackTrace();
                 }
                 this.moduleScreen.setVisible(false);
-                this.teachingScreen.draw();
+                try {
+					this.teachingScreen.draw();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                 JOptionPane.showMessageDialog(null, "Successfully deleted student: " + username);
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Student to delete");
             }
         });
 
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
-            stmt = con.createStatement();
-
-            ResultSet res = stmt.executeQuery("SELECT * FROM module;");
-            moduleTable = new JTable(TableModel.buildTableModel(res));
+       
+            Module m = new Module();
+            moduleTable = new JTable(TableModel.buildTableModel(m.getModList()));
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(moduleTable);
 
             tablePanel.add(scrollPane);
 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (stmt != null) {
-            }
-            try {
-                stmt.close();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        }
+       
 
         screen.frame.add(this.moduleScreen);
     }

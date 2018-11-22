@@ -36,7 +36,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         this.moduleManagement = moduleManage;
     }
 
-    public void draw() {
+    public void draw() throws Exception{
         this.moduleCreationScreen = new JPanel();
         this.moduleCreationScreen.setBackground(new Color(70, 70, 70));
         this.moduleCreationScreen.setLayout(null);
@@ -59,7 +59,12 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
 
         backToProfileBtn.addActionListener(e -> {
             this.moduleCreationScreen.setVisible(false);
-            this.moduleManagement.draw();
+            try {
+				this.moduleManagement.draw();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
         submitBtn.addActionListener((e -> {
 
@@ -91,7 +96,12 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Successfully created Module: " + newMod.getName());
             } catch (Exception ex) {
                 ex.printStackTrace();
-                this.moduleManagement.draw();
+                try {
+					this.moduleManagement.draw();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                 JOptionPane.showMessageDialog(null, "SQL error, please try again");
             }
         }));

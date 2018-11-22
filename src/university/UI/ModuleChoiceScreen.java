@@ -89,9 +89,10 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         backToProfileBtn.addActionListener(e -> {
             try {
                 this.studentScreen.draw();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+            } catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             this.moduleScreen.setVisible(false);
         });
 

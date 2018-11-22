@@ -89,10 +89,10 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 
             stmt = con.createStatement();
-
+            Account ac = new Account();
             ResultSet res = stmt
                     .executeQuery("SELECT title, forename, surname, username, email, clearance FROM account;");
-            accountTable = new JTable(TableModel.buildTableModel(res));
+            accountTable = new JTable(TableModel.buildTableModel(ac.getAcctList()));
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(accountTable);
 

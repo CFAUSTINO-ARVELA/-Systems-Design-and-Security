@@ -1,6 +1,7 @@
 package university;
 import java.security.SecureRandom;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Account {
 
@@ -11,6 +12,7 @@ public class Account {
 	private String username;
 	private String password;
 	private Clearance clearance;
+	private static Connection con;
 
 	public Account(String _title, String _forename, String _surname, String _password,
 			String _clearance) {
@@ -44,14 +46,24 @@ public class Account {
 	public Account(String _username) {
 		this.username = _username;
 	}
+	
+	public Account() {}
 
+	//Connect to the database
+		public static void connectToDB() throws SQLException {
+			   try {
+				   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+			   }
+			   catch(SQLException ex) {
+				   ex.printStackTrace();
+			   }
+		}
 	public Account createAccount() throws SQLException {
 
-		Connection con = null;
+		connectToDB();
 		Statement stmt = null;
 
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
 			String query = String.format("INSERT INTO account (title, forename, surname, username, clearance, email, password) VALUES (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\");",
 					this.title, this.forename, this.surname, this.username, this.clearance.toInt(), this.email, this.password);
@@ -81,13 +93,13 @@ public class Account {
 	private String generateUsername() throws SQLException {
 		// generate username based on details
 
-		Connection con = null;
+		connectToDB();
 		Statement stmt = null;
 		int count = 1;
 		String initials = "";
 
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+			
 			stmt = con.createStatement();
 			String query = String.format("SELECT forename FROM account WHERE surname LIKE '%s';", this.surname);
 			System.out.println(query);
@@ -133,11 +145,11 @@ public class Account {
 
 	public void setTitle(String t) throws SQLException {
 
-		Connection con = null;
+		connectToDB();
 		Statement stmt = null;
 
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+			
 			stmt = con.createStatement();
 			int count = stmt.executeUpdate(
 					String.format("UPDATE account SET title = %s WHERE username = %s;", t, this.username));
@@ -160,11 +172,10 @@ public class Account {
 
 	public void setForename(String f) throws SQLException {
 
-		Connection con = null;
+		connectToDB();
 		Statement stmt = null;
 
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
 			int count = stmt.executeUpdate(
 					String.format("UPDATE account SET forename = %s WHERE username = %s;", f, this.username));
@@ -187,11 +198,11 @@ public class Account {
 
 	public void setSurname(String s) throws SQLException {
 
-		Connection con = null;
+		connectToDB();
 		Statement stmt = null;
 
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+			
 			stmt = con.createStatement();
 			int count = stmt.executeUpdate(
 					String.format("UPDATE account SET surname = %s WHERE username = %s;", s, this.username));
@@ -234,11 +245,11 @@ public class Account {
 	
 	public void deleteAccount() throws SQLException {
 		
-		Connection con = null;
+		connectToDB();
 		Statement stmt = null;
 
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+			
 			stmt = con.createStatement();
 			int count = stmt.executeUpdate(
 					String.format("DELETE FROM account WHERE username = \"%s\";", this.username));
@@ -252,6 +263,50 @@ public class Account {
 		}
 	}
 	
+	public ArrayList<ArrayList<String>> getAcctList() throws SQLException  {
+		ArrayList<ArrayList<String>> accList = new ArrayList<ArrayList<String>>();
+		ArrayList<String> account = new ArrayList<String>();
+		ResultSet res = null;
+		PreparedStatement dept = null;
+		connectToDB();
+		dept = con.prepareStatement("SELECT Title, Forename, Surname, Username, Email, Clearance FROM account;");
+		try {
+			res  = dept.executeQuery();
+			account.add("Title");
+			account.add("Forename");
+			account.add("Surname");
+			account.add("Username");
+			account.add("Email");
+			account.add("Clearance");
+			//System.out.println(account.toString());
+			accList.add((ArrayList)account.clone());
+			
+			while (res.next()) {
+				account.clear();
+				account.add(res.getString("Title"));
+				account.add(res.getString("Forename"));
+				account.add(res.getString("Surname"));
+				account.add(res.getString("Username"));
+				account.add(res.getString("Email"));
+				account.add(res.getString("Clearance"));
+				//System.out.println("Depart" + depart.toString());
+				accList.add((ArrayList) account.clone());
+				//for (int o = 0; o < deptList.size(); o++) {
+				//	System.out.println("deptList" + deptList.get(o).toString());
+				//	}
+			}
+			res.close();
+			
+		 }catch (SQLException ex) {
+			 ex.printStackTrace();
+		 }finally {
+				if (dept != null)
+					dept.close();
+			}
+		con.close();
+		return accList;
+	} 
+	
 	static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	static SecureRandom rnd = new SecureRandom();
 
@@ -261,5 +316,18 @@ public class Account {
 	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
 	   return sb.toString();
 	}
+	/**
+	public static void main(String[] args){
+		Account g = new Account();
+		try {
+		ArrayList<ArrayList<String>> t = g.getAcctList();
+		for (int o = 0; o < t.size(); o++) {
+			System.out.println(o);
+			System.out.println(t.get(o).toString());
+			}
+		} catch(Exception ex) {
+			 ex.printStackTrace();
+		}
+	}*/
 
 }

@@ -34,7 +34,7 @@ public class LoginScreen extends JPanel {
             this.loginScreen.setVisible(false);
             this.login();
         });
-
+        
         this.loginScreen.setLayout(null);
         this.loginScreen.setBackground(new Color(70, 70,70));
         

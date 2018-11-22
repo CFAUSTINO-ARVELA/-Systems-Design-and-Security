@@ -35,7 +35,7 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
         this.screen = scr;
     }
 
-    public void draw() {
+    public void draw() throws SQLException{
         this.teachingManagement = new JPanel();
 
         teachingManagement.setForeground(new Color(255,255,255));
@@ -77,7 +77,12 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
         moduleBtn.addActionListener(e -> {
             this.teachingManagement.setVisible(false);
             ModuleManagementScreen moduleScreen = new ModuleManagementScreen(this.screen, this);
-            moduleScreen.draw();
+            try {
+				moduleScreen.draw();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
         moduleAssignmentBtn.addActionListener(e -> {
             this.teachingManagement.setVisible(false);
@@ -87,7 +92,10 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
             } catch (SQLException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
-            }
+            } catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
 
         screen.frame.add(this.teachingManagement);
