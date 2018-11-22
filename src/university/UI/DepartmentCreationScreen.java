@@ -32,7 +32,7 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
         this.departmentManagement = departManage;
     }
 
-    public void draw() {
+    public void draw() throws Exception {
         this.departmentScreen = new JPanel();
         this.departmentScreen.setBackground(new Color(70, 70, 70));
         this.departmentScreen.setLayout(null);
@@ -50,7 +50,12 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
         
         backToProfileBtn.addActionListener(e -> {
             this.departmentScreen.setVisible(false);
-            this.departmentManagement.draw();
+            try {
+				this.departmentManagement.draw();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
         
         submitBtn.addActionListener(e -> {

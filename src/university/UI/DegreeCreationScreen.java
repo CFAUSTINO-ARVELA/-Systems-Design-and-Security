@@ -20,7 +20,7 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
     public JPanel degreeCreation;
     private ScreenManager screen;
     private DegreeManagementScreen degreeManagement;
-    private String[] degreeTypes = { "Undergraduate 3 years", "Undergraduate 4 years", "Postgraduate" };
+    private String[] degreeTypes = { "Undergraduate", "Postgraduate" };
     private String[] placementYear = { "No", "Yes" };
     private ArrayList<String> departments = new ArrayList<String>();
     private List<JCheckBox> checkboxes = new ArrayList<>();
@@ -67,7 +67,12 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
 
         backToProfileBtn.addActionListener(e -> {
             this.degreeCreation.setVisible(false);
-            this.degreeManagement.draw();
+            try {
+				this.degreeManagement.draw();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
         submitBtn.addActionListener((e -> {
         	if (nameInput.getText().isEmpty())
@@ -122,11 +127,17 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
 	                else {
 	                	JOptionPane.showMessageDialog(null, "Successfully created Degree: " + deg.getName());	
 	                	this.degreeCreation.setVisible(false);
-	                	this.degreeManagement.draw();
+	                	DegreeManagementScreen degMan = new DegreeManagementScreen(this.screen,degreeManagement.getTecMaangScree());
+	                	degMan.draw();
 	                }
 	            } catch (Exception ex) {
 	                ex.printStackTrace();
-	                this.degreeManagement.draw();
+	                try {
+						this.degreeManagement.draw();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 	                JOptionPane.showMessageDialog(null, "SQL error, please try again");
 	            }
 	            

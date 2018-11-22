@@ -271,8 +271,61 @@ public class Degree{
 			return degreeList;
 		}
 
-		/**
-=======
+		public ArrayList<ArrayList<String>> getDegList() throws Exception  {
+			ArrayList<ArrayList<String>> degList = new ArrayList<ArrayList<String>>();
+			ArrayList<String> deg = new ArrayList<String>();
+			ResultSet res = null;
+			PreparedStatement dept = null;
+			connectToDB();
+			dept = con.prepareStatement("SELECT * FROM degree;");
+			try {
+				res  = dept.executeQuery();
+				deg.add("Code");
+				deg.add("Name");
+				deg.add("Main Department");
+				deg.add("Type");
+				deg.add("Placement");
+				deg.add("Duration");
+				degList.add((ArrayList) deg.clone());
+				while (res.next()) {
+					deg.clear();
+					deg.add(res.getString("code"));
+					deg.add(res.getString("name"));
+					deg.add(res.getString("mainDept"));
+					deg.add(res.getString("type"));
+					if(res.getBoolean("placement") == true)
+						deg.add("Yes");
+					else
+						deg.add("No");
+					if (res.getString("type") == "Undergraduate")
+						if (res.getBoolean("placement") == false)
+							deg.add("3 Years");
+						else 
+							deg.add("4 Years");
+					else
+						if (res.getBoolean("placement") == false)
+							deg.add("4 Years");
+						else 
+							deg.add("5 Years");
+							
+					//System.out.println("Depart" + depart.toString());
+					degList.add((ArrayList) deg.clone());
+					//for (int o = 0; o < deptList.size(); o++) {
+					//	System.out.println("deptList" + deptList.get(o).toString());
+					//	}
+				}
+				res.close();
+				
+			 }catch (SQLException ex) {
+				 ex.printStackTrace();
+			 }finally {
+					if (dept != null)
+						dept.close();
+				}
+			con.close();
+			return degList;
+		} 
+		
 		public static ArrayList<Module> getCoreModules(Degree d, int l) throws Exception {
 			ArrayList<Module> coreModules = new ArrayList<Module>();
 			Module module = null;
@@ -311,16 +364,18 @@ public class Degree{
 			return optionalModules;
 		}
 		
->>>>>>> be6d3e369968de5b9330658105e05417da2e3195
+		/**
 		public static void main(String[] args){
-			ArrayList<Degree> degreeList;
+			/**ArrayList<Degree> degreeList;
 			ArrayList<Department> deptList = new ArrayList<Department>();
 			Department c = new Department ("COM","Computer Science");
 			Department b,l;
 			Degree v = new Degree();
-			
+			**/
+		/**
+			Degree v = new Degree();
 			try {
-				c.createDept();
+				/**c.createDept();
 				b = c.getDeptwCode("BUS");
 				l = c.getDeptwCode("LAN");
 				deptList.add(b);
@@ -359,7 +414,14 @@ public class Degree{
 //				degreeList = t.getAllDegree();
 //				for(Degree str:degreeList)  
 //			        System.out.println(str.getName()+ str.getCode() +"Apagado");
-//				
+//				*/
+		/**
+				ArrayList<ArrayList<String>> t = v.getDegList();
+				for (int o = 0; o < t.size(); o++) {
+					System.out.println(o);
+					System.out.println(t.get(o).toString());
+					}
+				System.out.println(t.get(2).toString());
 			} catch(Exception ex) {
 				ex.printStackTrace();
 			} 

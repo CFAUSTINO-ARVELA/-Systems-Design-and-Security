@@ -199,15 +199,28 @@ public class Department{
 		con.close();
 		return d;
 	}
-	/**
-	public ResultSet getDeptList() throws Exception  {
+	
+	public ArrayList<ArrayList<String>> getDeptList() throws Exception  {
+		ArrayList<ArrayList<String>> deptList = new ArrayList<ArrayList<String>>();
+		ArrayList<String> depart = new ArrayList<String>();
 		ResultSet res = null;
 		PreparedStatement dept = null;
 		connectToDB();
 		dept = con.prepareStatement("SELECT * FROM department;");
 		try {
 			res  = dept.executeQuery();
-			
+			depart.add("Code");
+			depart.add("Name");
+			while (res.next()) {
+				depart.clear();
+				depart.add(res.getString("code"));
+				depart.add(res.getString("name"));
+				//System.out.println("Depart" + depart.toString());
+				deptList.add((ArrayList) depart.clone());
+				//for (int o = 0; o < deptList.size(); o++) {
+				//	System.out.println("deptList" + deptList.get(o).toString());
+				//	}
+			}
 			res.close();
 			
 		 }catch (SQLException ex) {
@@ -217,9 +230,9 @@ public class Department{
 					dept.close();
 			}
 		con.close();
-		return res;
+		return deptList;
 	} 
-	**/
+	
 	/**
 	public static void main(String[] args){
 		
@@ -246,14 +259,16 @@ public class Department{
 			
 		 //System.out.println(t.getName("COM"));
 			//System.out.println(c.createDept());
-			/*ResultSet t = v.getDeptList();
-			t.next();
-			while (t.next()) {
-				System.out.println(t.getString("code") + t.getString("name"));	
-			}
+	/**
+			ArrayList<ArrayList<String>> t = v.getDeptList();
+			for (int o = 0; o < t.size(); o++) {
+				System.out.println(o);
+				System.out.println(t.get(o).toString());
+				}
+			System.out.println(t.get(2).toString());
 		} catch(Exception ex) {
 			 ex.printStackTrace();
-		} */
+		} 
 		
 		
 		/**
@@ -264,6 +279,6 @@ public class Department{
 		} catch(Exception ex) {
 			 ex.printStackTrace();
 		}
-		System.out.println("REsultou?");  */
-	//} 
+		System.out.println("REsultou?");
+	} */
 }

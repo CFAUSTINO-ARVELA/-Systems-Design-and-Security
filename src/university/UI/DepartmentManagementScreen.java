@@ -24,6 +24,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 class DepartmentManagementScreen extends JPanel implements ActionListener {
 
@@ -45,7 +46,7 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
     public TeachingManagementScreen getTecMaangScree() {
     	return teachingScreen;
     }
-    public void draw() {
+    public void draw() throws Exception{
         this.departmentScreen = new JPanel();
         this.departmentScreen.setBackground(new Color(70, 70, 70));
 
@@ -68,7 +69,12 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
         createBtn.addActionListener(e -> {
             this.departmentScreen.setVisible(false);
             DepartmentCreationScreen departmentCreate = new DepartmentCreationScreen(this.screen, this);
-            departmentCreate.draw();
+            try {
+				departmentCreate.draw();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
         deleteBtn.addActionListener(e -> {
             if (departmentTable.getSelectedRow() > -1) {
@@ -88,28 +94,13 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
             }
         });
 
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
-            stmt = con.createStatement();
+        Department dep = new Department();
+        departmentTable = new JTable(TableModel.buildTableModel(dep.getDeptList()));
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(departmentTable);
 
-            ResultSet res = stmt.executeQuery("SELECT * FROM department;");
-            departmentTable = new JTable(TableModel.buildTableModel(res));
-            JScrollPane scrollPane = new JScrollPane();
-            scrollPane.setViewportView(departmentTable);
+        tablePanel.add(scrollPane);
 
-            tablePanel.add(scrollPane);
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (stmt != null) {
-            }
-            try {
-                stmt.close();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        }
 
         screen.frame.add(this.departmentScreen);
     }

@@ -37,8 +37,12 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
         this.screen = scr;
         this.teachingScreen = teach;
     }
+    
+    public TeachingManagementScreen getTecMaangScree() {
+    	return teachingScreen;
+    }
 
-    public void draw() {
+    public void draw() throws Exception {
         this.degreeManagement = new JPanel();
         this.degreeManagement.setBackground(new Color(70, 70, 70));
 
@@ -72,40 +76,30 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
                     e1.printStackTrace();
                 }
                 this.degreeManagement.setVisible(false);
-                this.teachingScreen.draw();
+                DegreeManagementScreen newDegMan = new DegreeManagementScreen(this.screen,this.teachingScreen);
+                try {
+					newDegMan.draw();
+				} catch (Exception e1) {
+					//newDegMan TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                 JOptionPane.showMessageDialog(null, "Successfully deleted degree: " + name);
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Degree to delete");
             }
         });
 
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
-            stmt = con.createStatement();
+        Degree d = new Degree();
+        degreeTable = new JTable(TableModel.buildTableModel(d.getDegList()));
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(degreeTable);
 
-            ResultSet res = stmt.executeQuery("SELECT * FROM degree;");
-            degreeTable = new JTable(TableModel.buildTableModel(res));
-            JScrollPane scrollPane = new JScrollPane();
-            scrollPane.setViewportView(degreeTable);
-
-            tablePanel.add(scrollPane);
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (stmt != null) {
-            }
-            try {
-                stmt.close();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        }
+        tablePanel.add(scrollPane);
 
         screen.frame.add(this.degreeManagement);
     }
 
-    public void returnFromManagement(String status) {
+    public void returnFromManagement(String status) throws Exception {
         JLabel statusTxt = new JLabel(status);
         this.degreeManagement.add(statusTxt);
         this.draw();
