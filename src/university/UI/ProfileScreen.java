@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import javax.swing.*;
 
 import university.UI.LoginScreen;
-import university.UI.StudentStatus;
+import university.UI.StudentStatusScreen;
 import university.UI.AccountManagementScreen;
 import university.UI.StudentManagementScreen;
 import university.UI.AccountCreationScreen;
@@ -79,7 +79,7 @@ public class ProfileScreen extends JPanel {
 
         studentManageBtn.addActionListener(e -> {
             this.profileScreen.setVisible(false);
-            StudentStatus status = new StudentStatus(account, screen, this);
+            StudentStatusScreen status = new StudentStatusScreen(account, screen, this);
             status.draw();
         });
     }

@@ -269,6 +269,37 @@ public class Degree{
 			
 			return degreeList;
 		}
+		
+		public static ArrayList<String> getAllDegNames() throws Exception {
+			Degree degree = null;
+			ArrayList<String> degreeList = new ArrayList<String>();
+			
+			connectToDB();
+			Statement stmt = con.createStatement();
+			PreparedStatement deg= null;
+			deg = con.prepareStatement("SELECT name FROM degree; " );
+			
+			
+			try {
+				ResultSet res = deg.executeQuery();
+				
+				while(res.next()) {
+					
+					String dName = res.getString("name");
+					
+					degreeList.add(dName);
+				}
+				res.close();
+				con.close();
+			 }catch (SQLException ex) {
+				 ex.printStackTrace();
+			 }finally {
+					if (stmt != null)
+						stmt.close();
+				}
+			
+			return degreeList;
+		}
 
 		public static ArrayList<ArrayList<String>> getDegList() throws Exception  {
 			ArrayList<ArrayList<String>> degList = new ArrayList<ArrayList<String>>();
