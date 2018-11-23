@@ -12,6 +12,13 @@ public class StudentStatus {
 	private Date endDate;
 	private boolean registered;
 	
+	public StudentStatus(int r, char l, String p, boolean reg) {
+		this.registrationNumber = r;
+		this.level = l;
+		this.period = p;
+		this.registered = reg;
+	}
+	
 	public StudentStatus createStudentStatus() throws SQLException {
 		
 		Connection con = null;

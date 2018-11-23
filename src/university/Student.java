@@ -28,6 +28,13 @@ public class Student {
     	this.registrationNumber = r;
     }
     
+    public Student(int reg, Degree deg, String tut, Account acc) {  
+    	this.registrationNumber = reg;
+        this.degree = deg;
+        this.tutor = tut;
+        this.accountDetails = acc;
+      }
+    
     public static void connectToDB() throws SQLException {
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
@@ -186,8 +193,144 @@ public class Student {
 		return stuList;
 	}
 	
-	public void progress(ArrayList<ModuleGrades> grades) {
+	public StudentStatus getStudentStatus() throws SQLException {
 		
+		int regNum = this.getRegistrationNumber();
+		StudentStatus status = null;
+		Statement stmt = null;
+		char level;
+		String period = null;
+		boolean registered;
+		
+		
+		try {
+			connectToDB();
+			stmt = con.createStatement();
+			ResultSet res = stmt.executeQuery(String.format("SELECT * FROM studentStatus WHERE registrationNumber = %d", regNum));
+			
+			res.next();
+			level = res.getString("level").charAt(0);
+			period = res.getString("period");
+			registered = res.getBoolean("registered");
+			
+			status = new StudentStatus(regNum, level, period, registered);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		
+		return status;
 	}
+	
+	public static Student getStudent(String u) throws Exception {
+		System.out.println(u);
+		Student student = null;
+		
+		connectToDB();
+		PreparedStatement stu,noStu = null;
+		noStu = con.prepareStatement("SELECT COUNT(*) FROM student WHERE username = ?");
+		stu = con.prepareStatement("SELECT * FROM student WHERE username = ?");
+		Statement stmt = con.createStatement();
+		
+		try {
+			noStu.setString(1, u);
+			System.out.println(noStu);
+			ResultSet res1 = noStu.executeQuery();
+			res1.next();
+			
+			if(res1.getInt(1) != 0) {
+				stu.setString(1, u);
+				ResultSet res = stu.executeQuery();
+				res.next();
+				int registrationNumber = res.getInt("registrationNumber");
+				String degreeCode = res.getString("degree");
+				Degree degree = Degree.getDegree(degreeCode);
+				String tutor = res.getString("tutor");
+				String username = res.getString("username");
+				Account acc = new Account(username);
+				
+				student = new Student(registrationNumber, degree, tutor, acc);
+				res.close();
+				res1.close();
+			}
+			
+			
+		 }catch (SQLException ex) {
+			 ex.printStackTrace();
+		 }finally {
+				if (stmt != null)
+					stmt.close();
+			}
+		con.close();
+		return student;
+	}
+	
+	/*public void progress(Student student, ArrayList<ModuleGrades> grades) {
+		
+		StudentStatus status = null;
+		boolean conceded = false;
+		boolean failed = false;
+		
+		try {
+			status = student.getStudentStatus();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		char level = status.getLevel();
+		int credittotal = 120;
+	
+		int credits, grade, resit, modulegrade, weightedgrade;
+		
+		ArrayList<int> weightedGrades = new ArrayList<int>;
+		
+		for (ModuleGrades module : grades) {
+			credits = module.getModule().getCredits();
+			
+			if (module.getResit()) {
+				grade = module.getGrade();
+				resit = module.getResitGrade();
+				
+				if (resit > grade && resit > 50 && level == '4') {
+					modulegrade = 50;
+				} else if (resit > grade && resit > 40 && level != '4') {
+					modulegrade = 40;
+				} else if (resit > grade) {
+					modulegrade = resit;
+				} else {
+					modulegrade = grade;
+				}
+			} else {
+				modulegrade = module.getGrade();
+			}
+			
+			if (level == '4' && modulegrade < 40 && conceded == false && credits == 15) {
+				conceded = true;
+			} else if (level == '4' && modulegrade < 50) {
+				failed = true;
+			} else if (modulegrade < 30 && conceded == false && credits == 20) {
+				conceded = true;
+			} else if (modulegrade < 40) {
+				failed = true;
+			}
+			
+			weightedgrade = (modulegrade * credits);
+			
+			weightedGrades.add(weightedGrade);
+		}
+		
+		int weightedmean;
+		
+		for (int grade : weightedGrades) {
+			weightedmean += grade;
+		}
+		
+		weightedmean = weightedmean / credittotal;
+		
+		
+	} */
 	
 }
