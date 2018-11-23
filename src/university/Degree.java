@@ -181,7 +181,7 @@ public class Degree{
 	}
 
 	
-	//Get a degree using the name (return a degree object)
+	//Get a degree using the code (return a degree object)
 	public static Degree getDegree(String c) throws Exception {
 		System.out.println(c);
 		Degree degree = null;
@@ -257,6 +257,37 @@ public class Degree{
 					
 					
 					degreeList.add(dCode);
+				}
+				res.close();
+				con.close();
+			 }catch (SQLException ex) {
+				 ex.printStackTrace();
+			 }finally {
+					if (stmt != null)
+						stmt.close();
+				}
+			
+			return degreeList;
+		}
+		
+		public static ArrayList<String> getAllDegNames() throws Exception {
+			Degree degree = null;
+			ArrayList<String> degreeList = new ArrayList<String>();
+			
+			connectToDB();
+			Statement stmt = con.createStatement();
+			PreparedStatement deg= null;
+			deg = con.prepareStatement("SELECT name FROM degree; " );
+			
+			
+			try {
+				ResultSet res = deg.executeQuery();
+				
+				while(res.next()) {
+					
+					String dName = res.getString("name");
+					
+					degreeList.add(dName);
 				}
 				res.close();
 				con.close();

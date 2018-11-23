@@ -13,6 +13,7 @@ import university.UI.ProfileScreen;
 import university.Account;
 import university.Student;
 import university.Degree;
+import university.Department;
 import university.ScreenManager;
 
 import java.awt.Color;
@@ -31,6 +32,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private ProfileScreen profileScreen;
     private StudentManagementScreen studentManagement;
+    private ArrayList<String> degrees = new ArrayList<String>();
     private Degree d = null;
 
     private Connection con = null;
@@ -132,7 +134,12 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         degreeTxt = new JLabel();
         tutorTxt = new JLabel();
         tutorInput = new JTextField();
-        degreeInput = new JComboBox();
+        try {
+            degrees = Degree.getAllDegreeCodes();
+            degreeInput = new JComboBox((degrees.toArray()));
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
 
         //======== this ========
 

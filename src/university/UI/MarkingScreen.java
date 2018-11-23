@@ -1,40 +1,78 @@
 package university.UI;
 
 import java.awt.*;
-import javax.swing.*;
+import java.sql.SQLException;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import university.Module;
+import university.ModuleChoice;
 import university.ScreenManager;
+import university.Student;
+import university.StudentStatus;
 
 public class MarkingScreen extends JPanel {
 
 	private JPanel markingScreen;
 	private ScreenManager screen;
+	private Student student;
 	private StudentManagementScreen studentManagement;
 
-	public MarkingScreen(ScreenManager scr, StudentManagementScreen stu) {
+	public MarkingScreen(ScreenManager scr, StudentManagementScreen stuScreen, Student stu) {
 		this.screen = scr;
-		this.studentManagement = stu;
+		this.studentManagement = stuScreen;
+		this.student = stu;
 		initComponents();
 	}
 
 	public void draw() {
 
 		this.markingScreen = new JPanel();
+		this.markingScreen.setLayout(null);
+		this.markingScreen.setBackground(new Color(70, 70, 70));
+
 		this.markingScreen.add(titleTxt);
-		this.markingScreen.add(markingScreen);
 		this.markingScreen.add(markingPanel);
 		this.markingScreen.add(backToProfileBtn);
+
+		this.addModules();
 
 		screen.frame.add(this.markingScreen);
 	}
 
+	private void addModules() {
+
+		try {
+			StudentStatus stuStatus = this.student.getStudentStatus();
+			
+			DefaultTableModel model = new DefaultTableModel(); 
+			JTable table = new JTable(model); 
+
+			// Create a couple of columns 
+			model.addColumn("Name"); 
+			model.addColumn("Code"); 
+			model.addColumn("Grade"); 
+			model.addColumn("Resit Grade"); 
+			
+
+			for (ModuleChoice module : stuStatus.getCurrentModules()) {
+				String name = Module.getModule(module.getModuleCode()).getName();
+				model.addRow(new Object[]{name, module.getModuleCode(), null, null});
+			}
+			
+
+			this.markingPanel.add(table);
+			this.markingPanel.setLayout(new FlowLayout());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void initComponents() {
-		// JFormDesigner - Component initialization - DO NOT MODIFY
-		// //GEN-BEGIN:initComponents
-		// Generated using JFormDesigner Evaluation license - Katie
 		titleTxt = new JLabel();
 		markingPanel = new JPanel();
-		gradeTable = new JTable();
 		backToProfileBtn = new JButton();
 
 		// ======== this ========
@@ -57,6 +95,7 @@ public class MarkingScreen extends JPanel {
 		titleTxt.setText("Marking");
 		titleTxt.setHorizontalAlignment(SwingConstants.CENTER);
 		titleTxt.setFont(titleTxt.getFont().deriveFont(titleTxt.getFont().getSize() + 10f));
+		titleTxt.setForeground(Color.white);
 		add(titleTxt);
 		titleTxt.setBounds(430, 25, 140, 55);
 

@@ -60,6 +60,7 @@ public class LoginScreen extends JPanel {
             String password = "password";
             Clearance clearance = Clearance.ADMIN;
 
+
             Account account = new Account(title, forename, surname, username, password, clearance);
             //screen.navToProfile(account);
             profileScreen = new ProfileScreen(this.screen, account);

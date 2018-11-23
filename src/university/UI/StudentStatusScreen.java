@@ -9,7 +9,7 @@ import java.sql.Date;
 
 import javax.swing.*;
 
-public class StudentStatus extends JPanel implements ActionListener {
+public class StudentStatusScreen extends JPanel implements ActionListener {
 
     /**
 	 * 
@@ -27,7 +27,7 @@ public class StudentStatus extends JPanel implements ActionListener {
     private char periodStudies;
     private int grade;
 
-    StudentStatus(Account loggedInAcc, ScreenManager screen, ProfileScreen prof) {
+    StudentStatusScreen(Account loggedInAcc, ScreenManager screen, ProfileScreen prof) {
         initComponents();
         this.loggedInAccount = loggedInAcc;
         this.profileScreen = prof;
