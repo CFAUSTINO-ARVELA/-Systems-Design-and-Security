@@ -98,10 +98,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             markingScr.draw();
         });
 
-       
-            Student s = new Student();
-            ResultSet res = stmt.executeQuery("SELECT * FROM student;");
-            studentTable = new JTable(TableModel.buildTableModel(s.getStutList()));
+            studentTable = new JTable(TableModel.buildTableModel(Student.getStutList()));
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(studentTable);
 
@@ -189,7 +186,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         //---- markingBtn ----
         markingBtn.setText("Student grades");
         add(markingBtn);
-        markingBtn.setBounds(420, 375, 170, 30);
+        markingBtn.setBounds(415, 375, 170, 30);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();

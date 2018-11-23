@@ -11,7 +11,6 @@ public class Degree{
 	private Boolean placement;
 	private static Connection con;
 	
-	public Degree() {};
 	//Constructor for degree with just one department
 	public Degree(String name, Department mainDept,
 			String type,Boolean placement) throws Exception{
@@ -271,7 +270,7 @@ public class Degree{
 			return degreeList;
 		}
 
-		public ArrayList<ArrayList<String>> getDegList() throws Exception  {
+		public static ArrayList<ArrayList<String>> getDegList() throws Exception  {
 			ArrayList<ArrayList<String>> degList = new ArrayList<ArrayList<String>>();
 			ArrayList<String> deg = new ArrayList<String>();
 			ResultSet res = null;

@@ -10,7 +10,6 @@ public class Module {
 	private String duration;
 	private static Connection con;
 	
-	public Module() {};
 	//Constructor for module
 	public Module(String name, String code, int credits, String duration) {
 		this.name = name;
@@ -214,7 +213,7 @@ public class Module {
 		}
 	}
 	
-	public ArrayList<ArrayList<String>> getModList() throws SQLException  {
+	public static ArrayList<ArrayList<String>> getModList() throws SQLException  {
 		ArrayList<ArrayList<String>> modList = new ArrayList<ArrayList<String>>();
 		ArrayList<String> mod = new ArrayList<String>();
 		ResultSet res = null;
