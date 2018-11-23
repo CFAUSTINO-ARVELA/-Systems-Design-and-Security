@@ -328,9 +328,7 @@ public class Student {
 			weightedmean += grade;
 		}
 		
-		weightedmean = weightedmean / credittotal;
+		weightedmean = weightedmean / credittotal; */
 		
 		
-	} */
-	
-}
+	} 

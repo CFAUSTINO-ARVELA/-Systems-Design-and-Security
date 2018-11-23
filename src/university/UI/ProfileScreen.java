@@ -100,7 +100,6 @@ public class ProfileScreen extends JPanel {
             try {
 				teachingScreen.draw();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
             this.profileScreen.setVisible(false);
@@ -114,7 +113,7 @@ public class ProfileScreen extends JPanel {
 
         studentManageBtn.addActionListener(e -> {
             this.profileScreen.setVisible(false);
-            StudentManagementScreen studentScreen = new StudentManagementScreen(screen, this);
+            StudentManagementScreen studentScreen = new StudentManagementScreen(screen, this, true);
             try {
                 studentScreen.draw();
             } catch (Exception ex) {
@@ -124,7 +123,17 @@ public class ProfileScreen extends JPanel {
     }
 
     private void teacherComponents() {
-
+    	this.profileScreen.add(studentManageBtn);
+    	
+        studentManageBtn.addActionListener(e -> {
+            this.profileScreen.setVisible(false);
+            StudentManagementScreen studentScreen = new StudentManagementScreen(screen, this, false);
+            try {
+                studentScreen.draw();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     private void initComponents() {

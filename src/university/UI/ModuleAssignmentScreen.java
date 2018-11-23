@@ -59,7 +59,6 @@ public class ModuleAssignmentScreen extends JPanel {
             try {
 				this.teachScreen.draw();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
         });
@@ -98,7 +97,6 @@ public class ModuleAssignmentScreen extends JPanel {
 
         }));
 
-     
             degreeTable = new JTable(TableModel.buildTableModel(Degree.getDegList()));
             moduleTable = new JTable(TableModel.buildTableModel(Module.getModList()));
             JScrollPane degreeScroll = new JScrollPane();
