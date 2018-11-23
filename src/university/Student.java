@@ -184,6 +184,10 @@ public class Student {
 			}
 		con.close();
 		return stuList;
-	} 
+	}
+	
+	public void progress(ArrayList<ModuleGrades> grades) {
+		
+	}
 	
 }
