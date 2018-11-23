@@ -94,8 +94,15 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             this.studentManagement.setVisible(false);
         });
         markingBtn.addActionListener(e -> {
-            MarkingScreen markingScr = new MarkingScreen(this.screen, this);
-            markingScr.draw();
+        	if (studentTable.getSelectedRow() > -1) {
+	            String username = (String)studentTable.getValueAt(studentTable.getSelectedRow(), 3);
+	        
+	            MarkingScreen markingScr = new MarkingScreen(this.screen, this, Student.getStudent(username));
+	            markingScr.draw();
+	            this.studentManagement.setVisible(false);
+        	} else {
+        		JOptionPane.showMessageDialog(null, "Please select a Student to mark");
+        	}
         });
 
             studentTable = new JTable(TableModel.buildTableModel(Student.getStutList()));

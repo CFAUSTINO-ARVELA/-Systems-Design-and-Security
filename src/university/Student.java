@@ -154,7 +154,7 @@ public class Student {
 		ResultSet res = null;
 		PreparedStatement dept = null;
 		connectToDB();
-		dept = con.prepareStatement("SELECT * FROM department;");
+		dept = con.prepareStatement("SELECT * FROM student;");
 		try {
 			res  = dept.executeQuery();
 			st.add("Registration No");

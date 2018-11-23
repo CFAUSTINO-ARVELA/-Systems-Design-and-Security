@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cec2a161-d600-459f-9df9-b875b02e4bba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/university/ModuleGrades.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/university/Degree.java" beforeDir="false" afterPath="$PROJECT_DIR$/university/Degree.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/university/Module.java" beforeDir="false" afterPath="$PROJECT_DIR$/university/Module.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/university/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/university/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/university/UI/DegreeManagementScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/university/UI/DegreeManagementScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/university/UI/ModuleAssignmentScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/university/UI/ModuleAssignmentScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/university/UI/ModuleManagementScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/university/UI/ModuleManagementScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/university/UI/MarkingScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/university/UI/MarkingScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/university/UI/MarkingScreen.jfd" beforeDir="false" afterPath="$PROJECT_DIR$/university/UI/MarkingScreen.jfd" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/university/UI/StudentManagementScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/university/UI/StudentManagementScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/university/UI/StudentManagementScreen.jfd" beforeDir="false" afterPath="$PROJECT_DIR$/university/UI/StudentManagementScreen.jfd" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,7 +17,7 @@
     <session id="-713940076">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="4" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.3" value="1" />
           <entry key="project.open.time.7" value="1" />
@@ -69,9 +64,11 @@
           <provider selected="true" editor-type-id="JFormDesigner" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/university/UI/MarkingScreen.jfd">
-          <provider selected="true" editor-type-id="JFormDesigner" />
+          <provider selected="true" editor-type-id="JFormDesigner">
+            <state propertiesWidth="325" />
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -95,7 +92,8 @@
           <provider selected="true" editor-type-id="text-editor">
             <state>
               <folding>
-                <marker date="1542986009549" expanded="false" signature="3823:3843" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+                <marker date="1542987007642" expanded="false" signature="925:4173" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+                <marker date="1542987007642" expanded="false" signature="4179:4521" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
               </folding>
             </state>
           </provider>
@@ -114,7 +112,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/university/UI/StudentManagementScreen.jfd">
           <provider selected="true" editor-type-id="JFormDesigner" />
         </entry>
@@ -135,13 +133,13 @@
         <option value="$PROJECT_DIR$/UI/LoginDesign.jfd" />
         <option value="$PROJECT_DIR$/UI Template/AccountCreation.jfd" />
         <option value="$PROJECT_DIR$/university/UI/StudentStatus.jfd" />
-        <option value="$PROJECT_DIR$/university/UI/MarkingScreen.jfd" />
         <option value="$PROJECT_DIR$/university/UI/ProfileScreen.jfd" />
         <option value="$PROJECT_DIR$/university/UI/StudentManagementScreen.jfd" />
+        <option value="$PROJECT_DIR$/university/UI/MarkingScreen.jfd" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="808" />
@@ -183,7 +181,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542986695677" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542987007889" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
@@ -265,7 +263,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <folding>
-            <marker date="1542986009549" expanded="false" signature="3823:3843" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
+            <marker date="1542987007642" expanded="false" signature="925:4173" ph="// JFormDesigner - Component initialization - DO NOT MODIFY" />
+            <marker date="1542987007642" expanded="false" signature="4179:4521" ph="// JFormDesigner - Variables declaration - DO NOT MODIFY" />
           </folding>
         </state>
       </provider>
@@ -293,9 +292,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/university/UI/MarkingScreen.jfd">
-      <provider selected="true" editor-type-id="JFormDesigner" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/university/UI/StudentStatus.jfd">
       <provider selected="true" editor-type-id="JFormDesigner" />
     </entry>
@@ -317,6 +313,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/university/UI/StudentManagementScreen.jfd">
       <provider selected="true" editor-type-id="JFormDesigner" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/university/UI/MarkingScreen.jfd">
+      <provider selected="true" editor-type-id="JFormDesigner">
+        <state propertiesWidth="325" />
+      </provider>
     </entry>
   </component>
 </project>
