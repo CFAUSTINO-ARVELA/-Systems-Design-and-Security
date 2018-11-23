@@ -285,7 +285,7 @@ public class Student {
 	
 		int credits, grade, resit, modulegrade, weightedgrade;
 		
-		ArrayList<int> weightedGrades = new ArrayList<int>;
+		ArrayList<Integer> weightedGrades = new ArrayList<Integer>();
 		
 		for (ModuleGrades module : grades) {
 			credits = module.getModule().getCredits();
@@ -319,16 +319,18 @@ public class Student {
 			
 			weightedgrade = (modulegrade * credits);
 			
-			weightedGrades.add(weightedGrade);
+			weightedGrades.add(weightedgrade);
 		}
 		
-		int weightedmean;
+		int weightedmean = 0;
 		
-		for (int grade : weightedGrades) {
-			weightedmean += grade;
+		for (int wg : weightedGrades) {
+			weightedmean += wg;
 		}
 		
-		weightedmean = weightedmean / credittotal; */
+		weightedmean = weightedmean / credittotal; 
 		
 		
+		
+	}*/
 	} 
