@@ -24,8 +24,6 @@ public class Student {
       this.accountDetails = acc;
     }
     
-    public Student() {};
-    
     public Student(int r) {
     	this.registrationNumber = r;
     }
@@ -150,7 +148,7 @@ public class Student {
 		return result;
 	}
 	
-	public ArrayList<ArrayList<String>> getStutList() throws SQLException  {
+	public static ArrayList<ArrayList<String>> getStutList() throws SQLException  {
 		ArrayList<ArrayList<String>> stuList = new ArrayList<ArrayList<String>>();
 		ArrayList<String> st = new ArrayList<String>();
 		ResultSet res = null;

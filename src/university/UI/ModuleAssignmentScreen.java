@@ -99,12 +99,8 @@ public class ModuleAssignmentScreen extends JPanel {
         }));
 
      
-            Degree d = new Degree();
-            ResultSet degRes = stmt.executeQuery("SELECT * FROM degree;");
-            degreeTable = new JTable(TableModel.buildTableModel(d.getDegList()));
-            Module m = new Module();
-            ResultSet modRes = stmt.executeQuery("SELECT * FROM module;");
-            moduleTable = new JTable(TableModel.buildTableModel(m.getModList()));
+            degreeTable = new JTable(TableModel.buildTableModel(Degree.getDegList()));
+            moduleTable = new JTable(TableModel.buildTableModel(Module.getModList()));
             JScrollPane degreeScroll = new JScrollPane();
             JScrollPane moduleScroll = new JScrollPane();
             degreeScroll.setViewportView(degreeTable);

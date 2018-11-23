@@ -94,8 +94,7 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
             }
         });
 
-        Degree d = new Degree();
-        degreeTable = new JTable(TableModel.buildTableModel(d.getDegList()));
+        degreeTable = new JTable(TableModel.buildTableModel(Degree.getDegList()));
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(degreeTable);
 

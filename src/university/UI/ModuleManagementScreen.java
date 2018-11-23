@@ -98,8 +98,7 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
         });
 
        
-            Module m = new Module();
-            moduleTable = new JTable(TableModel.buildTableModel(m.getModList()));
+            moduleTable = new JTable(TableModel.buildTableModel(Module.getModList()));
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(moduleTable);
 
