@@ -11,6 +11,7 @@ import university.ModuleChoice;
 import university.ScreenManager;
 import university.Student;
 import university.StudentStatus;
+import university.TableModel;
 
 public class MarkingScreen extends JPanel {
 
@@ -35,6 +36,8 @@ public class MarkingScreen extends JPanel {
 		this.markingScreen.add(titleTxt);
 		this.markingScreen.add(markingPanel);
 		this.markingScreen.add(backToProfileBtn);
+		
+		this.markingPanel.setLayout(new BorderLayout());
 
 		this.addModules();
 
@@ -55,15 +58,16 @@ public class MarkingScreen extends JPanel {
 			model.addColumn("Grade"); 
 			model.addColumn("Resit Grade"); 
 			
-
 			for (ModuleChoice module : stuStatus.getCurrentModules()) {
 				String name = Module.getModule(module.getModuleCode()).getName();
 				model.addRow(new Object[]{name, module.getModuleCode(), null, null});
 			}
 			
+            JScrollPane scrollPane = new JScrollPane();
+            scrollPane.setViewportView(table);
 
-			this.markingPanel.add(table);
-			this.markingPanel.setLayout(new FlowLayout());
+            markingPanel.add(scrollPane);
+
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -102,8 +106,6 @@ public class MarkingScreen extends JPanel {
 		// ======== markingPanel ========
 		{
 			markingPanel.setLayout(null);
-			markingPanel.add(gradeTable);
-			gradeTable.setBounds(0, 0, 610, 345);
 
 			{ // compute preferred size
 				Dimension preferredSize = new Dimension();
@@ -147,7 +149,6 @@ public class MarkingScreen extends JPanel {
 	// Generated using JFormDesigner Evaluation license - Katie
 	private JLabel titleTxt;
 	private JPanel markingPanel;
-	private JTable gradeTable;
 	private JButton backToProfileBtn;
 	// JFormDesigner - End of variables declaration //GEN-END:variables
 }
