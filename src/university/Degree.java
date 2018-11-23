@@ -181,7 +181,7 @@ public class Degree{
 	}
 
 	
-	//Get a degree using the name (return a degree object)
+	//Get a degree using the code (return a degree object)
 	public static Degree getDegree(String c) throws Exception {
 		System.out.println(c);
 		Degree degree = null;
