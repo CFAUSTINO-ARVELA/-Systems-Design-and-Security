@@ -340,7 +340,8 @@ public class Student {
 		}
 		
 		char level = status.getLevel();
-		int credittotal = 120;
+		String period = status.getPeriod();
+		int credittotal = 0;
 	
 		int credits, grade, resit, modulegrade, weightedgrade;
 		
@@ -348,6 +349,7 @@ public class Student {
 		
 		for (ModuleGrades module : grades) {
 			credits = module.getModule().getCredits();
+			credittotal += credits;
 			
 			if (module.getResit()) {
 				grade = module.getGrade();
@@ -388,6 +390,8 @@ public class Student {
 		}
 		
 		weightedmean = weightedmean / credittotal; 
+		
+		
 		
 		
 		
