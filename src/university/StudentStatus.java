@@ -158,6 +158,27 @@ public class StudentStatus {
 				stmt.close();
 		}
 	}
+	
+	public void setRegistered(boolean r) throws SQLException {
+		
+		connectToDB();
+		Statement stmt = null;
+
+		try {
+			
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(
+					String.format("UPDATE studentStatus SET registered = %b WHERE registrationNumber = %d;", r, this.registrationNumber));
+			
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+		
+	}
 
 	
 }
