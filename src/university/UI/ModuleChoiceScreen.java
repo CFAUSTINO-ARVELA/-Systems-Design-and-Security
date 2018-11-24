@@ -22,8 +22,9 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
     private StudentManagementScreen studentScreen;
     private Student student;
 
-    public ModuleChoiceScreen(ScreenManager scr, StudentManagementScreen stuScreen) {
+    public ModuleChoiceScreen(ScreenManager scr, StudentManagementScreen stuScreen, Student stu) {
         this.screen = scr;
+        this.student = stu;
         this.studentScreen = stuScreen;
         initComponents();
     }
@@ -53,7 +54,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         try {
             if (this.student.getLevel() != "P") {
 
-                ArrayList<Module> coreModules = Degree.getCoreModules(this.student.getDegree(),
+                ArrayList<Module> coreModules = Degree.getCoreModules(this.student.getDegreeCode(),
                         Integer.parseInt(this.student.getLevel()));
                 ArrayList<Module> optionalModules = Degree.getOptionalModules(this.student.getDegree(),
                         Integer.parseInt(this.student.getLevel()));
@@ -71,8 +72,8 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                         Integer.parseInt(this.student.getLevel()));
 
                 for (Module module : optionalModules) {
-                    String moduleName = module.getName();
-                    JCheckBox box = new JCheckBox(moduleName);
+                    String moduleCode = module.getCode();
+                    JCheckBox box = new JCheckBox(moduleCode);
                     optionalCheckBoxes.add(box);
                     optionalPanel.add(box);
                 }

@@ -58,7 +58,7 @@ public class LoginScreen extends JPanel {
             String email = "katie@katie.com";
             String username = "acaklw";
             String password = "password";
-            Clearance clearance = Clearance.TEACHER;
+            Clearance clearance = Clearance.REGISTRAR;
 
             Account account = new Account(title, forename, surname, username, password, clearance);
             //screen.navToProfile(account);
