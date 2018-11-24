@@ -11,6 +11,16 @@ public class StudentStatus {
 	private Date startDate;
 	private Date endDate;
 	private boolean registered;
+	private static Connection con = null;
+	
+    public static void connectToDB() throws SQLException {
+		   try {
+			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+		   }
+		   catch(SQLException ex) {
+			   ex.printStackTrace();
+		   }
+	}
 	
 	public StudentStatus(int r, char l, String p, boolean reg) {
 		this.registrationNumber = r;
@@ -128,6 +138,46 @@ public class StudentStatus {
 		}
 		
 		return modules;
+	}
+	
+	public void updateStatus(char l, String p) throws SQLException {
+		connectToDB();
+		Statement stmt = null;
+
+		try {
+			
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(
+					String.format("UPDATE studentStatus SET level = \"%s\", period = \"%s\" WHERE registrationNumber = %d;", l, p, this.registrationNumber));
+			
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+	}
+	
+	public void setRegistered(boolean r) throws SQLException {
+		
+		connectToDB();
+		Statement stmt = null;
+
+		try {
+			
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(
+					String.format("UPDATE studentStatus SET registered = %b WHERE registrationNumber = %d;", r, this.registrationNumber));
+			
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+		
 	}
 
 	

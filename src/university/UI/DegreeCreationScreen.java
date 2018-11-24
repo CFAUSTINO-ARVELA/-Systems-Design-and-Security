@@ -217,7 +217,7 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
         scrollPane = new JScrollPane();
         checkboxPanel = new JPanel();
         try {
-            departments = Departpment.getAllDepNames();
+            departments = Department.getAllDepNames();
             mainInput = new JComboBox((departments.toArray()));
         } catch (Exception e1) {
             e1.printStackTrace();

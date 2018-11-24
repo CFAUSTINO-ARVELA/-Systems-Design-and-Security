@@ -268,27 +268,88 @@ public class Student {
 		return student;
 	}
 	
+	public PeriodResult getLastResult() throws SQLException {
+		
+		connectToDB();
+		Statement stmt = null;
+		PeriodResult result = null;
+		
+		StudentStatus status = null;
+		try {
+			status = this.getStudentStatus();
+			
+			String currentperiod = status.getPeriod();
+			int periodvalue = currentperiod.charAt(0);
+			String prev = String.valueOf((char)(periodvalue + 1));
+			
+			if (currentperiod.equals("A")) {
+				
+			} else {
+				stmt = con.createStatement();
+				ResultSet res = stmt.executeQuery(String.format("SELECT * FROM periodResult WHERE period = \"%s\";", prev));
+				
+				res.next();
+				char level = res.getString("level").charAt(0);
+				int grade = res.getInt("grade");
+				boolean passed = res.getBoolean("passed");
+				
+				result = new PeriodResult(this.registrationNumber, level, prev, grade, passed);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		
+		return result;
+	}
+	
+	public void logResult(char l, String p, int g, boolean pass) throws SQLException {
+		connectToDB();
+		Statement stmt = null;
+
+		try {
+			
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(
+					String.format("INSERT INTO periodResult (registrationNumber, level, period, grade, passed) VALUES (%d, \"%s\", \"%s\", %d, %b);", this.registrationNumber, l, p, g, pass));
+			
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+	}
+	
 	/*public void progress(Student student, ArrayList<ModuleGrades> grades) {
 		
 		StudentStatus status = null;
 		boolean conceded = false;
 		boolean failed = false;
+		PeriodResult prevResult = null;
 		
 		try {
 			status = student.getStudentStatus();
+			prevResult = student.getLastResult();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		char level = status.getLevel();
-		int credittotal = 120;
+		String period = status.getPeriod();
+		int credittotal = 0;
 	
 		int credits, grade, resit, modulegrade, weightedgrade;
 		
-		ArrayList<int> weightedGrades = new ArrayList<int>;
+		ArrayList<Integer> weightedGrades = new ArrayList<Integer>();
 		
 		for (ModuleGrades module : grades) {
 			credits = module.getModule().getCredits();
+			credittotal += credits;
 			
 			if (module.getResit()) {
 				grade = module.getGrade();
@@ -319,16 +380,22 @@ public class Student {
 			
 			weightedgrade = (modulegrade * credits);
 			
-			weightedGrades.add(weightedGrade);
+			weightedGrades.add(weightedgrade);
 		}
 		
-		int weightedmean;
+		int weightedmean = 0;
 		
-		for (int grade : weightedGrades) {
-			weightedmean += grade;
+		for (int wg : weightedGrades) {
+			weightedmean += wg;
 		}
 		
-		weightedmean = weightedmean / credittotal; */
+		weightedmean = weightedmean / credittotal; 
 		
 		
+		
+		
+		
+		
+		
+	}*/
 	} 
