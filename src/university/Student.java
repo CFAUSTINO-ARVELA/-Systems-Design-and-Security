@@ -363,7 +363,6 @@ public class Student {
 	
 	public boolean progress(Student student, ArrayList<ModuleGrades> grades) throws Exception {
 		
-		
 		StudentStatus status = null;
 		boolean conceded = false;
 		boolean failed = false;
@@ -458,8 +457,7 @@ public class Student {
 				float finalgrade = 0;
 				
 				for (PeriodResult result : pastResults) {
-					if (result.getPeriod().equals("1")) {
-					} else if (result.getPeriod().equals("2")) {
+					if (result.getPeriod().equals("2")) {
 						finalgrade += result.getGrade();
 					} else {
 						finalgrade += result.getGrade() * 2;
@@ -590,8 +588,6 @@ public class Student {
 				return true;
 			}
 		}
-		
-		return false;	
 	}
-	
-	} 
+}
+
