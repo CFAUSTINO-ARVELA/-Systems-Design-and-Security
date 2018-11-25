@@ -325,7 +325,7 @@ public class Student {
 		}
 	}
 	
-	/*public void progress(Student student, ArrayList<ModuleGrades> grades) {
+	public void progress(Student student, ArrayList<ModuleGrades> grades) {
 		
 		StudentStatus status = null;
 		boolean conceded = false;
@@ -376,6 +376,14 @@ public class Student {
 				conceded = true;
 			} else if (modulegrade < 40) {
 				failed = true;
+			} else {
+				ModuleChoice newmodule = new ModuleChoice(student.getRegistrationNumber(), module.getModule().getCode(), period, modulegrade);
+				
+				try {
+					newmodule.createModuleChoice();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
 			}
 			
 			weightedgrade = (modulegrade * credits);
@@ -397,5 +405,5 @@ public class Student {
 		
 		
 		
-	}*/
+	}
 	} 

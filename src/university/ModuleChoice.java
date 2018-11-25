@@ -2,8 +2,10 @@ package university;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class ModuleChoice {
 	
@@ -72,6 +74,33 @@ public class ModuleChoice {
 		}
 		
 
+	}
+	
+	public static ArrayList<ModuleChoice> getPastChoices(String p) throws SQLException {
+		ArrayList<ModuleChoice> choices = new ArrayList<ModuleChoice>();
+		
+		connectToDB();
+		Statement stmt = con.createStatement();
+		try {
+			ResultSet res  = stmt.executeQuery(String.format("SELECT * FROM moduleChoice WHERE period = \"%s\";", p));
+			while (res.next()) {
+				int regNum = res.getInt("registrationNumber");
+				String modCode = res.getString("moduleCode");
+				int grade = res.getInt("grade");
+				
+				ModuleChoice thischoice = new ModuleChoice(regNum, modCode, p, grade);
+				choices.add(thischoice);
+				
+			}
+			res.close();
+		 }catch (SQLException ex) {
+			 ex.printStackTrace();
+		 }finally {
+				if (stmt != null)
+					stmt.close();
+			}
+		con.close();
+		return choices;
 	}
 
 }
