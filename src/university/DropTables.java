@@ -17,6 +17,7 @@ public class DropTables {
 			count += stmt.executeUpdate("DROP TABLE studentStatus;");
 			count += stmt.executeUpdate("DROP TABLE moduleChoice;");
 			count += stmt.executeUpdate("DROP TABLE periodResult;");
+			count += stmt.executeUpdate("DROP TABLE degreeResult;")
 
 			int dep = stmt.executeUpdate("DROP TABLE department");
 			int degree = stmt.executeUpdate("DROP TABLE degree");

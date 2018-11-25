@@ -12,6 +12,7 @@ public class StudentStatus {
 	private Date endDate;
 	private boolean registered;
 	private boolean resitting = false;
+	private boolean graduated = false;
 	private static Connection con = null;
 	
     public static void connectToDB() throws SQLException {
@@ -28,6 +29,18 @@ public class StudentStatus {
 		this.level = l;
 		this.period = p;
 		this.registered = reg;
+	}
+	
+	public boolean isRegistered() {
+		return registered;
+	}
+
+	public boolean isResitting() {
+		return resitting;
+	}
+
+	public boolean isGraduated() {
+		return graduated;
 	}
 	
 	public StudentStatus createStudentStatus() throws SQLException {
