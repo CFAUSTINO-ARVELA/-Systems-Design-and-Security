@@ -83,6 +83,44 @@ public class StudentStatus {
 		return endDate;
 	}
 	
+	public void setGraduated() throws SQLException {
+		connectToDB();
+		Statement stmt = null;
+
+		try {
+			
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(
+					String.format("UPDATE studentStatus SET graduated = true WHERE registrationNumber = %d;", this.registrationNumber));
+			
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+	}
+	
+	public void setResitting(boolean b) throws SQLException {
+		connectToDB();
+		Statement stmt = null;
+
+		try {
+			
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(
+					String.format("UPDATE studentStatus SET resitting = %b WHERE registrationNumber = %d;", b, this.registrationNumber));
+			
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+	}
+	
 	public ArrayList<ModuleChoice> getCurrentModules() throws SQLException {
 		Connection con = null;
 		Statement stmt = null;
@@ -90,6 +128,9 @@ public class StudentStatus {
 		String period = null;
 		ModuleChoice module = null;
 		ArrayList<ModuleChoice> modules = new ArrayList<ModuleChoice>();
+		
+		int periodValue = this.period.charAt(0);
+		String prevPeriod = String.valueOf((char)(periodValue - 1));
 		
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
@@ -101,8 +142,11 @@ public class StudentStatus {
 				period = res.getString("period");
 				
 				if (period.equals(this.period)) {
-					module = new ModuleChoice(this.registrationNumber, period, code);
-					modules.add(module);
+					
+					if (!this.resitting || !period.equals(prevPeriod)) {
+						module = new ModuleChoice(this.registrationNumber, period, code);
+						modules.add(module);
+					}
 				}
 			}
 		} catch (Exception ex) {

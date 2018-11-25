@@ -280,7 +280,7 @@ public class Student {
 			
 			String currentperiod = status.getPeriod();
 			int periodvalue = currentperiod.charAt(0);
-			String prev = String.valueOf((char)(periodvalue + 1));
+			String prev = String.valueOf((char)(periodvalue - 1));
 			
 			if (currentperiod.equals("A")) {
 				
@@ -361,22 +361,24 @@ public class Student {
 		}
 	}
 	
-	public void progress(Student student, ArrayList<ModuleGrades> grades) {
+	public void progress(Student student, ArrayList<ModuleGrades> grades) throws SQLException {
 		
 		StudentStatus status = null;
 		boolean conceded = false;
 		boolean failed = false;
 		PeriodResult prevResult = null;
+		ArrayList<PeriodResult> pastResults = null;
 		
-		try {
-			status = student.getStudentStatus();
-			prevResult = student.getLastResult();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		String finalresult = null;
+		DegreeResult degreeResult = null;
+		
+		status = student.getStudentStatus();
+		prevResult = student.getLastResult();
 		
 		char level = status.getLevel();
 		String period = status.getPeriod();
+		int periodvalue = period.charAt(0);
+		String nextPeriod = String.valueOf((char)(periodvalue + 1));
 		int credittotal = 0;
 	
 		int credits, grade, resit, modulegrade, weightedgrade;
@@ -415,11 +417,7 @@ public class Student {
 			} else {
 				ModuleChoice newmodule = new ModuleChoice(student.getRegistrationNumber(), module.getModule().getCode(), period, modulegrade);
 				
-				try {
-					newmodule.createModuleChoice();
-				} catch (SQLException ex) {
-					ex.printStackTrace();
-				}
+				newmodule.createModuleChoice();
 			}
 			
 			weightedgrade = (modulegrade * credits);
@@ -436,6 +434,43 @@ public class Student {
 		weightedmean = weightedmean / credittotal;
 		
 		if (failed && status.isResitting()) {
+			if (level == '4') {
+				pastResults = this.getPrevResults();
+				float finalgrade = 0;
+				
+				for (PeriodResult result : pastResults) {
+					if (result.getPeriod().equals("1")) {
+						finalgrade += result.getGrade();
+					} else {
+						finalgrade += result.getGrade() * 2;
+					}
+				}
+				
+				finalgrade = finalgrade / 5;
+				
+				if (finalgrade < 49.5) {
+					finalresult = "fail";
+				} else if (finalgrade < 59.5) {
+					finalresult = "lower second";
+				} else if (finalgrade < 69.5) {
+					finalresult = "upper second";
+				} else {
+					finalresult = "first class";
+				}
+				
+				degreeResult = new DegreeResult(student.getRegistrationNumber(), false, finalresult);
+				degreeResult.createDegreeResult();
+				status.setGraduated();
+				
+			} else {
+				degreeResult = new DegreeResult(student.getRegistrationNumber(), false, "fail");
+				degreeResult.createDegreeResult();
+				status.setGraduated();
+			}
+		} else if (failed) {
+				status.updateStatus(level, nextPeriod);
+				status.setResitting(true);
+		} else {
 			if (level == '4') {
 				
 			}
