@@ -76,19 +76,18 @@ public class ModuleChoice {
 
 	}
 	
-	public static ArrayList<ModuleChoice> getPastChoices(String p) throws SQLException {
-		ArrayList<ModuleChoice> choices = new ArrayList<ModuleChoice>();
+	public static ArrayList<ModuleGrades> getPastChoices(int r, String p) throws Exception {
+		ArrayList<ModuleGrades> choices = new ArrayList<ModuleGrades>();
 		
 		connectToDB();
 		Statement stmt = con.createStatement();
 		try {
-			ResultSet res  = stmt.executeQuery(String.format("SELECT * FROM moduleChoice WHERE period = \"%s\";", p));
+			ResultSet res  = stmt.executeQuery(String.format("SELECT * FROM moduleChoice WHERE registrationNumber = %d AND period = \"%s\";", r, p));
 			while (res.next()) {
-				int regNum = res.getInt("registrationNumber");
-				String modCode = res.getString("moduleCode");
+				Module modCode = Module.getModule(res.getString("moduleCode"));
 				int grade = res.getInt("grade");
 				
-				ModuleChoice thischoice = new ModuleChoice(regNum, modCode, p, grade);
+				ModuleGrades thischoice = new ModuleGrades(modCode, grade);
 				choices.add(thischoice);
 				
 			}

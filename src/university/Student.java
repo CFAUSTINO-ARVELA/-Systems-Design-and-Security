@@ -361,7 +361,8 @@ public class Student {
 		}
 	}
 	
-	public void progress(Student student, ArrayList<ModuleGrades> grades) throws SQLException {
+	public boolean progress(Student student, ArrayList<ModuleGrades> grades) throws Exception {
+		
 		
 		StudentStatus status = null;
 		boolean conceded = false;
@@ -378,17 +379,34 @@ public class Student {
 		char level = status.getLevel();
 		String period = status.getPeriod();
 		int periodvalue = period.charAt(0);
+		String prevPeriod = String.valueOf((char)(periodvalue - 1));
 		String nextPeriod = String.valueOf((char)(periodvalue + 1));
 		int credittotal = 0;
+		
+		if (level == 'P' && student.getDegree().getType().equals("Undergraduate")) {
+			status.updateStatus('4', nextPeriod);
+			return true;
+		} else if (level == 'P') {
+			status.updateStatus('3', nextPeriod);
+			return true;
+		}
 	
 		int credits, grade, resit, modulegrade, weightedgrade;
 		
 		ArrayList<Integer> weightedGrades = new ArrayList<Integer>();
 		
+		if (status.isResitting()) {
+			grades.addAll(ModuleChoice.getPastChoices(student.getRegistrationNumber(), prevPeriod));
+		}
+		
+		
 		for (ModuleGrades module : grades) {
+			
+
 			credits = module.getModule().getCredits();
 			credittotal += credits;
-			
+				
+				
 			if (module.getResit()) {
 				grade = module.getGrade();
 				resit = module.getResitGrade();
@@ -405,6 +423,10 @@ public class Student {
 			} else {
 				modulegrade = module.getGrade();
 			}
+				
+			weightedgrade = (modulegrade * credits);
+			
+			weightedGrades.add(weightedgrade);
 			
 			if (level == '4' && modulegrade < 40 && conceded == false && credits == 15) {
 				conceded = true;
@@ -419,10 +441,6 @@ public class Student {
 				
 				newmodule.createModuleChoice();
 			}
-			
-			weightedgrade = (modulegrade * credits);
-			
-			weightedGrades.add(weightedgrade);
 		}
 		
 		int weightedmean = 0;
@@ -431,7 +449,7 @@ public class Student {
 			weightedmean += wg;
 		}
 		
-		weightedmean = weightedmean / credittotal;
+		weightedmean = weightedmean / credittotal; 
 		
 		if (failed && status.isResitting()) {
 			if (level == '4') {
@@ -440,13 +458,14 @@ public class Student {
 				
 				for (PeriodResult result : pastResults) {
 					if (result.getPeriod().equals("1")) {
+					} else if (result.getPeriod().equals("2") {
 						finalgrade += result.getGrade();
 					} else {
 						finalgrade += result.getGrade() * 2;
 					}
 				}
 				
-				finalgrade = finalgrade / 5;
+				finalgrade = finalgrade / 3;
 				
 				if (finalgrade < 49.5) {
 					finalresult = "fail";
@@ -461,17 +480,94 @@ public class Student {
 				degreeResult = new DegreeResult(student.getRegistrationNumber(), false, finalresult);
 				degreeResult.createDegreeResult();
 				status.setGraduated();
+				return true;
 				
 			} else {
 				degreeResult = new DegreeResult(student.getRegistrationNumber(), false, "fail");
 				degreeResult.createDegreeResult();
 				status.setGraduated();
+				return true;
 			}
 		} else if (failed) {
 				status.updateStatus(level, nextPeriod);
 				status.setResitting(true);
+				return true;
 		} else {
 			if (level == '4') {
+				pastResults = this.getPrevResults();
+				float finalgrade = 0;
+				
+				for (PeriodResult result : pastResults) {
+					if (result.getPeriod().equals("1")) {
+					} else if (result.getPeriod().equals("2")) {
+						finalgrade += result.getGrade();
+					} else {
+						finalgrade += result.getGrade() * 2;
+					}
+				}
+				
+				finalgrade += weightedmean * 2;
+				
+				finalgrade = finalgrade / 5;
+				
+				if (finalgrade < 49.5) {
+					finalresult = "fail";
+				} else if (finalgrade < 59.5) {
+					finalresult = "lower second";
+				} else if (finalgrade < 69.5) {
+					finalresult = "upper second";
+				} else {
+					finalresult = "first class";
+				}
+				
+				degreeResult = new DegreeResult(student.getRegistrationNumber(), true, finalresult);
+				degreeResult.createDegreeResult();
+				status.setGraduated();
+				return true;
+					
+				} else if (level == '3' && student.getDegree().getType().equals("Undergraduate")) {
+					pastResults = this.getPrevResults();
+					float finalgrade = 0;
+					
+					for (PeriodResult result : pastResults) {
+						if (result.getPeriod().equals("1")) {
+						} else if (result.getPeriod().equals("2")) {
+							finalgrade += result.getGrade();
+						} else {
+							finalgrade += result.getGrade() * 2;
+						}
+					}
+					
+					finalgrade += weightedmean * 2;
+					
+					finalgrade = finalgrade / 3;
+					
+					if (finalgrade < 39.5) {
+						finalresult = "fail";
+					} else if (finalgrade < 44.5) {
+						finalresult = "pass (non-honours)";
+					} else if (finalgrade < 49.5) {
+						finalresult = "third class";
+					} else if (finalgrade < 59.5) {
+						finalresult = "lower second";
+					} else if (finalgrade < 69.5) {
+						finalresult = "upper second";
+					} else {
+						finalresult = "first class";
+					}
+					
+					if (status.isResitting() && finalgrade >= 39.5) {
+						degreeResult = new DegreeResult(student.getRegistrationNumber(), false, "pass (non-honours)");
+						degreeResult.createDegreeResult();
+						status.setGraduated();
+						return true;
+					} else {
+						degreeResult = new DegreeResult(student.getRegistrationNumber(), false, finalresult);
+						degreeResult.createDegreeResult();
+						status.setGraduated();
+						return true;
+					}
+			} else {
 				
 			}
 		}
