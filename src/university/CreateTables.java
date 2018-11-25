@@ -13,17 +13,18 @@ public class CreateTables {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			con.setAutoCommit(false); // turn off auto-commit
 			stmt = con.createStatement();
-			/** int count = stmt.executeUpdate(
+		    int count = stmt.executeUpdate(
 					"CREATE TABLE student (RegistrationNumber int NOT NULL PRIMARY KEY, Degree varchar(255), Tutor varchar(255), Username varchar(255) REFERENCES account(Username));");
 			count += stmt.executeUpdate(
 					"CREATE TABLE account (Title varchar(6), Forename varchar(255), Surname varchar(255), Username varchar(255) NOT NULL PRIMARY KEY, Password varchar(255), Email varchar(255), Clearance int);");
 
 			count += stmt.executeUpdate(
-					"CREATE TABLE studentStatus (RegistrationNumber int NOT NULL PRIMARY KEY, Level char, Period int, StartDate date, EndDate date, Registered boolean);");
+					"CREATE TABLE studentStatus (RegistrationNumber int NOT NULL PRIMARY KEY, Level char, Period char, StartDate date, EndDate date, Registered boolean, Resitting boolean, Graduated boolean);");
 			
 			count+= stmt.executeUpdate("CREATE TABLE moduleChoice (RegistrationNumber int NOT NULL PRIMARY KEY, ModuleCode varchar(7) NOT NULL, Period char, Grade int);");
+			count+= stmt.executeUpdate("CREATE TABLE periodResult (RegistrationNumber int, Period char, Level char, Grade int, Passed boolean);");
+			count+= stmt.executeUpdate("CREATE TABLE degreeResult (RegistrationNumber int, Result varchar(255), Masters boolean);");
 			
-
 			System.out.println(count);
 
 			// Create table for department
@@ -32,12 +33,12 @@ public class CreateTables {
 			stmt.executeUpdate("INSERT INTO department VALUES (\"COM\", \"Department of Computer Science \") ");
 			stmt.executeUpdate("INSERT INTO department VALUES (\"BUS\", \"Bussiness School \") ");
 			stmt.executeUpdate("INSERT INTO department VALUES (\"LAN\", \"Modern Languages\") ");
-*/
+
 			// Create table for degree
 			int degree = stmt.executeUpdate(
 					"CREATE TABLE degree (code varchar(6) NOT NULL PRIMARY KEY, name varchar(255) NOT NULL, "
 							+ "mainDept varchar(3) REFERENCES department(code), type varchar(5), placement BOOL);");
-			/** 
+			
 			// Create table for the secondary departments of interdisciplinary degrees
 			int secondDep = stmt
 					.executeUpdate("CREATE TABLE seconDepts ( degreeCode varchar(6) NOT NULL REFERENCES degree(code),"
@@ -64,7 +65,7 @@ public class CreateTables {
 			int assoModDeg = stmt.executeUpdate(
 					"CREATE TABLE assoModDeg (modCode varchar(7), degCode varchar(6), mandatory BOOL, year varchar(1) );");
 			
-			System.out.println(count + depart + degree + secondDep); */
+			System.out.println(count + depart + degree + secondDep); 
 			con.commit(); // commit manually
 		} catch (SQLException ex) {
 			ex.printStackTrace();

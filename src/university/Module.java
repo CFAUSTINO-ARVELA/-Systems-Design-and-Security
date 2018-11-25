@@ -10,7 +10,6 @@ public class Module {
 	private String duration;
 	private static Connection con;
 	
-	public Module() {};
 	//Constructor for module
 	public Module(String name, String code, int credits, String duration) {
 		this.name = name;
@@ -103,6 +102,7 @@ public class Module {
 		}
 		finally {
 			if (newMod != null)
+				mod.close();
 				newMod.close();
 		}
 		con.close();
@@ -131,6 +131,7 @@ public class Module {
 			}
 		finally {
 			if ( delMod != null)
+				modCount.close();
 				delMod.close();
 		}
 		con.close();
@@ -171,6 +172,8 @@ public class Module {
 			 ex.printStackTrace();
 		 }finally {
 				if (stmt != null)
+					noMod.close();
+					mod.close();
 					stmt.close();
 			}
 		con.close();
@@ -214,7 +217,7 @@ public class Module {
 		}
 	}
 	
-	public ArrayList<ArrayList<String>> getModList() throws SQLException  {
+	public static ArrayList<ArrayList<String>> getModList() throws SQLException  {
 		ArrayList<ArrayList<String>> modList = new ArrayList<ArrayList<String>>();
 		ArrayList<String> mod = new ArrayList<String>();
 		ResultSet res = null;

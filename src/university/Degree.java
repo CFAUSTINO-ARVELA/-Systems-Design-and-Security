@@ -11,7 +11,6 @@ public class Degree{
 	private Boolean placement;
 	private static Connection con;
 	
-	public Degree() {};
 	//Constructor for degree with just one department
 	public Degree(String name, Department mainDept,
 			String type,Boolean placement) throws Exception{
@@ -50,21 +49,26 @@ public class Degree{
 	public void setCode() throws Exception{
 		int no = 1;
 		
-		String code = getMainDept().getCode();
+		String degCode = getMainDept().getCode();
 		if (getType() == "MSc")
-			code += "P";
+			degCode += "P";
 		else
-			code += "U";
-		System.out.println(code);
+			degCode += "U";
+		System.out.println(degCode+"%");
 		connectToDB();
 		PreparedStatement noDeg = null;
-		noDeg = con.prepareStatement(" SELECT MAX(code) FROM degree WHERE mainDept =  ? AND code LIKE ?");
+		noDeg = con.prepareStatement("SELECT MAX(code) FROM degree WHERE mainDept =  ? AND code LIKE ?");
 		try {
 			noDeg.setString(1, getMainDept().getCode());
-			noDeg.setString(2, code+"%");
+			noDeg.setString(2, degCode+"%");
+			System.out.println(noDeg.toString());
 			ResultSet res = noDeg.executeQuery();
 			res.next();
-			no = Integer.parseInt(res.getString(1).substring(4)) + 1;
+			System.out.println(res.getString("MAX(code)"));
+			System.out.println(res.getString("MAX(code)") == null);
+			//System.out.println(res.getString(0).isEmpty()+ "Aqui");
+			if(res.getString("MAX(code)") != null)
+				no = Integer.parseInt(res.getString("MAX(code)").substring(4)) + 1;
 		 }catch (SQLException ex) {
 			 ex.printStackTrace();
 		 }finally {
@@ -72,9 +76,10 @@ public class Degree{
 					noDeg.close();
 			}
 		
-		code += String.format("%02d", no); 
+		degCode += String.format("%02d", no); 
+		System.out.println(degCode);
 		con.close();
-		this.code = code;
+		setCode(degCode);
 	}
 	
 	public void setCode(String c) {
@@ -141,7 +146,9 @@ public class Degree{
 			ex.printStackTrace();
 		}finally {
 			if (newDeg != null)
+				deg.close();
 				newDeg.close();
+				newSeconDep.close();
 		}
 		con.close();
 		return count;
@@ -175,14 +182,16 @@ public class Degree{
 			 ex.printStackTrace();
 		 }finally {
 				if (delDeg != null)
+					deg.close();
 					delDeg.close();
+					delSDept.close();
 			}
 		con.close();
 		return count;
 	}
 
 	
-	//Get a degree using the name (return a degree object)
+	//Get a degree using the code (return a degree object)
 	public static Degree getDegree(String c) throws Exception {
 		Degree degree = null;
 		ArrayList<Department> deptList = new ArrayList<Department>();
@@ -229,6 +238,9 @@ public class Degree{
 			 ex.printStackTrace();
 		 }finally {
 				if (stmt != null)
+					noDeg.close();
+					deg.close();
+					secDep.close();
 					stmt.close();
 			}
 		con.close();
@@ -263,13 +275,46 @@ public class Degree{
 				 ex.printStackTrace();
 			 }finally {
 					if (stmt != null)
+						deg.close();
+						stmt.close();
+				}
+			
+			return degreeList;
+		}
+		
+		public static ArrayList<String> getAllDegNames() throws Exception {
+			Degree degree = null;
+			ArrayList<String> degreeList = new ArrayList<String>();
+			
+			connectToDB();
+			Statement stmt = con.createStatement();
+			PreparedStatement deg= null;
+			deg = con.prepareStatement("SELECT name FROM degree; " );
+			
+			
+			try {
+				ResultSet res = deg.executeQuery();
+				
+				while(res.next()) {
+					
+					String dName = res.getString("name");
+					
+					degreeList.add(dName);
+				}
+				res.close();
+				con.close();
+			 }catch (SQLException ex) {
+				 ex.printStackTrace();
+			 }finally {
+					if (stmt != null)
+						deg.close();
 						stmt.close();
 				}
 			
 			return degreeList;
 		}
 
-		public ArrayList<ArrayList<String>> getDegList() throws Exception  {
+		public static ArrayList<ArrayList<String>> getDegList() throws Exception  {
 			ArrayList<ArrayList<String>> degList = new ArrayList<ArrayList<String>>();
 			ArrayList<String> deg = new ArrayList<String>();
 			ResultSet res = null;
@@ -392,6 +437,10 @@ public class Degree{
 				coreModules.add(module);
 			}
 			
+			if (stmt != null) {
+				stmt.close();
+			}
+			
 			
 			return coreModules;
 		}
@@ -409,6 +458,10 @@ public class Degree{
 			while (res.next()) {
 				module = Module.getModule(res.getString("modCode"));
 				optionalModules.add(module);
+			}
+			
+			if (stmt != null) {
+				stmt.close();
 			}
 			
 			

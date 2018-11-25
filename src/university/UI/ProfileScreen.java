@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import javax.swing.*;
 
 import university.UI.LoginScreen;
-import university.UI.StudentStatus;
+import university.UI.StudentStatusScreen;
 import university.UI.AccountManagementScreen;
 import university.UI.StudentManagementScreen;
 import university.UI.AccountCreationScreen;
@@ -79,7 +79,7 @@ public class ProfileScreen extends JPanel {
 
         studentManageBtn.addActionListener(e -> {
             this.profileScreen.setVisible(false);
-            StudentStatus status = new StudentStatus(account, screen, this);
+            StudentStatusScreen status = new StudentStatusScreen(account, screen, this);
             status.draw();
         });
     }
@@ -100,7 +100,6 @@ public class ProfileScreen extends JPanel {
             try {
 				teachingScreen.draw();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
             this.profileScreen.setVisible(false);
@@ -114,7 +113,7 @@ public class ProfileScreen extends JPanel {
 
         studentManageBtn.addActionListener(e -> {
             this.profileScreen.setVisible(false);
-            StudentManagementScreen studentScreen = new StudentManagementScreen(screen, this);
+            StudentManagementScreen studentScreen = new StudentManagementScreen(screen, this, true);
             try {
                 studentScreen.draw();
             } catch (Exception ex) {
@@ -124,7 +123,17 @@ public class ProfileScreen extends JPanel {
     }
 
     private void teacherComponents() {
-
+    	this.profileScreen.add(studentManageBtn);
+    	
+        studentManageBtn.addActionListener(e -> {
+            this.profileScreen.setVisible(false);
+            StudentManagementScreen studentScreen = new StudentManagementScreen(screen, this, false);
+            try {
+                studentScreen.draw();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     private void initComponents() {

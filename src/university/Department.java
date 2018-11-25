@@ -59,6 +59,7 @@ public class Department{
 			 ex.printStackTrace();
 		 }finally {
 				if (newDept != null)
+					dept.close();
 					newDept.close();
 		}
 		con.close();
@@ -104,7 +105,9 @@ public class Department{
 			 ex.printStackTrace();
 		 }finally {
 				if (delDept != null)
+					dept.close();
 					delDept.close();
+					deg.close();
 			}
 		con.close();
 		return count;

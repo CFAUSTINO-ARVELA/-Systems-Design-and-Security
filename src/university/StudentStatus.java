@@ -11,6 +11,37 @@ public class StudentStatus {
 	private Date startDate;
 	private Date endDate;
 	private boolean registered;
+	private boolean resitting = false;
+	private boolean graduated = false;
+	private static Connection con = null;
+	
+    public static void connectToDB() throws SQLException {
+		   try {
+			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+		   }
+		   catch(SQLException ex) {
+			   ex.printStackTrace();
+		   }
+	}
+	
+	public StudentStatus(int r, char l, String p, boolean reg) {
+		this.registrationNumber = r;
+		this.level = l;
+		this.period = p;
+		this.registered = reg;
+	}
+	
+	public boolean isRegistered() {
+		return registered;
+	}
+
+	public boolean isResitting() {
+		return resitting;
+	}
+
+	public boolean isGraduated() {
+		return graduated;
+	}
 	
 	public StudentStatus createStudentStatus() throws SQLException {
 		
@@ -52,6 +83,44 @@ public class StudentStatus {
 		return endDate;
 	}
 	
+	public void setGraduated() throws SQLException {
+		connectToDB();
+		Statement stmt = null;
+
+		try {
+			
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(
+					String.format("UPDATE studentStatus SET graduated = true WHERE registrationNumber = %d;", this.registrationNumber));
+			
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+	}
+	
+	public void setResitting(boolean b) throws SQLException {
+		connectToDB();
+		Statement stmt = null;
+
+		try {
+			
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(
+					String.format("UPDATE studentStatus SET resitting = %b WHERE registrationNumber = %d;", b, this.registrationNumber));
+			
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+	}
+	
 	public ArrayList<ModuleChoice> getCurrentModules() throws SQLException {
 		Connection con = null;
 		Statement stmt = null;
@@ -59,6 +128,9 @@ public class StudentStatus {
 		String period = null;
 		ModuleChoice module = null;
 		ArrayList<ModuleChoice> modules = new ArrayList<ModuleChoice>();
+		
+		int periodValue = this.period.charAt(0);
+		String prevPeriod = String.valueOf((char)(periodValue - 1));
 		
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
@@ -70,8 +142,11 @@ public class StudentStatus {
 				period = res.getString("period");
 				
 				if (period.equals(this.period)) {
-					module = new ModuleChoice(this.registrationNumber, period, code);
-					modules.add(module);
+					
+					if (!this.resitting || !period.equals(prevPeriod)) {
+						module = new ModuleChoice(this.registrationNumber, period, code);
+						modules.add(module);
+					}
 				}
 			}
 		} catch (Exception ex) {
@@ -121,6 +196,46 @@ public class StudentStatus {
 		}
 		
 		return modules;
+	}
+	
+	public void updateStatus(char l, String p) throws SQLException {
+		connectToDB();
+		Statement stmt = null;
+
+		try {
+			
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(
+					String.format("UPDATE studentStatus SET level = \"%s\", period = \"%s\" WHERE registrationNumber = %d;", l, p, this.registrationNumber));
+			
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+	}
+	
+	public void setRegistered(boolean r) throws SQLException {
+		
+		connectToDB();
+		Statement stmt = null;
+
+		try {
+			
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(
+					String.format("UPDATE studentStatus SET registered = %b WHERE registrationNumber = %d;", r, this.registrationNumber));
+			
+			System.out.println(count);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+		
 	}
 
 	

@@ -29,14 +29,15 @@ class StudentManagementScreen extends JPanel implements ActionListener {
     public JPanel studentManagement;
     private ScreenManager screen;
     private ProfileScreen profileScreen;
-    private Account account;
+    private boolean canEdit;
     private JTable studentTable;
 
     private Connection con = null;
     private Statement stmt = null;
 
-    StudentManagementScreen(ScreenManager scr, ProfileScreen prof) {
+    StudentManagementScreen(ScreenManager scr, ProfileScreen prof, boolean edit) {
         this.initComponents();
+        this.canEdit = edit;
         this.screen = scr;
         this.profileScreen = prof;
     }
@@ -47,12 +48,16 @@ class StudentManagementScreen extends JPanel implements ActionListener {
 
         this.studentManagement.add(backToProfileBtn);
         this.studentManagement.add(studentManagementTxt);
-        this.studentManagement.add(createBtn);
-        this.studentManagement.add(deleteBtn);
+        
+        if (this.canEdit) {
+            this.studentManagement.add(createBtn);
+            this.studentManagement.add(deleteBtn);
+            this.studentManagement.add(registrationBtn);
+            this.studentManagement.add(moduleBtn);
+        }
+        
         this.studentManagement.add(tablePanel);
-        this.studentManagement.add(registrationBtn);
-        this.studentManagement.add(moduleBtn);
-
+        this.studentManagement.add(markingBtn);
         this.tablePanel.setLayout(new BorderLayout());
 
         this.studentManagement.setLayout(null);
@@ -88,11 +93,25 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             choiceScreen.draw();
             this.studentManagement.setVisible(false);
         });
+        markingBtn.addActionListener(e -> {
+        	if (studentTable.getSelectedRow() > -1) {
+	            String username = (String)studentTable.getValueAt(studentTable.getSelectedRow(), 3);
+	        
+	            MarkingScreen markingScr;
+				try {
+					markingScr = new MarkingScreen(this.screen, this, Student.getStudent(username));
+		            markingScr.draw();
+		            this.studentManagement.setVisible(false);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 
-       
-            Student s = new Student();
-            ResultSet res = stmt.executeQuery("SELECT * FROM student;");
-            studentTable = new JTable(TableModel.buildTableModel(s.getStutList()));
+        	} else {
+        		JOptionPane.showMessageDialog(null, "Please select a Student to mark");
+        	}
+        });
+
+            studentTable = new JTable(TableModel.buildTableModel(Student.getStutList()));
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(studentTable);
 
@@ -124,6 +143,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         tablePanel = new JPanel();
         moduleBtn = new JButton();
         registrationBtn = new JButton();
+        markingBtn = new JButton();
 
         //======== this ========
 
@@ -164,7 +184,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             tablePanel.setLayout(new BorderLayout());
         }
         add(tablePanel);
-        tablePanel.setBounds(177, 100, 645, 290);
+        tablePanel.setBounds(177, 100, 645, 270);
 
         //---- moduleBtn ----
         moduleBtn.setText("Add/drop modules");
@@ -175,6 +195,11 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         registrationBtn.setText("Student registration");
         add(registrationBtn);
         registrationBtn.setBounds(505, 410, 170, 30);
+
+        //---- markingBtn ----
+        markingBtn.setText("Student grades");
+        add(markingBtn);
+        markingBtn.setBounds(415, 375, 170, 30);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
@@ -201,6 +226,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
     private JPanel tablePanel;
     private JButton moduleBtn;
     private JButton registrationBtn;
+    private JButton markingBtn;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
     @Override
