@@ -367,6 +367,7 @@ public class Student {
 		StudentStatus status = null;
 		boolean conceded = false;
 		boolean failed = false;
+		PeriodResult currentResult = null;
 		PeriodResult prevResult = null;
 		ArrayList<PeriodResult> pastResults = null;
 		
@@ -458,7 +459,7 @@ public class Student {
 				
 				for (PeriodResult result : pastResults) {
 					if (result.getPeriod().equals("1")) {
-					} else if (result.getPeriod().equals("2") {
+					} else if (result.getPeriod().equals("2")) {
 						finalgrade += result.getGrade();
 					} else {
 						finalgrade += result.getGrade() * 2;
@@ -568,15 +569,29 @@ public class Student {
 						return true;
 					}
 			} else {
+				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
+				currentResult.createPeriodResult();
 				
+				int nextLevel = 0;
+				
+				if (student.getDegree().getPlacement()) {
+					if (level == '3' && !student.getDegree().getType().equals("Undergraduate")) {
+						status.updateStatus('P', nextPeriod);
+						return true;
+					} else if (level == '4' && student.getDegree().getType().equals("Undergraduate")) {
+						status.updateStatus('P', nextPeriod);
+						return true;
+					}
+				}
+				
+				nextLevel = Integer.parseInt(Character.toString(level)) + 1;
+				char nextLevelC = Integer.toString(nextLevel).charAt(0);
+				status.updateStatus(nextLevelC, nextPeriod);
+				return true;
 			}
 		}
 		
-		
-		
-		
-		
-		
-		
+		return false;	
 	}
+	
 	} 
