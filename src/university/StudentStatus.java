@@ -11,6 +11,7 @@ public class StudentStatus {
 	private Date startDate;
 	private Date endDate;
 	private boolean registered;
+	private boolean resitting = false;
 	private static Connection con = null;
 	
     public static void connectToDB() throws SQLException {
