@@ -137,7 +137,9 @@ public class Degree{
 			ex.printStackTrace();
 		}finally {
 			if (newDeg != null)
+				deg.close();
 				newDeg.close();
+				newSeconDep.close();
 		}
 		con.close();
 		return count;
@@ -174,7 +176,9 @@ public class Degree{
 			 ex.printStackTrace();
 		 }finally {
 				if (delDeg != null)
+					deg.close();
 					delDeg.close();
+					delSDept.close();
 			}
 		con.close();
 		return count;
@@ -230,6 +234,9 @@ public class Degree{
 			 ex.printStackTrace();
 		 }finally {
 				if (stmt != null)
+					noDeg.close();
+					deg.close();
+					secDep.close();
 					stmt.close();
 			}
 		con.close();
@@ -264,6 +271,7 @@ public class Degree{
 				 ex.printStackTrace();
 			 }finally {
 					if (stmt != null)
+						deg.close();
 						stmt.close();
 				}
 			
@@ -295,6 +303,7 @@ public class Degree{
 				 ex.printStackTrace();
 			 }finally {
 					if (stmt != null)
+						deg.close();
 						stmt.close();
 				}
 			
@@ -371,6 +380,10 @@ public class Degree{
 				coreModules.add(module);
 			}
 			
+			if (stmt != null) {
+				stmt.close();
+			}
+			
 			
 			return coreModules;
 		}
@@ -388,6 +401,10 @@ public class Degree{
 			while (res.next()) {
 				module = Module.getModule(res.getString("modCode"));
 				optionalModules.add(module);
+			}
+			
+			if (stmt != null) {
+				stmt.close();
 			}
 			
 			

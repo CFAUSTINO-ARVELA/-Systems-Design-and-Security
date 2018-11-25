@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class TableModel {
-    public static DefaultTableModel buildTableModel(ArrayList<ArrayList<String>> dataList) throws SQLException {
+    public static DefaultTableModel buildTableModel(ArrayList<ArrayList<String>> dataList) {
 
         // names of columns
         Vector<String> columnNames = new Vector<String>();

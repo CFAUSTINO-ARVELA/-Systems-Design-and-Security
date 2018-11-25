@@ -102,6 +102,7 @@ public class Module {
 		}
 		finally {
 			if (newMod != null)
+				mod.close();
 				newMod.close();
 		}
 		con.close();
@@ -130,6 +131,7 @@ public class Module {
 			}
 		finally {
 			if ( delMod != null)
+				modCount.close();
 				delMod.close();
 		}
 		con.close();
@@ -170,6 +172,8 @@ public class Module {
 			 ex.printStackTrace();
 		 }finally {
 				if (stmt != null)
+					noMod.close();
+					mod.close();
 					stmt.close();
 			}
 		con.close();
