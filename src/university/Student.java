@@ -170,11 +170,7 @@ public class Student {
 				st.add(res.getString("Degree"));
 				st.add(res.getString("Tutor"));
 				st.add(res.getString("Username"));
-				//System.out.println("Depart" + depart.toString());
-				stuList.add((ArrayList) st.clone());
-				//for (int o = 0; o < deptList.size(); o++) {
-				//	System.out.println("deptList" + deptList.get(o).toString());
-				//	}
+				stuList.add((ArrayList) st.clone());	
 			}
 			res.close();
 			

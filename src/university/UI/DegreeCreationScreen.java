@@ -20,7 +20,7 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
     public JPanel degreeCreation;
     private ScreenManager screen;
     private DegreeManagementScreen degreeManagement;
-    private String[] degreeTypes = { "Undergraduate", "Postgraduate" };
+    private String[] degreeTypes = { "BSc", "BEng", "MComp", "MEng", "MSc" };
     private String[] placementYear = { "No", "Yes" };
     private ArrayList<String> departments = new ArrayList<String>();
     private List<JCheckBox> checkboxes = new ArrayList<>();
@@ -80,9 +80,11 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
         	else {
 	            ArrayList<Department> secondaryDepts = new ArrayList<Department>();
 	            for (JCheckBox box : checkboxes) {
+	            	//System.out.println(box.getText());
 	                if (box.isSelected()) {
 	                    try {
 	                        secondaryDepts.add(Department.getDept(box.getText()));
+	                        //System.out.println(secondaryDepts.size());
 	                    } catch (Exception e1) {
 	                        // TODO Auto-generated catch block
 	                        e1.printStackTrace();
@@ -90,7 +92,7 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
 	                }
 	            }
 	
-	            String type = Character.toString((typeInput.getSelectedItem().toString().charAt(0)));
+	            String type = typeInput.getSelectedItem().toString();
 	            boolean placement;
 	            String placementText = placementInput.getSelectedItem().toString();
 	            if (placementText.equals("Yes")) {
@@ -99,48 +101,55 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
 	                placement = false;
 	            }
 	            
-	            try {
-	            	int count = 0;
-	            	Degree deg;
-	                if (placement == true) {
-	                	//System.out.println("Yes");
-	                	Department dep = Department.getDept(mainInput.getSelectedItem().toString());
-		                deg = new Degree(nameInput.getText(), dep, secondaryDepts, type, false);
-		                deg.setCode();
-		                count += deg.createDegree();
-		            	Department dep2 = Department.getDept(mainInput.getSelectedItem().toString());
-		                Degree deg2 = new Degree(nameInput.getText() + " with a Year in Industry", dep, secondaryDepts, type, placement);
-		                deg2.setCode();
-		                count += deg2.createDegree();
-		                //System.out.println(count);
-	            	}else {
-	            		//System.out.println("Yes");
-	            		Department dep = Department.getDept(mainInput.getSelectedItem().toString());
-		                deg = new Degree(nameInput.getText(), dep, secondaryDepts, type, false);
-		                deg.setCode();
-		                count += deg.createDegree();
-		                //System.out.println(count);
-	            	}
-	            	
-	                if (count == 0)
-	                	JOptionPane.showMessageDialog(null, "There already is a degree with that name. Please insert a different name.");
-	                else {
-	                	JOptionPane.showMessageDialog(null, "Successfully created Degree: " + deg.getName());	
-	                	this.degreeCreation.setVisible(false);
-	                	DegreeManagementScreen degMan = new DegreeManagementScreen(this.screen,degreeManagement.getTecMaangScree());
-	                	degMan.draw();
-	                }
-	            } catch (Exception ex) {
-	                ex.printStackTrace();
-	                try {
-						this.degreeManagement.draw();
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-	                JOptionPane.showMessageDialog(null, "SQL error, please try again");
-	            }
+	            if (type == "MSc" && placement == true)
+                	JOptionPane.showMessageDialog(null, "This degree cannot offer a year in industry. /n Please select a different type of degree.");
+	            else {
 	            
+		            try {
+		            	int count = 0;
+		            	Degree deg;
+		                if (placement == true) {
+		                	//System.out.println("Yes");
+		                	//System.out.println(secondaryDepts.size() + "Aqui");
+		                	Department dep = Department.getDept(mainInput.getSelectedItem().toString());
+			                deg = new Degree(nameInput.getText(), dep, secondaryDepts, type, false);
+			                deg.setCode();
+			                count += deg.createDegree();
+			            	Department dep2 = Department.getDept(mainInput.getSelectedItem().toString());
+			                Degree deg2 = new Degree(nameInput.getText() + " with a Year in Industry", dep, secondaryDepts, type, placement);
+			                deg2.setCode();
+			                count += deg2.createDegree();
+			                //System.out.println(count);
+		            	}else {
+		            		//System.out.println(secondaryDepts.size() + "Aqui");
+		            		//System.out.println("Yes");
+		            		Department dep = Department.getDept(mainInput.getSelectedItem().toString());
+			                deg = new Degree(nameInput.getText(), dep, secondaryDepts, type, false);
+			                deg.setCode();
+			                //System.out.println(deg.getSeconDepts().size());
+			                count += deg.createDegree();
+			                //System.out.println(count);
+		            	}
+		            	
+		                if (count == 0)
+		                	JOptionPane.showMessageDialog(null, "There already is a degree with this name.  Please insert a different name.");
+		                else {
+		                	JOptionPane.showMessageDialog(null, "Successfully created Degree: " + deg.getName());	
+		                	this.degreeCreation.setVisible(false);
+		                	DegreeManagementScreen degMan = new DegreeManagementScreen(this.screen,degreeManagement.getTecMaangScree());
+		                	degMan.draw();
+		                }
+		            } catch (Exception ex) {
+		                ex.printStackTrace();
+		                try {
+							this.degreeManagement.draw();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+		                JOptionPane.showMessageDialog(null, "SQL error, please try again");
+		            }
+	            }
 	        }
 /**
 =======

@@ -100,11 +100,11 @@ public class ModuleAssignmentScreen extends JPanel {
 
      
             Degree d = new Degree();
-            ResultSet degRes = stmt.executeQuery("SELECT * FROM degree;");
             degreeTable = new JTable(TableModel.buildTableModel(d.getDegList()));
+            
             Module m = new Module();
-            ResultSet modRes = stmt.executeQuery("SELECT * FROM module;");
             moduleTable = new JTable(TableModel.buildTableModel(m.getModList()));
+            
             JScrollPane degreeScroll = new JScrollPane();
             JScrollPane moduleScroll = new JScrollPane();
             degreeScroll.setViewportView(degreeTable);

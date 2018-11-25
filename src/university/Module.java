@@ -234,11 +234,8 @@ public class Module {
 				mod.add(res.getString("code"));
 				mod.add(res.getString("credits"));
 				mod.add(res.getString("duration"));
-				//System.out.println("Depart" + depart.toString());
 				modList.add((ArrayList) mod.clone());
-				//for (int o = 0; o < deptList.size(); o++) {
-				//	System.out.println("deptList" + deptList.get(o).toString());
-				//	}
+				
 			}
 			res.close();
 			
