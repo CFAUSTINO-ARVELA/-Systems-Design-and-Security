@@ -286,7 +286,7 @@ public class Student {
 				
 			} else {
 				stmt = con.createStatement();
-				ResultSet res = stmt.executeQuery(String.format("SELECT * FROM periodResult WHERE period = \"%s\";", prev));
+				ResultSet res = stmt.executeQuery(String.format("SELECT * FROM periodResult WHERE registrationNumber = %d AND period = \"%s\";", this.registrationNumber, prev));
 				
 				res.next();
 				char level = res.getString("level").charAt(0);
@@ -305,6 +305,42 @@ public class Student {
 		
 		return result;
 	}
+	
+	public ArrayList<PeriodResult> getPrevResults() throws SQLException {
+		connectToDB();
+		Statement stmt = null;
+		ArrayList<PeriodResult> results = new ArrayList<PeriodResult>();
+		PeriodResult result = null;
+		
+		StudentStatus status = null;
+		try {
+			status = this.getStudentStatus();
+				
+				stmt = con.createStatement();
+				ResultSet res = stmt.executeQuery(String.format("SELECT * FROM periodResult WHERE registrationNumber = %d AND passed = true;", this.registrationNumber));
+				
+				while(res.next()) {
+					char level = res.getString("level").charAt(0);
+					String period = res.getString("period");
+					int grade = res.getInt("grade");
+				
+					result = new PeriodResult(this.registrationNumber, level, period, grade, true);
+					results.add(result);
+				}
+				
+				
+			
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		
+		return results;
+	}
+	
 	
 	public void logResult(char l, String p, int g, boolean pass) throws SQLException {
 		connectToDB();
@@ -397,7 +433,13 @@ public class Student {
 			weightedmean += wg;
 		}
 		
-		weightedmean = weightedmean / credittotal; 
+		weightedmean = weightedmean / credittotal;
+		
+		if (failed && status.isResitting()) {
+			if (level == '4') {
+				
+			}
+		}
 		
 		
 		
