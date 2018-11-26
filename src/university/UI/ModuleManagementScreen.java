@@ -43,7 +43,6 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
         this.moduleScreen = new JPanel();
         this.moduleScreen.setBackground(new Color(70, 70, 70));
 
-        this.moduleScreen.add(promptTxt);
         this.moduleScreen.add(backToTeachingBtn);
         this.moduleScreen.add(moduleManagementTxt);
         this.moduleScreen.add(createBtn);
@@ -118,7 +117,6 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Katie
-        promptTxt = new JLabel();
         backToTeachingBtn = new JButton();
         moduleManagementTxt = new JLabel();
         deleteBtn = new JButton();
@@ -136,13 +134,6 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
 
         setLayout(null);
         tablePanel.setBounds(177, 100, 645, 290);
-
-        //---- promptTxt ----
-        promptTxt.setText("output for module table here");
-        promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
-        promptTxt.setForeground(Color.white);
-        add(promptTxt);
-        promptTxt.setBounds(390, 260, 225, promptTxt.getPreferredSize().height);
 
         //---- backToTeachingBtn ----
         backToTeachingBtn.setText("Back");
@@ -185,7 +176,6 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - Katie
-    private JLabel promptTxt;
     private JButton backToTeachingBtn;
     private JLabel moduleManagementTxt;
     private JButton deleteBtn;

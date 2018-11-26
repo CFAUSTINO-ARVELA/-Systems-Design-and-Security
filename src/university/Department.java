@@ -219,11 +219,7 @@ public class Department{
 				depart.clear();
 				depart.add(res.getString("code"));
 				depart.add(res.getString("name"));
-				//System.out.println("Depart" + depart.toString());
 				deptList.add((ArrayList) depart.clone());
-				//for (int o = 0; o < deptList.size(); o++) {
-				//	System.out.println("deptList" + deptList.get(o).toString());
-				//	}
 			}
 			res.close();
 			
@@ -237,52 +233,5 @@ public class Department{
 		return deptList;
 	} 
 	
-	/**
-	public static void main(String[] args){
-		
-		ArrayList<Department> deptList;
-		Department v = new Department("dos","dflv");
-		//Department c = new Department ("COM","Computer Science");
-		try {
-			/**System.out.println(v.getCode()+ " - " + v.getName());
-			deptList = v.getAllDep();
-			for(Department str:deptList)  
-		        System.out.println(str.getCode() + " - " + str.getName());  
-			c.createDept();
-			v.createDept();
-			deptList = v.getAllDep();
-			for(Department str:deptList)  
-		        System.out.println(str.getCode() + " - " + str.getName());  
-			v.deleteDep(); */
-//			deptList = v.getAllDep();
-//			for(Department str:deptList)  
-//		        System.out.println(str.getCode() + " - " + str.getName());  
-			
-			//System.out.println(v.getDept("LAN").getName());
-		 
-			
-		 //System.out.println(t.getName("COM"));
-			//System.out.println(c.createDept());
-	/**
-			ArrayList<ArrayList<String>> t = v.getDeptList();
-			for (int o = 0; o < t.size(); o++) {
-				System.out.println(o);
-				System.out.println(t.get(o).toString());
-				}
-			System.out.println(t.get(2).toString());
-		} catch(Exception ex) {
-			 ex.printStackTrace();
-		} 
-		
-		
-		/**
-		//VER PORQUE PRECISO DESTA EXCEPÇÃO
-		Department t = new Department("Computer Science","COM");
-		try {
-		t.createDept("Computer Science","COM");
-		} catch(Exception ex) {
-			 ex.printStackTrace();
-		}
-		System.out.println("REsultou?");
-	} */
+	
 }

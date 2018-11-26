@@ -33,12 +33,12 @@ public class CreateTables {
 			stmt.executeUpdate("INSERT INTO department VALUES (\"COM\", \"Department of Computer Science \") ");
 			stmt.executeUpdate("INSERT INTO department VALUES (\"BUS\", \"Bussiness School \") ");
 			stmt.executeUpdate("INSERT INTO department VALUES (\"LAN\", \"Modern Languages\") ");
- 
+
 			// Create table for degree
 			int degree = stmt.executeUpdate(
 					"CREATE TABLE degree (code varchar(6) NOT NULL PRIMARY KEY, name varchar(255) NOT NULL, "
-							+ "mainDept varchar(3) REFERENCES department(code), type varchar(13), placement BOOL);");
-
+							+ "mainDept varchar(3) REFERENCES department(code), type varchar(5), placement BOOL);");
+			
 			// Create table for the secondary departments of interdisciplinary degrees
 			int secondDep = stmt
 					.executeUpdate("CREATE TABLE seconDepts ( degreeCode varchar(6) NOT NULL REFERENCES degree(code),"

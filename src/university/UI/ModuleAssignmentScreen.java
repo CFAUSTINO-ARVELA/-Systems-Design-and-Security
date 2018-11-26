@@ -24,7 +24,7 @@ public class ModuleAssignmentScreen extends JPanel {
     private TeachingManagementScreen teachScreen;
     private Connection con = null;
     private Statement stmt = null;
-    private String[] coreList = {"Yes", "no"};
+    private String[] coreList = {"Yes", "No"};
 
     private JTable degreeTable;
     private JTable moduleTable;
@@ -96,9 +96,19 @@ public class ModuleAssignmentScreen extends JPanel {
             }
 
         }));
-
+/**
+<<<<<<< HEAD
+     
+            Degree d = new Degree();
+            degreeTable = new JTable(TableModel.buildTableModel(d.getDegList()));
+            
+            Module m = new Module();
+            moduleTable = new JTable(TableModel.buildTableModel(m.getModList()));
+            
+======= **/
             degreeTable = new JTable(TableModel.buildTableModel(Degree.getDegList()));
             moduleTable = new JTable(TableModel.buildTableModel(Module.getModList()));
+//>>>>>>> 9953d8945ac628ad17f8a9e564a54b29098a651d
             JScrollPane degreeScroll = new JScrollPane();
             JScrollPane moduleScroll = new JScrollPane();
             degreeScroll.setViewportView(degreeTable);

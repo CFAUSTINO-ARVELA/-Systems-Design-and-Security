@@ -13,7 +13,6 @@ public class TableModel {
         // names of columns
         Vector<String> columnNames = new Vector<String>();
         int columnCount = dataList.get(0).size();
-        System.out.println(columnCount);
         for (int column = 0; column < columnCount; column++) {
             columnNames.add(dataList.get(0).get(column));
         }
@@ -23,11 +22,8 @@ public class TableModel {
         for (int rowIndex = 1; rowIndex < dataList.size(); rowIndex++) {
             Vector<Object> vector = new Vector<Object>();
             for (int columnIndex = 0;  columnIndex < columnCount; columnIndex++) {
-            	System.out.println(columnIndex);
-            	System.out.println(dataList.get(rowIndex).get(columnIndex));
-                vector.add(dataList.get(rowIndex).get(columnIndex));
+            	vector.add(dataList.get(rowIndex).get(columnIndex));
             }
-            System.out.println(vector.toString());
             data.add(vector);
         }
 

@@ -48,23 +48,38 @@ public class Degree{
 		
 	public void setCode() throws Exception{
 		int no = 1;
+		
+		String degCode = getMainDept().getCode();
+		if (getType() == "MSc")
+			degCode += "P";
+		else
+			degCode += "U";
+		System.out.println(degCode+"%");
 		connectToDB();
 		PreparedStatement noDeg = null;
-		noDeg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE mainDept =  ?");
+		noDeg = con.prepareStatement("SELECT MAX(code) FROM degree WHERE mainDept =  ? AND code LIKE ?");
 		try {
 			noDeg.setString(1, getMainDept().getCode());
+			noDeg.setString(2, degCode+"%");
+			System.out.println(noDeg.toString());
 			ResultSet res = noDeg.executeQuery();
 			res.next();
-			no = res.getInt(1) + 1;
+			System.out.println(res.getString("MAX(code)"));
+			System.out.println(res.getString("MAX(code)") == null);
+			//System.out.println(res.getString(0).isEmpty()+ "Aqui");
+			if(res.getString("MAX(code)") != null)
+				no = Integer.parseInt(res.getString("MAX(code)").substring(4)) + 1;
 		 }catch (SQLException ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (noDeg != null)
 					noDeg.close();
 			}
-		String code = getMainDept().getCode() + getType().charAt(0) + String.format("%02d", no); 
+		
+		degCode += String.format("%02d", no); 
+		System.out.println(degCode);
 		con.close();
-		this.code = code;
+		setCode(degCode);
 	}
 	
 	public void setCode(String c) {
@@ -108,7 +123,6 @@ public class Degree{
 	
 		try {
 			deg.setString(1, getName());
-			//System.out.println(deg.toString());
 			ResultSet res = deg.executeQuery();
 			
 			res.next();
@@ -118,17 +132,12 @@ public class Degree{
 				newDeg.setString(3,getMainDept().getCode());
 				newDeg.setString(4, getType());
 				newDeg.setBoolean(5,getPlacement());
-				//System.out.println(getCode()+getName()+getMainDept().getCode());
-				//System.out.println(getType()+getPlacement());
-				//System.out.println(newDeg.toString());
 				count = newDeg.executeUpdate();
 				if (!this.seconDepts.isEmpty()) {
-				System.out.println("Aqui");
 					newSeconDep.setString(1, getCode());
 					for (Department str:getSeconDepts()) {
 						newSeconDep.setString(2, str.getCode());
-						System.out.println(newSeconDep.toString());
-				//		count += newSeconDep.executeUpdate();
+						count += newSeconDep.executeUpdate();
 					}
 			}
 					
@@ -158,12 +167,9 @@ public class Degree{
 		
 		try {
 			deg.setString(1, getCode());
-			//System.out.println(getCode()+"code" + getCode()=="COMU02");
 			ResultSet res = deg.executeQuery();
 			res.next();
-			//System.out.println("Não Entre?"+res.getInt(1));
 			if(res.getInt(1) == 1){
-				//System.out.println(getCode() + "mklf");
 				delDeg.setString(1, getCode());
 				count += delDeg.executeUpdate();
 				
@@ -187,10 +193,10 @@ public class Degree{
 	
 	//Get a degree using the code (return a degree object)
 	public static Degree getDegree(String c) throws Exception {
-		System.out.println(c);
 		Degree degree = null;
 		ArrayList<Department> deptList = new ArrayList<Department>();
 		Department dep = null;
+		System.out.println(c);
 		
 		connectToDB();
 		PreparedStatement deg,noDeg,secDep = null;
@@ -260,8 +266,8 @@ public class Degree{
 				while(res.next()) {
 					
 					String dCode = res.getString("code");
-					System.out.println(dCode + "   oklfm");
 					
+		
 					
 					degreeList.add(dCode);
 				}
@@ -322,7 +328,7 @@ public class Degree{
 				deg.add("Code");
 				deg.add("Name");
 				deg.add("Main Department");
-				deg.add("Type");
+				deg.add("Entry");
 				deg.add("Placement");
 				deg.add("Duration");
 				degList.add((ArrayList) deg.clone());
@@ -331,27 +337,30 @@ public class Degree{
 					deg.add(res.getString("code"));
 					deg.add(res.getString("name"));
 					deg.add(res.getString("mainDept"));
-					deg.add(res.getString("type"));
+					if (res.getString("type").matches("MSc"))
+						deg.add("Postgraduate");
+					else 
+						deg.add("Undergraduate");
 					if(res.getBoolean("placement") == true)
 						deg.add("Yes");
 					else
 						deg.add("No");
-					if (res.getString("type") == "Undergraduate")
+					
+					if (res.getString("type").matches("BSc") || res.getString("type").matches("BEng") )
 						if (res.getBoolean("placement") == false)
 							deg.add("3 Years");
 						else 
 							deg.add("4 Years");
+					else if (res.getString("type").matches("MSc"))
+							deg.add("1 year");
 					else
 						if (res.getBoolean("placement") == false)
 							deg.add("4 Years");
 						else 
 							deg.add("5 Years");
 							
-					//System.out.println("Depart" + depart.toString());
 					degList.add((ArrayList) deg.clone());
-					//for (int o = 0; o < deptList.size(); o++) {
-					//	System.out.println("deptList" + deptList.get(o).toString());
-					//	}
+					
 				}
 				res.close();
 				
@@ -364,6 +373,56 @@ public class Degree{
 			con.close();
 			return degList;
 		} 
+		public ArrayList<ArrayList<String>> getDegModules() throws Exception  {
+			ArrayList<ArrayList<String>> modList = new ArrayList<ArrayList<String>>();
+			ArrayList<String> mod = new ArrayList<String>();
+			ResultSet res = null;
+			PreparedStatement getMod, placement = null;
+			connectToDB();
+			getMod = con.prepareStatement("SELECT modCode, name, mandatory,year,duration, credits  FROM assoModDeg JOIN module WHERE degCode = ?;");
+			placement = con.prepareStatement("SELECT placement FROM degree WHERE code = ?;");
+			try {
+				getMod.setString(1, getCode());
+				res  = getMod.executeQuery();
+				mod.add("Code");
+				mod.add("Name");
+				mod.add("Type");
+				mod.add("Year");
+				mod.add("Duration");
+				mod.add("Credits");
+				modList.add((ArrayList) mod.clone());
+				while (res.next()) {
+					mod.clear();
+					mod.add(res.getString("modCode"));
+					mod.add(res.getString("name"));
+					if (res.getBoolean("mandatory") == true)
+						mod.add("Core");
+					else
+						mod.add("Optional");
+					mod.add(res.getString("year"));
+					mod.add(res.getString("duration"));
+					mod.add(res.getString("credits"));
+					modList.add((ArrayList) mod.clone());
+				}
+				placement.setString(1, getCode());
+				res = placement.executeQuery();
+				res.next();
+				/**if (res.getBoolean(placement) == true) {
+					
+				}**/
+				res.close();
+				
+				
+			 }catch (SQLException ex) {
+				 ex.printStackTrace();
+			 }finally {
+					if (getMod != null)
+						getMod.close();
+				}
+			con.close();
+			return modList;
+		} 
+		
 		
 		public static ArrayList<Module> getCoreModules(Degree d, int l) throws Exception {
 			ArrayList<Module> coreModules = new ArrayList<Module>();
@@ -372,6 +431,7 @@ public class Degree{
 			connectToDB();
 			Statement stmt = con.createStatement();
 			String degCode = d.getCode();
+			System.out.println(degCode);
 			
 			ResultSet res = stmt.executeQuery(String.format("SELECT modCode FROM assoModDeg WHERE degCode = \"%s\" AND year = %d AND mandatory = true;", degCode, l));
 			
@@ -410,65 +470,61 @@ public class Degree{
 			
 			return optionalModules;
 		}
-		
 		/**
 		public static void main(String[] args){
-			/**ArrayList<Degree> degreeList;
-			ArrayList<Department> deptList = new ArrayList<Department>();
-			Department c = new Department ("COM","Computer Science");
-			Department b,l;
-			Degree v = new Degree();
-			**/
-		/**
-			Degree v = new Degree();
+			ArrayList<Department> deptList = new ArrayList<Department>() ;
 			try {
-				/**c.createDept();
+				Department c = new Department("cid", "dijfdiof");
+				Department l,b;
 				b = c.getDeptwCode("BUS");
 				l = c.getDeptwCode("LAN");
 				deptList.add(b);
 				deptList.add(l);
 				Degree t = new Degree ("BSc Information System4",c,deptList,"Undergraduate",false);
 				t.setCode();
-//				System.out.println(t.getCode());
-//				/*
-//				System.out.println(t.getName());
-//				System.out.println(t.getMainDept().getName());
-//				System.out.println(t.getSeconDepts().toString());
-//				System.out.println(t.getType());
-//				System.out.println(t.getPlacement());
-//				
-//				System.out.println("Tudo bem");
-//				degreeList = t.getAllDegree();
-//				//System.out.println("Tudo bem2");
-//				for(Degree str:degreeList)  
-//			        System.out.println(str.getName()+ str.getCode() + "What1");
+				//System.out.println(t.getCode());
+			/**	
+			System.out.println(t.getName());
+				System.out.println(t.getMainDept().getName());
+				System.out.println(t.getSeconDepts().size());
+				System.out.println(t.getType());
+			System.out.println(t.getPlacement());
+			t.createDegree();
+			System.out.println(t.getSeconDepts().size());
+			t.deleteDegree();**/
+		/**
+				Degree v = t.getDegree("COMP01");
+				System.out.println(v.getDegModules(v).size());
+				System.out.println(v.getDegModules(v).get(0));
+				System.out.println(v.getDegModules(v).get(1));
+				/**
+				System.out.println("Tudo bem");
+				degreeList = t.getAllDegree();
+				//System.out.println("Tudo bem2");
+				for(Degree str:degreeList)  
+			        System.out.println(str.getName()+ str.getCode() + "What1");
 				int y =  t.createDegree();
 				System.out.println(y + "Funcionou");
-//				//t.deleteDegree();
-//				degreeList = t.getAllDegree();
-//				for(Degree str:degreeList)  
-//			        System.out.println(str.getName()+ str.getCode() + "  What4");
-//				t.deleteDegree();
-//				
-//				
-//				degreeList = v.getAllDegree();
-//				//System.out.println(degreeList.isEmpty());
-//				for(Degree str:degreeList)  
-//			        System.out.println(str.getName()+ str.getCode()+ "What2sy");
-//				/*
-//				t.deleteDegree();
-//				
-//				degreeList = t.getAllDegree();
-//				for(Degree str:degreeList)  
-//			        System.out.println(str.getName()+ str.getCode() +"Apagado");
-//				*/
+				//t.deleteDegree();
+				degreeList = t.getAllDegree();
+				for(Degree str:degreeList)  
+			        System.out.println(str.getName()+ str.getCode() + "  What4");
+				t.deleteDegree();
+				
+				
+				degreeList = v.getAllDegree();
+				//System.out.println(degreeList.isEmpty());
+				for(Degree str:degreeList)  
+			        System.out.println(str.getName()+ str.getCode()+ "What2sy");
+				
+				t.deleteDegree();
+				
+				degreeList = t.getAllDegree();
+				for(Degree str:degreeList)  
+			        System.out.println(str.getName()+ str.getCode() +"Apagado");
+				
+		**/
 		/**
-				ArrayList<ArrayList<String>> t = v.getDegList();
-				for (int o = 0; o < t.size(); o++) {
-					System.out.println(o);
-					System.out.println(t.get(o).toString());
-					}
-				System.out.println(t.get(2).toString());
 			} catch(Exception ex) {
 				ex.printStackTrace();
 			} 

@@ -2,12 +2,6 @@ package university.UI;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import university.UI.ProfileScreen;
 import university.ScreenManager;
@@ -42,6 +36,18 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
     	return teachingScreen;
     }
 
+    private DegreeManagementScreen getdegreeManagement() {
+    	return this;
+    }
+    
+    private JPanel getJPanel() {
+    	return this.degreeManagement;
+    }
+    private ScreenManager getScreen() {
+    	return this.screen;
+    }
+    
+   
     public void draw() throws Exception {
         this.degreeManagement = new JPanel();
         this.degreeManagement.setBackground(new Color(70, 70, 70));
@@ -58,6 +64,7 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
 
         backToTeachingBtn.addActionListener(e -> {
             this.degreeManagement.setVisible(false);
+            
             try {
 				this.teachingScreen.draw();
 			} catch (SQLException e1) {
@@ -95,20 +102,58 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
         });
 
         degreeTable = new JTable(TableModel.buildTableModel(Degree.getDegList()));
+
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(degreeTable);
 
         tablePanel.add(scrollPane);
 
         screen.frame.add(this.degreeManagement);
+
+        
+        degreeTable.addMouseListener(new MouseAdapter() {
+            private JComponent degreeManagement;
+			private ScreenManager screen;
+			private DegreeManagementScreen DegreeManagementScreen;
+			private Degree deg;
+
+			public void MouseAdapter() {
+				this.DegreeManagementScreen= getdegreeManagement();
+				this.screen = getScreen();
+				this.degreeManagement = getJPanel();
+		
+			}
+			public void mouseClicked(MouseEvent e) {
+            	if (e.getClickCount() == 2) {
+            		MouseAdapter();
+            		 String code = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 0);
+                     String name = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 1);
+            		try {
+						deg = Degree.getDegree(code);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+            		this.degreeManagement.setVisible(false);
+            		DegreeDetailsScreen degreeCreate = new DegreeDetailsScreen(this.screen, this.DegreeManagementScreen, deg);
+                    try {
+						degreeCreate.draw();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+                    
+            	
+            		
+            	}
+            }
+        });
+        
     }
 
-    public void returnFromManagement(String status) throws Exception {
-        JLabel statusTxt = new JLabel(status);
-        this.degreeManagement.add(statusTxt);
-        this.draw();
-    }
 
+     
+    
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Katie
@@ -170,6 +215,7 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
+    
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - Katie
     private JButton backToTeachingBtn;
@@ -184,4 +230,6 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 }

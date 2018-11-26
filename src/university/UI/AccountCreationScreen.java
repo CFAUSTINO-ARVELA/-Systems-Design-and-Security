@@ -27,7 +27,7 @@ class AccountCreationScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private AccountManagementScreen accountManagement;
     private ProfileScreen profileScreen;
-    private String[] clearanceList = { "Teacher", "Registar", "Admin" };
+    private String[] clearanceList = { "Teacher", "Registrar", "Admin" };
 
     AccountCreationScreen(ScreenManager scr, AccountManagementScreen accManage, ProfileScreen prof) {
         this.initComponents();

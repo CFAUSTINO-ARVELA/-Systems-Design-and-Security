@@ -200,17 +200,18 @@ public class Module {
 		return true; // Write an actual function here
 	}
 	
-	public boolean checkCredits(ArrayList<Module> list, boolean postgrad) {
+	public static boolean checkCredits(ArrayList<Module> list, boolean postgrad) {
 		int creditTotal = 0;
-		
+		int credits = 0;
+
 		for (Module module : list) {
-			int credits = module.getCredits();
+			credits = module.getCredits();
 			creditTotal += credits;
 		}
 		
-		if (postgrad && credits == 180) {
+		if (postgrad && creditTotal == 180) {
 			return true;
-		} else if (!postgrad && credits == 120) {
+		} else if (!postgrad && creditTotal == 120) {
 			return true;
 		} else {
 			return false;
@@ -237,11 +238,8 @@ public class Module {
 				mod.add(res.getString("code"));
 				mod.add(res.getString("credits"));
 				mod.add(res.getString("duration"));
-				//System.out.println("Depart" + depart.toString());
 				modList.add((ArrayList) mod.clone());
-				//for (int o = 0; o < deptList.size(); o++) {
-				//	System.out.println("deptList" + deptList.get(o).toString());
-				//	}
+				
 			}
 			res.close();
 			
