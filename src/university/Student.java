@@ -625,8 +625,28 @@ public class Student {
 	public void setModuleChoices(ArrayList<Module> modules) throws SQLException {
 		StudentStatus status = this.getStudentStatus();
 		String period = status.getPeriod();
+		int reg = this.registrationNumber;
 		
+		connectToDB();
+		Statement stmt = null;
+		String result = null;
 		
+		try {
+			connectToDB();
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(String.format("DELETE FROM moduleChoice WHERE registrationNumber = %d", reg));
+			
+			for (Module module : modules) {
+				String moduleCode = module.getCode();
+				count += stmt.executeUpdate(String.format("INSERT INTO moduleChoice (registrationNumber, moduleCode, period) VALUES (%d, \"%s\", \"%s\");", reg, moduleCode, period));
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
 	}
 }
 
