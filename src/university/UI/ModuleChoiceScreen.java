@@ -59,11 +59,14 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                         System.out.println(coreModules);
                 ArrayList<Module> optionalModules = Degree.getOptionalModules(this.student.getDegree(),
                         Integer.parseInt(this.student.getLevel()));
+                        System.out.println(optionalModules);
 
                 for (Module module : coreModules) {
                     String moduleName = module.getName();
                     JCheckBox box = new JCheckBox(moduleName);
                     coreCheckBoxes.add(box);
+                    box.setSelected(true);
+                    box.setEnabled(false);
                     corePanel.add(box);
                 }
 
