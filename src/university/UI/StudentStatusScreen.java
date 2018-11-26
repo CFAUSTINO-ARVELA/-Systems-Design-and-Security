@@ -6,32 +6,26 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.sql.SQLException;
 
 import javax.swing.*;
 
 public class StudentStatusScreen extends JPanel implements ActionListener {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private Account loggedInAccount;
+    private Account loggedInAccount;
     private JPanel studentStatusScreen;
     private ProfileScreen profileScreen;
     private ScreenManager screen;
+    private Student student;
+    private StudentStatus status;
 
-    private String username;
-    private Date startDate;
-    private Date endDate;
-    private int levelStudies;
-    private char periodStudies;
-    private int grade;
-
-    StudentStatusScreen(Account loggedInAcc, ScreenManager screen, ProfileScreen prof) {
+    StudentStatusScreen(Account loggedInAcc, ScreenManager screen, ProfileScreen prof, Student stu) {
         initComponents();
         this.loggedInAccount = loggedInAcc;
         this.profileScreen = prof;
         this.screen = screen;
+        this.student = stu;
     }
 
     public void draw() {
@@ -44,32 +38,28 @@ public class StudentStatusScreen extends JPanel implements ActionListener {
         
         titleTxt.setForeground(new Color(255,255,255));
 
+        try {
+            status = this.student.getStudentStatus();
+        } catch (SQLException e) {
+            e.printStackTrace();
+		}
+
         backToProfileBtn.addActionListener(e -> {
             this.profileScreen.draw();
             this.studentStatusScreen.setVisible(false);
         });
 
         this.studentStatusScreen.setLayout(null);
-
-        switch (loggedInAccount.getClearance()) {
-        case STUDENT:
-            this.setStudentStatus(loggedInAccount.getUsername());
-            this.drawForm();
-            break;
-        case REGISTRAR:
-            this.drawSearch();
-            break;
-        }
-
         screen.frame.add(this.studentStatusScreen);
     }
 
     public void drawForm() {
-        nameTxt.setText("Name: " + this.username);
-        startDateTxt.setText("Start Date: " + this.startDate);
-        endDateTxt.setText("End Date: " + this.endDate);
-        levelStudiesTxt.setText("Level Studies: " + this.levelStudies);
-        periodStudiesTxt.setText("Period Studies: " + this.periodStudies);
+        
+        nameTxt.setText("Name: ");
+        startDateTxt.setText("Start Date: " + this.status.getStartDate());
+        endDateTxt.setText("End Date: " + this.status.getEndDate());
+        levelStudiesTxt.setText("Level Studies: " + this.status.getLevel());
+        periodStudiesTxt.setText("Period Studies: " + this.status.getPeriod());
 
         nameTxt.setForeground(new Color(255,255,255));
         startDateTxt.setForeground(new Color(255,255,255));
@@ -84,46 +74,7 @@ public class StudentStatusScreen extends JPanel implements ActionListener {
         this.studentStatusScreen.add(periodStudiesTxt);
     }
 
-    public void drawSearch() {
-    	
-        this.studentStatusScreen.add(searchInput);
-        this.studentStatusScreen.add(searchBtn);
-
-        searchBtn.addActionListener(e -> {
-            this.setStudentStatus(searchInput.getText());
-        });
-    }
-
-    public void setStudentStatus(String user) {
-        // query the student status table/cols here and set all the data
-
-        this.username = "aca16klw";
-        // ...
-
-    }
-
-    private void updateLevelStudies() {
-
-    }
-
-    private void updatePeriodStudies() {
-
-    }
-
-    private int getGradeMean() {
-        return 0;
-    }
-
-    // @Override
-    // public void actionPerformed(ActionEvent arg0) {
-    //     // TODO Auto-generated method stub
-
-    // }
-
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY
-        // //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Katie
         nameTxt = new JLabel();
         startDateTxt = new JLabel();
         levelStudiesTxt = new JLabel();
@@ -131,10 +82,6 @@ public class StudentStatusScreen extends JPanel implements ActionListener {
         backToProfileBtn = new JButton();
         periodStudiesTxt = new JLabel();
         endDateTxt = new JLabel();
-        searchInput = new JTextField();
-        searchBtn = new JButton();
-
-        //======== this ========
 
         // JFormDesigner evaluation mark
         setBorder(new javax.swing.border.CompoundBorder(
@@ -181,13 +128,6 @@ public class StudentStatusScreen extends JPanel implements ActionListener {
         endDateTxt.setText("Start Date: ");
         add(endDateTxt);
         endDateTxt.setBounds(365, 295, 280, 45);
-        add(searchInput);
-        searchInput.setBounds(371, 115, 255, searchInput.getPreferredSize().height);
-
-        //---- searchBtn ----
-        searchBtn.setText("Search For Student");
-        add(searchBtn);
-        searchBtn.setBounds(640, 115, 155, 30);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
@@ -202,11 +142,8 @@ public class StudentStatusScreen extends JPanel implements ActionListener {
             setMinimumSize(preferredSize);
             setPreferredSize(preferredSize);
         }
-        // JFormDesigner - End of component initialization //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Katie
     private JLabel nameTxt;
     private JLabel startDateTxt;
     private JLabel levelStudiesTxt;
@@ -214,9 +151,6 @@ public class StudentStatusScreen extends JPanel implements ActionListener {
     private JButton backToProfileBtn;
     private JLabel periodStudiesTxt;
     private JLabel endDateTxt;
-    private JTextField searchInput;
-    private JButton searchBtn;
-    // JFormDesigner - End of variables declaration //GEN-END:variables
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

@@ -234,9 +234,6 @@ public class StudentStatus {
 		} finally {
 			if (stmt != null)
 				stmt.close();
-		}
-		
+		}	
 	}
-
-	
 }

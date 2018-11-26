@@ -63,7 +63,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         this.studentManagement.setLayout(null);
 
         backToProfileBtn.addActionListener(e -> {
-            studentTable.clearSelection();
+            studentTable.clearSelection(); 
             this.studentManagement.setVisible(false);
             this.profileScreen.draw();
         });

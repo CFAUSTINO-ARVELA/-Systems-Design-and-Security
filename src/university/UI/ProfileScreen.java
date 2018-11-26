@@ -79,8 +79,14 @@ public class ProfileScreen extends JPanel {
 
         studentManageBtn.addActionListener(e -> {
             this.profileScreen.setVisible(false);
-            StudentStatusScreen status = new StudentStatusScreen(account, screen, this);
-            status.draw();
+            Student stu;
+            try {
+                stu = Student.getStudent(this.account.getUsername());
+                StudentStatusScreen status = new StudentStatusScreen(account, screen, this, stu);
+                status.draw();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         });
     }
 
