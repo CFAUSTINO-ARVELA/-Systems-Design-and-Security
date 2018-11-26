@@ -42,6 +42,15 @@ public class MarkingScreen extends JPanel {
 		this.addModules();
 
 		screen.frame.add(this.markingScreen);
+
+		backToProfileBtn.addActionListener(e -> {
+			try {
+				this.markingScreen.setVisible(false);
+				this.studentManagement.draw();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
 	}
 
 	private void addModules() {

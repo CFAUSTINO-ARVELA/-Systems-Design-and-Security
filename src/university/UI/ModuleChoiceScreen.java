@@ -22,8 +22,9 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
     private StudentManagementScreen studentScreen;
     private Student student;
 
-    public ModuleChoiceScreen(ScreenManager scr, StudentManagementScreen stuScreen) {
+    public ModuleChoiceScreen(ScreenManager scr, StudentManagementScreen stuScreen, Student stu) {
         this.screen = scr;
+        this.student = stu;
         this.studentScreen = stuScreen;
         initComponents();
     }
@@ -55,6 +56,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
 
                 ArrayList<Module> coreModules = Degree.getCoreModules(this.student.getDegree(),
                         Integer.parseInt(this.student.getLevel()));
+                        System.out.println(coreModules);
                 ArrayList<Module> optionalModules = Degree.getOptionalModules(this.student.getDegree(),
                         Integer.parseInt(this.student.getLevel()));
 
