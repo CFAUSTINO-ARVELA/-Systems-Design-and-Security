@@ -42,7 +42,7 @@ public class Student {
     	this.accountDetails = null;
     }
     
-    public Student getStudent(int r) throws Exception {
+    public static Student getStudentReg(int r) throws Exception {
 		Student s = null;
 		String dcode = null;
 		PreparedStatement stu = null;
@@ -554,7 +554,7 @@ public class Student {
 				status.setGraduated();
 				return true;
 					
-				} else if (level == '3' && student.getDegree().getType().equals("Undergraduate")) {
+				} else if (level == '3' && (student.getDegree().getType().equals("BSc") || student.getDegree().getType().equals("BEng"))) {
 					pastResults = this.getPrevResults();
 					float finalgrade = 0;
 					
