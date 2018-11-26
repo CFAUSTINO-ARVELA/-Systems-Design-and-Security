@@ -144,7 +144,7 @@ public class StudentStatus {
 				if (period.equals(this.period)) {
 					
 					if (!this.resitting || !period.equals(prevPeriod)) {
-						module = new ModuleChoice(this.registrationNumber, period, code);
+						module = new ModuleChoice(this.registrationNumber, code, period);
 						modules.add(module);
 					}
 				}

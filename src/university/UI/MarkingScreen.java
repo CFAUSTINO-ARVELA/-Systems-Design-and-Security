@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 
 import university.Module;
 import university.ModuleChoice;
+import university.ModuleGrades;
 import university.ScreenManager;
 import university.Student;
 import university.StudentStatus;
@@ -19,6 +20,8 @@ public class MarkingScreen extends JPanel {
 	private ScreenManager screen;
 	private Student student;
 	private StudentManagementScreen studentManagement;
+	private int rows;
+	private JTable table;
 
 	public MarkingScreen(ScreenManager scr, StudentManagementScreen stuScreen, Student stu) {
 		this.screen = scr;
@@ -36,10 +39,12 @@ public class MarkingScreen extends JPanel {
 		this.markingScreen.add(titleTxt);
 		this.markingScreen.add(markingPanel);
 		this.markingScreen.add(backToProfileBtn);
-		
+		this.markingScreen.add(submitBtn);
+
 		this.markingPanel.setLayout(new BorderLayout());
 
 		this.addModules();
+		rows = 0;
 
 		screen.frame.add(this.markingScreen);
 
@@ -51,32 +56,53 @@ public class MarkingScreen extends JPanel {
 				e1.printStackTrace();
 			}
 		});
+		submitBtn.addActionListener(e -> {
+			if (this.checkEntered()) {
+				for (int i = 0; i < rows; i++) {
+					String code = table.getValueAt(1, 3);
+					Module module = new Module(Module.getCode());
+					ModuleGrades grades = new ModuleGrades(module, grade))
+				}
+			} else {
+
+			}
+		});
+	}
+
+	private boolean checkEntered() {
+		for (int i = 0; i < rows; i++) {
+			if (table.getValueAt(i, 4) == "") {
+				return false;
+			}
+		}
+		return true;
+		
 	}
 
 	private void addModules() {
 
 		try {
 			StudentStatus stuStatus = this.student.getStudentStatus();
-			
-			DefaultTableModel model = new DefaultTableModel(); 
-			JTable table = new JTable(model); 
 
-			// Create a couple of columns 
-			model.addColumn("Name"); 
-			model.addColumn("Code"); 
-			model.addColumn("Grade"); 
-			model.addColumn("Resit Grade"); 
-			
+			DefaultTableModel model = new DefaultTableModel();
+			JTable table = new JTable(model);
+
+			// Create a couple of columns
+			model.addColumn("Name");
+			model.addColumn("Code");
+			model.addColumn("Grade");
+			model.addColumn("Resit Grade");
 			for (ModuleChoice module : stuStatus.getCurrentModules()) {
+				System.out.println(module.getModuleCode());
 				String name = Module.getModule(module.getModuleCode()).getName();
-				model.addRow(new Object[]{name, module.getModuleCode(), null, null});
+				model.addRow(new Object[] { name, module.getModuleCode(), null, null });
+				rows++;
 			}
-			
-            JScrollPane scrollPane = new JScrollPane();
-            scrollPane.setViewportView(table);
 
-            markingPanel.add(scrollPane);
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setViewportView(table);
 
+			markingPanel.add(scrollPane);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -87,6 +113,7 @@ public class MarkingScreen extends JPanel {
 		titleTxt = new JLabel();
 		markingPanel = new JPanel();
 		backToProfileBtn = new JButton();
+		submitBtn = new JButton();
 
 		// ======== this ========
 
@@ -151,6 +178,11 @@ public class MarkingScreen extends JPanel {
 			setMinimumSize(preferredSize);
 			setPreferredSize(preferredSize);
 		}
+
+		submitBtn.setText("Submit grades");
+        add(submitBtn);
+        submitBtn.setBounds(415, 465, 170, 30);
+
 		// JFormDesigner - End of component initialization //GEN-END:initComponents
 	}
 
@@ -159,5 +191,6 @@ public class MarkingScreen extends JPanel {
 	private JLabel titleTxt;
 	private JPanel markingPanel;
 	private JButton backToProfileBtn;
+	private JButton submitBtn;
 	// JFormDesigner - End of variables declaration //GEN-END:variables
 }

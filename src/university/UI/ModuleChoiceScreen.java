@@ -4,6 +4,7 @@ import university.Degree;
 import university.Module;
 import university.ScreenManager;
 import university.Student;
+import university.StudentStatus;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -119,10 +120,12 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
 
             System.out.println(chosenModules);
             if (Module.checkCredits(chosenModules, false)) {
-
-                // do something with the modules
-                this.moduleScreen.setVisible(false);
+                
                 try {
+                    this.student.setModuleChoices(chosenModules);
+                    StudentStatus status = this.student.getStudentStatus();
+                    status.setRegistered(true);
+                    this.moduleScreen.setVisible(false);
                     this.studentScreen.draw();
                 } catch (Exception e1) {
                     e1.printStackTrace();
