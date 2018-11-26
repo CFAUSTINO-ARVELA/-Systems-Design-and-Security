@@ -58,7 +58,7 @@ public class MarkingScreen extends JPanel {
 			}
 		});
 		submitBtn.addActionListener(e -> {
-			table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+			table.getCellEditor().stopCellEditing();
 			ArrayList<ModuleGrades> allGrades = new ArrayList<>();
 			if (this.checkEntered()) {
 				System.out.println("None empty");

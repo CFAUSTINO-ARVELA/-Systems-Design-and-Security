@@ -2,7 +2,6 @@ package university.UI;
 
 import university.ScreenManager;
 import university.Department;
-import university.CheckInjection;
 import university.CheckValid;
 import university.UI.DepartmentManagementScreen;
 

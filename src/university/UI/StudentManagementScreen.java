@@ -63,10 +63,12 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         this.studentManagement.setLayout(null);
 
         backToProfileBtn.addActionListener(e -> {
+            studentTable.clearSelection();
             this.studentManagement.setVisible(false);
             this.profileScreen.draw();
         });
         createBtn.addActionListener(e -> {
+            studentTable.clearSelection();
             this.studentManagement.setVisible(false);
             StudentCreationScreen studentCreate = new StudentCreationScreen(this.screen, this, this.profileScreen);
             studentCreate.draw();
@@ -87,6 +89,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Student to delete");
             }
+            studentTable.clearSelection();
         });
         moduleBtn.addActionListener(e -> {
             if (studentTable.getSelectedRow() > -1) {
@@ -103,6 +106,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Student to complete add/drop");
             }
+            studentTable.clearSelection();
         });
         markingBtn.addActionListener(e -> {
             if (studentTable.getSelectedRow() > -1) {
@@ -119,6 +123,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Student to mark");
             }
+            studentTable.clearSelection();
         });
 
         studentTable = new JTable(TableModel.buildTableModel(Student.getStutList()));
