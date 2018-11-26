@@ -1,8 +1,8 @@
 package university.UI;
-import university.ScreenManager;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.color.*;
+import java.sql.*;
 
 import university.*;
 
@@ -12,6 +12,7 @@ public class LoginScreen extends JPanel {
     private ScreenManager screen;
     private JPanel loginScreen;
     private ProfileScreen profileScreen;
+    private static Connection con;
 
     public LoginScreen(ScreenManager scr) {
         initComponents();
@@ -32,7 +33,11 @@ public class LoginScreen extends JPanel {
 
         submitButton.addActionListener(e -> {
             this.loginScreen.setVisible(false);
-            this.login();
+            try {
+				this.login();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
         });
         
         this.loginScreen.setLayout(null);
@@ -41,32 +46,124 @@ public class LoginScreen extends JPanel {
         this.screen.frame.add(this.loginScreen);
     }
 
-    public void login() {
+    public static void connectToDB() throws SQLException {
+		   try {
+			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+		   }
+		   catch(SQLException ex) {
+			   ex.printStackTrace();
+		   }
+	}
+    public void login() throws SQLException{
 
-        // //authenticate here
+    	//authenticate here
         // I think the easiest way will be to check each table and if it exists in the
         // table and the passwords match, we know they
         // they are a ___ and set profileType accordingly
+	
+    	connectToDB();
+    	Statement stmt = null;
+    	PreparedStatement pst1, pst2 = null;
+    	ResultSet res1, res2 = null;
+    	String sql = "select * from account where Email=? and Password=?";
+    	String clearLvl = "select Clearance from account where Email = ? and Password =?";
+    	
+    	try {
+    		
+    		pst1 = con.prepareStatement(sql);
+    		pst1.setString(1, emailInput.getText());
+    		pst1.setString(2, passwordInput.getText());
+    		res1 = pst1.executeQuery();
+    		
+    		pst2 = con.prepareStatement(clearLvl);
+    		pst2.setString(1, emailInput.getText());
+    		pst2.setString(2, passwordInput.getText());
+    		res2 = pst2.executeQuery();
+    		res2.next();
+    		
+    		if (res2.getInt("Clearance") == 1) {
+    			
+    			while (res1.next()) {
+        			// get data
+        			String title = res1.getString("Title");
+        			String forename = res1.getString("Forename");
+        	    	String surname = res1.getString("Surname");
+        	    	String username = res1.getString("Username");
+        	    	String password = res1.getString("Password");
+                    Clearance clearance = Clearance.TEACHER;
+                    
+                    Account account = new Account(title, forename, surname, username, password, clearance);
+                    //screen.navToProfile(account);
+                    profileScreen = new ProfileScreen(this.screen, account);
+                    profileScreen.draw();
+    			
+    		} }
+    			
+    		else if (res2.getInt("Clearance") == 2) {
+        			
+        		while (res1.next()) {
+            		// get data
+            		String title = res1.getString("Title");
+            		String forename = res1.getString("Forename");
+            	    String surname = res1.getString("Surname");
+            	    String username = res1.getString("Username");
+            	    String password = res1.getString("Password");
+                    Clearance clearance = Clearance.REGISTRAR;
+                        
+                        Account account = new Account(title, forename, surname, username, password, clearance);
+                        //screen.navToProfile(account);
+                        profileScreen = new ProfileScreen(this.screen, account);
+                        profileScreen.draw();
+        			
+        	} }
+    		
+    		else if (res2.getInt("Clearance") == 3) {
+    			
+        		while (res1.next()) {
+            		// get data
+            		String title = res1.getString("Title");
+            		String forename = res1.getString("Forename");
+            	    String surname = res1.getString("Surname");
+            	    String username = res1.getString("Username");
+            	    String password = res1.getString("Password");
+                    Clearance clearance = Clearance.ADMIN;
+                        
+                        Account account = new Account(title, forename, surname, username, password, clearance);
+                        //screen.navToProfile(account);
+                        profileScreen = new ProfileScreen(this.screen, account);
+                        profileScreen.draw();
+        			
+        	} }
+    		
+    		else {
+    			
+        		while (res1.next()) {
+            		// get data
+            		String title = res1.getString("Title");
+            		String forename = res1.getString("Forename");
+            	    String surname = res1.getString("Surname");
+            	    String username = res1.getString("Username");
+            	    String password = res1.getString("Password");
+                    Clearance clearance = Clearance.STUDENT;
+                        
+                        Account account = new Account(title, forename, surname, username, password, clearance);
+                        //screen.navToProfile(account);
+                        profileScreen = new ProfileScreen(this.screen, account);
+                        profileScreen.draw();
+        			
+        	} }
+    		
+    	}
+    	catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+    	con.close();
+    	res2.close();
+    	pst2.close();
 
-        // Query student table
-        if (true) {
-
-            // get data
-            String title = "Miss";
-            String forename = "Katie";
-            String surname = "Walker";
-            String email = "katie@katie.com";
-            String username = "rweasel1";
-            String password = "password";
-            Clearance clearance = Clearance.STUDENT;
-
-            Account account = new Account(title, forename, surname, username, password, clearance);
-            //screen.navToProfile(account);
-            profileScreen = new ProfileScreen(this.screen, account);
-            profileScreen.draw();
-        }
-
-        // Query rest
     }
 
     private void initComponents() {
