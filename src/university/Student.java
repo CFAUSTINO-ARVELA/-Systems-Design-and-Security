@@ -35,6 +35,40 @@ public class Student {
         this.accountDetails = acc;
       }
     
+    public Student(int reg, Degree deg, String tut) {
+    	this.registrationNumber = reg;
+    	this.degree = deg;
+    	this.tutor = tut;
+    	this.accountDetails = null;
+    }
+    
+    public Student getStudent(int r) throws Exception {
+		Student s = null;
+		String dcode = null;
+		PreparedStatement stu = null;
+		connectToDB();
+		stu = con.prepareStatement("SELECT * FROM student WHERE registrationNumber = ?");
+		try {
+			stu.setInt(1, r);
+			ResultSet res = stu.executeQuery();
+			res.next();
+			dcode = res.getString("degree");
+			Degree deg = Degree.getDegree(dcode);
+			String tutor = res.getString("tutor");
+			
+			s = new Student(r, deg, tutor);
+			res.close();
+			
+		 }catch (SQLException ex) {
+			 ex.printStackTrace();
+		 }finally {
+				if (stu != null)
+					stu.close();
+			}
+		con.close();
+		return s;
+    }
+    
     public static void connectToDB() throws SQLException {
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
@@ -379,7 +413,7 @@ public class Student {
 		String nextPeriod = String.valueOf((char)(periodvalue + 1));
 		int credittotal = 0;
 		
-		if (level == 'P' && student.getDegree().getType().equals("Undergraduate")) {
+		if (level == 'P' && (student.getDegree().getType().equals("BSc") || student.getDegree().getType().equals("BEng"))) {
 			status.updateStatus('4', nextPeriod);
 			return true;
 		} else if (level == 'P') {
