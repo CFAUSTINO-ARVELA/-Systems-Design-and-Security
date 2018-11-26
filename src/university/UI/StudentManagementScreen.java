@@ -48,14 +48,14 @@ class StudentManagementScreen extends JPanel implements ActionListener {
 
         this.studentManagement.add(backToProfileBtn);
         this.studentManagement.add(studentManagementTxt);
-        
+
         if (this.canEdit) {
             this.studentManagement.add(createBtn);
             this.studentManagement.add(deleteBtn);
             this.studentManagement.add(registrationBtn);
             this.studentManagement.add(moduleBtn);
         }
-        
+
         this.studentManagement.add(tablePanel);
         this.studentManagement.add(markingBtn);
         this.tablePanel.setLayout(new BorderLayout());
@@ -63,17 +63,19 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         this.studentManagement.setLayout(null);
 
         backToProfileBtn.addActionListener(e -> {
+            studentTable.clearSelection(); 
             this.studentManagement.setVisible(false);
             this.profileScreen.draw();
         });
         createBtn.addActionListener(e -> {
+            studentTable.clearSelection();
             this.studentManagement.setVisible(false);
             StudentCreationScreen studentCreate = new StudentCreationScreen(this.screen, this, this.profileScreen);
             studentCreate.draw();
         });
         deleteBtn.addActionListener(e -> {
             if (studentTable.getSelectedRow() > -1) {
-                int index = (int) studentTable.getValueAt(studentTable.getSelectedRow(), 0);
+                int index = Integer.parseInt((String) studentTable.getValueAt(studentTable.getSelectedRow(), 0));
                 String username = (String) studentTable.getValueAt(studentTable.getSelectedRow(), 3);
                 Student stuToDelete = new Student(index);
                 try {
@@ -87,36 +89,48 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Student to delete");
             }
+            studentTable.clearSelection();
         });
         moduleBtn.addActionListener(e -> {
-            ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this);
-            choiceScreen.draw();
-            this.studentManagement.setVisible(false);
+            if (studentTable.getSelectedRow() > -1) {
+                int index = Integer.parseInt((String) studentTable.getValueAt(studentTable.getSelectedRow(), 0));
+                Student student;
+                try {
+                    student = Student.getStudentReg(index);
+                    ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this, student);
+                    choiceScreen.draw();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+                this.studentManagement.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a Student to complete add/drop");
+            }
+            studentTable.clearSelection();
         });
         markingBtn.addActionListener(e -> {
-        	if (studentTable.getSelectedRow() > -1) {
-	            String username = (String)studentTable.getValueAt(studentTable.getSelectedRow(), 3);
-	        
-	            MarkingScreen markingScr;
-				try {
-					markingScr = new MarkingScreen(this.screen, this, Student.getStudent(username));
-		            markingScr.draw();
-		            this.studentManagement.setVisible(false);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
+            if (studentTable.getSelectedRow() > -1) {
+                String username = (String) studentTable.getValueAt(studentTable.getSelectedRow(), 3);
+                MarkingScreen markingScr;
+                try {
+                    markingScr = new MarkingScreen(this.screen, this, Student.getStudent(username));
+                    markingScr.draw();
+                    this.studentManagement.setVisible(false);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
 
-        	} else {
-        		JOptionPane.showMessageDialog(null, "Please select a Student to mark");
-        	}
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a Student to mark");
+            }
+            studentTable.clearSelection();
         });
 
-            studentTable = new JTable(TableModel.buildTableModel(Student.getStutList()));
-            JScrollPane scrollPane = new JScrollPane();
-            scrollPane.setViewportView(studentTable);
+        studentTable = new JTable(TableModel.buildTableModel(Student.getStutList()));
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(studentTable);
 
-            tablePanel.add(scrollPane);
-
+        tablePanel.add(scrollPane);
 
         this.studentManagement.setVisible(true);
         screen.frame.add(this.studentManagement);
@@ -145,65 +159,71 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         registrationBtn = new JButton();
         markingBtn = new JButton();
 
-        //======== this ========
+        // ======== this ========
 
         // JFormDesigner evaluation mark
-        setBorder(new javax.swing.border.CompoundBorder(
-            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
+                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
+                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
+                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent e) {
+                if ("border".equals(e.getPropertyName()))
+                    throw new RuntimeException();
+            }
+        });
 
         setLayout(null);
 
-        //---- backToProfileBtn ----
+        // ---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(414, 500, 170, 50);
 
-        //---- studentManagementTxt ----
+        // ---- studentManagementTxt ----
         studentManagementTxt.setText("Student Management");
-        studentManagementTxt.setFont(studentManagementTxt.getFont().deriveFont(studentManagementTxt.getFont().getSize() + 10f));
+        studentManagementTxt
+                .setFont(studentManagementTxt.getFont().deriveFont(studentManagementTxt.getFont().getSize() + 10f));
         studentManagementTxt.setHorizontalAlignment(SwingConstants.CENTER);
         studentManagementTxt.setForeground(Color.white);
         add(studentManagementTxt);
         studentManagementTxt.setBounds(347, 35, 305, 31);
 
-        //---- deleteBtn ----
+        // ---- deleteBtn ----
         deleteBtn.setText("Delete Student");
         add(deleteBtn);
         deleteBtn.setBounds(415, 470, 170, 30);
 
-        //---- createBtn ----
+        // ---- createBtn ----
         createBtn.setText("Create Student");
         add(createBtn);
         createBtn.setBounds(415, 440, 170, 30);
 
-        //======== tablePanel ========
+        // ======== tablePanel ========
         {
             tablePanel.setLayout(new BorderLayout());
         }
         add(tablePanel);
         tablePanel.setBounds(177, 100, 645, 270);
 
-        //---- moduleBtn ----
+        // ---- moduleBtn ----
         moduleBtn.setText("Add/drop modules");
         add(moduleBtn);
         moduleBtn.setBounds(325, 410, 170, 30);
 
-        //---- registrationBtn ----
+        // ---- registrationBtn ----
         registrationBtn.setText("Student registration");
         add(registrationBtn);
         registrationBtn.setBounds(505, 410, 170, 30);
 
-        //---- markingBtn ----
+        // ---- markingBtn ----
         markingBtn.setText("Student grades");
         add(markingBtn);
         markingBtn.setBounds(415, 375, 170, 30);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);

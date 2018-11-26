@@ -247,7 +247,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         moduleTxt.setBounds(155, 295 , 215, 16);
         
       //---- deleteBtn ----
-        deleteBtn.setText("Remove Degree");
+        deleteBtn.setText("Remove Module");
         add(deleteBtn);
         deleteBtn.setBounds(415, 465, 170, 30);
         

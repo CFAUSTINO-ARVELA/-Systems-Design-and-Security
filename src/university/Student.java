@@ -35,6 +35,40 @@ public class Student {
         this.accountDetails = acc;
       }
     
+    public Student(int reg, Degree deg, String tut) {
+    	this.registrationNumber = reg;
+    	this.degree = deg;
+    	this.tutor = tut;
+    	this.accountDetails = null;
+    }
+    
+    public static Student getStudentReg(int r) throws Exception {
+		Student s = null;
+		String dcode = null;
+		PreparedStatement stu = null;
+		connectToDB();
+		stu = con.prepareStatement("SELECT * FROM student WHERE registrationNumber = ?");
+		try {
+			stu.setInt(1, r);
+			ResultSet res = stu.executeQuery();
+			res.next();
+			dcode = res.getString("degree");
+			Degree deg = Degree.getDegree(dcode);
+			String tutor = res.getString("tutor");
+			
+			s = new Student(r, deg, tutor);
+			res.close();
+			
+		 }catch (SQLException ex) {
+			 ex.printStackTrace();
+		 }finally {
+				if (stu != null)
+					stu.close();
+			}
+		con.close();
+		return s;
+    }
+    
     public static void connectToDB() throws SQLException {
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
@@ -52,7 +86,7 @@ public class Student {
 		try {
 			stmt = con.createStatement();
 			String query = String.format("INSERT INTO student (registrationNumber, degree, tutor, username) VALUES (%d, \"%s\", \"%s\", \"%s\");",
-					this.registrationNumber, this.degree.getName(), this.tutor, this.accountDetails.getUsername());
+					this.registrationNumber, this.degree.getCode(), this.tutor, this.accountDetails.getUsername());
 			int count = stmt.executeUpdate(query);
 			query = String.format("INSERT INTO studentStatus (registrationNumber, level, period) VALUES (%d, \"%s\", \"%s\");", this.registrationNumber, '1', 'A');
 			System.out.println(query);
@@ -259,6 +293,8 @@ public class Student {
 		 }finally {
 				if (stmt != null)
 					stmt.close();
+					noStu.close();
+					stu.close();
 			}
 		con.close();
 		return student;
@@ -379,7 +415,7 @@ public class Student {
 		String nextPeriod = String.valueOf((char)(periodvalue + 1));
 		int credittotal = 0;
 		
-		if (level == 'P' && student.getDegree().getType().equals("Undergraduate")) {
+		if (level == 'P' && (student.getDegree().getType().equals("BSc") || student.getDegree().getType().equals("BEng"))) {
 			status.updateStatus('4', nextPeriod);
 			return true;
 		} else if (level == 'P') {
@@ -520,7 +556,7 @@ public class Student {
 				status.setGraduated();
 				return true;
 					
-				} else if (level == '3' && student.getDegree().getType().equals("Undergraduate")) {
+				} else if (level == '3' && (student.getDegree().getType().equals("BSc") || student.getDegree().getType().equals("BEng"))) {
 					pastResults = this.getPrevResults();
 					float finalgrade = 0;
 					
@@ -582,6 +618,33 @@ public class Student {
 				char nextLevelC = Integer.toString(nextLevel).charAt(0);
 				status.updateStatus(nextLevelC, nextPeriod);
 				return true;
+			}
+		}
+	}
+	
+	public void setModuleChoices(ArrayList<Module> modules) throws SQLException {
+		StudentStatus status = this.getStudentStatus();
+		String period = status.getPeriod();
+		int reg = this.registrationNumber;
+		
+		connectToDB();
+		Statement stmt = null;
+		String result = null;
+		
+		try {
+			connectToDB();
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(String.format("DELETE FROM moduleChoice WHERE registrationNumber = %d", reg));
+			
+			for (Module module : modules) {
+				String moduleCode = module.getCode();
+				count += stmt.executeUpdate(String.format("INSERT INTO moduleChoice (registrationNumber, moduleCode, period) VALUES (%d, \"%s\", \"%s\");", reg, moduleCode, period));
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				stmt.close();
 			}
 		}
 	}

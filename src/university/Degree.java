@@ -54,18 +54,18 @@ public class Degree{
 			degCode += "P";
 		else
 			degCode += "U";
-		System.out.println(degCode+"%");
+		//System.out.println(degCode+"%");
 		connectToDB();
 		PreparedStatement noDeg = null;
 		noDeg = con.prepareStatement("SELECT MAX(code) FROM degree WHERE mainDept =  ? AND code LIKE ?");
 		try {
 			noDeg.setString(1, getMainDept().getCode());
 			noDeg.setString(2, degCode+"%");
-			System.out.println(noDeg.toString());
+			//System.out.println(noDeg.toString());
 			ResultSet res = noDeg.executeQuery();
 			res.next();
-			System.out.println(res.getString("MAX(code)"));
-			System.out.println(res.getString("MAX(code)") == null);
+			//System.out.println(res.getString("MAX(code)"));
+			//System.out.println(res.getString("MAX(code)") == null);
 			//System.out.println(res.getString(0).isEmpty()+ "Aqui");
 			if(res.getString("MAX(code)") != null)
 				no = Integer.parseInt(res.getString("MAX(code)").substring(4)) + 1;
@@ -77,7 +77,7 @@ public class Degree{
 			}
 		
 		degCode += String.format("%02d", no); 
-		System.out.println(degCode);
+		//System.out.println(degCode);
 		con.close();
 		setCode(degCode);
 	}
@@ -196,6 +196,7 @@ public class Degree{
 		Degree degree = null;
 		ArrayList<Department> deptList = new ArrayList<Department>();
 		Department dep = null;
+		//System.out.println(c);
 		
 		connectToDB();
 		PreparedStatement deg,noDeg,secDep = null;
@@ -206,6 +207,7 @@ public class Degree{
 		
 		try {
 			noDeg.setString(1, c);
+			//System.out.println(noDeg);
 			ResultSet res1 = noDeg.executeQuery();
 			res1.next();
 			
@@ -377,8 +379,7 @@ public class Degree{
 			ResultSet res = null;
 			PreparedStatement getMod, placement = null;
 			connectToDB();
-			getMod = con.prepareStatement("SELECT modCode, name, mandatory,year,duration, credits  FROM assoModDeg JOIN module WHERE degCode = ?;");
-			placement = con.prepareStatement("SELECT placement FROM degree WHERE code = ?;");
+			getMod = con.prepareStatement("SELECT modCode, name, mandatory,year,duration, credits  FROM assoModDeg JOIN module WHERE assoModDeg.modCode = module.code AND degCode = ?;");
 			try {
 				getMod.setString(1, getCode());
 				res  = getMod.executeQuery();
@@ -392,6 +393,7 @@ public class Degree{
 				while (res.next()) {
 					mod.clear();
 					mod.add(res.getString("modCode"));
+					System.out.println(res.getString("modCode") + "   " +res.getString("name"));
 					mod.add(res.getString("name"));
 					if (res.getBoolean("mandatory") == true)
 						mod.add("Core");
@@ -402,12 +404,7 @@ public class Degree{
 					mod.add(res.getString("credits"));
 					modList.add((ArrayList) mod.clone());
 				}
-				placement.setString(1, getCode());
-				res = placement.executeQuery();
-				res.next();
-				/**if (res.getBoolean(placement) == true) {
-					
-				}**/
+			
 				res.close();
 				
 				
@@ -429,6 +426,7 @@ public class Degree{
 			connectToDB();
 			Statement stmt = con.createStatement();
 			String degCode = d.getCode();
+			//System.out.println(degCode);
 			
 			ResultSet res = stmt.executeQuery(String.format("SELECT modCode FROM assoModDeg WHERE degCode = \"%s\" AND year = %d AND mandatory = true;", degCode, l));
 			

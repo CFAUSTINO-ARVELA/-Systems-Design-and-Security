@@ -23,9 +23,10 @@ public class DropTables {
 			int degree = stmt.executeUpdate("DROP TABLE degree");
 			int secDep = stmt.executeUpdate("DROP TABLE seconDepts");
 			int levels = stmt.executeUpdate("DROP TABLE studyLevels"); 
-			
+			stmt.executeUpdate("DROP TABLE  assoModDeg");
+		
 //+ dep + degree
-			//System.out.println(count);
+		
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {

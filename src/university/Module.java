@@ -184,11 +184,11 @@ public class Module {
 		connectToDB();
 		
 		Statement stmt = con.createStatement();
-		
+		System.out.println(d + m + l + c);
 		String query = String.format("INSERT INTO assoModDeg (degCode, modCode, year, mandatory) VALUES (\"%s\", \"%s\", %d, %b);", d, m, l, c);
 		//System.out.println(query);
 		int count = stmt.executeUpdate(query);
-		
+		System.out.println("AssignModule " + count);
 		if (stmt != null) {
 			stmt.close();
 		}
@@ -221,17 +221,18 @@ public class Module {
 		return true; // Write an actual function here
 	}
 	
-	public boolean checkCredits(ArrayList<Module> list, boolean postgrad) {
+	public static boolean checkCredits(ArrayList<Module> list, boolean postgrad) {
 		int creditTotal = 0;
-		
+		int credits = 0;
+
 		for (Module module : list) {
-			int credits = module.getCredits();
+			credits = module.getCredits();
 			creditTotal += credits;
 		}
 		
-		if (postgrad && credits == 180) {
+		if (postgrad && creditTotal == 180) {
 			return true;
-		} else if (!postgrad && credits == 120) {
+		} else if (!postgrad && creditTotal == 120) {
 			return true;
 		} else {
 			return false;

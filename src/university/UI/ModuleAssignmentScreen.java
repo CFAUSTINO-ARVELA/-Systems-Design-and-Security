@@ -25,9 +25,9 @@ public class ModuleAssignmentScreen extends JPanel {
     private TeachingManagementScreen teachScreen;
     private Connection con = null;
     private Statement stmt = null;
-    private String[] coreList = {"Yes", "no"};
+    private String[] coreList = {"Yes","No"};
     private String[] levelList = {"1","2","3","4"};
-
+    
     private JTable degreeTable;
     private JTable moduleTable;
 
@@ -78,7 +78,7 @@ public class ModuleAssignmentScreen extends JPanel {
                     core = false;
                 }
                 
-				
+				//System.out.println(degreeCode + ":  " + moduleCode);
 				try {
 					//System.out.println(Degree.getCredits(degreeCode,level));
 	                if(Degree.getDegree(degreeCode).getType().equals("MSc")) 
@@ -99,7 +99,7 @@ public class ModuleAssignmentScreen extends JPanel {
 	                else { //Successful
 		                
 		                int success = Module.assignModule(degreeCode, moduleCode, level, core);
-		
+		                System.out.println("Module Assignment page " + success);
 		              
 		                this.moduleAssScreen.setVisible(false);
 		                ModuleAssignmentScreen newScreen = new ModuleAssignmentScreen(this.screen, this.teachScreen);
