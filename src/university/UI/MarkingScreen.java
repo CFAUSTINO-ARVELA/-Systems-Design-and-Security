@@ -2,6 +2,7 @@ package university.UI;
 
 import java.awt.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -43,8 +44,8 @@ public class MarkingScreen extends JPanel {
 
 		this.markingPanel.setLayout(new BorderLayout());
 
-		this.addModules();
 		rows = 0;
+		this.addModules();
 
 		screen.frame.add(this.markingScreen);
 
@@ -57,21 +58,31 @@ public class MarkingScreen extends JPanel {
 			}
 		});
 		submitBtn.addActionListener(e -> {
+	
+			ArrayList<ModuleGrades> allGrades = new ArrayList<>();
 			if (this.checkEntered()) {
+				System.out.println("None empty");
 				for (int i = 0; i < rows; i++) {
-					String code = table.getValueAt(1, 3);
-					Module module = new Module(Module.getCode());
-					ModuleGrades grades = new ModuleGrades(module, grade))
+					try {
+						String code = (String)table.getValueAt(i, 1);
+						ModuleGrades grade = new ModuleGrades(Module.getModule(code), Integer.parseInt((String)table.getValueAt(i, 2)));
+						allGrades.add(grade);
+						System.out.println(this.student.progress(student, allGrades));
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
 			} else {
-
+				System.out.println("Missed a grade");
 			}
 		});
 	}
 
 	private boolean checkEntered() {
-		for (int i = 0; i < rows; i++) {
-			if (table.getValueAt(i, 4) == "") {
+		for (int i = 0; i < rows; i++) { 
+			System.out.println(i);
+			if (table.getValueAt(i, 2) == null) {
+				System.out.println(table.getValueAt(i, 2));
 				return false;
 			}
 		}
@@ -85,7 +96,7 @@ public class MarkingScreen extends JPanel {
 			StudentStatus stuStatus = this.student.getStudentStatus();
 
 			DefaultTableModel model = new DefaultTableModel();
-			JTable table = new JTable(model);
+			table = new JTable(model);
 
 			// Create a couple of columns
 			model.addColumn("Name");
