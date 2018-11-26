@@ -467,6 +467,53 @@ public class Degree{
 			
 			return optionalModules;
 		}
+		
+		public static int getCredits (String degreeCode, int level) throws Exception {
+			int totCredits = 0;
+			connectToDB();
+			PreparedStatement credSum = con.prepareStatement("SELECT SUM(credits) FROM module JOIN assoModDeg WHERE degCode = ? AND year = ? AND mandatory = true;");
+			try {
+				credSum.setString(1, degreeCode);
+				credSum.setInt(2, level);
+				ResultSet res = credSum.executeQuery();
+				res.next();
+				if (res.getInt(1) != 0) {
+					totCredits = res.getInt(1);
+				}
+				res.close();
+			 }catch (SQLException ex) {
+				 ex.printStackTrace();
+			 }finally {
+					if (credSum != null)
+						credSum.close();
+				}
+			
+			return totCredits;
+		}
+		
+		public static int getNoMod (String degreeCode, String moduleCode, int level) throws Exception{
+			int noMod = 0;
+			connectToDB();
+			PreparedStatement credSum = con.prepareStatement("SELECT COUNT(*) FROM assoModDeg WHERE degCode = ? AND year = ? AND modCode = ?;");
+			try {
+				credSum.setString(1, degreeCode);
+				credSum.setInt(2, level);
+				credSum.setString(3, moduleCode);
+				ResultSet res = credSum.executeQuery();
+				res.next();
+				if (res.getInt(1) != 0) {
+					noMod = res.getInt(1);
+				}
+				res.close();
+			 }catch (SQLException ex) {
+				 ex.printStackTrace();
+			 }finally {
+					if (credSum != null)
+						credSum.close();
+				}
+			
+			return noMod;
+		}
 		/**
 		public static void main(String[] args){
 			ArrayList<Department> deptList = new ArrayList<Department>() ;

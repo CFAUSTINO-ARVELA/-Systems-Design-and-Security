@@ -19,12 +19,14 @@ import university.TableModel;
 
 public class ModuleAssignmentScreen extends JPanel {
 
+	private static final long serialVersionUID = 1L;
     private JPanel moduleAssScreen;
     private ScreenManager screen;
     private TeachingManagementScreen teachScreen;
     private Connection con = null;
     private Statement stmt = null;
     private String[] coreList = {"Yes", "no"};
+    private String[] levelList = {"1","2","3","4"};
 
     private JTable degreeTable;
     private JTable moduleTable;
@@ -67,8 +69,7 @@ public class ModuleAssignmentScreen extends JPanel {
             if (degreeTable.getSelectedRow() > -1 && moduleTable.getSelectedRow() > -1) {
                 String degreeCode = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 0);
                 String moduleCode = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 1);
-
-                int level = Integer.parseInt(levelInput.getText());
+                int level = Integer.parseInt((String) levelInput.getSelectedItem());
                 boolean core;
 
                 if (coreInput.getSelectedItem().equals("Yes")) {
@@ -76,25 +77,46 @@ public class ModuleAssignmentScreen extends JPanel {
                 } else {
                     core = false;
                 }
-
-                try {
-                    int success = Module.assignModule(degreeCode, moduleCode, level, core);
-
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-                this.moduleAssScreen.setVisible(false);
-                try {
-					this.teachScreen.draw();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-                JOptionPane.showMessageDialog(null, "Successfully linked modules");
+                
+				
+				try {
+					//System.out.println(Degree.getCredits(degreeCode,level));
+	                if(Degree.getDegree(degreeCode).getType().equals("MSc")) 
+	                	if (level != 4)
+	                		JOptionPane.showMessageDialog(null, "The degree selected does not offer level " + level + ". \n Please select the correct level.");
+	                	else if (Degree.getCredits(degreeCode,level) +  Module.getModule(moduleCode).getCredits()>=  180)
+	                		JOptionPane.showMessageDialog(null, "Adding this module will exceed 120 credits. \n Please insert the correct information.");
+	                else {
+	                	if (Degree.getDegree(degreeCode).getType().charAt(0) == 'B' && level == 4)
+	                		JOptionPane.showMessageDialog(null, "The degree selected does not offer level 4. \n Please select the correct level.");
+	                	else if (Degree.getCredits(degreeCode,level) +  Module.getModule(moduleCode).getCredits()>=  120)
+	                		JOptionPane.showMessageDialog(null, "Adding this module will exceed 120 credits. \n Please insert the correct information.");
+	                } else if(Degree.getNoMod(degreeCode, moduleCode, level) != 0)
+	                	JOptionPane.showMessageDialog(null, "This modules is already assigned to this degree's level " + level + ". \n Please insert the correct information.");
+	                
+	                
+	                
+	                else { //Successful
+		                
+		                int success = Module.assignModule(degreeCode, moduleCode, level, core);
+		
+		              
+		                this.moduleAssScreen.setVisible(false);
+		                ModuleAssignmentScreen newScreen = new ModuleAssignmentScreen(this.screen, this.teachScreen);
+		                
+						newScreen.draw();
+						
+		                JOptionPane.showMessageDialog(null, "Successfully linked modules");
+	                }
+				} catch (Exception e1) {
+	                 e1.printStackTrace();
+	            }
+		    
+            
             } else {
-                JOptionPane.showMessageDialog(null, "Please select both a degree and module to link");
+		        JOptionPane.showMessageDialog(null, "Please select both a degree and module to link");
+		            
             }
-
         }));
 /**
 <<<<<<< HEAD
@@ -129,7 +151,7 @@ public class ModuleAssignmentScreen extends JPanel {
         levelTxt = new JLabel();
         coreTxt = new JLabel();
         coreInput = new JComboBox(coreList);
-        levelInput = new JTextField();
+        levelInput = new JComboBox(levelList);
         submitBtn = new JButton();
         backToProfileBtn = new JButton();
         modulePanel = new JPanel();
@@ -257,7 +279,7 @@ public class ModuleAssignmentScreen extends JPanel {
     private JLabel levelTxt;
     private JLabel coreTxt;
     private JComboBox coreInput;
-    private JTextField levelInput;
+    private JComboBox levelInput;
     private JButton submitBtn;
     private JButton backToProfileBtn;
     private JPanel modulePanel;

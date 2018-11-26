@@ -190,7 +190,7 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
         degreeManagementTxt.setBounds(347, 35, 305, 31);
 
         //---- deleteBtn ----
-        deleteBtn.setText("Delete Degree");
+        deleteBtn.setText("Remove Module");
         add(deleteBtn);
         deleteBtn.setBounds(415, 465, 170, 30);
 

@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import university.TableModel;
 
 import university.*;
 
@@ -49,7 +48,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         this.degreDetScreen.add(degreeSecondDept);
         this.degreDetScreen.add(moduleTxt);
         this.degreDetScreen.add(tablePanel);
-
+        this.degreDetScreen.add(deleteBtn);
         
         this.tablePanel.setLayout(new BorderLayout());
 
@@ -66,7 +65,31 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
 			}
         });
         
-       
+        deleteBtn.addActionListener(e -> {
+           if (moduleTable.getSelectedRow() > -1) {
+                String code = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 0);
+                System.out.println(moduleTable.getValueAt(moduleTable.getSelectedRow(), 3).getClass());
+                String year = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 3);
+                
+                try {
+                    Module.remAssoModDeg(code, deg.getCode(), Integer.parseInt(year));
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+                this.degreeManagement.setVisible(false);
+                DegreeDetailsScreen newDegDet = new DegreeDetailsScreen(this.screen,this.degreeManagement,this.deg);
+                try {
+                	newDegDet.draw();
+				} catch (Exception e1) {
+					//newDegMan TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+                JOptionPane.showMessageDialog(null, "Successfully remove Module.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a Module to remove");
+            }
+        });
+
         moduleTable = new JTable(TableModel.buildTableModel(deg.getDegModules()));
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(moduleTable);
@@ -95,6 +118,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         degreeSecondDept = new JLabel();
         moduleTxt = new JLabel();
         tablePanel = new JPanel();
+        deleteBtn = new JButton();
         //======== this ========
 
         // JFormDesigner evaluation mark
@@ -107,7 +131,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         setLayout(null);
         
       //---- table ----
-        tablePanel.setBounds(177, 360, 645, 100);
+        tablePanel.setBounds(177, 330, 645, 100);
 
       //---- titleTxt ----
         titleTxt.setText("Course Details");
@@ -138,14 +162,14 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         codeTxt.setFont(codeTxt.getFont().deriveFont(codeTxt.getFont().getSize() + 3f));
         codeTxt.setForeground(Color.white);
         add(codeTxt);
-        codeTxt.setBounds(185, 185, 185, codeTxt.getPreferredSize().height);
+        codeTxt.setBounds(185, 155, 185, codeTxt.getPreferredSize().height);
 
         degreeCode.setText(deg.getCode());
         degreeCode.setHorizontalAlignment(SwingConstants.RIGHT);
         degreeCode.setFont(degreeCode.getFont().deriveFont(degreeCode.getFont().getSize() + 3f));
         degreeCode.setForeground(Color.white);
         add(degreeCode);
-        degreeCode.setBounds(385, 185, degreeCode.getPreferredSize().width, degreeCode.getPreferredSize().height);
+        degreeCode.setBounds(385, 155, degreeCode.getPreferredSize().width, degreeCode.getPreferredSize().height);
         
         //---- typeTxt ----
         typeTxt.setText("Type: ");
@@ -153,7 +177,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         typeTxt.setFont(typeTxt.getFont().deriveFont(typeTxt.getFont().getSize() + 3f));
         typeTxt.setForeground(Color.white);
         add(typeTxt);
-        typeTxt.setBounds(155, 220, 215, 16);
+        typeTxt.setBounds(155, 190, 215, 16);
         
         
         if (deg.getType().matches("MSc"))
@@ -164,7 +188,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         degreeType.setFont(degreeType.getFont().deriveFont(degreeType.getFont().getSize() + 3f));
         degreeType.setForeground(Color.white);
         add(degreeType);
-        degreeType.setBounds(385, 220, degreeType.getPreferredSize().width, degreeType.getPreferredSize().height);
+        degreeType.setBounds(385, 190, degreeType.getPreferredSize().width, degreeType.getPreferredSize().height);
         
         
         //---- durationTxt ----
@@ -173,7 +197,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         durationTxt.setFont(durationTxt.getFont().deriveFont(durationTxt.getFont().getSize() + 3f));
         durationTxt.setForeground(Color.white);
         add(durationTxt);
-        durationTxt.setBounds(155, 255, 215, 16);
+        durationTxt.setBounds(155, 225, 215, 16);
         
         if (deg.getType().matches("BSc") || deg.getType().matches("BEng") )
 			if (deg.getPlacement() == false)
@@ -191,7 +215,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         degreeDuration.setFont(degreeDuration.getFont().deriveFont(degreeDuration.getFont().getSize() + 3f));
         degreeDuration.setForeground(Color.white);
         add(degreeDuration);
-        degreeDuration.setBounds(385, 255, degreeDuration.getPreferredSize().width, degreeDuration.getPreferredSize().height);
+        degreeDuration.setBounds(385, 225, degreeDuration.getPreferredSize().width, degreeDuration.getPreferredSize().height);
         
 
         //---- secondaryTxt ----
@@ -201,7 +225,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
 	        secondaryTxt.setFont(secondaryTxt.getFont().deriveFont(secondaryTxt.getFont().getSize() + 3f));
 	        secondaryTxt.setForeground(Color.white);
 	        add(secondaryTxt);
-	        secondaryTxt.setBounds(175, 290, secondaryTxt.getPreferredSize().width, secondaryTxt.getPreferredSize().height);
+	        secondaryTxt.setBounds(175, 260, secondaryTxt.getPreferredSize().width, secondaryTxt.getPreferredSize().height);
 	        
 	        
 	        String depts = new String( deg.getSeconDepts().get(0).getName());
@@ -212,7 +236,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
 	        degreeSecondDept.setFont(degreeSecondDept.getFont().deriveFont(degreeSecondDept.getFont().getSize() + 3f));
 	        degreeSecondDept.setForeground(Color.white);
 	        add(degreeSecondDept);
-	        degreeSecondDept.setBounds(385, 290, degreeSecondDept.getPreferredSize().width, degreeSecondDept.getPreferredSize().height);
+	        degreeSecondDept.setBounds(385, 260, degreeSecondDept.getPreferredSize().width, degreeSecondDept.getPreferredSize().height);
         }
        
         moduleTxt.setText("Modules: ");
@@ -220,8 +244,12 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         moduleTxt.setFont(moduleTxt.getFont().deriveFont(moduleTxt.getFont().getSize() + 3f));
         moduleTxt.setForeground(Color.white);
         add(moduleTxt);
-        moduleTxt.setBounds(155, 325 , 215, 16);
+        moduleTxt.setBounds(155, 295 , 215, 16);
         
+      //---- deleteBtn ----
+        deleteBtn.setText("Remove Degree");
+        add(deleteBtn);
+        deleteBtn.setBounds(415, 465, 170, 30);
         
       
       //---- backToProfileBtn ----
@@ -266,6 +294,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
     private JLabel degreeSecondDept;
     private JLabel moduleTxt;
     private JPanel tablePanel;
+    private JButton deleteBtn;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
     @Override

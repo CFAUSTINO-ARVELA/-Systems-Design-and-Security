@@ -186,7 +186,7 @@ public class Module {
 		Statement stmt = con.createStatement();
 		
 		String query = String.format("INSERT INTO assoModDeg (degCode, modCode, year, mandatory) VALUES (\"%s\", \"%s\", %d, %b);", d, m, l, c);
-		System.out.println(query);
+		//System.out.println(query);
 		int count = stmt.executeUpdate(query);
 		
 		if (stmt != null) {
@@ -194,6 +194,27 @@ public class Module {
 		}
 		
 		return count;
+	}
+	
+	public static void remAssoModDeg(String modCode,String degCode, int year) throws Exception {
+		connectToDB();
+		
+		PreparedStatement query = con.prepareStatement("DELETE FROM assoModDeg WHERE modCode = ? AND degCode = ? AND year = ? ");
+		try {
+			query.setString(1, modCode);
+			query.setString(2, degCode);
+			query.setInt(3, year);
+			System.out.println(query.toString());
+			System.out.println(query.executeUpdate());
+			
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}finally {
+			if ( query != null)
+				query.close();
+		}
+				
+		
 	}
 	
 	public boolean checkApproval(String d, String l) {
