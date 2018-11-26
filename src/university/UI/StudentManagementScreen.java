@@ -89,17 +89,20 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             }
         });
         moduleBtn.addActionListener(e -> {
-            int index = Integer.parseInt((String) studentTable.getValueAt(studentTable.getSelectedRow(), 0));
-            Student student;
-            try {
-                student = Student.getStudentReg(index);
-                ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this, student);
-                choiceScreen.draw();
-            } catch (Exception e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+            if (studentTable.getSelectedRow() > -1) {
+                int index = Integer.parseInt((String) studentTable.getValueAt(studentTable.getSelectedRow(), 0));
+                Student student;
+                try {
+                    student = Student.getStudentReg(index);
+                    ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this, student);
+                    choiceScreen.draw();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+                this.studentManagement.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a Student to complete add/drop");
             }
-            this.studentManagement.setVisible(false);
         });
         markingBtn.addActionListener(e -> {
             if (studentTable.getSelectedRow() > -1) {

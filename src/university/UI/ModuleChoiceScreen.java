@@ -21,6 +21,9 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private StudentManagementScreen studentScreen;
     private Student student;
+    private List<JCheckBox> coreCheckBoxes = new ArrayList<>();
+    private List<JCheckBox> optionalCheckBoxes = new ArrayList<>();
+    private ArrayList<Module> chosenModules = new ArrayList<>();
 
     public ModuleChoiceScreen(ScreenManager scr, StudentManagementScreen stuScreen, Student stu) {
         this.screen = scr;
@@ -48,22 +51,21 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         coreScrollPane.add(corePanel);
         optionalScollPane.add(optionalPanel);
 
-        List<JCheckBox> coreCheckBoxes = new ArrayList<>();
-        List<JCheckBox> optionalCheckBoxes = new ArrayList<>();
-
         try {
             if (this.student.getLevel() != "P") {
 
                 ArrayList<Module> coreModules = Degree.getCoreModules(this.student.getDegree(),
                         Integer.parseInt(this.student.getLevel()));
-                        System.out.println(coreModules);
+                System.out.println(coreModules);
                 ArrayList<Module> optionalModules = Degree.getOptionalModules(this.student.getDegree(),
                         Integer.parseInt(this.student.getLevel()));
-                        System.out.println(optionalModules);
+                System.out.println(optionalModules);
 
                 for (Module module : coreModules) {
+                    String moduleCode = module.getCode();
                     String moduleName = module.getName();
-                    JCheckBox box = new JCheckBox(moduleName);
+                    int moduleCredits = module.getCredits();
+                    JCheckBox box = new JCheckBox(moduleCode + " " + moduleName + " " + moduleCredits + " credits");
                     coreCheckBoxes.add(box);
                     box.setSelected(true);
                     box.setEnabled(false);
@@ -76,8 +78,10 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                         Integer.parseInt(this.student.getLevel()));
 
                 for (Module module : optionalModules) {
+                    String moduleCode = module.getCode();
                     String moduleName = module.getName();
-                    JCheckBox box = new JCheckBox(moduleName);
+                    int moduleCredits = module.getCredits();
+                    JCheckBox box = new JCheckBox(moduleCode + " " + moduleName + " " + moduleCredits + " credits");
                     optionalCheckBoxes.add(box);
                     optionalPanel.add(box);
                 }
@@ -91,13 +95,50 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
             e2.printStackTrace();
         }
 
+        submitBtn.addActionListener(e -> {
+
+            for (JCheckBox box : coreCheckBoxes) {
+                if (box.isSelected()) {
+                    try {
+                        chosenModules.add(Module.getModule(box.getText().substring(0, 7)));
+                        System.out.println(box.getText().substring(0, 7));
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+            for (JCheckBox box : optionalCheckBoxes) {
+                if (box.isSelected()) {
+                    try {
+                        chosenModules.add(Module.getModule(box.getText().substring(0, 7)));
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+
+            System.out.println(chosenModules);
+            if (Module.checkCredits(chosenModules, false)) {
+
+                // do something with the modules
+                this.moduleScreen.setVisible(false);
+                try {
+                    this.studentScreen.draw();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please ensure the correct number of credits are selected");
+            }
+            chosenModules = new ArrayList<>();
+        });
+
         backToProfileBtn.addActionListener(e -> {
             try {
                 this.studentScreen.draw();
             } catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                e1.printStackTrace();
+            }
             this.moduleScreen.setVisible(false);
         });
 

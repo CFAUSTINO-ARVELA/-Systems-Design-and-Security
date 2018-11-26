@@ -24,7 +24,7 @@ public class ModuleAssignmentScreen extends JPanel {
     private TeachingManagementScreen teachScreen;
     private Connection con = null;
     private Statement stmt = null;
-    private String[] coreList = {"Yes", "no"};
+    private String[] coreList = {"Yes", "No"};
 
     private JTable degreeTable;
     private JTable moduleTable;
