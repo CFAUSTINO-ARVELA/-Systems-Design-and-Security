@@ -89,7 +89,10 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             }
         });
         moduleBtn.addActionListener(e -> {
-            ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this);
+            int index = Integer.parseInt((String) studentTable.getValueAt(studentTable.getSelectedRow(), 0));
+            Student student = new Student(index);
+            
+            ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this, student);
             choiceScreen.draw();
             this.studentManagement.setVisible(false);
         });

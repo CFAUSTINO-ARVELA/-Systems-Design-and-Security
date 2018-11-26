@@ -50,7 +50,6 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
         this.departmentScreen = new JPanel();
         this.departmentScreen.setBackground(new Color(70, 70, 70));
 
-        this.departmentScreen.add(promptTxt);
         this.departmentScreen.add(backToTeachingBtn);
         this.departmentScreen.add(departmentManagementTxt);
         this.departmentScreen.add(createBtn);
@@ -124,7 +123,6 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Katie
-        promptTxt = new JLabel();
         backToTeachingBtn = new JButton();
         departmentManagementTxt = new JLabel();
         deleteBtn = new JButton();
@@ -141,13 +139,6 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
                 java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
 
         setLayout(null);
-
-        //---- promptTxt ----
-        promptTxt.setText("output for department table here");
-        promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
-        promptTxt.setForeground(Color.white);
-        add(promptTxt);
-        promptTxt.setBounds(390, 260, 225, promptTxt.getPreferredSize().height);
 
         //---- backToTeachingBtn ----
         backToTeachingBtn.setText("Back");
@@ -192,7 +183,6 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - Katie
-    private JLabel promptTxt;
     private JButton backToTeachingBtn;
     private JLabel departmentManagementTxt;
     private JButton deleteBtn;
