@@ -293,6 +293,8 @@ public class Student {
 		 }finally {
 				if (stmt != null)
 					stmt.close();
+					noStu.close();
+					stu.close();
 			}
 		con.close();
 		return student;
@@ -618,6 +620,13 @@ public class Student {
 				return true;
 			}
 		}
+	}
+	
+	public void setModuleChoices(ArrayList<Module> modules) throws SQLException {
+		StudentStatus status = this.getStudentStatus();
+		String period = status.getPeriod();
+		
+		
 	}
 }
 
