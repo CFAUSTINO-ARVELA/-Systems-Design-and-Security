@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 
 import university.Module;
@@ -13,7 +14,6 @@ import university.ModuleGrades;
 import university.ScreenManager;
 import university.Student;
 import university.StudentStatus;
-import university.TableModel;
 
 public class MarkingScreen extends JPanel {
 
@@ -58,7 +58,7 @@ public class MarkingScreen extends JPanel {
 			}
 		});
 		submitBtn.addActionListener(e -> {
-	
+			table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 			ArrayList<ModuleGrades> allGrades = new ArrayList<>();
 			if (this.checkEntered()) {
 				System.out.println("None empty");
