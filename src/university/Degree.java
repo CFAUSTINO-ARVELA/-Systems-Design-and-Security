@@ -196,6 +196,7 @@ public class Degree{
 		Degree degree = null;
 		ArrayList<Department> deptList = new ArrayList<Department>();
 		Department dep = null;
+		System.out.println(c);
 		
 		connectToDB();
 		PreparedStatement deg,noDeg,secDep = null;
@@ -206,6 +207,7 @@ public class Degree{
 		
 		try {
 			noDeg.setString(1, c);
+			System.out.println(noDeg);
 			ResultSet res1 = noDeg.executeQuery();
 			res1.next();
 			
@@ -429,6 +431,7 @@ public class Degree{
 			connectToDB();
 			Statement stmt = con.createStatement();
 			String degCode = d.getCode();
+			System.out.println(degCode);
 			
 			ResultSet res = stmt.executeQuery(String.format("SELECT modCode FROM assoModDeg WHERE degCode = \"%s\" AND year = %d AND mandatory = true;", degCode, l));
 			

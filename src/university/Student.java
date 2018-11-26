@@ -86,7 +86,7 @@ public class Student {
 		try {
 			stmt = con.createStatement();
 			String query = String.format("INSERT INTO student (registrationNumber, degree, tutor, username) VALUES (%d, \"%s\", \"%s\", \"%s\");",
-					this.registrationNumber, this.degree.getName(), this.tutor, this.accountDetails.getUsername());
+					this.registrationNumber, this.degree.getCode(), this.tutor, this.accountDetails.getUsername());
 			int count = stmt.executeUpdate(query);
 			query = String.format("INSERT INTO studentStatus (registrationNumber, level, period) VALUES (%d, \"%s\", \"%s\");", this.registrationNumber, '1', 'A');
 			System.out.println(query);
