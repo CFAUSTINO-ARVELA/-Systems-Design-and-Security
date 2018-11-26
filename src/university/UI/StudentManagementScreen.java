@@ -73,7 +73,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         });
         deleteBtn.addActionListener(e -> {
             if (studentTable.getSelectedRow() > -1) {
-                int index = (int) studentTable.getValueAt(studentTable.getSelectedRow(), 0);
+                int index = Integer.parseInt((String) studentTable.getValueAt(studentTable.getSelectedRow(), 0));
                 String username = (String) studentTable.getValueAt(studentTable.getSelectedRow(), 3);
                 Student stuToDelete = new Student(index);
                 try {
