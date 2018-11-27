@@ -99,7 +99,7 @@ class AccountCreationScreen extends JPanel implements ActionListener {
                 try {
                     Account newAccount = ac.createAccount();
                     this.profileScreen.draw();
-                    JOptionPane.showMessageDialog(null, "Successfully created Account: " + newAccount.getUsername()
+                    JOptionPane.showMessageDialog(null, "Successfully created Account: " + newAccount.getEmail()
                             + ". Password: " + newAccount.getPassword());
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "SQL error, please try again");
@@ -111,7 +111,7 @@ class AccountCreationScreen extends JPanel implements ActionListener {
     private boolean checkInvalid(JTextField input) {
 
         System.out.println(input.getText());
-        if (input.getText().equals("") || !input.getText().matches("[a-zA-Z0-9]+")) {
+        if (input.getText().equals("") || !input.getText().jop) {
             System.out.print("true");
             return true;
         } else {
