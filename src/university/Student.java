@@ -402,6 +402,7 @@ public class Student {
 	public boolean progress(Student student, ArrayList<ModuleGrades> grades) throws Exception {
 		
 		StudentStatus status = null;
+		Degree degree = null;
 		boolean conceded = false;
 		boolean failed = false;
 		PeriodResult currentResult = null;
@@ -412,6 +413,7 @@ public class Student {
 		DegreeResult degreeResult = null;
 		
 		status = student.getStudentStatus();
+		degree = student.getDegree();
 		prevResult = student.getLastResult();
 		
 		char level = status.getLevel();
@@ -516,13 +518,54 @@ public class Student {
 		
 		System.out.println("Weighted mean grade = " + weightedmean);
 		
+		if (degree.getType().equals("MSc")) {
+			System.out.println("1 year masters degree");
+			float finalgrade = weightedmean;
+			
+			if (failed & status.isResitting()) {
+				System.out.println("Degree failed, final grade = " + finalgrade);
+				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
+				currentResult.createPeriodResult();
+				degreeResult = new DegreeResult(student.getRegistrationNumber(), true, "fail");
+				degreeResult.createDegreeResult();
+			} else if (failed) {
+				System.out.println("Year failed, student will resit next period");
+				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
+				currentResult.createPeriodResult();
+				status.updateStatus(level, nextPeriod);
+				status.setResitting(true);
+			} else {
+				System.out.println("Final grade = " + weightedmean);
+				
+				if (weightedmean < 49.5) {
+					finalresult = "fail";
+					currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
+				} else if (weightedmean < 59.5) {
+					finalresult = "pass";
+					currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
+				} else if (weightedmean < 69.5) {
+					finalresult = "merit";
+					currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
+				} else {
+					finalresult = "distinction";
+					currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
+				}
+				
+				System.out.println("finalresult = " + finalresult);
+				
+				currentResult.createPeriodResult();
+				degreeResult = new DegreeResult(student.getRegistrationNumber(), true, finalresult);
+				degreeResult.createDegreeResult();
+			}
+		}
+		
 		if (failed && status.isResitting()) {
 			if (level == '4') {
 				pastResults = this.getPrevResults();
 				float finalgrade = 0;
 				System.out.println("4th year failed twice, getting past results");
 				
-				for (PeriodResult result : pastResults) {
+				for (PeriodResult result : pastResults) {x
 					if (result.getLevel() == '2') {
 						System.out.println("2nd year grade = " + result.getGrade());
 						finalgrade += result.getGrade();
@@ -596,17 +639,20 @@ public class Student {
 				
 				if (finalgrade < 49.5) {
 					finalresult = "fail";
+					currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
 				} else if (finalgrade < 59.5) {
 					finalresult = "lower second";
+					currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
 				} else if (finalgrade < 69.5) {
 					finalresult = "upper second";
+					currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
 				} else {
 					finalresult = "first class";
+					currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
 				}
 				
 				System.out.println("Final result = " + finalresult);
 				
-				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
 				currentResult.createPeriodResult();
 				degreeResult = new DegreeResult(student.getRegistrationNumber(), true, finalresult);
 				degreeResult.createDegreeResult();
@@ -636,23 +682,28 @@ public class Student {
 					
 					if (finalgrade < 39.5) {
 						finalresult = "fail";
+						currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
 					} else if (finalgrade < 44.5) {
 						finalresult = "pass (non-honours)";
+						currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
 					} else if (finalgrade < 49.5) {
 						finalresult = "third class";
+						currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
 					} else if (finalgrade < 59.5) {
 						finalresult = "lower second";
+						currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
 					} else if (finalgrade < 69.5) {
 						finalresult = "upper second";
+						currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
 					} else {
 						finalresult = "first class";
+						currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
 					}
 					
 					System.out.println("Final result = " + finalresult);
 					
 					if (status.isResitting() && finalgrade >= 39.5) {
 						System.out.println("Student resat so can't pass with honours");
-						currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
 						currentResult.createPeriodResult();
 						degreeResult = new DegreeResult(student.getRegistrationNumber(), false, "pass (non-honours)");
 						degreeResult.createDegreeResult();
@@ -660,7 +711,6 @@ public class Student {
 						System.out.println("Student graduated with bachelors, degree result recorded");
 						return true;
 					} else {
-						currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
 						currentResult.createPeriodResult();
 						degreeResult = new DegreeResult(student.getRegistrationNumber(), false, finalresult);
 						degreeResult.createDegreeResult();
