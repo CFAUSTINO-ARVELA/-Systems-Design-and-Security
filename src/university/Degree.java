@@ -203,7 +203,6 @@ public class Degree{
 		noDeg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE code = ?");
 		deg = con.prepareStatement("SELECT * FROM degree JOIN department WHERE degree.mainDept=department.code AND degree.code =  ?");
 		secDep = con.prepareStatement("SELECT dept FROM seconDepts WHERE degreeCode = ?");
-		Statement stmt = con.createStatement();
 		
 		try {
 			noDeg.setString(1, c);
@@ -239,11 +238,10 @@ public class Degree{
 		 }catch (SQLException ex) {
 			 ex.printStackTrace();
 		 }finally {
-				if (stmt != null)
+				if (deg != null)
 					noDeg.close();
 					deg.close();
 					secDep.close();
-					stmt.close();
 			}
 		con.close();
 		return degree;
@@ -466,7 +464,7 @@ public class Degree{
 			return optionalModules;
 		}
 		
-		public static int getCredits (String degreeCode, int level) throws Exception {
+		public static int getCredits(String degreeCode, int level) throws Exception {
 			int totCredits = 0;
 			connectToDB();
 			PreparedStatement credSum = con.prepareStatement("SELECT SUM(credits) FROM module JOIN assoModDeg WHERE degCode = ? AND year = ? AND mandatory = true;");
@@ -484,6 +482,7 @@ public class Degree{
 			 }finally {
 					if (credSum != null)
 						credSum.close();
+						con.close();
 				}
 			
 			return totCredits;
@@ -508,6 +507,7 @@ public class Degree{
 			 }finally {
 					if (credSum != null)
 						credSum.close();
+						con.close();
 				}
 			
 			return noMod;

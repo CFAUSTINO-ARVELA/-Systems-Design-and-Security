@@ -23,8 +23,6 @@ public class ModuleAssignmentScreen extends JPanel {
     private JPanel moduleAssScreen;
     private ScreenManager screen;
     private TeachingManagementScreen teachScreen;
-    private Connection con = null;
-    private Statement stmt = null;
     private String[] coreList = {"Yes","No"};
     private String[] levelList = {"1","2","3","4"};
     
@@ -78,9 +76,7 @@ public class ModuleAssignmentScreen extends JPanel {
                     core = false;
                 }
                 
-				//System.out.println(degreeCode + ":  " + moduleCode);
 				try {
-					//System.out.println(Degree.getCredits(degreeCode,level));
 	                if(Degree.getDegree(degreeCode).getType().equals("MSc")) 
 	                	if (level != 4)
 	                		JOptionPane.showMessageDialog(null, "The degree selected does not offer level " + level + ". \n Please select the correct level.");
@@ -118,19 +114,8 @@ public class ModuleAssignmentScreen extends JPanel {
 		            
             }
         }));
-/**
-<<<<<<< HEAD
-     
-            Degree d = new Degree();
-            degreeTable = new JTable(TableModel.buildTableModel(d.getDegList()));
-            
-            Module m = new Module();
-            moduleTable = new JTable(TableModel.buildTableModel(m.getModList()));
-            
-======= **/
             degreeTable = new JTable(TableModel.buildTableModel(Degree.getDegList()));
             moduleTable = new JTable(TableModel.buildTableModel(Module.getModList()));
-//>>>>>>> 9953d8945ac628ad17f8a9e564a54b29098a651d
             JScrollPane degreeScroll = new JScrollPane();
             JScrollPane moduleScroll = new JScrollPane();
             degreeScroll.setViewportView(degreeTable);
@@ -145,8 +130,6 @@ public class ModuleAssignmentScreen extends JPanel {
     }
 
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Katie
         degreeTxt = new JLabel();
         levelTxt = new JLabel();
         coreTxt = new JLabel();
@@ -157,8 +140,6 @@ public class ModuleAssignmentScreen extends JPanel {
         modulePanel = new JPanel();
         degreePanel = new JPanel();
         promptTxt = new JLabel();
-
-        //======== this ========
 
         // JFormDesigner evaluation mark
         setBorder(new javax.swing.border.CompoundBorder(
