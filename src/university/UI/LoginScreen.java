@@ -87,11 +87,11 @@ public class LoginScreen extends JPanel {
     		
     		if (emailInput.getText().equals("") || passwordInput.getText().equals("")) {
     			JOptionPane.showMessageDialog( null, "Please enter an email and password");
-    		} else if (!res1.next() && !res2.next()){
+    		} else if (!res1.next()){
     			JOptionPane.showMessageDialog( null, "Account details not found");
     		} else {
+                res2.next();
     			// get data
-    			System.out.println("found details");
     			String title = res1.getString("Title");
     			String forename = res1.getString("Forename");
     	    	String surname = res1.getString("Surname");
