@@ -540,6 +540,8 @@ public class Student {
 				}
 				System.out.println("Final result = " + finalresult);
 				
+				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
+				currentResult.createPeriodResult();
 				degreeResult = new DegreeResult(student.getRegistrationNumber(), false, finalresult);
 				degreeResult.createDegreeResult();
 				status.setGraduated();
@@ -548,6 +550,8 @@ public class Student {
 				
 			} else {
 				System.out.println("3rd year failed twice, degree failed");
+				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
+				currentResult.createPeriodResult();
 				degreeResult = new DegreeResult(student.getRegistrationNumber(), false, "fail");
 				degreeResult.createDegreeResult();
 				status.setGraduated();
@@ -555,6 +559,8 @@ public class Student {
 			}
 		} else if (failed) {
 				System.out.println("Year failed, student will resit next period");
+				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
+				currentResult.createPeriodResult();
 				status.updateStatus(level, nextPeriod);
 				status.setResitting(true);
 				return true;
@@ -594,6 +600,8 @@ public class Student {
 				
 				System.out.println("Final result = " + finalresult);
 				
+				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
+				currentResult.createPeriodResult();
 				degreeResult = new DegreeResult(student.getRegistrationNumber(), true, finalresult);
 				degreeResult.createDegreeResult();
 				status.setGraduated();
@@ -638,12 +646,16 @@ public class Student {
 					
 					if (status.isResitting() && finalgrade >= 39.5) {
 						System.out.println("Student resat so can't pass with honours");
+						currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
+						currentResult.createPeriodResult();
 						degreeResult = new DegreeResult(student.getRegistrationNumber(), false, "pass (non-honours)");
 						degreeResult.createDegreeResult();
 						status.setGraduated();
 						System.out.println("Student graduated with bachelors, degree result recorded");
 						return true;
 					} else {
+						currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
+						currentResult.createPeriodResult();
 						degreeResult = new DegreeResult(student.getRegistrationNumber(), false, finalresult);
 						degreeResult.createDegreeResult();
 						status.setGraduated();
