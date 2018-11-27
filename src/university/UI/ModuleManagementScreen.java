@@ -75,8 +75,8 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
         });
         deleteBtn.addActionListener(e -> {
             if (moduleTable.getSelectedRow() > -1) {
-                String code = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 0);
-                String name = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 2);
+                String code = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 1);
+                String name = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 0);
                 Module modToDelete = new Module(code);
                 try {
                     modToDelete.deleteModule();

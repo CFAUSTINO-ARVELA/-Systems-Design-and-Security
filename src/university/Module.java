@@ -191,6 +191,7 @@ public class Module {
 		System.out.println("AssignModule " + count);
 		if (stmt != null) {
 			stmt.close();
+			con.close();
 		}
 		
 		return count;
