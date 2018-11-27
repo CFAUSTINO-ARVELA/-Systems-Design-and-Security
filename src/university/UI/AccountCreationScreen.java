@@ -88,7 +88,7 @@ class AccountCreationScreen extends JPanel implements ActionListener {
 
         submitBtn.addActionListener(e -> {
 
-            if (Valid.check(titleInput) || Valid.check(forenameInput) || Valid.check(surnameInput)) {
+        if (Valid.check(titleInput) || Valid.check(forenameInput) || Valid.check(surnameInput)) {
                 JOptionPane.showMessageDialog(null, "Please enter all fields and ensure there are no symbols");
 
             } else {

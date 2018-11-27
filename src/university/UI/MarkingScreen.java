@@ -1,11 +1,9 @@
 package university.UI;
 
 import java.awt.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 
 import university.Module;
@@ -58,19 +56,23 @@ public class MarkingScreen extends JPanel {
 			}
 		});
 		submitBtn.addActionListener(e -> {
-			table.getCellEditor().stopCellEditing();
 			ArrayList<ModuleGrades> allGrades = new ArrayList<>();
 			if (this.checkEntered()) {
 				System.out.println("None empty");
 				for (int i = 0; i < rows; i++) {
 					try {
-						String code = (String)table.getValueAt(i, 1);
-						ModuleGrades grade = new ModuleGrades(Module.getModule(code), Integer.parseInt((String)table.getValueAt(i, 2)));
+						String code = (String) table.getValueAt(i, 1);
+						ModuleGrades grade = new ModuleGrades(Module.getModule(code),
+								Integer.parseInt((String) table.getValueAt(i, 2)));
 						allGrades.add(grade);
-						System.out.println(this.student.progress(student, allGrades));
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
+				}
+				try {
+					System.out.println(this.student.progress(student, allGrades));
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
 			} else {
 				System.out.println("Missed a grade");
@@ -79,7 +81,7 @@ public class MarkingScreen extends JPanel {
 	}
 
 	private boolean checkEntered() {
-		for (int i = 0; i < rows; i++) { 
+		for (int i = 0; i < rows; i++) {
 			System.out.println(i);
 			if (table.getValueAt(i, 2) == null) {
 				System.out.println(table.getValueAt(i, 2));
@@ -87,7 +89,7 @@ public class MarkingScreen extends JPanel {
 			}
 		}
 		return true;
-		
+
 	}
 
 	private void addModules() {
@@ -191,8 +193,8 @@ public class MarkingScreen extends JPanel {
 		}
 
 		submitBtn.setText("Submit grades");
-        add(submitBtn);
-        submitBtn.setBounds(415, 465, 170, 30);
+		add(submitBtn);
+		submitBtn.setBounds(415, 465, 170, 30);
 
 		// JFormDesigner - End of component initialization //GEN-END:initComponents
 	}
