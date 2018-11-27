@@ -2,6 +2,7 @@ package university.UI;
 
 import university.UI.ProfileScreen;
 import university.ScreenManager;
+import university.Valid;
 import university.Account;
 
 import javax.swing.JLabel;
@@ -87,7 +88,7 @@ class AccountCreationScreen extends JPanel implements ActionListener {
 
         submitBtn.addActionListener(e -> {
 
-            if (checkInvalid(titleInput) || checkInvalid(forenameInput) || checkInvalid(surnameInput)) {
+            if (Valid.check(titleInput) || Valid.check(forenameInput) || Valid.check(surnameInput)) {
                 JOptionPane.showMessageDialog(null, "Please enter all fields and ensure there are no symbols");
 
             } else {
@@ -106,18 +107,6 @@ class AccountCreationScreen extends JPanel implements ActionListener {
                 }
             }
         });
-    }
-
-    private boolean checkInvalid(JTextField input) {
-
-        System.out.println(input.getText());
-        if (input.getText().equals("") || !input.getText().jop) {
-            System.out.print("true");
-            return true;
-        } else {
-            System.out.print("false");
-            return false;
-        }
     }
 
     private void initComponents() {

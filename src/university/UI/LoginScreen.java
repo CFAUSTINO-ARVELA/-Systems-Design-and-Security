@@ -1,16 +1,27 @@
 package university.UI;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-import java.awt.color.*;
-import java.sql.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import university.*;
+
+
 
 public class LoginScreen extends JPanel {
 
@@ -61,11 +72,6 @@ public class LoginScreen extends JPanel {
 
     public void login() throws SQLException {
 
-        // authenticate here
-        // I think the easiest way will be to check each table and if it exists in the
-        // table and the passwords match, we know they
-        // they are a ___ and set profileType accordingly
-
         connectToDB();
         Statement stmt = null;
         PreparedStatement pst1, pst2 = null;
@@ -74,7 +80,6 @@ public class LoginScreen extends JPanel {
         String clearLvl = "select Clearance from account where Email = ? and Password =?";
 
         try {
-
             pst1 = con.prepareStatement(sql);
             pst1.setString(1, emailInput.getText());
             pst1.setString(2, passwordInput.getText());
@@ -132,9 +137,6 @@ public class LoginScreen extends JPanel {
     }
 
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY
-        // //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Katie
         welcomeText = new JLabel();
         promptText = new JLabel();
         emailInput = new JTextField();
@@ -143,9 +145,6 @@ public class LoginScreen extends JPanel {
         passwordText = new JLabel();
         submitButton = new JButton();
 
-        // ======== this ========
-
-        // JFormDesigner evaluation mark
         setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
                 new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
                 javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
@@ -159,7 +158,6 @@ public class LoginScreen extends JPanel {
 
         setLayout(null);
 
-        // ---- welcomeText ----
         welcomeText.setText("Welcome to University Software");
         welcomeText.setFont(welcomeText.getFont().deriveFont(welcomeText.getFont().getSize() + 10f));
         welcomeText.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -216,17 +214,13 @@ public class LoginScreen extends JPanel {
             setMinimumSize(preferredSize);
             setPreferredSize(preferredSize);
         }
-        // JFormDesigner - End of component initialization //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Katie
     private JLabel welcomeText;
     private JLabel promptText;
     private JTextField emailInput;
-    private JTextField passwordInput;
+    private JPasswordField passwordInput;
     private JLabel emailText;
     private JLabel passwordText;
     private JButton submitButton;
-    // JFormDesigner - End of variables declaration //GEN-END:variables
 }

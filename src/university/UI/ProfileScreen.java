@@ -82,7 +82,7 @@ public class ProfileScreen extends JPanel {
             Student stu;
             try {
                 stu = Student.getStudent(this.account.getUsername());
-                StudentStatusScreen status = new StudentStatusScreen(account, screen, this, stu);
+                StudentStatusScreen status = new StudentStatusScreen(screen, this, stu);
                 status.draw();
             } catch (Exception e1) {
                 e1.printStackTrace();
