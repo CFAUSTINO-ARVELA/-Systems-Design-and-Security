@@ -661,10 +661,12 @@ public class Student {
 					if (level == '3' && !(student.getDegree().getType().equals("BSc") || student.getDegree().getType().equals("BEng"))) {
 						System.out.println("Student going on placement, next level is P, next period is " + nextPeriod);
 						status.updateStatus('P', nextPeriod);
+						status.setRegistered(true);
 						return true;
 					} else if (level == '2' && (student.getDegree().getType().equals("BSc") || student.getDegree().getType().equals("BEng"))) {
 						System.out.println("Student going on placement, next level is P, next period is " + nextPeriod);
 						status.updateStatus('P', nextPeriod);
+						status.setRegistered(true);
 						return true;
 					}
 				}
