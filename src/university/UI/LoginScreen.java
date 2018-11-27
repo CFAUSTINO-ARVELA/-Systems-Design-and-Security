@@ -1,6 +1,11 @@
 package university.UI;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
 import java.awt.color.*;
 import java.sql.*;
 
@@ -32,7 +37,6 @@ public class LoginScreen extends JPanel {
         this.loginScreen.add(submitButton);
 
         submitButton.addActionListener(e -> {
-            this.loginScreen.setVisible(false);
             try {
 				this.login();
 			} catch (SQLException ex) {
@@ -79,79 +83,41 @@ public class LoginScreen extends JPanel {
     		pst2.setString(1, emailInput.getText());
     		pst2.setString(2, passwordInput.getText());
     		res2 = pst2.executeQuery();
-    		res2.next();
+
     		
-    		if (res2.getInt("Clearance") == 1) {
-    			
-    			while (res1.next()) {
-        			// get data
-        			String title = res1.getString("Title");
-        			String forename = res1.getString("Forename");
-        	    	String surname = res1.getString("Surname");
-        	    	String username = res1.getString("Username");
-        	    	String password = res1.getString("Password");
-                    Clearance clearance = Clearance.TEACHER;
-                    
-                    Account account = new Account(title, forename, surname, username, password, clearance);
-                    //screen.navToProfile(account);
-                    profileScreen = new ProfileScreen(this.screen, account);
-                    profileScreen.draw();
-    			
-    		} }
-    			
-    		else if (res2.getInt("Clearance") == 2) {
-        			
-        		while (res1.next()) {
-            		// get data
-            		String title = res1.getString("Title");
-            		String forename = res1.getString("Forename");
-            	    String surname = res1.getString("Surname");
-            	    String username = res1.getString("Username");
-            	    String password = res1.getString("Password");
-                    Clearance clearance = Clearance.REGISTRAR;
-                        
-                        Account account = new Account(title, forename, surname, username, password, clearance);
-                        //screen.navToProfile(account);
-                        profileScreen = new ProfileScreen(this.screen, account);
-                        profileScreen.draw();
-        			
-        	} }
-    		
-    		else if (res2.getInt("Clearance") == 3) {
-    			
-        		while (res1.next()) {
-            		// get data
-            		String title = res1.getString("Title");
-            		String forename = res1.getString("Forename");
-            	    String surname = res1.getString("Surname");
-            	    String username = res1.getString("Username");
-            	    String password = res1.getString("Password");
-                    Clearance clearance = Clearance.ADMIN;
-                        
-                        Account account = new Account(title, forename, surname, username, password, clearance);
-                        //screen.navToProfile(account);
-                        profileScreen = new ProfileScreen(this.screen, account);
-                        profileScreen.draw();
-        			
-        	} }
-    		
-    		else {
-    			
-        		while (res1.next()) {
-            		// get data
-            		String title = res1.getString("Title");
-            		String forename = res1.getString("Forename");
-            	    String surname = res1.getString("Surname");
-            	    String username = res1.getString("Username");
-            	    String password = res1.getString("Password");
-                    Clearance clearance = Clearance.STUDENT;
-                        
-                        Account account = new Account(title, forename, surname, username, password, clearance);
-                        //screen.navToProfile(account);
-                        profileScreen = new ProfileScreen(this.screen, account);
-                        profileScreen.draw();
-        			
-        	} }
+    		if (emailInput.getText().equals("") || passwordInput.getText().equals("")) {
+    			JOptionPane.showMessageDialog( null, "Please enter an email and password");
+    		} else if (!res1.next() && !res2.next()){
+    			JOptionPane.showMessageDialog( null, "Account details not found");
+    		} else {
+    			// get data
+    			System.out.println("found details");
+    			String title = res1.getString("Title");
+    			String forename = res1.getString("Forename");
+    	    	String surname = res1.getString("Surname");
+    	    	String username = res1.getString("Username");
+    	    	String password = res1.getString("Password");
+    	    	Clearance clearance = null;
+                
+        		switch (res2.getInt("Clearance")) { 
+        		case 1:
+        			clearance = Clearance.TEACHER;
+        			break;
+        		case 2:
+        			clearance = Clearance.REGISTRAR;
+        			break;
+        		case 3:
+        			clearance = Clearance.ADMIN;
+        			break;
+        		default:
+        			clearance = Clearance.STUDENT;
+        			break;
+        		}
+                Account account = new Account(title, forename, surname, username, password, clearance);
+                profileScreen = new ProfileScreen(this.screen, account);
+                this.loginScreen.setVisible(false);
+                profileScreen.draw();
+    		}
     		
     	}
     	catch (SQLException ex) {
@@ -159,10 +125,10 @@ public class LoginScreen extends JPanel {
 		} finally {
 			if (stmt != null)
 				stmt.close();
+	    		con.close();
+	    		res2.close();
+	    		pst2.close();
 		}
-    	con.close();
-    	res2.close();
-    	pst2.close();
 
     }
 
@@ -172,7 +138,7 @@ public class LoginScreen extends JPanel {
         welcomeText = new JLabel();
         promptText = new JLabel();
         emailInput = new JTextField();
-        passwordInput = new JTextField();
+        passwordInput = new JPasswordField();
         emailText = new JLabel();
         passwordText = new JLabel();
         submitButton = new JButton();
@@ -230,6 +196,13 @@ public class LoginScreen extends JPanel {
         submitButton.setText("Submit");
         add(submitButton);
         submitButton.setBounds(414, 500, 170, 50);
+        
+        submitButton.setForeground(Color.BLACK);
+        submitButton.setBackground(Color.WHITE);
+        Border line = new LineBorder(Color.BLACK);
+        Border margin = new EmptyBorder(5, 15, 5, 15);
+        Border compound = new CompoundBorder(line, margin);
+        submitButton.setBorder(compound);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();

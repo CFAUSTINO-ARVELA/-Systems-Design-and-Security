@@ -76,7 +76,7 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
         deleteBtn.addActionListener(e -> {
             if (moduleTable.getSelectedRow() > -1) {
                 String code = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 0);
-                String username = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 3);
+                String name = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 2);
                 Module modToDelete = new Module(code);
                 try {
                     modToDelete.deleteModule();
@@ -90,7 +90,7 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-                JOptionPane.showMessageDialog(null, "Successfully deleted student: " + username);
+                JOptionPane.showMessageDialog(null, "Successfully deleted module: " + name);
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Student to delete");
             }

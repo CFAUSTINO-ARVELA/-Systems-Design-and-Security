@@ -2,7 +2,7 @@ package university.UI;
 
 import university.ScreenManager;
 import university.Department;
-import university.CheckValid;
+import university.Valid;
 import university.UI.DepartmentManagementScreen;
 
 import javax.swing.JLabel;
@@ -60,7 +60,7 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
         });
         
         submitBtn.addActionListener(e -> {
-            if (CheckValid.symbols(nameInput) || CheckValid.symbols(codeInput)) {
+            if (Valid.check(nameInput) || Valid.check(codeInput)) {
                 JOptionPane.showMessageDialog(null, "Please do not any insert symbols");
             } else if(nameInput.getText().isEmpty())
         		JOptionPane.showMessageDialog(null, "Please insert the name of the Department");
