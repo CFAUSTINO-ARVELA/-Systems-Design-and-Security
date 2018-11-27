@@ -349,12 +349,16 @@ public class Student {
 			status = this.getStudentStatus();
 				
 				stmt = con.createStatement();
-				ResultSet res = stmt.executeQuery(String.format("SELECT * FROM periodResult WHERE registrationNumber = %d AND passed = true;", this.registrationNumber));
+				String query = String.format("SELECT * FROM periodResult WHERE registrationNumber = %d AND passed = true;", this.registrationNumber);
+				System.out.println(query);
+				ResultSet res = stmt.executeQuery(query);
 				
 				while(res.next()) {
 					char level = res.getString("level").charAt(0);
 					String period = res.getString("period");
 					int grade = res.getInt("grade");
+					
+					System.out.println("Past result, level = " + level + "period = " + period + "grade = " + grade);
 				
 					result = new PeriodResult(this.registrationNumber, level, period, grade, true);
 					results.add(result);
@@ -409,16 +413,22 @@ public class Student {
 		prevResult = student.getLastResult();
 		
 		char level = status.getLevel();
+		System.out.println("level = " + level);
 		String period = status.getPeriod();
+		System.out.println("period = " + period);
 		int periodvalue = period.charAt(0);
 		String prevPeriod = String.valueOf((char)(periodvalue - 1));
+		System.out.println("prevperiod = " + prevPeriod);
 		String nextPeriod = String.valueOf((char)(periodvalue + 1));
+		System.out.println("nextperiod = " + nextPeriod);
 		int credittotal = 0;
 		
 		if (level == 'P' && (student.getDegree().getType().equals("BSc") || student.getDegree().getType().equals("BEng"))) {
+			System.out.println("Year in industry to 4th year - pass");
 			status.updateStatus('4', nextPeriod);
 			return true;
 		} else if (level == 'P') {
+			System.out.println("Year in industry to 3rd year - pass");
 			status.updateStatus('3', nextPeriod);
 			return true;
 		}
@@ -428,32 +438,42 @@ public class Student {
 		ArrayList<Integer> weightedGrades = new ArrayList<Integer>();
 		
 		if (status.isResitting()) {
+			System.out.println("resitting");
 			grades.addAll(ModuleChoice.getPastChoices(student.getRegistrationNumber(), prevPeriod));
 		}
 		
 		
 		for (ModuleGrades module : grades) {
 			
-
-			credits = module.getModule().getCredits();
+			Module mod = module.getModule();
+			System.out.println(mod.getCode() + mod.getCredits());
+			credits = mod.getCredits();
 			credittotal += credits;
+			System.out.println("credittotal so far = " + credittotal);
 				
 				
 			if (module.getResit()) {
+
 				grade = module.getGrade();
 				resit = module.getResitGrade();
+				System.out.println("resit module, resit grade = " + resit + "first grade = " + grade);
 				
 				if (resit > grade && resit > 50 && level == '4') {
+					System.out.println("4th year, mark reduced to 50");
 					modulegrade = 50;
 				} else if (resit > grade && resit > 40 && level != '4') {
+					System.out.println("Mark reduced to 40");
 					modulegrade = 40;
 				} else if (resit > grade) {
+					System.out.println("Resit grade used");
 					modulegrade = resit;
 				} else {
+					System.out.println("First grade used");
 					modulegrade = grade;
 				}
 			} else {
 				modulegrade = module.getGrade();
+				System.out.println("no resit, grade = " + modulegrade);
 			}
 				
 			weightedgrade = (modulegrade * credits);
@@ -461,14 +481,19 @@ public class Student {
 			weightedGrades.add(weightedgrade);
 			
 			if (level == '4' && modulegrade < 40 && conceded == false && credits == 15) {
+				System.out.println("4th year, first module failed, conceded pass so far");
 				conceded = true;
 			} else if (level == '4' && modulegrade < 50) {
+				System.out.println("4th year, too many failed, year failed");
 				failed = true;
 			} else if (modulegrade < 30 && conceded == false && credits == 20) {
+				System.out.println("First module failed, conceded pass so far");
 				conceded = true;
 			} else if (modulegrade < 40) {
+				System.out.println("Too many failed, year failed");
 				failed = true;
 			} else {
+				System.out.println("Module passed, grade recorded");
 				ModuleChoice newmodule = new ModuleChoice(student.getRegistrationNumber(), module.getModule().getCode(), period, modulegrade);
 				
 				newmodule.createModuleChoice();
@@ -483,20 +508,26 @@ public class Student {
 		
 		weightedmean = weightedmean / credittotal; 
 		
+		System.out.println("Weighted mean grade = " + weightedmean);
+		
 		if (failed && status.isResitting()) {
 			if (level == '4') {
 				pastResults = this.getPrevResults();
 				float finalgrade = 0;
+				System.out.println("4th year failed twice, getting past results");
 				
 				for (PeriodResult result : pastResults) {
 					if (result.getPeriod().equals("2")) {
+						System.out.println("2nd year grade = " + result.getGrade());
 						finalgrade += result.getGrade();
 					} else {
+						System.out.println("3rd year grade = " + result.getGrade());
 						finalgrade += result.getGrade() * 2;
 					}
 				}
 				
 				finalgrade = finalgrade / 3;
+				System.out.println("Final grade = " + finalgrade);
 				
 				if (finalgrade < 49.5) {
 					finalresult = "fail";
@@ -507,39 +538,49 @@ public class Student {
 				} else {
 					finalresult = "first class";
 				}
+				System.out.println("Final result = " + finalresult);
 				
 				degreeResult = new DegreeResult(student.getRegistrationNumber(), false, finalresult);
 				degreeResult.createDegreeResult();
 				status.setGraduated();
+				System.out.println("Student graduated with bachelors, degree result recorded");
 				return true;
 				
 			} else {
+				System.out.println("3rd year failed twice, degree failed");
 				degreeResult = new DegreeResult(student.getRegistrationNumber(), false, "fail");
 				degreeResult.createDegreeResult();
 				status.setGraduated();
 				return true;
 			}
 		} else if (failed) {
+				System.out.println("Year failed, student will resit next period");
 				status.updateStatus(level, nextPeriod);
 				status.setResitting(true);
 				return true;
 		} else {
 			if (level == '4') {
+				System.out.println("4th year passed, getting past results");
 				pastResults = this.getPrevResults();
 				float finalgrade = 0;
 				
 				for (PeriodResult result : pastResults) {
 					if (result.getPeriod().equals("1")) {
+						System.out.println("1st year doesn't count");
 					} else if (result.getPeriod().equals("2")) {
+						System.out.println("2nd year grade = " + result.getGrade());
 						finalgrade += result.getGrade();
 					} else {
+						System.out.println("3rd year grade = " + result.getGrade());
 						finalgrade += result.getGrade() * 2;
 					}
 				}
 				
+				System.out.println("4th year grade = " + weightedmean);
 				finalgrade += weightedmean * 2;
 				
 				finalgrade = finalgrade / 5;
+				System.out.println("Final grade = " + finalgrade);
 				
 				if (finalgrade < 49.5) {
 					finalresult = "fail";
@@ -551,27 +592,33 @@ public class Student {
 					finalresult = "first class";
 				}
 				
+				System.out.println("Final result = " + finalresult);
+				
 				degreeResult = new DegreeResult(student.getRegistrationNumber(), true, finalresult);
 				degreeResult.createDegreeResult();
 				status.setGraduated();
+				System.out.println("Student graduated with masters, degree result recorded");
 				return true;
 					
 				} else if (level == '3' && (student.getDegree().getType().equals("BSc") || student.getDegree().getType().equals("BEng"))) {
+					System.out.println("3rd year of bachelors passed, getting past results");
 					pastResults = this.getPrevResults();
 					float finalgrade = 0;
 					
 					for (PeriodResult result : pastResults) {
 						if (result.getPeriod().equals("1")) {
-						} else if (result.getPeriod().equals("2")) {
-							finalgrade += result.getGrade();
+							System.out.println("1st year doesn't count");
 						} else {
-							finalgrade += result.getGrade() * 2;
+							System.out.println("2nd year grade = " + result.getGrade());
+							finalgrade += result.getGrade();
 						}
 					}
 					
+					System.out.println("3rd year grade = " + weightedmean);
 					finalgrade += weightedmean * 2;
 					
 					finalgrade = finalgrade / 3;
+					System.out.println("Final grade = " + finalgrade);
 					
 					if (finalgrade < 39.5) {
 						finalresult = "fail";
@@ -587,28 +634,36 @@ public class Student {
 						finalresult = "first class";
 					}
 					
+					System.out.println("Final result = " + finalresult);
+					
 					if (status.isResitting() && finalgrade >= 39.5) {
+						System.out.println("Student resat so can't pass with honours");
 						degreeResult = new DegreeResult(student.getRegistrationNumber(), false, "pass (non-honours)");
 						degreeResult.createDegreeResult();
 						status.setGraduated();
+						System.out.println("Student graduated with bachelors, degree result recorded");
 						return true;
 					} else {
 						degreeResult = new DegreeResult(student.getRegistrationNumber(), false, finalresult);
 						degreeResult.createDegreeResult();
 						status.setGraduated();
+						System.out.println("Student graduated with bachelors, degree result recorded");
 						return true;
 					}
 			} else {
+				System.out.println("Not the last year, recording result for period");
 				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, true);
 				currentResult.createPeriodResult();
 				
 				int nextLevel = 0;
 				
 				if (student.getDegree().getPlacement()) {
-					if (level == '3' && !student.getDegree().getType().equals("Undergraduate")) {
+					if (level == '3' && !(student.getDegree().getType().equals("BSc") || student.getDegree().getType().equals("BEng"))) {
+						System.out.println("Student going on placement, next level is P, next period is " + nextPeriod);
 						status.updateStatus('P', nextPeriod);
 						return true;
-					} else if (level == '4' && student.getDegree().getType().equals("Undergraduate")) {
+					} else if (level == '2' && (student.getDegree().getType().equals("BSc") || student.getDegree().getType().equals("BEng"))) {
+						System.out.println("Student going on placement, next level is P, next period is " + nextPeriod);
 						status.updateStatus('P', nextPeriod);
 						return true;
 					}
@@ -616,6 +671,7 @@ public class Student {
 				
 				nextLevel = Integer.parseInt(Character.toString(level)) + 1;
 				char nextLevelC = Integer.toString(nextLevel).charAt(0);
+				System.out.println("Next level is " + nextLevelC + "next period is " + nextPeriod);
 				status.updateStatus(nextLevelC, nextPeriod);
 				return true;
 			}

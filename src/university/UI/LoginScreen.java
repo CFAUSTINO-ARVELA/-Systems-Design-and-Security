@@ -124,7 +124,6 @@ public class LoginScreen extends JPanel {
 			ex.printStackTrace();
 		} finally {
 			if (res2 != null)
-				stmt.close();
 	    		con.close();
 	    		res2.close();
 	    		pst2.close();
