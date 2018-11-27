@@ -123,7 +123,7 @@ public class LoginScreen extends JPanel {
     	catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
-			if (stmt != null)
+			if (res2 != null)
 				stmt.close();
 	    		con.close();
 	    		res2.close();
