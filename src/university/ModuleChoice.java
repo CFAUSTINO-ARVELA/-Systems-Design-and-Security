@@ -71,6 +71,7 @@ public class ModuleChoice {
 		} finally {
 			if (stmt != null)
 				stmt.close();
+				con.close();
 		}
 		
 

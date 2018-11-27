@@ -1,6 +1,7 @@
 package university.UI;
 
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -56,26 +57,35 @@ public class MarkingScreen extends JPanel {
 			}
 		});
 		submitBtn.addActionListener(e -> {
-			ArrayList<ModuleGrades> allGrades = new ArrayList<>();
-			if (this.checkEntered()) {
-				System.out.println("None empty");
-				for (int i = 0; i < rows; i++) {
-					try {
-						String code = (String) table.getValueAt(i, 1);
-						ModuleGrades grade = new ModuleGrades(Module.getModule(code),
-								Integer.parseInt((String) table.getValueAt(i, 2)));
-						allGrades.add(grade);
-					} catch (Exception e1) {
-						e1.printStackTrace();
+
+			try {
+				if (this.student.getLevel() != "P") {
+					ArrayList<ModuleGrades> allGrades = new ArrayList<>();
+					if (this.checkEntered()) {
+						System.out.println("None empty");
+						for (int i = 0; i < rows; i++) {
+							try {
+								String code = (String) table.getValueAt(i, 1);
+								ModuleGrades grade = new ModuleGrades(Module.getModule(code),
+										Integer.parseInt((String) table.getValueAt(i, 2)));
+								allGrades.add(grade);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+						}
+						try {
+							System.out.println(this.student.progress(student, allGrades));
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					} else {
+						System.out.println("Missed a grade");
 					}
+				} else {
+					System.out.println(this.student.progress(student, null));
 				}
-				try {
-					System.out.println(this.student.progress(student, allGrades));
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			} else {
-				System.out.println("Missed a grade");
+			} catch (Exception e1) {
+				e1.printStackTrace();
 			}
 		});
 	}
@@ -89,7 +99,6 @@ public class MarkingScreen extends JPanel {
 			}
 		}
 		return true;
-
 	}
 
 	private void addModules() {
@@ -97,29 +106,40 @@ public class MarkingScreen extends JPanel {
 		try {
 			StudentStatus stuStatus = this.student.getStudentStatus();
 
-			DefaultTableModel model = new DefaultTableModel();
-			table = new JTable(model);
+			if (stuStatus.isRegistered() && stuStatus.getLevel() != 'P') {
+				DefaultTableModel model = new DefaultTableModel();
+				table = new JTable(model);
 
-			// Create a couple of columns
-			model.addColumn("Name");
-			model.addColumn("Code");
-			model.addColumn("Grade");
-			model.addColumn("Resit Grade");
-			for (ModuleChoice module : stuStatus.getCurrentModules()) {
-				System.out.println(module.getModuleCode());
-				String name = Module.getModule(module.getModuleCode()).getName();
-				model.addRow(new Object[] { name, module.getModuleCode(), null, null });
-				rows++;
+				// Create a couple of columns
+				model.addColumn("Name");
+				model.addColumn("Code");
+				model.addColumn("Grade");
+				model.addColumn("Resit Grade");
+				for (ModuleChoice module : stuStatus.getCurrentModules()) {
+					System.out.println(module.getModuleCode());
+					String name = Module.getModule(module.getModuleCode()).getName();
+					model.addRow(new Object[] { name, module.getModuleCode(), null, null });
+					rows++;
+				}
+
+				JScrollPane scrollPane = new JScrollPane();
+				scrollPane.setViewportView(table);
+
+				markingPanel.add(scrollPane);
+
+			} else if (stuStatus.getLevel() == 'P') {
+				promptTxt.setText("Student on Placement");
+				this.markingScreen.add(promptTxt);
+				submitBtn.setText("Progress");
+			} else {
+				promptTxt.setText("Student not yet registered");
+				submitBtn.setVisible(false);
+				this.markingScreen.add(promptTxt);
 			}
-
-			JScrollPane scrollPane = new JScrollPane();
-			scrollPane.setViewportView(table);
-
-			markingPanel.add(scrollPane);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	private void initComponents() {
@@ -127,6 +147,7 @@ public class MarkingScreen extends JPanel {
 		markingPanel = new JPanel();
 		backToProfileBtn = new JButton();
 		submitBtn = new JButton();
+		promptTxt = new JLabel();
 
 		// ======== this ========
 
@@ -152,6 +173,12 @@ public class MarkingScreen extends JPanel {
 		add(titleTxt);
 		titleTxt.setBounds(430, 25, 140, 55);
 
+		promptTxt.setText("Marking");
+		promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
+		promptTxt.setFont(promptTxt.getFont().deriveFont(promptTxt.getFont().getSize() + 10f));
+		promptTxt.setForeground(Color.white);
+		add(promptTxt);
+		promptTxt.setBounds(430, 25, 140, 55);
 		// ======== markingPanel ========
 		{
 			markingPanel.setLayout(null);
@@ -205,5 +232,6 @@ public class MarkingScreen extends JPanel {
 	private JPanel markingPanel;
 	private JButton backToProfileBtn;
 	private JButton submitBtn;
+	private JLabel promptTxt;
 	// JFormDesigner - End of variables declaration //GEN-END:variables
 }
