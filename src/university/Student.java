@@ -695,6 +695,7 @@ public class Student {
 			for (Module module : modules) {
 				String moduleCode = module.getCode();
 				count += stmt.executeUpdate(String.format("INSERT INTO moduleChoice (registrationNumber, moduleCode, period) VALUES (%d, \"%s\", \"%s\");", reg, moduleCode, period));
+				count += stmt.executeUpdate(String.format("UPDATE studentStatus SET registered = 1 WHERE registrationNumber = %d;", reg));
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
