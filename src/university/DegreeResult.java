@@ -41,8 +41,8 @@ public class DegreeResult {
 			
 			if (res.getInt(1) == 0) {
 				newresult.setInt(1, this.registrationNumber);
-				newresult.setBoolean(2, this.masters);
-				newresult.setString(3, this.result);
+				newresult.setBoolean(3, this.masters);
+				newresult.setString(2, this.result);
 				count = newresult.executeUpdate();
 			}	
 		    
