@@ -102,7 +102,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
                 }
                 this.profileScreen.draw();
                 JOptionPane.showMessageDialog(null,
-                        "Successfully created Student: " + ac.getUsername() + ". Password: " + ac.getPassword());
+                        "Successfully created Student: " + ac.getEmail() + ". Password: " + ac.getPassword());
             } catch (SQLException e1) {
                 JOptionPane.showMessageDialog(null, "SQL error, please try again");
             }

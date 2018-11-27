@@ -196,7 +196,7 @@ public class ProfileScreen extends JPanel {
         teachingManagementBtn.setBounds(510, 175, 170, 50);
 
         //---- studentManageBtn ----
-        studentManageBtn.setText("Student Management");
+        studentManageBtn.setText("Student Status");
         add(studentManageBtn);
         studentManageBtn.setBounds(414, 430, 170, 50);
 
