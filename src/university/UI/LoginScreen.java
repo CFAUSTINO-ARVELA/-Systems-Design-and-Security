@@ -196,14 +196,8 @@ public class LoginScreen extends JPanel {
         submitButton.setText("Submit");
         add(submitButton);
         submitButton.setBounds(414, 500, 170, 50);
+        Style.Button(submitButton);
         
-        submitButton.setForeground(Color.BLACK);
-        submitButton.setBackground(Color.WHITE);
-        Border line = new LineBorder(Color.BLACK);
-        Border margin = new EmptyBorder(5, 15, 5, 15);
-        Border compound = new CompoundBorder(line, margin);
-        submitButton.setBorder(compound);
-
         { // compute preferred size
             Dimension preferredSize = new Dimension();
             for(int i = 0; i < getComponentCount(); i++) {
