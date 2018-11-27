@@ -1,6 +1,7 @@
 package university.UI;
 
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -56,26 +57,35 @@ public class MarkingScreen extends JPanel {
 			}
 		});
 		submitBtn.addActionListener(e -> {
-			ArrayList<ModuleGrades> allGrades = new ArrayList<>();
-			if (this.checkEntered()) {
-				System.out.println("None empty");
-				for (int i = 0; i < rows; i++) {
-					try {
-						String code = (String) table.getValueAt(i, 1);
-						ModuleGrades grade = new ModuleGrades(Module.getModule(code),
-								Integer.parseInt((String) table.getValueAt(i, 2)));
-						allGrades.add(grade);
-					} catch (Exception e1) {
-						e1.printStackTrace();
+
+			try {
+				if (this.student.getLevel() != "P") {
+					ArrayList<ModuleGrades> allGrades = new ArrayList<>();
+					if (this.checkEntered()) {
+						System.out.println("None empty");
+						for (int i = 0; i < rows; i++) {
+							try {
+								String code = (String) table.getValueAt(i, 1);
+								ModuleGrades grade = new ModuleGrades(Module.getModule(code),
+										Integer.parseInt((String) table.getValueAt(i, 2)));
+								allGrades.add(grade);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+						}
+						try {
+							System.out.println(this.student.progress(student, allGrades));
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					} else {
+						System.out.println("Missed a grade");
 					}
+				} else {
+					System.out.println(this.student.progress(student, null));
 				}
-				try {
-					System.out.println(this.student.progress(student, allGrades));
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			} else {
-				System.out.println("Missed a grade");
+			} catch (Exception e1) {
+				e1.printStackTrace();
 			}
 		});
 	}
