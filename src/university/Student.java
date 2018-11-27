@@ -423,7 +423,7 @@ public class Student {
 		System.out.println("nextperiod = " + nextPeriod);
 		int credittotal = 0;
 		
-		if (level == 'P' && (student.getDegree().getType().equals("BSc") || student.getDegree().getType().equals("BEng"))) {
+		if (level == 'P' && !(student.getDegree().getType().equals("BSc") || student.getDegree().getType().equals("BEng"))) {
 			System.out.println("Year in industry to 4th year - pass");
 			status.updateStatus('4', nextPeriod);
 			return true;
@@ -517,7 +517,7 @@ public class Student {
 				System.out.println("4th year failed twice, getting past results");
 				
 				for (PeriodResult result : pastResults) {
-					if (result.getPeriod().equals("2")) {
+					if (result.getLevel() == '2') {
 						System.out.println("2nd year grade = " + result.getGrade());
 						finalgrade += result.getGrade();
 					} else {
@@ -565,9 +565,9 @@ public class Student {
 				float finalgrade = 0;
 				
 				for (PeriodResult result : pastResults) {
-					if (result.getPeriod().equals("1")) {
+					if (result.getLevel() == '1') {
 						System.out.println("1st year doesn't count");
-					} else if (result.getPeriod().equals("2")) {
+					} else if (result.getLevel() == '2') {
 						System.out.println("2nd year grade = " + result.getGrade());
 						finalgrade += result.getGrade();
 					} else {
@@ -606,7 +606,7 @@ public class Student {
 					float finalgrade = 0;
 					
 					for (PeriodResult result : pastResults) {
-						if (result.getPeriod().equals("1")) {
+						if (result.getLevel() == '1') {
 							System.out.println("1st year doesn't count");
 						} else {
 							System.out.println("2nd year grade = " + result.getGrade());
