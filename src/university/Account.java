@@ -123,7 +123,7 @@ public class Account {
 				stmt.close();
 		}
 
-		return initials + this.surname.toLowerCase() + count;
+		return initials + this.surname.replaceAll("\\s+","").toLowerCase() + count;
 	}
 	
 	private String generatePassword() {
