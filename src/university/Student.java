@@ -360,8 +360,10 @@ public class Student {
 					
 					System.out.println("Past result, level = " + level + "period = " + period + "grade = " + grade);
 				
-					result = new PeriodResult(this.registrationNumber, level, period, grade, true);
-					results.add(result);
+					if (level != 'P') {
+						result = new PeriodResult(this.registrationNumber, level, period, grade, true);
+						results.add(result);
+					}
 				}
 				
 				
@@ -424,10 +426,14 @@ public class Student {
 		int credittotal = 0;
 		
 		if (level == 'P' && !(student.getDegree().getType().equals("BSc") || student.getDegree().getType().equals("BEng"))) {
+			currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, -1, true);
+			currentResult.createPeriodResult();
 			System.out.println("Year in industry to 4th year - pass");
 			status.updateStatus('4', nextPeriod);
 			return true;
 		} else if (level == 'P') {
+			currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, -1, true);
+			currentResult.createPeriodResult();
 			System.out.println("Year in industry to 3rd year - pass");
 			status.updateStatus('3', nextPeriod);
 			return true;
