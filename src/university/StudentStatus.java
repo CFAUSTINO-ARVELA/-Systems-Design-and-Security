@@ -206,7 +206,7 @@ public class StudentStatus {
 			
 			stmt = con.createStatement();
 			int count = stmt.executeUpdate(
-					String.format("UPDATE studentStatus SET level = \"%s\", period = \"%s\" WHERE registrationNumber = %d;", l, p, this.registrationNumber));
+					String.format("UPDATE studentStatus SET level = \"%s\", period = \"%s\", registered = 0 WHERE registrationNumber = %d;", l, p, this.registrationNumber));
 			
 			System.out.println(count);
 		} catch (SQLException ex) {

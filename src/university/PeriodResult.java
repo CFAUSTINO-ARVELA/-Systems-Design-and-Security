@@ -38,8 +38,8 @@ public class PeriodResult {
 			
 			if (res.getInt(1) == 0) {
 				newresult.setInt(1, this.registrationNumber);
-				newresult.setString(2, Character.toString(this.level));
-				newresult.setString(3, this.period);
+				newresult.setString(3, Character.toString(this.level));
+				newresult.setString(2, this.period);
 				newresult.setInt(4, this.grade);
 				newresult.setBoolean(5, this.passed);
 				count = newresult.executeUpdate();
