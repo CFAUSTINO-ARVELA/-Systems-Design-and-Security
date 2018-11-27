@@ -122,17 +122,18 @@ public class LoginScreen extends JPanel {
                 profileScreen = new ProfileScreen(this.screen, account);
                 this.loginScreen.setVisible(false);
                 profileScreen.draw();
-            }
+    		}
+    		
+    	}
+    	catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (res2 != null)
+	    		con.close();
+	    		res2.close();
+	    		pst2.close();
+		}
 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (res2 != null)
-                stmt.close();
-            con.close();
-            res2.close();
-            pst2.close();
-        }
 
     }
 
