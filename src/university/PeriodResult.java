@@ -28,29 +28,23 @@ public class PeriodResult {
 	public int createPeriodResult() throws SQLException {
 		connectToDB();
 		int count = 0;
-		PreparedStatement newresult, result = null;
-		result = con.prepareStatement("SELECT COUNT(*) FROM periodResult WHERE registrationNumber = ?");
+		PreparedStatement newresult = null;
 		newresult = con.prepareStatement( "INSERT INTO periodResult VALUES (?, ?, ?, ?, ?)");
 		try {
-			result.setInt(1, this.registrationNumber);
-			ResultSet res = result.executeQuery();
-			res.next();
 			
-			if (res.getInt(1) == 0) {
-				newresult.setInt(1, this.registrationNumber);
-				newresult.setString(3, Character.toString(this.level));
-				newresult.setString(2, this.period);
-				newresult.setInt(4, this.grade);
-				newresult.setBoolean(5, this.passed);
-				count = newresult.executeUpdate();
-			}	
+			newresult.setInt(1, this.registrationNumber);
+			newresult.setString(3, Character.toString(this.level));
+			newresult.setString(2, this.period);
+			newresult.setInt(4, this.grade);
+			newresult.setBoolean(5, this.passed);
+			count = newresult.executeUpdate();
+	
 		    
 		 }catch (SQLException ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (newresult != null)
 					newresult.close();
-					result.close();
 		}
 		con.close();
 		return count;
