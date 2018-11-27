@@ -377,7 +377,7 @@ public class Degree{
 			ArrayList<ArrayList<String>> modList = new ArrayList<ArrayList<String>>();
 			ArrayList<String> mod = new ArrayList<String>();
 			ResultSet res = null;
-			PreparedStatement getMod = snull;
+			PreparedStatement getMod = null;
 			connectToDB();
 			getMod = con.prepareStatement("SELECT modCode, name, mandatory,year,duration, credits  FROM assoModDeg JOIN module WHERE assoModDeg.modCode = module.code AND degCode = ?;");
 			try {
