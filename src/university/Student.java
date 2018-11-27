@@ -565,7 +565,7 @@ public class Student {
 				float finalgrade = 0;
 				System.out.println("4th year failed twice, getting past results");
 				
-				for (PeriodResult result : pastResults) {x
+				for (PeriodResult result : pastResults) {
 					if (result.getLevel() == '2') {
 						System.out.println("2nd year grade = " + result.getGrade());
 						finalgrade += result.getGrade();
