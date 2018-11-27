@@ -74,7 +74,7 @@ public class LoginScreen extends JPanel {
 
         connectToDB();
         Statement stmt = null;
-        PreparedStatement pst1, pst2 = null;
+        PreparedStatement pst1 = null, pst2 = null;
         ResultSet res1, res2 = null;
         String sql = "select * from account where Email=? and Password=?";
         String clearLvl = "select Clearance from account where Email = ? and Password =?";
@@ -130,7 +130,7 @@ public class LoginScreen extends JPanel {
 		} finally {
 			if (res2 != null)
 	    		con.close();
-	    		res2.close();
+	    		pst1.close();
 	    		pst2.close();
 		}
 
