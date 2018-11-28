@@ -62,8 +62,6 @@ public class ModuleChoice {
 			String query = String.format("INSERT INTO moduleChoice (registrationNumber, moduleCode, period, grade) VALUES (%d, \"%s\", \"%s\", %d);",
 					this.registrationNumber, this.moduleCode, this.period, this.grade);
 			int count = stmt.executeUpdate(query);
-			
-					
 
 			System.out.println(count);
 		} catch (Exception ex) {
@@ -73,8 +71,6 @@ public class ModuleChoice {
 				stmt.close();
 		}
 		con.close();
-		
-
 	}
 	
 	public static ArrayList<ModuleGrades> getPastChoices(int r, String p) throws Exception {

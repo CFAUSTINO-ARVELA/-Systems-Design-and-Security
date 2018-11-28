@@ -23,7 +23,7 @@ public class CreateTables {
 			count += stmt.executeUpdate(
 					"CREATE TABLE studentStatus (RegistrationNumber int NOT NULL PRIMARY KEY, Level char, Period char, StartDate date, EndDate date, Registered boolean, Resitting boolean, Graduated boolean);");
 			
-			count+= stmt.executeUpdate("CREATE TABLE moduleChoice (RegistrationNumber int NOT NULL PRIMARY KEY, ModuleCode varchar(7) NOT NULL, Period char, Grade int);");
+			count+= stmt.executeUpdate("CREATE TABLE moduleChoice (RegistrationNumber int NOT NULL, ModuleCode varchar(7) NOT NULL, Period char, Grade int);");
 			count+= stmt.executeUpdate("CREATE TABLE periodResult (RegistrationNumber int, Period char, Level char, Grade int, Passed boolean);");
 			count+= stmt.executeUpdate("CREATE TABLE degreeResult (RegistrationNumber int, Result varchar(255), Masters boolean);");
 			
@@ -32,9 +32,6 @@ public class CreateTables {
 			// Create table for department
 			int depart = stmt.executeUpdate(
 					"CREATE TABLE department (code varchar(3) NOT NULL PRIMARY KEY, name varchar(255) NOT NULL);");
-			stmt.executeUpdate("INSERT INTO department VALUES (\"COM\", \"Department of Computer Science \") ");
-			stmt.executeUpdate("INSERT INTO department VALUES (\"BUS\", \"Bussiness School \") ");
-			stmt.executeUpdate("INSERT INTO department VALUES (\"LAN\", \"Modern Languages\") ");
 
 			// Create table for degree
 			int degree = stmt.executeUpdate(

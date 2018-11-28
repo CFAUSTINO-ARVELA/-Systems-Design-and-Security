@@ -24,12 +24,13 @@ public class StudentStatus {
 		   }
 	}
 	
-	public StudentStatus(int r, char l, String p, boolean reg, boolean g) {
+	public StudentStatus(int r, char l, String p, boolean reg, boolean g, boolean re) {
 		this.registrationNumber = r;
 		this.level = l;
 		this.period = p;
 		this.registered = reg;
 		this.graduated = g;
+		this.resitting = re;
 	}
 	
 	public boolean isRegistered() {
@@ -143,12 +144,24 @@ public class StudentStatus {
 			while (res.next()) {
 				code = res.getString("moduleCode");
 				period = res.getString("period");
+
+				System.out.println(period);
+				System.out.println(this.period);
+				System.out.println(prevPeriod);
 				
 				if (period.equals(this.period)) {
 					
-					if (!this.resitting || !period.equals(prevPeriod)) {
+					if (!this.resitting) {
 						module = new ModuleChoice(this.registrationNumber, code, period);
 						modules.add(module);
+						System.out.println("add");
+					}
+				} else if (period.equals(prevPeriod)) {
+
+					if (this.resitting) {
+						module = new ModuleChoice(this.registrationNumber, code, period);
+						modules.add(module);
+						System.out.println("add");
 					}
 				}
 			}

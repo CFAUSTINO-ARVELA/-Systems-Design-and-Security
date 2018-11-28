@@ -22,12 +22,7 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 
 class DepartmentManagementScreen extends JPanel implements ActionListener {
 
@@ -35,16 +30,15 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
     public JPanel departmentScreen;
     private ScreenManager screen;
     private TeachingManagementScreen teachingScreen;
-    private Account account;
     private JTable departmentTable;
-    private Connection con = null;
-    private Statement stmt = null;
 
     DepartmentManagementScreen(ScreenManager scr,TeachingManagementScreen teach) {
         this.initComponents();
+        this.initListeners();
         this.screen = scr;
         this.teachingScreen = teach;
     }
+
 
     public TeachingManagementScreen getTecMaangScree() {
     	return teachingScreen;
@@ -63,13 +57,25 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
 
 
         this.departmentScreen.setLayout(null);
+        
+        Department dep = new Department();
+        departmentTable = new JTable(TableModel.buildTableModel(dep.getDeptList()));
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(departmentTable);
 
+        tablePanel.add(scrollPane);
+
+
+        screen.frame.add(this.departmentScreen);
+
+    }
+
+    private void initListeners() {
         backToTeachingBtn.addActionListener(e -> {
             this.departmentScreen.setVisible(false);
             try {
 				this.teachingScreen.draw();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
         });
@@ -79,7 +85,6 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
             try {
 				departmentCreate.draw();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
         });
@@ -124,37 +129,15 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Please select a Department to delete");
             }
         });
-
-        Department dep = new Department();
-        departmentTable = new JTable(TableModel.buildTableModel(dep.getDeptList()));
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportView(departmentTable);
-
-        tablePanel.add(scrollPane);
-
-
-        screen.frame.add(this.departmentScreen);
     }
 
-    // public void returnFromManagement(String status) {
-    //     JLabel statusTxt = new JLabel(status);
-    //     this.departmentScreen.add(statusTxt);
-    //     this.draw();
-    // }
-
-  
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Katie
         backToTeachingBtn = new JButton();
         departmentManagementTxt = new JLabel();
         deleteBtn = new JButton();
         createBtn = new JButton();
         tablePanel = new JPanel();
 
-        //======== this ========
-
-        // JFormDesigner evaluation mark
         setBorder(new javax.swing.border.CompoundBorder(
             new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
                 "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
@@ -201,17 +184,13 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
             setMinimumSize(preferredSize);
             setPreferredSize(preferredSize);
         }
-        // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Katie
     private JButton backToTeachingBtn;
     private JLabel departmentManagementTxt;
     private JButton deleteBtn;
     private JButton createBtn;
     private JPanel tablePanel;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

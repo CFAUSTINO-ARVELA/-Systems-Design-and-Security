@@ -19,13 +19,13 @@ import university.TableModel;
 
 public class ModuleAssignmentScreen extends JPanel {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private JPanel moduleAssScreen;
     private ScreenManager screen;
     private TeachingManagementScreen teachScreen;
-    private String[] coreList = {"Yes","No"};
-    private String[] levelList = {"1","2","3","4"};
-    
+    private String[] coreList = { "Yes", "No" };
+    private String[] levelList = { "1", "2", "3", "4" };
+
     private JTable degreeTable;
     private JTable moduleTable;
 
@@ -33,11 +33,80 @@ public class ModuleAssignmentScreen extends JPanel {
         this.screen = scr;
         this.teachScreen = teach;
         initComponents();
+        this.initListeners();
+    }
+
+    private void initListeners() {
+        backToProfileBtn.addActionListener(e -> {
+            this.moduleAssScreen.setVisible(false);
+            try {
+                this.teachScreen.draw();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        });
+        submitBtn.addActionListener((e -> {
+
+            if (degreeTable.getSelectedRow() > -1 && moduleTable.getSelectedRow() > -1) {
+                String degreeCode = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 0);
+                String moduleCode = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 1);
+                int level = Integer.parseInt((String) levelInput.getSelectedItem());
+                boolean core;
+
+                if (coreInput.getSelectedItem().equals("Yes")) {
+                    core = true;
+                } else {
+                    core = false;
+                }
+
+                try {
+                    if (Degree.getDegree(degreeCode).getType().equals("MSc"))
+                        if (level != 4)
+                            JOptionPane.showMessageDialog(null, "The degree selected does not offer level " + level
+                                    + ". \n Please select the correct level.");
+                        else if (Degree.getCredits(degreeCode, level)
+                                + Module.getModule(moduleCode).getCredits() >= 180)
+                            JOptionPane.showMessageDialog(null,
+                                    "Adding this module will exceed 120 credits. \n Please insert the correct information.");
+                        else {
+                            if (Degree.getDegree(degreeCode).getType().charAt(0) == 'B' && level == 4)
+                                JOptionPane.showMessageDialog(null,
+                                        "The degree selected does not offer level 4. \n Please select the correct level.");
+                            else if (Degree.getCredits(degreeCode, level)
+                                    + Module.getModule(moduleCode).getCredits() >= 120)
+                                JOptionPane.showMessageDialog(null,
+                                        "Adding this module will exceed 120 credits. \n Please insert the correct information.");
+                        }
+                    else if (Degree.getNoMod(degreeCode, moduleCode, level) != 0)
+                        JOptionPane.showMessageDialog(null, "This modules is already assigned to this degree's level "
+                                + level + ". \n Please insert the correct information.");
+
+                    else { // Successful
+
+                        int success = Module.assignModule(degreeCode, moduleCode, level, core);
+                        System.out.println("Module Assignment page " + success);
+
+                        this.moduleAssScreen.setVisible(false);
+                        ModuleAssignmentScreen newScreen = new ModuleAssignmentScreen(this.screen, this.teachScreen);
+
+                        newScreen.draw();
+
+                        JOptionPane.showMessageDialog(null, "Successfully linked modules");
+                    }
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select both a degree and module to link");
+
+            }
+        }));
     }
 
     public void draw() throws Exception {
         this.moduleAssScreen = new JPanel();
-        this.moduleAssScreen.setBackground(new Color(70,70,70));
+        this.moduleAssScreen.setBackground(new Color(70, 70, 70));
 
         this.moduleAssScreen.add(degreeTxt);
         this.moduleAssScreen.add(degreePanel);
@@ -54,76 +123,15 @@ public class ModuleAssignmentScreen extends JPanel {
         this.degreePanel.setLayout(new BorderLayout());
         this.modulePanel.setLayout(new BorderLayout());
 
-        backToProfileBtn.addActionListener(e -> {
-            this.moduleAssScreen.setVisible(false);
-            try {
-				this.teachScreen.draw();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-        });
-        submitBtn.addActionListener((e -> {
+        degreeTable = new JTable(TableModel.buildTableModel(Degree.getDegList()));
+        moduleTable = new JTable(TableModel.buildTableModel(Module.getModList()));
+        JScrollPane degreeScroll = new JScrollPane();
+        JScrollPane moduleScroll = new JScrollPane();
+        degreeScroll.setViewportView(degreeTable);
+        moduleScroll.setViewportView(moduleTable);
 
-            if (degreeTable.getSelectedRow() > -1 && moduleTable.getSelectedRow() > -1) {
-                String degreeCode = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 0);
-                String moduleCode = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 1);
-                int level = Integer.parseInt((String) levelInput.getSelectedItem());
-                boolean core;
-
-                if (coreInput.getSelectedItem().equals("Yes")) {
-                    core = true;
-                } else {
-                    core = false;
-                }
-                
-				try {
-	                if(Degree.getDegree(degreeCode).getType().equals("MSc")) 
-	                	if (level != 4)
-	                		JOptionPane.showMessageDialog(null, "The degree selected does not offer level " + level + ". \n Please select the correct level.");
-	                	else if (Degree.getCredits(degreeCode,level) +  Module.getModule(moduleCode).getCredits()>=  180)
-	                		JOptionPane.showMessageDialog(null, "Adding this module will exceed 120 credits. \n Please insert the correct information.");
-	                else {
-	                	if (Degree.getDegree(degreeCode).getType().charAt(0) == 'B' && level == 4)
-	                		JOptionPane.showMessageDialog(null, "The degree selected does not offer level 4. \n Please select the correct level.");
-	                	else if (Degree.getCredits(degreeCode,level) +  Module.getModule(moduleCode).getCredits()>=  120)
-	                		JOptionPane.showMessageDialog(null, "Adding this module will exceed 120 credits. \n Please insert the correct information.");
-	                } else if(Degree.getNoMod(degreeCode, moduleCode, level) != 0)
-	                	JOptionPane.showMessageDialog(null, "This modules is already assigned to this degree's level " + level + ". \n Please insert the correct information.");
-	                
-	                
-	                
-	                else { //Successful
-		                
-		                int success = Module.assignModule(degreeCode, moduleCode, level, core);
-		                System.out.println("Module Assignment page " + success);
-		              
-		                this.moduleAssScreen.setVisible(false);
-		                ModuleAssignmentScreen newScreen = new ModuleAssignmentScreen(this.screen, this.teachScreen);
-		                
-						newScreen.draw();
-						
-		                JOptionPane.showMessageDialog(null, "Successfully linked modules");
-	                }
-				} catch (Exception e1) {
-	                 e1.printStackTrace();
-	            }
-		    
-            
-            } else {
-		        JOptionPane.showMessageDialog(null, "Please select both a degree and module to link");
-		            
-            }
-        }));
-            degreeTable = new JTable(TableModel.buildTableModel(Degree.getDegList()));
-            moduleTable = new JTable(TableModel.buildTableModel(Module.getModList()));
-            JScrollPane degreeScroll = new JScrollPane();
-            JScrollPane moduleScroll = new JScrollPane();
-            degreeScroll.setViewportView(degreeTable);
-            moduleScroll.setViewportView(moduleTable);
-
-            modulePanel.add(moduleScroll);
-            degreePanel.add(degreeScroll);
-
+        modulePanel.add(moduleScroll);
+        degreePanel.add(degreeScroll);
 
         this.screen.frame.add(this.moduleAssScreen);
 
@@ -142,15 +150,20 @@ public class ModuleAssignmentScreen extends JPanel {
         promptTxt = new JLabel();
 
         // JFormDesigner evaluation mark
-        setBorder(new javax.swing.border.CompoundBorder(
-            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
+                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
+                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
+                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent e) {
+                if ("border".equals(e.getPropertyName()))
+                    throw new RuntimeException();
+            }
+        });
 
         setLayout(null);
 
-        //---- degreeTxt ----
+        // ---- degreeTxt ----
         degreeTxt.setText("Module Assignment");
         degreeTxt.setFont(degreeTxt.getFont().deriveFont(degreeTxt.getFont().getSize() + 10f));
         degreeTxt.setHorizontalAlignment(SwingConstants.CENTER);
@@ -158,7 +171,7 @@ public class ModuleAssignmentScreen extends JPanel {
         add(degreeTxt);
         degreeTxt.setBounds(347, 35, 305, 31);
 
-        //---- levelTxt ----
+        // ---- levelTxt ----
         levelTxt.setText("Level:");
         levelTxt.setFont(levelTxt.getFont().deriveFont(levelTxt.getFont().getSize() + 2f));
         levelTxt.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -166,7 +179,7 @@ public class ModuleAssignmentScreen extends JPanel {
         add(levelTxt);
         levelTxt.setBounds(315, 370, 100, 35);
 
-        //---- coreTxt ----
+        // ---- coreTxt ----
         coreTxt.setText("Core?");
         coreTxt.setFont(coreTxt.getFont().deriveFont(coreTxt.getFont().getSize() + 2f));
         coreTxt.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -178,23 +191,23 @@ public class ModuleAssignmentScreen extends JPanel {
         add(levelInput);
         levelInput.setBounds(435, 375, 130, levelInput.getPreferredSize().height);
 
-        //---- submitBtn ----
+        // ---- submitBtn ----
         submitBtn.setText("Link");
         add(submitBtn);
         submitBtn.setBounds(415, 465, 170, 30);
 
-        //---- backToProfileBtn ----
+        // ---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(415, 500, 170, 50);
 
-        //======== modulePanel ========
+        // ======== modulePanel ========
         {
             modulePanel.setLayout(null);
 
             { // compute preferred size
                 Dimension preferredSize = new Dimension();
-                for(int i = 0; i < modulePanel.getComponentCount(); i++) {
+                for (int i = 0; i < modulePanel.getComponentCount(); i++) {
                     Rectangle bounds = modulePanel.getComponent(i).getBounds();
                     preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                     preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -209,13 +222,13 @@ public class ModuleAssignmentScreen extends JPanel {
         add(modulePanel);
         modulePanel.setBounds(85, 115, 391, 226);
 
-        //======== degreePanel ========
+        // ======== degreePanel ========
         {
             degreePanel.setLayout(null);
 
             { // compute preferred size
                 Dimension preferredSize = new Dimension();
-                for(int i = 0; i < degreePanel.getComponentCount(); i++) {
+                for (int i = 0; i < degreePanel.getComponentCount(); i++) {
                     Rectangle bounds = degreePanel.getComponent(i).getBounds();
                     preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                     preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -230,7 +243,7 @@ public class ModuleAssignmentScreen extends JPanel {
         add(degreePanel);
         degreePanel.setBounds(520, 115, 391, 226);
 
-        //---- promptTxt ----
+        // ---- promptTxt ----
         promptTxt.setText("Please select a degree and a module from the lists");
         promptTxt.setFont(promptTxt.getFont().deriveFont(promptTxt.getFont().getSize() + 2f));
         promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
@@ -240,7 +253,7 @@ public class ModuleAssignmentScreen extends JPanel {
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -251,11 +264,8 @@ public class ModuleAssignmentScreen extends JPanel {
             setMinimumSize(preferredSize);
             setPreferredSize(preferredSize);
         }
-        // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Katie
     private JLabel degreeTxt;
     private JLabel levelTxt;
     private JLabel coreTxt;
@@ -266,5 +276,4 @@ public class ModuleAssignmentScreen extends JPanel {
     private JPanel modulePanel;
     private JPanel degreePanel;
     private JLabel promptTxt;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

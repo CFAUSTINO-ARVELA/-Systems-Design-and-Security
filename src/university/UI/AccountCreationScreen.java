@@ -32,9 +32,44 @@ class AccountCreationScreen extends JPanel implements ActionListener {
 
     AccountCreationScreen(ScreenManager scr, AccountManagementScreen accManage, ProfileScreen prof) {
         this.initComponents();
+        this.initListeners();
         this.screen = scr;
         this.profileScreen = prof;
         this.accountManagement = accManage;
+    }
+
+    public void initListeners() {
+        backToProfileBtn.addActionListener(e -> {
+            this.accountCreation.setVisible(false);
+
+            try {
+                this.accountManagement.draw();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        submitBtn.addActionListener(e -> {
+
+            if (Valid.check(titleInput) || Valid.check(forenameInput) || Valid.check(surnameInput)) {
+                JOptionPane.showMessageDialog(null, "Please enter all fields and ensure there are no symbols");
+
+            } else {
+                this.accountCreation.setVisible(false);
+                String cle = clearanceInput.getSelectedItem().toString();
+                Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(),
+                        "password", cle);
+
+                try {
+                    Account newAccount = ac.createAccount();
+                    this.profileScreen.draw();
+                    JOptionPane.showMessageDialog(null, "Successfully created Account: " + newAccount.getEmail()
+                            + ". Password: " + newAccount.getPassword());
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "SQL error, please try again");
+                }
+            }
+        });
     }
 
     public void draw() {
@@ -46,18 +81,7 @@ class AccountCreationScreen extends JPanel implements ActionListener {
         this.accountCreation.setBackground(new Color(70, 70, 70));
         this.accountCreation.setLayout(null);
 
-        backToProfileBtn.addActionListener(e -> {
-            this.accountCreation.setVisible(false);
-
-            try {
-                this.accountManagement.draw();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        });
-
         this.create();
-
         screen.frame.add(this.accountCreation);
     }
 
@@ -83,30 +107,6 @@ class AccountCreationScreen extends JPanel implements ActionListener {
         this.accountCreation.add(clearanceTxt);
         this.accountCreation.add(clearanceInput);
         this.accountCreation.add(submitBtn);
-
-        // Component Arrangement
-
-        submitBtn.addActionListener(e -> {
-
-        if (Valid.check(titleInput) || Valid.check(forenameInput) || Valid.check(surnameInput)) {
-                JOptionPane.showMessageDialog(null, "Please enter all fields and ensure there are no symbols");
-
-            } else {
-                this.accountCreation.setVisible(false);
-                String cle = clearanceInput.getSelectedItem().toString();
-                Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(),
-                        "password", cle);
-
-                try {
-                    Account newAccount = ac.createAccount();
-                    this.profileScreen.draw();
-                    JOptionPane.showMessageDialog(null, "Successfully created Account: " + newAccount.getEmail()
-                            + ". Password: " + newAccount.getPassword());
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "SQL error, please try again");
-                }
-            }
-        });
     }
 
     private void initComponents() {

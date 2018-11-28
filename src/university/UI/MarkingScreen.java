@@ -1,7 +1,6 @@
 package university.UI;
 
 import java.awt.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -28,26 +27,10 @@ public class MarkingScreen extends JPanel {
 		this.studentManagement = stuScreen;
 		this.student = stu;
 		initComponents();
+		this.initListeners();
 	}
 
-	public void draw() {
-
-		this.markingScreen = new JPanel();
-		this.markingScreen.setLayout(null);
-		this.markingScreen.setBackground(new Color(70, 70, 70));
-
-		this.markingScreen.add(titleTxt);
-		this.markingScreen.add(markingPanel);
-		this.markingScreen.add(backToProfileBtn);
-		this.markingScreen.add(submitBtn);
-
-		this.markingPanel.setLayout(new BorderLayout());
-
-		rows = 0;
-		this.addModules();
-
-		screen.frame.add(this.markingScreen);
-
+	public void initListeners() {
 		backToProfileBtn.addActionListener(e -> {
 			try {
 				this.markingScreen.setVisible(false);
@@ -66,15 +49,23 @@ public class MarkingScreen extends JPanel {
 						for (int i = 0; i < rows; i++) {
 							try {
 								String code = (String) table.getValueAt(i, 1);
-								ModuleGrades grade = new ModuleGrades(Module.getModule(code),
-										Integer.parseInt((String) table.getValueAt(i, 2)));
-								allGrades.add(grade);
+								int firstGrade = Integer.parseInt((String) table.getValueAt(i, 2));
+								ModuleGrades grades;
+
+								if (this.isResitGrade()) {
+									int resit = Integer.parseInt((String) table.getValueAt(i, 3));
+									grades = new ModuleGrades(Module.getModule(code), firstGrade, resit);
+								} else {
+									grades = new ModuleGrades(Module.getModule(code), firstGrade);
+								}
+
+								allGrades.add(grades);
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
 						}
 						try {
-							System.out.println(this.student.progress(student, allGrades));
+							JOptionPane.showMessageDialog(null, this.student.progress(student, allGrades));
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -82,12 +73,41 @@ public class MarkingScreen extends JPanel {
 						System.out.println("Missed a grade");
 					}
 				} else {
-					System.out.println(this.student.progress(student, null));
+					JOptionPane.showMessageDialog(null, this.student.progress(student, null));
 				}
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		});
+	}
+
+	public void draw() {
+		this.markingScreen = new JPanel();
+		this.markingScreen.setLayout(null);
+		this.markingScreen.setBackground(new Color(70, 70, 70));
+
+		this.markingScreen.add(titleTxt);
+		this.markingScreen.add(markingPanel);
+		this.markingScreen.add(backToProfileBtn);
+		this.markingScreen.add(submitBtn);
+
+		this.markingPanel.setLayout(new BorderLayout());
+
+		rows = 0;
+		this.addModules();
+
+		screen.frame.add(this.markingScreen);
+	}
+
+	private boolean isResitGrade() {
+		for (int i = 0; i < rows; i++) {
+			System.out.println(i);
+			if (table.getValueAt(i, 3) == null) {
+				System.out.println(table.getValueAt(i, 2));
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private boolean checkEntered() {
@@ -116,7 +136,7 @@ public class MarkingScreen extends JPanel {
 				model.addColumn("Grade");
 				model.addColumn("Resit Grade");
 				for (ModuleChoice module : stuStatus.getCurrentModules()) {
-					System.out.println(module.getModuleCode());
+					System.out.println(Module.getModule(module.getModuleCode()).getName());
 					String name = Module.getModule(module.getModuleCode()).getName();
 					model.addRow(new Object[] { name, module.getModuleCode(), null, null });
 					rows++;

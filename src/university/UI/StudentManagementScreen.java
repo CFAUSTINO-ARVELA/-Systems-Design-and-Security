@@ -8,6 +8,7 @@ import university.Account;
 import university.Module;
 import university.ScreenManager;
 import university.Student;
+import university.StudentStatus;
 import university.TableModel;
 
 import java.awt.Color;
@@ -23,35 +24,19 @@ class StudentManagementScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private ProfileScreen profileScreen;
     private boolean canEdit;
+    private boolean isTeacher;
     private JTable studentTable;
 
-    StudentManagementScreen(ScreenManager scr, ProfileScreen prof, boolean edit) {
+    StudentManagementScreen(ScreenManager scr, ProfileScreen prof, boolean edit, boolean teacher) {
         this.initComponents();
+        this.initListeners();
         this.canEdit = edit;
         this.screen = scr;
         this.profileScreen = prof;
+        this.isTeacher = teacher;
     }
 
-    public void draw() throws Exception {
-        this.studentManagement = new JPanel();
-        this.studentManagement.setBackground(new Color(70, 70, 70));
-
-        this.studentManagement.add(backToProfileBtn);
-        this.studentManagement.add(studentManagementTxt);
-
-        if (this.canEdit) {
-            this.studentManagement.add(createBtn);
-            this.studentManagement.add(deleteBtn);
-            this.studentManagement.add(registrationBtn);
-            this.studentManagement.add(moduleBtn);
-        }
-
-        this.studentManagement.add(tablePanel);
-        this.studentManagement.add(markingBtn);
-        this.tablePanel.setLayout(new BorderLayout());
-
-        this.studentManagement.setLayout(null);
-
+    public void initListeners() {
         backToProfileBtn.addActionListener(e -> {
             studentTable.clearSelection();
             this.studentManagement.setVisible(false);
@@ -101,6 +86,22 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             }
             studentTable.clearSelection();
         });
+        statusBtn.addActionListener(e -> {
+            if (studentTable.getSelectedRow() > -1) {
+                String username = (String) studentTable.getValueAt(studentTable.getSelectedRow(), 3);
+                try {
+                    Student student = Student.getStudent(username);
+                    StudentStatusScreen statusScreen = new StudentStatusScreen(this.screen, this.profileScreen,
+                            student);
+                    statusScreen.draw();
+                    this.studentManagement.setVisible(false);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a Student to view");
+            }
+        });
         moduleBtn.addActionListener(e -> {
             if (studentTable.getSelectedRow() > -1) {
                 int index = Integer.parseInt((String) studentTable.getValueAt(studentTable.getSelectedRow(), 0));
@@ -108,7 +109,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                 try {
                     student = Student.getStudentReg(index);
                     if (student.getStudentStatus().isGraduated()) {
-                        JOptionPane.showMessageDialog(null, "This student has graduated");
+                        JOptionPane.showMessageDialog(null, "This student has graduated or failed");
                     } else {
                         ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this, student);
                         choiceScreen.draw();
@@ -145,6 +146,30 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             }
             studentTable.clearSelection();
         });
+    }
+
+    public void draw() throws Exception {
+        this.studentManagement = new JPanel();
+        this.studentManagement.setBackground(new Color(70, 70, 70));
+
+        this.studentManagement.add(backToProfileBtn);
+        this.studentManagement.add(studentManagementTxt);
+
+        if (this.canEdit) {
+            this.studentManagement.add(createBtn);
+            this.studentManagement.add(deleteBtn);
+            this.studentManagement.add(moduleBtn);
+        }
+
+        if (this.isTeacher) {
+            this.studentManagement.add(statusBtn);
+        }
+
+        this.studentManagement.add(tablePanel);
+        this.studentManagement.add(markingBtn);
+        this.tablePanel.setLayout(new BorderLayout());
+
+        this.studentManagement.setLayout(null);
 
         studentTable = new JTable(TableModel.buildTableModel(Student.getStutList()));
         JScrollPane scrollPane = new JScrollPane();
@@ -176,8 +201,8 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         createBtn = new JButton();
         tablePanel = new JPanel();
         moduleBtn = new JButton();
-        registrationBtn = new JButton();
         markingBtn = new JButton();
+        statusBtn = new JButton();
 
         // ======== this ========
 
@@ -227,14 +252,12 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         tablePanel.setBounds(177, 100, 645, 270);
 
         // ---- moduleBtn ----
-        moduleBtn.setText("Add/drop modules");
+        moduleBtn.setText("Registration/Add drop");
         add(moduleBtn);
-        moduleBtn.setBounds(325, 410, 170, 30);
+        moduleBtn.setBounds(415, 410, 170, 30);
 
-        // ---- registrationBtn ----
-        registrationBtn.setText("Student registration");
-        add(registrationBtn);
-        registrationBtn.setBounds(505, 410, 170, 30);
+        statusBtn.setText("Student Status");
+        statusBtn.setBounds(415, 410, 170, 30);
 
         // ---- markingBtn ----
         markingBtn.setText("Student grades");
@@ -265,8 +288,8 @@ class StudentManagementScreen extends JPanel implements ActionListener {
     private JButton createBtn;
     private JPanel tablePanel;
     private JButton moduleBtn;
-    private JButton registrationBtn;
     private JButton markingBtn;
+    private JButton statusBtn;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
     @Override
