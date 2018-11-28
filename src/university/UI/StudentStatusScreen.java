@@ -31,11 +31,19 @@ public class StudentStatusScreen extends JPanel {
         this.student = stu;
     }
 
+    public void initListeners() {
+        backToProfileBtn.addActionListener(e -> {
+            this.profileScreen.draw();
+            this.studentStatusScreen.setVisible(false);
+        });
+    }
+
     public void draw() {
         this.studentStatusScreen = new JPanel();
 
         this.studentStatusScreen.setBackground(new Color(70, 70, 70));
 
+        this.studentStatusScreen.add(nameTxt);
         this.studentStatusScreen.add(gradeTxt);
         this.studentStatusScreen.add(titleTxt);
         this.studentStatusScreen.add(startDateTxt);
@@ -51,11 +59,6 @@ public class StudentStatusScreen extends JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        backToProfileBtn.addActionListener(e -> {
-            this.profileScreen.draw();
-            this.studentStatusScreen.setVisible(false);
-        });
 
         this.addDetails();
         this.studentStatusScreen.setLayout(null);
@@ -87,16 +90,19 @@ public class StudentStatusScreen extends JPanel {
             this.studentStatusScreen.add(gradePanel);
 
             if (this.status.isGraduated()) {
-                gradeTxt.setText("You have graduated with: " + DegreeResult.getDegreeResult(this.student.getRegistrationNumber()).getResult());
+                gradeTxt.setText("You have graduated with: "
+                        + DegreeResult.getDegreeResult(this.student.getRegistrationNumber()).getResult());
             } else {
                 gradeTxt.setText("Current grade: ");
             }
 
+            nameTxt.setText("Student ID: " + this.student.getRegistrationNumber());
             startDateTxt.setText("Start Date: " + this.status.getStartDate());
             endDateTxt.setText("End Date: " + this.status.getEndDate());
             levelStudiesTxt.setText("Level Studies: " + this.status.getLevel());
             periodStudiesTxt.setText("Period Studies: " + this.status.getPeriod());
 
+            nameTxt.setForeground(new Color(255, 255, 255));
             gradeTxt.setForeground(new Color(255, 255, 255));
             startDateTxt.setForeground(new Color(255, 255, 255));
             endDateTxt.setForeground(new Color(255, 255, 255));
@@ -114,9 +120,6 @@ public class StudentStatusScreen extends JPanel {
     }
 
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY
-        // //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Katie
         nameTxt = new JLabel();
         startDateTxt = new JLabel();
         levelStudiesTxt = new JLabel();
@@ -127,9 +130,6 @@ public class StudentStatusScreen extends JPanel {
         gradePanel = new JPanel();
         gradeTxt = new JLabel();
 
-        // ======== this ========
-
-        // JFormDesigner evaluation mark
         setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
                 new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
                 javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
@@ -141,9 +141,6 @@ public class StudentStatusScreen extends JPanel {
             }
         });
 
-        setLayout(null);
-
-        // ---- nameTxt ----
         nameTxt.setText("Name:");
         add(nameTxt);
         nameTxt.setBounds(180, 145, 360, 45);
@@ -219,11 +216,8 @@ public class StudentStatusScreen extends JPanel {
             setMinimumSize(preferredSize);
             setPreferredSize(preferredSize);
         }
-        // JFormDesigner - End of component initialization //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Katie
     private JLabel nameTxt;
     private JLabel startDateTxt;
     private JLabel levelStudiesTxt;
@@ -233,5 +227,4 @@ public class StudentStatusScreen extends JPanel {
     private JLabel endDateTxt;
     private JPanel gradePanel;
     private JLabel gradeTxt;
-    // JFormDesigner - End of variables declaration //GEN-END:variables
 }

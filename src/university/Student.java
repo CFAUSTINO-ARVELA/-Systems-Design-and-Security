@@ -245,8 +245,9 @@ public class Student {
 			period = res.getString("period");
 			registered = res.getBoolean("registered");
 			boolean graduated = res.getBoolean("graduated");
+			boolean resitting = res.getBoolean("resitting");
 			
-			status = new StudentStatus(regNum, level, period, registered, graduated);
+			status = new StudentStatus(regNum, level, period, registered, graduated, resitting);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -539,6 +540,7 @@ public class Student {
 				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
 				currentResult.createPeriodResult();
 				status.updateStatus(level, nextPeriod);
+				status.setRegistered(true);
 				status.setResitting(true);
 			} else {
 				System.out.println("Final grade = " + weightedmean);
@@ -618,6 +620,7 @@ public class Student {
 				currentResult.createPeriodResult();
 				status.updateStatus(level, nextPeriod);
 				status.setResitting(true);
+				status.setRegistered(true);
 				return true;
 		} else {
 			if (level == '4') {

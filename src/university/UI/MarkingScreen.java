@@ -28,26 +28,10 @@ public class MarkingScreen extends JPanel {
 		this.studentManagement = stuScreen;
 		this.student = stu;
 		initComponents();
+		this.initListeners();
 	}
 
-	public void draw() {
-
-		this.markingScreen = new JPanel();
-		this.markingScreen.setLayout(null);
-		this.markingScreen.setBackground(new Color(70, 70, 70));
-
-		this.markingScreen.add(titleTxt);
-		this.markingScreen.add(markingPanel);
-		this.markingScreen.add(backToProfileBtn);
-		this.markingScreen.add(submitBtn);
-
-		this.markingPanel.setLayout(new BorderLayout());
-
-		rows = 0;
-		this.addModules();
-
-		screen.frame.add(this.markingScreen);
-
+	public void initListeners() {
 		backToProfileBtn.addActionListener(e -> {
 			try {
 				this.markingScreen.setVisible(false);
@@ -90,6 +74,26 @@ public class MarkingScreen extends JPanel {
 		});
 	}
 
+	public void draw() {
+
+		this.markingScreen = new JPanel();
+		this.markingScreen.setLayout(null);
+		this.markingScreen.setBackground(new Color(70, 70, 70));
+
+		this.markingScreen.add(titleTxt);
+		this.markingScreen.add(markingPanel);
+		this.markingScreen.add(backToProfileBtn);
+		this.markingScreen.add(submitBtn);
+
+		this.markingPanel.setLayout(new BorderLayout());
+
+		rows = 0;
+		this.addModules();
+
+		screen.frame.add(this.markingScreen);
+
+	}
+
 	private boolean checkEntered() {
 		for (int i = 0; i < rows; i++) {
 			System.out.println(i);
@@ -116,7 +120,7 @@ public class MarkingScreen extends JPanel {
 				model.addColumn("Grade");
 				model.addColumn("Resit Grade");
 				for (ModuleChoice module : stuStatus.getCurrentModules()) {
-					System.out.println(module.getModuleCode());
+					System.out.println(Module.getModule(module.getModuleCode()).getName());
 					String name = Module.getModule(module.getModuleCode()).getName();
 					model.addRow(new Object[] { name, module.getModuleCode(), null, null });
 					rows++;

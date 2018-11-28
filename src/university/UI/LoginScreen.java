@@ -31,7 +31,18 @@ public class LoginScreen extends JPanel {
 
     public LoginScreen(ScreenManager scr) {
         initComponents();
+        this.initListeners();
         this.screen = scr;
+    }
+
+    public void initListeners() {
+        submitButton.addActionListener(e -> {
+            try {
+                this.login();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     public void draw() {
@@ -45,14 +56,6 @@ public class LoginScreen extends JPanel {
         this.loginScreen.add(emailText);
         this.loginScreen.add(passwordText);
         this.loginScreen.add(submitButton);
-
-        submitButton.addActionListener(e -> {
-            try {
-                this.login();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        });
 
         this.loginScreen.setLayout(null);
         this.loginScreen.setBackground(new Color(70, 70, 70));
@@ -120,18 +123,16 @@ public class LoginScreen extends JPanel {
                 profileScreen = new ProfileScreen(this.screen, account);
                 this.loginScreen.setVisible(false);
                 profileScreen.draw();
-    		}
-    		
-    	}
-    	catch (SQLException ex) {
-			ex.printStackTrace();
-		} finally {
-			if (res2 != null)
-	    		pst1.close();
-	    		pst2.close();
-		}
-		con.close();
+            }
 
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (res2 != null)
+                pst1.close();
+            pst2.close();
+        }
+        con.close();
 
     }
 
@@ -198,7 +199,6 @@ public class LoginScreen extends JPanel {
         submitButton.setText("Submit");
         add(submitButton);
         submitButton.setBounds(414, 500, 170, 50);
-        Style.Button(submitButton);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();

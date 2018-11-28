@@ -22,7 +22,7 @@ public class CreateTables {
 			count += stmt.executeUpdate(
 					"CREATE TABLE studentStatus (RegistrationNumber int NOT NULL PRIMARY KEY, Level char, Period char, StartDate date, EndDate date, Registered boolean, Resitting boolean, Graduated boolean);");
 			
-			count+= stmt.executeUpdate("CREATE TABLE moduleChoice (RegistrationNumber int NOT NULL PRIMARY KEY, ModuleCode varchar(7) NOT NULL, Period char, Grade int);");
+			count+= stmt.executeUpdate("CREATE TABLE moduleChoice (RegistrationNumber int NOT NULL, ModuleCode varchar(7) NOT NULL, Period char, Grade int);");
 			count+= stmt.executeUpdate("CREATE TABLE periodResult (RegistrationNumber int, Period char, Level char, Grade int, Passed boolean);");
 			count+= stmt.executeUpdate("CREATE TABLE degreeResult (RegistrationNumber int, Result varchar(255), Masters boolean);");
 			
