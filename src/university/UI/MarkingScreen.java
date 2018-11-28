@@ -129,10 +129,12 @@ public class MarkingScreen extends JPanel {
 
 			} else if (stuStatus.getLevel() == 'P') {
 				promptTxt.setText("Student on Placement");
+				titleTxt.setVisible(false);
 				this.markingScreen.add(promptTxt);
 				submitBtn.setText("Progress");
 			} else {
 				promptTxt.setText("Student not yet registered");
+				titleTxt.setVisible(false);
 				submitBtn.setVisible(false);
 				this.markingScreen.add(promptTxt);
 			}
