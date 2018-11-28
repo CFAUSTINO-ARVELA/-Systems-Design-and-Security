@@ -100,7 +100,7 @@ public class Student {
 			if (stmt != null)
 				stmt.close();
 		}
-		
+		con.close();
 		return this;
 
 	}
@@ -124,6 +124,7 @@ public class Student {
 			if (stmt != null)
 				stmt.close();
 		}
+		con.close();
 	}
 
     public Degree getDegree() {
@@ -152,7 +153,7 @@ public class Student {
     		if (stmt != null)
     			stmt.close();
     	}
-    	
+    	con.close();
     	return (count + 1);
     }
     
@@ -178,6 +179,7 @@ public class Student {
 			
 			res.next();
 			result = res.getString("level");
+			res.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -244,6 +246,7 @@ public class Student {
 			registered = res.getBoolean("registered");
 			
 			status = new StudentStatus(regNum, level, period, registered);
+			res.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -251,7 +254,7 @@ public class Student {
 				stmt.close();
 			}
 		}
-		
+		con.close();
 		return status;
 	}
 	
@@ -326,7 +329,9 @@ public class Student {
 				boolean passed = res.getBoolean("passed");
 				
 				result = new PeriodResult(this.registrationNumber, level, prev, grade, passed);
+				res.close();
 			}
+			
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -334,7 +339,7 @@ public class Student {
 				stmt.close();
 			}
 		}
-		
+		con.close();
 		return result;
 	}
 	
@@ -366,7 +371,7 @@ public class Student {
 					}
 				}
 				
-				
+				res.close();
 			
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -375,7 +380,7 @@ public class Student {
 				stmt.close();
 			}
 		}
-		
+		con.close();
 		return results;
 	}
 	
@@ -397,6 +402,7 @@ public class Student {
 			if (stmt != null)
 				stmt.close();
 		}
+		con.close();
 	}
 	
 	public boolean progress(Student student, ArrayList<ModuleGrades> grades) throws Exception {
@@ -774,6 +780,7 @@ public class Student {
 				stmt.close();
 			}
 		}
+		con.close();
 	}
 }
 

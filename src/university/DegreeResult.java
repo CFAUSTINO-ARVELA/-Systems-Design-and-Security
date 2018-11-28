@@ -45,7 +45,7 @@ public class DegreeResult {
 				newresult.setString(2, this.result);
 				count = newresult.executeUpdate();
 			}	
-		    
+		    res.close();
 		 }catch (SQLException ex) {
 			 ex.printStackTrace();
 		 }finally {

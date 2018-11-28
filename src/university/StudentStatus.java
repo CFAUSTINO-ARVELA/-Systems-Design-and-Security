@@ -100,6 +100,7 @@ public class StudentStatus {
 			if (stmt != null)
 				stmt.close();
 		}
+		con.close();
 	}
 	
 	public void setResitting(boolean b) throws SQLException {
@@ -119,6 +120,7 @@ public class StudentStatus {
 			if (stmt != null)
 				stmt.close();
 		}
+		con.close();
 	}
 	
 	public ArrayList<ModuleChoice> getCurrentModules() throws SQLException {
@@ -149,6 +151,7 @@ public class StudentStatus {
 					}
 				}
 			}
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -187,6 +190,7 @@ public class StudentStatus {
 				}
 				
 			}
+		
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -235,5 +239,6 @@ public class StudentStatus {
 			if (stmt != null)
 				stmt.close();
 		}	
+		con.close();
 	}
 }

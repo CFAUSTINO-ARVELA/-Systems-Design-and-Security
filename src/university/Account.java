@@ -78,6 +78,7 @@ public class Account {
 				stmt.close();
 		}
 		
+		con.close();
 		return this;
 
 	}
@@ -122,7 +123,7 @@ public class Account {
 			if (stmt != null)
 				stmt.close();
 		}
-
+		con.close();
 		return initials + this.surname.replaceAll("\\s+","").toLowerCase() + count;
 	}
 	
@@ -162,7 +163,7 @@ public class Account {
 			if (stmt != null)
 				stmt.close();
 		}
-
+		con.close();
 		this.title = t;
 
 	}
@@ -188,7 +189,7 @@ public class Account {
 			if (stmt != null)
 				stmt.close();
 		}
-
+		con.close();
 		this.forename = f;
 
 	}
@@ -215,7 +216,7 @@ public class Account {
 			if (stmt != null)
 				stmt.close();
 		}
-
+		con.close();
 		this.surname = s;
 
 	}
@@ -262,6 +263,7 @@ public class Account {
 			if (stmt != null)
 				stmt.close();
 		}
+		con.close();
 	}
 	
 

@@ -123,7 +123,7 @@ public class LoginScreen extends JPanel {
                 this.loginScreen.setVisible(false);
                 profileScreen.draw();
     		}
-    		
+    		res1.close();
     	}
     	catch (SQLException ex) {
 			ex.printStackTrace();

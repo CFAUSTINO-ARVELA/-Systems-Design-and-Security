@@ -13,7 +13,8 @@ public class CreateTables {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			con.setAutoCommit(false); // turn off auto-commit
 			stmt = con.createStatement();
-		   
+			
+			/**
 			int count = stmt.executeUpdate(
 					"CREATE TABLE student (RegistrationNumber int NOT NULL PRIMARY KEY, Degree varchar(255), Tutor varchar(255), Username varchar(255) REFERENCES account(Username));");
 			count += stmt.executeUpdate(
@@ -61,11 +62,11 @@ public class CreateTables {
 			// Create table for modules
 			int modules = stmt.executeUpdate(
 					"CREATE TABLE module (name varchar(255) NOT NULL, code varchar(7) PRIMARY KEY, credits int, duration varchar(255) );");
-
+	**/
 			// Create table for associated modules and degrees
 			int assoModDeg = stmt.executeUpdate(
 					"CREATE TABLE assoModDeg (modCode varchar(7) REFERENCES module(code), degCode varchar(6) REFERENCES degree(code), mandatory BOOL, year varchar(1) );");
-			
+		
 			//System.out.println(count + depart + degree + secondDep); 
 			con.commit(); // commit manually
 		} catch (SQLException ex) {

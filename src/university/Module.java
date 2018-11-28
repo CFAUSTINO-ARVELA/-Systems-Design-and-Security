@@ -42,7 +42,7 @@ public class Module {
 		return duration;
 	}
 
-	public static String generateCode(Department dep, int level) throws Exception {
+	public static String generateCode(Department dep, int level) throws SQLException {
 		connectToDB();
 		Statement stmt = con.createStatement();
 		String name = dep.getName();
@@ -59,9 +59,11 @@ public class Module {
 		String formatted = String.format("%03d", count);
 		String finalCode = codeSoFar + formatted;
 		
+		res.close();
 		if (stmt != null) {
 			stmt.close();
 		}
+		con.close();
  		return finalCode;
 	}
 	
@@ -76,7 +78,7 @@ public class Module {
 	}
 	
 	//Creates module
-	public Module createModule() throws Exception {
+	public Module createModule() throws SQLException {
 		connectToDB();
 		PreparedStatement mod, newMod = null;
 		int count = 0;
@@ -95,8 +97,8 @@ public class Module {
 				newMod.setString(4, getDuration());
 				count += newMod.executeUpdate();
 			}
-			
-			}
+			res.close();
+		}
 		catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -110,13 +112,14 @@ public class Module {
 	}
 	
 	//Delete module
-	public void deleteModule() throws Exception {
+	public void deleteModule() throws SQLException {
 		int count = 0;
 		connectToDB();
-		PreparedStatement modCount, delMod = null;
+		PreparedStatement modCount, delMod, delAssoMod,assoCount = null;
 		modCount = con.prepareStatement("SELECT COUNT(*) FROM module WHERE code = ?");
 		delMod = con.prepareStatement("DELETE FROM module WHERE code = ?");
-		
+		assoCount = con.prepareStatement("SELECT COUNT(*)FROM assoModDeg WHERE degCode = ?");
+		delAssoMod = con.prepareStatement("DELET FROM assoModDeg WHERE degCode = ?");
 		try {
 			modCount.setString(1, getCode());
 			ResultSet res = modCount.executeQuery();
@@ -124,8 +127,17 @@ public class Module {
 			if (res.getInt(1) == 1) {
 				delMod.setString(1, getCode());
 				count = delMod.executeUpdate();
+				
+				assoCount.setString(1, getCode());
+				res = assoCount.executeQuery();
+				res.next();
+				if (res.getInt(1) >= 1) {
+					delAssoMod.setString(1, getCode());
+					count += delAssoMod.executeUpdate();
+				}
 			}
-			}
+			res.close();
+		}
 		catch (SQLException ex) {
 			ex.printStackTrace();
 			}
@@ -133,12 +145,14 @@ public class Module {
 			if ( delMod != null)
 				modCount.close();
 				delMod.close();
+				assoCount.close();
+				delAssoMod.close();
 		}
 		con.close();
 	}
 	
-	public static Module getModule(String c) throws Exception {
-		System.out.println(c);
+	public static Module getModule(String c) throws SQLException {
+		//System.out.println(c);
 		Module module = null;
 		
 		connectToDB();
@@ -149,7 +163,7 @@ public class Module {
 		
 		try {
 			noMod.setString(1, c);
-			System.out.println(noMod);
+			//System.out.println(noMod);
 			ResultSet res1 = noMod.executeQuery();
 			res1.next();
 			
@@ -167,7 +181,7 @@ public class Module {
 				res1.close();
 			}
 			
-			
+			res1.close();
 		 }catch (SQLException ex) {
 			 ex.printStackTrace();
 		 }finally {
@@ -180,15 +194,15 @@ public class Module {
 		return module;
 	}
 	
-	public static int assignModule(String d, String m, int l, boolean c) throws Exception {
+	public static int assignModule(String d, String m, int l, boolean c) throws SQLException {
 		connectToDB();
 		
 		Statement stmt = con.createStatement();
-		System.out.println(d + m + l + c);
+		//System.out.println(d + m + l + c);
 		String query = String.format("INSERT INTO assoModDeg (degCode, modCode, year, mandatory) VALUES (\"%s\", \"%s\", %d, %b);", d, m, l, c);
 		//System.out.println(query);
 		int count = stmt.executeUpdate(query);
-		System.out.println("AssignModule " + count);
+		//System.out.println("AssignModule " + count);
 		if (stmt != null) {
 			stmt.close();
 			con.close();
@@ -197,7 +211,7 @@ public class Module {
 		return count;
 	}
 	
-	public static void remAssoModDeg(String modCode,String degCode, int year) throws Exception {
+	public static void remAssoModDeg(String modCode,String degCode, int year) throws SQLException {
 		connectToDB();
 		
 		PreparedStatement query = con.prepareStatement("DELETE FROM assoModDeg WHERE modCode = ? AND degCode = ? AND year = ? ");
@@ -205,8 +219,8 @@ public class Module {
 			query.setString(1, modCode);
 			query.setString(2, degCode);
 			query.setInt(3, year);
-			System.out.println(query.toString());
-			System.out.println(query.executeUpdate());
+			//System.out.println(query.toString());
+			//System.out.println(query.executeUpdate());
 			
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -214,7 +228,7 @@ public class Module {
 			if ( query != null)
 				query.close();
 		}
-				
+		con.close();		
 		
 	}
 	
