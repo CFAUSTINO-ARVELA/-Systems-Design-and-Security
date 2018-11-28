@@ -61,13 +61,13 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
         
         submitBtn.addActionListener(e -> {
             if (Valid.check(nameInput) || Valid.check(codeInput)) {
-                JOptionPane.showMessageDialog(null, "Please do not any insert symbols");
+                JOptionPane.showMessageDialog(null, "Please do not insert any symbols");
             } else if(nameInput.getText().isEmpty())
         		JOptionPane.showMessageDialog(null, "Please insert the name of the Department");
         	else if (codeInput.getText().isEmpty()) {
         		JOptionPane.showMessageDialog(null, "Please insert the code of the Department");
         	} else if (codeInput.getText().length() != 3)
-        		JOptionPane.showMessageDialog(null, "Please insert a valid Department three-letter code. ");
+        		JOptionPane.showMessageDialog(null, "Please insert a valid Department three-letter code");
         	else {
 	        	Department dept = new Department(codeInput.getText(), nameInput.getText());
 	            try {
@@ -91,9 +91,6 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
     }
 
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY
-        // //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Katie
         createTxt = new JLabel();
         promptTxt = new JLabel();
         nameTxt = new JLabel();

@@ -5,11 +5,9 @@ import java.sql.SQLException;
 
 import javax.swing.*;
 
-import university.UI.LoginScreen;
 import university.UI.StudentStatusScreen;
 import university.UI.AccountManagementScreen;
 import university.UI.StudentManagementScreen;
-import university.UI.AccountCreationScreen;
 import university.*;
 
 public class ProfileScreen extends JPanel {
@@ -23,6 +21,32 @@ public class ProfileScreen extends JPanel {
         this.screen = scr;
         this.account = acc;
         initComponents();
+        initListeners();
+    }
+
+    public void initListeners() {
+        this.logoutButton.addActionListener(e -> {
+            this.profileScreen.setVisible(false);
+            screen.navToLogin();
+        });
+        accountManagementBtn.addActionListener(e -> {
+            AccountManagementScreen accountScreen = new AccountManagementScreen(this.screen, this.account, this);
+            try {
+                accountScreen.draw();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            this.profileScreen.setVisible(false);
+        });
+        teachingManagementBtn.addActionListener(e -> {
+            TeachingManagementScreen teachingScreen = new TeachingManagementScreen(this.screen, this.account, this);
+            try {
+                teachingScreen.draw();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            this.profileScreen.setVisible(false);
+        });
     }
 
     public void draw() {
@@ -59,11 +83,6 @@ public class ProfileScreen extends JPanel {
         this.profileScreen.add(welcomeTxt);
         this.profileScreen.add(profileTxt);
         this.profileScreen.add(this.logoutButton);
-
-        this.logoutButton.addActionListener(e -> {
-            this.profileScreen.setVisible(false);
-            screen.navToLogin();
-        });
     }
 
     public void studentComponents() {
@@ -78,38 +97,25 @@ public class ProfileScreen extends JPanel {
         this.profileScreen.add(studentManageBtn);
 
         studentManageBtn.addActionListener(e -> {
-            this.profileScreen.setVisible(false);
             Student stu;
             try {
                 stu = Student.getStudent(this.account.getUsername());
-                StudentStatusScreen status = new StudentStatusScreen(screen, this, stu);
-                status.draw();
+                if (!stu.getStudentStatus().isRegistered()) {
+                    JOptionPane.showMessageDialog(null, "You are not yet registered for the period");
+                } else {
+                    StudentStatusScreen status = new StudentStatusScreen(screen, this, stu);
+                    status.draw();
+                    this.profileScreen.setVisible(false);
+                }
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
         });
+
+        studentManageBtn.setText("Student Status");
     }
 
     public void adminComponents() {
-        accountManagementBtn.addActionListener(e -> {
-            AccountManagementScreen accountScreen = new AccountManagementScreen(this.screen, this.account, this);
-
-            try {
-                accountScreen.draw();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-            this.profileScreen.setVisible(false);
-        });
-        teachingManagementBtn.addActionListener(e -> {
-            TeachingManagementScreen teachingScreen = new TeachingManagementScreen(this.screen, this.account, this);
-            try {
-				teachingScreen.draw();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-            this.profileScreen.setVisible(false);
-        });
         this.profileScreen.add(teachingManagementBtn);
         this.profileScreen.add(accountManagementBtn);
     }
@@ -119,7 +125,7 @@ public class ProfileScreen extends JPanel {
 
         studentManageBtn.addActionListener(e -> {
             this.profileScreen.setVisible(false);
-            StudentManagementScreen studentScreen = new StudentManagementScreen(screen, this, true);
+            StudentManagementScreen studentScreen = new StudentManagementScreen(screen, this, true, false);
             try {
                 studentScreen.draw();
             } catch (Exception ex) {
@@ -129,11 +135,11 @@ public class ProfileScreen extends JPanel {
     }
 
     private void teacherComponents() {
-    	this.profileScreen.add(studentManageBtn);
-    	
+        this.profileScreen.add(studentManageBtn);
+
         studentManageBtn.addActionListener(e -> {
             this.profileScreen.setVisible(false);
-            StudentManagementScreen studentScreen = new StudentManagementScreen(screen, this, false);
+            StudentManagementScreen studentScreen = new StudentManagementScreen(screen, this, false, true);
             try {
                 studentScreen.draw();
             } catch (Exception ex) {
@@ -155,59 +161,64 @@ public class ProfileScreen extends JPanel {
         titleTxt = new JLabel();
         nameTxt = new JLabel();
 
-        //======== this ========
+        // ======== this ========
 
         // JFormDesigner evaluation mark
-        setBorder(new javax.swing.border.CompoundBorder(
-            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
+                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
+                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
+                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent e) {
+                if ("border".equals(e.getPropertyName()))
+                    throw new RuntimeException();
+            }
+        });
 
         setLayout(null);
 
-        //---- profileTxt ----
+        // ---- profileTxt ----
         profileTxt.setText("Profile");
         profileTxt.setHorizontalAlignment(SwingConstants.CENTER);
         profileTxt.setFont(profileTxt.getFont().deriveFont(profileTxt.getFont().getSize() + 12f));
         add(profileTxt);
         profileTxt.setBounds(362, 20, 275, 40);
 
-        //---- welcomeTxt ----
+        // ---- welcomeTxt ----
         welcomeTxt.setText("Welcome");
         welcomeTxt.setFont(welcomeTxt.getFont().deriveFont(welcomeTxt.getFont().getSize() + 6f));
         welcomeTxt.setHorizontalAlignment(SwingConstants.CENTER);
         add(welcomeTxt);
         welcomeTxt.setBounds(347, 95, 305, 50);
 
-        //---- logoutButton ----
+        // ---- logoutButton ----
         logoutButton.setText("Logout");
         add(logoutButton);
         logoutButton.setBounds(414, 500, 170, 50);
 
-        //---- accountManagementBtn ----
+        // ---- accountManagementBtn ----
         accountManagementBtn.setText("Account Management");
         add(accountManagementBtn);
         accountManagementBtn.setBounds(315, 175, 170, 50);
 
-        //---- teachingManagementBtn ----
+        // ---- teachingManagementBtn ----
         teachingManagementBtn.setText("Teaching Management");
         add(teachingManagementBtn);
         teachingManagementBtn.setBounds(510, 175, 170, 50);
 
-        //---- studentManageBtn ----
-        studentManageBtn.setText("Student Status");
+        // ---- studentManageBtn ----
+        studentManageBtn.setText("Student Management");
         add(studentManageBtn);
         studentManageBtn.setBounds(414, 430, 170, 50);
 
-        //---- titleTxt ----
+        // ---- titleTxt ----
         titleTxt.setText("Title:");
         titleTxt.setHorizontalAlignment(SwingConstants.CENTER);
         titleTxt.setFont(titleTxt.getFont().deriveFont(titleTxt.getFont().getSize() + 4f));
         add(titleTxt);
         titleTxt.setBounds(363, 260, 273, titleTxt.getPreferredSize().height);
 
-        //---- nameTxt ----
+        // ---- nameTxt ----
         nameTxt.setText("Name:");
         nameTxt.setHorizontalAlignment(SwingConstants.CENTER);
         nameTxt.setFont(nameTxt.getFont().deriveFont(nameTxt.getFont().getSize() + 4f));
@@ -216,7 +227,7 @@ public class ProfileScreen extends JPanel {
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);

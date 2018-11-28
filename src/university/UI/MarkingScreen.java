@@ -28,6 +28,60 @@ public class MarkingScreen extends JPanel {
 		this.studentManagement = stuScreen;
 		this.student = stu;
 		initComponents();
+		this.initListeners();
+	}
+
+	public void initListeners() {
+		backToProfileBtn.addActionListener(e -> {
+			try {
+				this.markingScreen.setVisible(false);
+				this.studentManagement.draw();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
+		submitBtn.addActionListener(e -> {
+
+			try {
+				if (this.student.getLevel() != "P") {
+					ArrayList<ModuleGrades> allGrades = new ArrayList<>();
+					if (this.checkEntered()) {
+						System.out.println("None empty");
+						for (int i = 0; i < rows; i++) {
+							try {
+								String code = (String) table.getValueAt(i, 1);
+								int firstGrade = Integer.parseInt((String) table.getValueAt(i, 2));
+								ModuleGrades grades;
+
+								if (this.isResitGrade()) {
+									int resit = Integer.parseInt((String) table.getValueAt(i, 3));
+									grades = new ModuleGrades(Module.getModule(code), firstGrade, resit);
+								} else {
+									grades = new ModuleGrades(Module.getModule(code), firstGrade);
+								}
+								
+								allGrades.add(grades);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+						}
+						try {
+							System.out.println(this.student.progress(student, allGrades));
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					} else {
+						System.out.println("Missed a grade");
+					}
+				} else {
+					System.out.println(this.student.progress(student, null));
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			// Add meaningful message output here
+			JOptionPane.showMessageDialog(null,"Success");
+		});
 	}
 
 	public void draw() {
@@ -47,47 +101,17 @@ public class MarkingScreen extends JPanel {
 		this.addModules();
 
 		screen.frame.add(this.markingScreen);
+	}
 
-		backToProfileBtn.addActionListener(e -> {
-			try {
-				this.markingScreen.setVisible(false);
-				this.studentManagement.draw();
-			} catch (Exception e1) {
-				e1.printStackTrace();
+	private boolean isResitGrade() {
+		for (int i = 0; i < rows; i++) {
+			System.out.println(i);
+			if (table.getValueAt(i, 3) == null) {
+				System.out.println(table.getValueAt(i, 2));
+				return false;
 			}
-		});
-		submitBtn.addActionListener(e -> {
-
-			try {
-				if (this.student.getLevel() != "P") {
-					ArrayList<ModuleGrades> allGrades = new ArrayList<>();
-					if (this.checkEntered()) {
-						System.out.println("None empty");
-						for (int i = 0; i < rows; i++) {
-							try {
-								String code = (String) table.getValueAt(i, 1);
-								ModuleGrades grade = new ModuleGrades(Module.getModule(code),
-										Integer.parseInt((String) table.getValueAt(i, 2)));
-								allGrades.add(grade);
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-						}
-						try {
-							System.out.println(this.student.progress(student, allGrades));
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-					} else {
-						System.out.println("Missed a grade");
-					}
-				} else {
-					System.out.println(this.student.progress(student, null));
-				}
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-		});
+		}
+		return true;
 	}
 
 	private boolean checkEntered() {
@@ -116,7 +140,7 @@ public class MarkingScreen extends JPanel {
 				model.addColumn("Grade");
 				model.addColumn("Resit Grade");
 				for (ModuleChoice module : stuStatus.getCurrentModules()) {
-					System.out.println(module.getModuleCode());
+					System.out.println(Module.getModule(module.getModuleCode()).getName());
 					String name = Module.getModule(module.getModuleCode()).getName();
 					model.addRow(new Object[] { name, module.getModuleCode(), null, null });
 					rows++;

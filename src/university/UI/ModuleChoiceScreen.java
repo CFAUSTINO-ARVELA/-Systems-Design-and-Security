@@ -118,7 +118,6 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                 }
             }
 
-            System.out.println(chosenModules);
             if (Module.checkCredits(chosenModules, false)) {
                 
                 try {
@@ -134,6 +133,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Please ensure the correct number of credits are selected");
             }
             chosenModules = new ArrayList<>();
+            JOptionPane.showMessageDialog(null, "Successfully assigned modules");
         });
 
         backToProfileBtn.addActionListener(e -> {
