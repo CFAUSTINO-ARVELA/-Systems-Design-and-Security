@@ -63,7 +63,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         this.studentManagement.setLayout(null);
 
         backToProfileBtn.addActionListener(e -> {
-            studentTable.clearSelection(); 
+            studentTable.clearSelection();
             this.studentManagement.setVisible(false);
             this.profileScreen.draw();
         });
@@ -97,8 +97,13 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                 Student student;
                 try {
                     student = Student.getStudentReg(index);
-                    ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this, student);
-                    choiceScreen.draw();
+                    if (student.getStudentStatus().isGraduated()) {
+                        JOptionPane.showMessageDialog(null, "This student has graduated");
+                    } else {
+                        ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this, student);
+                        choiceScreen.draw();
+                        this.studentManagement.setVisible(false);
+                    }
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -113,9 +118,14 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                 String username = (String) studentTable.getValueAt(studentTable.getSelectedRow(), 3);
                 MarkingScreen markingScr;
                 try {
-                    markingScr = new MarkingScreen(this.screen, this, Student.getStudent(username));
-                    markingScr.draw();
-                    this.studentManagement.setVisible(false);
+                    Student student = Student.getStudent(username);
+                    if (student.getStudentStatus().isGraduated()) {
+                        JOptionPane.showMessageDialog(null, "This student has graduated");
+                    } else {
+                        markingScr = new MarkingScreen(this.screen, this, student);
+                        markingScr.draw();
+                        this.studentManagement.setVisible(false);
+                    }
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }

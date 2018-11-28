@@ -21,8 +21,6 @@ import javax.swing.SwingConstants;
 
 import university.*;
 
-
-
 public class LoginScreen extends JPanel {
 
     private static final long serialVersionUID = 1L;
