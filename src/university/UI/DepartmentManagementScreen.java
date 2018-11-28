@@ -8,9 +8,12 @@ import university.Department;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.SwingConstants;
 
 import java.awt.BorderLayout;
@@ -46,7 +49,7 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
     public TeachingManagementScreen getTecMaangScree() {
     	return teachingScreen;
     }
-    public void draw() throws Exception{
+    public void draw() throws SQLException{
         this.departmentScreen = new JPanel();
         this.departmentScreen.setBackground(new Color(70, 70, 70));
 
@@ -85,19 +88,38 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
                 String code = (String) departmentTable.getValueAt(departmentTable.getSelectedRow(), 0);
                 String name = (String) departmentTable.getValueAt(departmentTable.getSelectedRow(), 1);
                 Department depToDelete = new Department(code);
-                try {
-                    depToDelete.deleteDep();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
+               
+                
+                JLabel label_warning = new JLabel("Warning: Deleting this department will delete all its degrees.");
+                JLabel label_login = new JLabel("If you wish to continue please insert your account details.");
+                JLabel labem_email = new JLabel("Email:");
+                JTextField email = new JTextField();
+
+                JLabel label_password = new JLabel("Password:");
+                JPasswordField password = new JPasswordField();
+
+                Object[] array = {label_warning, label_login, labem_email, email, label_password, password };
+
+                int res = JOptionPane.showConfirmDialog(null, array, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                if (res == JOptionPane.OK_OPTION) {
+	                try {
+	                	if(Account.delVerification(email.getText(), password.getText(), 3)) {
+	                		depToDelete.deleteDep();
+	                		JOptionPane.showMessageDialog(null, "Successfully deleted department: " + name);
+	                	}else
+	                		JOptionPane.showMessageDialog(null, "Please insert the correct account details");
+	                } catch (Exception e1) {
+	                    e1.printStackTrace();
+	                }
+	                this.departmentScreen.setVisible(false);
+	                DepartmentManagementScreen newDepScreen = new DepartmentManagementScreen(this.screen,this.teachingScreen);
+	                try {
+						newDepScreen.draw();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
                 }
-                this.departmentScreen.setVisible(false);
-                try {
-					this.teachingScreen.draw();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-                JOptionPane.showMessageDialog(null, "Successfully deleted department: " + name);
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Department to delete");
             }
@@ -120,6 +142,7 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
     //     this.draw();
     // }
 
+  
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Katie

@@ -62,12 +62,16 @@ public class CreateTables {
 			// Create table for modules
 			int modules = stmt.executeUpdate(
 					"CREATE TABLE module (name varchar(255) NOT NULL, code varchar(7) PRIMARY KEY, credits int, duration varchar(255) );");
-	**/
+	
 			// Create table for associated modules and degrees
 			int assoModDeg = stmt.executeUpdate(
 					"CREATE TABLE assoModDeg (modCode varchar(7) REFERENCES module(code), degCode varchar(6) REFERENCES degree(code), mandatory BOOL, year varchar(1) );");
-		
+		**/
+			
+			ResultSet res = stmt.executeQuery("SELECT Email, Password FROM account"); 
 			//System.out.println(count + depart + degree + secondDep); 
+			while(res.next())
+				System.out.println(res.getString(1) + "   " + res.getString(2));
 			con.commit(); // commit manually
 		} catch (SQLException ex) {
 			ex.printStackTrace();

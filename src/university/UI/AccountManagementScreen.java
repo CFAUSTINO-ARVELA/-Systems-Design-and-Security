@@ -3,6 +3,7 @@ package university.UI;
 import university.UI.ProfileScreen;
 import university.ScreenManager;
 import university.Account;
+import university.Module;
 import university.TableModel;
 
 import java.awt.BorderLayout;
@@ -22,8 +23,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 
@@ -72,14 +75,34 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             if (accountTable.getSelectedRow() > -1) {
                 String index = (String) accountTable.getValueAt(accountTable.getSelectedRow(), 3);
                 Account accountToDelete = new Account(index);
-                try {
-                    accountToDelete.deleteAccount();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
+                
+
+
+                JLabel label_login = new JLabel("If you wish to continue please insert your account details.");
+                JLabel labem_email = new JLabel("Email:");
+                JTextField email = new JTextField();
+
+                JLabel label_password = new JLabel("Password:");
+                JPasswordField password = new JPasswordField();
+
+                Object[] array = {label_login, labem_email, email, label_password, password };
+
+                int res = JOptionPane.showConfirmDialog(null, array, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                if (res == JOptionPane.OK_OPTION) {
+	                try {
+	                	if(Account.delVerification(email.getText(), password.getText(), 3)) {
+	                		accountToDelete.deleteAccount();
+	                		
+	                	}else
+	                		JOptionPane.showMessageDialog(null, "Please insert the correct account details");
+                    
+	                } catch (SQLException e1) {
+	                    e1.printStackTrace();
+	                }
+	                this.accountManagement.setVisible(false);
+	                this.profileScreen.draw();
+	                JOptionPane.showMessageDialog(null, "Successfully deleted account: " + index);
                 }
-                this.accountManagement.setVisible(false);
-                this.profileScreen.draw();
-                JOptionPane.showMessageDialog(null, "Successfully deleted account: " + index);
             } else {
                 JOptionPane.showMessageDialog(null, "Please select an Account to delete");
             }

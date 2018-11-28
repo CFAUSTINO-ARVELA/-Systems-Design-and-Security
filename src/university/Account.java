@@ -326,6 +326,31 @@ public class Account {
 	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
 	   return sb.toString();
 	}
+	
+	public static boolean delVerification(String email, String password, int clearance) throws SQLException {
+		Boolean valid = false;
+		connectToDB();
+		PreparedStatement query = con.prepareStatement("SELECT COUNT(*) FROM account WHERE Email=? AND Password=? AND Clearance = ?");
+		try {
+			query.setString(1, email);
+			query.setString(2,password);
+			query.setInt(3, clearance);
+			ResultSet res = query.executeQuery();
+			res.next();
+			if (res.getInt(1) == 1)
+				valid = true;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}finally {
+			if ( query != null)
+				query.close();
+		}
+		
+		con.close();
+		return valid;
+	}
+	
 	/**
 	public static void main(String[] args){
 		Account g = new Account();

@@ -2,12 +2,6 @@ package university.UI;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import university.UI.ProfileScreen;
 import university.ScreenManager;
@@ -78,22 +72,42 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
                 String code = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 1);
                 String name = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 0);
                 Module modToDelete = new Module(code);
-                try {
-                    modToDelete.deleteModule();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
+                
+                
+                JLabel label_login = new JLabel("If you wish to continue please insert your account details.");
+                JLabel labem_email = new JLabel("Email:");
+                JTextField email = new JTextField();
+
+                JLabel label_password = new JLabel("Password:");
+                JPasswordField password = new JPasswordField();
+
+                Object[] array = {label_login, labem_email, email, label_password, password };
+
+                int res = JOptionPane.showConfirmDialog(null, array, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                if (res == JOptionPane.OK_OPTION) {
+	                try {
+	                	if(Account.delVerification(email.getText(), password.getText(), 3)) {
+	                		modToDelete.deleteModule();
+	                		
+	                	}else
+	                		JOptionPane.showMessageDialog(null, "Please insert the correct account details");
+	         
+	                    
+	                } catch (Exception e1) {
+	                    e1.printStackTrace();
+	                }
+	                this.moduleScreen.setVisible(false);
+	                ModuleManagementScreen newModScree = new ModuleManagementScreen(this.screen,this.teachingScreen);
+	                try {
+						newModScree.draw();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	                JOptionPane.showMessageDialog(null, "Successfully deleted module: " + name);
                 }
-                this.moduleScreen.setVisible(false);
-                ModuleManagementScreen newModScree = new ModuleManagementScreen(this.screen,this.teachingScreen);
-                try {
-					newModScree.draw();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-                JOptionPane.showMessageDialog(null, "Successfully deleted module: " + name);
             } else {
-                JOptionPane.showMessageDialog(null, "Please select a Student to delete");
+                JOptionPane.showMessageDialog(null, "Please select a module to delete");
             }
         });
 

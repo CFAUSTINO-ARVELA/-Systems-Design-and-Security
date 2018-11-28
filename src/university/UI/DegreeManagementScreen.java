@@ -82,20 +82,41 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
                 String code = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 0);
                 String name = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 1);
                 Degree degToDelete = new Degree(code);
-                try {
-                    degToDelete.deleteDegree();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
+                
+                
+                
+                    
+                    
+                
+                JLabel label_login = new JLabel("If you wish to continue please insert your account details.");
+                JLabel labem_email = new JLabel("Email:");
+                JTextField email = new JTextField();
+
+                JLabel label_password = new JLabel("Password:");
+                JPasswordField password = new JPasswordField();
+
+                Object[] array = {label_login, labem_email, email, label_password, password };
+
+                int res = JOptionPane.showConfirmDialog(null, array, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                if (res == JOptionPane.OK_OPTION) {
+                	try {
+                		if(Account.delVerification(email.getText(), password.getText(), 3)) {
+                			degToDelete.deleteDegree();
+    	                }else
+    	                	JOptionPane.showMessageDialog(null, "Please insert the correct account details");    
+	                } catch (Exception e1) {
+	                    e1.printStackTrace();
+	                }
+	                this.degreeManagement.setVisible(false);
+	                DegreeManagementScreen newDegMan = new DegreeManagementScreen(this.screen,this.teachingScreen);
+	                try {
+						newDegMan.draw();
+					} catch (Exception e1) {
+						//newDegMan TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	                JOptionPane.showMessageDialog(null, "Successfully deleted degree: " + name);
                 }
-                this.degreeManagement.setVisible(false);
-                DegreeManagementScreen newDegMan = new DegreeManagementScreen(this.screen,this.teachingScreen);
-                try {
-					newDegMan.draw();
-				} catch (Exception e1) {
-					//newDegMan TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-                JOptionPane.showMessageDialog(null, "Successfully deleted degree: " + name);
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Degree to delete");
             }
