@@ -80,14 +80,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
 
         submitBtn.addActionListener(e -> {
 
-            // if (checkInvalid(titleInput) || checkInvalid(forenameInput) ||
-            // checkInvalid(surnameInput)) {
-            // JOptionPane.showMessageDialog(null, "Please enter all fields and ensure there
-            // are no symbols");
-
-            // } else {
             this.studentCreation.setVisible(false);
-            // String cle = clearanceInput.getSelectedItem().toString();
             Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(), "password",
                     "Student");
             try {
@@ -97,7 +90,6 @@ class StudentCreationScreen extends JPanel implements ActionListener {
                     stu = new Student(d, tutorInput.getText(), ac.createAccount());
                     stu.createStudent();
                 } catch (Exception e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
                 this.profileScreen.draw();
@@ -108,7 +100,6 @@ class StudentCreationScreen extends JPanel implements ActionListener {
             }
             // }
             catch (Exception e2) {
-                // TODO Auto-generated catch block
                 e2.printStackTrace();
             }
         });

@@ -21,6 +21,7 @@ public class ProfileScreen extends JPanel {
         this.screen = scr;
         this.account = acc;
         initComponents();
+        initListeners();
     }
 
     public void initListeners() {

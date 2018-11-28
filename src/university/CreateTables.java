@@ -32,9 +32,6 @@ public class CreateTables {
 			// Create table for department
 			int depart = stmt.executeUpdate(
 					"CREATE TABLE department (code varchar(3) NOT NULL PRIMARY KEY, name varchar(255) NOT NULL);");
-			stmt.executeUpdate("INSERT INTO department VALUES (\"COM\", \"Department of Computer Science \") ");
-			stmt.executeUpdate("INSERT INTO department VALUES (\"BUS\", \"Bussiness School \") ");
-			stmt.executeUpdate("INSERT INTO department VALUES (\"LAN\", \"Modern Languages\") ");
 
 			// Create table for degree
 			int degree = stmt.executeUpdate(
