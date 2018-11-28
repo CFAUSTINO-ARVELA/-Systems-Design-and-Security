@@ -101,7 +101,7 @@ public class Student {
 				stmt.close();
 		}
 		con.close();
-		
+
 		return this;
 
 	}
@@ -155,7 +155,7 @@ public class Student {
     			stmt.close();
     	}
     	con.close();
-    	
+
     	return (count + 1);
     }
     
@@ -180,6 +180,7 @@ public class Student {
 			
 			res.next();
 			result = res.getString("level");
+			res.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -256,7 +257,7 @@ public class Student {
 			}
 		}
 		con.close();
-		
+
 		return status;
 	}
 	
@@ -331,8 +332,11 @@ public class Student {
 				boolean passed = res.getBoolean("passed");
 				
 				result = new PeriodResult(this.registrationNumber, level, prev, grade, passed);
+				res.close();
 			}
+
 		} catch (Exception ex) {
+
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null) {
@@ -340,7 +344,7 @@ public class Student {
 			}
 		}
 		con.close();
-		
+
 		return result;
 	}
 	
@@ -373,15 +377,17 @@ public class Student {
 					results.add(result);
 				}
 			}
-				
+			res.close();
+
 		} catch (Exception ex) {
+
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null) {
 				stmt.close();
 			}
 		}
-		
+		con.close();
 		return results;
 	}
 	

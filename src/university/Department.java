@@ -38,7 +38,7 @@ public class Department{
 	}
 	
 	//Create Department
-	public int createDept() throws Exception  {
+	public int createDept() throws SQLException  {
 		connectToDB();
 		int count = 0;
 		PreparedStatement newDept = null, dept = null;
@@ -54,8 +54,9 @@ public class Department{
 				newDept.setString(2, getName());
 				count = newDept.executeUpdate();
 			}	
-		    
-		 }catch (Exception ex) {
+
+		    res.close();
+		 }catch (SQLException ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (newDept != null)
@@ -98,7 +99,7 @@ public class Department{
 				delDept.setString(1, getCode());
 				count = delDept.executeUpdate();
 				
-				
+			res.close();
 				
 			}
 		 }catch (Exception ex) {
@@ -114,7 +115,7 @@ public class Department{
 	}
 	
 	//Get all Departments
-	public static ArrayList<String> getAllDepNames() throws Exception  {
+	public static ArrayList<String> getAllDepNames() throws SQLException  {
 		ArrayList<String> deptList = new ArrayList<String>();
 		connectToDB();
 		Statement stmt = null;
@@ -135,7 +136,7 @@ public class Department{
 		con.close();
 		return deptList;
 	}
-	public ArrayList<Department> getAllDep() throws Exception  {
+	public ArrayList<Department> getAllDep() throws SQLException  {
 		Department department = new Department();
 		ArrayList<Department> deptList = new ArrayList<Department>();
 		connectToDB();
@@ -158,7 +159,7 @@ public class Department{
 		return deptList;
 	}
 	//get department using name
-	public static Department getDept (String n) throws Exception  {
+	public static Department getDept (String n) throws SQLException  {
 		Department d = new Department();
 		String dcode = null;
 		PreparedStatement dept = null;
@@ -182,7 +183,7 @@ public class Department{
 		return d;
 	}
 	
-	public Department getDeptwCode (String c) throws Exception  {
+	public Department getDeptwCode (String c) throws SQLException  {
 		Department d = new Department();
 		PreparedStatement dept = null;
 		connectToDB();
@@ -205,7 +206,7 @@ public class Department{
 		return d;
 	}
 	
-	public ArrayList<ArrayList<String>> getDeptList() throws Exception  {
+	public ArrayList<ArrayList<String>> getDeptList() throws SQLException  {
 		ArrayList<ArrayList<String>> deptList = new ArrayList<ArrayList<String>>();
 		ArrayList<String> depart = new ArrayList<String>();
 		ResultSet res = null;

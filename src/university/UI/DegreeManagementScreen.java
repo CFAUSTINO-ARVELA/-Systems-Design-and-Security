@@ -135,8 +135,10 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
 						e1.printStackTrace();
 					}
             		this.degreeManagement.setVisible(false);
-            		DegreeDetailsScreen degreeCreate = new DegreeDetailsScreen(this.screen, this.DegreeManagementScreen, deg);
+            		DegreeDetailsScreen degreeCreate;
+					
                     try {
+                    	degreeCreate = new DegreeDetailsScreen(this.screen, this.DegreeManagementScreen, deg);
 						degreeCreate.draw();
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block

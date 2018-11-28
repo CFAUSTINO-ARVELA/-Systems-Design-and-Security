@@ -39,7 +39,7 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
         this.teachingScreen = teach;
     }
 
-    public void draw() throws Exception {
+    public void draw() throws SQLException {
         this.moduleScreen = new JPanel();
         this.moduleScreen.setBackground(new Color(70, 70, 70));
 
@@ -84,8 +84,9 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
                     e1.printStackTrace();
                 }
                 this.moduleScreen.setVisible(false);
+                ModuleManagementScreen newModScree = new ModuleManagementScreen(this.screen,this.teachingScreen);
                 try {
-					this.teachingScreen.draw();
+					newModScree.draw();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

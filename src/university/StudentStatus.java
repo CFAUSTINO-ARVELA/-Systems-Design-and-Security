@@ -165,6 +165,7 @@ public class StudentStatus {
 					}
 				}
 			}
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -203,6 +204,7 @@ public class StudentStatus {
 				}
 				
 			}
+		
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {

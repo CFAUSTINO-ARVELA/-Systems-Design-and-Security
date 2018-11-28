@@ -123,17 +123,17 @@ public class LoginScreen extends JPanel {
                 profileScreen = new ProfileScreen(this.screen, account);
                 this.loginScreen.setVisible(false);
                 profileScreen.draw();
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (res2 != null)
-                pst1.close();
-            pst2.close();
-        }
-        con.close();
-
+    		}
+    		res1.close();
+    	}
+    	catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (pst1 != null)
+	    		pst1.close();
+	    		pst2.close();
+		}
+		con.close();
     }
 
     private void initComponents() {
