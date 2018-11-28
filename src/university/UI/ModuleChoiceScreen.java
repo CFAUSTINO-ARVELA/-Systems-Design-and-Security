@@ -118,8 +118,12 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                 }
             }
 
-            if (Module.checkCredits(chosenModules, false)) {
-                
+            boolean degreeType = false;
+            if (this.student.getDegree().getType().equals("MSc")) {
+                degreeType = true;
+            } 
+
+            if (Module.checkCredits(chosenModules, degreeType)) {
                 try {
                     this.student.setModuleChoices(chosenModules);
                     StudentStatus status = this.student.getStudentStatus();
@@ -130,7 +134,12 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                     e1.printStackTrace();
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Please ensure the correct number of credits are selected");
+                if (degreeType) {
+                    JOptionPane.showMessageDialog(null, "Please ensure 180 credits are selected");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please ensure 120 credits are selected");
+                }
+                
             }
             chosenModules = new ArrayList<>();
             JOptionPane.showMessageDialog(null, "Successfully assigned modules");
