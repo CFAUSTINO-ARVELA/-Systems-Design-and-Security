@@ -20,7 +20,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
     private JTable moduleTable;
     
 
-    public DegreeDetailsScreen(ScreenManager scr,DegreeManagementScreen degreeManagement, Degree deg) {
+    public DegreeDetailsScreen(ScreenManager scr,DegreeManagementScreen degreeManagement, Degree deg) throws SQLException {
         this.screen = scr;
         this.deg = deg;
         this.degreeManagement = degreeManagement;
@@ -68,17 +68,19 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         deleteBtn.addActionListener(e -> {
            if (moduleTable.getSelectedRow() > -1) {
                 String code = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 0);
-                System.out.println(moduleTable.getValueAt(moduleTable.getSelectedRow(), 3).getClass());
                 String year = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 3);
                 
                 try {
+                	
                     Module.remAssoModDeg(code, deg.getCode(), Integer.parseInt(year));
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
                 this.degreeManagement.setVisible(false);
-                DegreeDetailsScreen newDegDet = new DegreeDetailsScreen(this.screen,this.degreeManagement,this.deg);
+                
                 try {
+                	DegreeDetailsScreen newDegDet = new DegreeDetailsScreen(this.screen,this.degreeManagement,this.deg);
+                	System.out.println("Entra?");
                 	newDegDet.draw();
 				} catch (Exception e1) {
 					//newDegMan TODO Auto-generated catch block
@@ -90,7 +92,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
             }
         });
 
-        moduleTable = new JTable(TableModel.buildTableModel(deg.getDegModules()));
+        
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(moduleTable);
 
@@ -99,7 +101,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         screen.frame.add(this.degreDetScreen);
     }
 
-    private void initComponents() {
+    private void initComponents() throws SQLException {
         // JFormDesigner - Component initialization - DO NOT MODIFY
         // //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Katie
@@ -121,6 +123,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         deleteBtn = new JButton();
         //======== this ========
 
+        moduleTable = new JTable(TableModel.buildTableModel(deg.getDegModules()));
         // JFormDesigner evaluation mark
         setBorder(new javax.swing.border.CompoundBorder(
             new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),

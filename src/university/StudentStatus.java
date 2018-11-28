@@ -24,11 +24,12 @@ public class StudentStatus {
 		   }
 	}
 	
-	public StudentStatus(int r, char l, String p, boolean reg) {
+	public StudentStatus(int r, char l, String p, boolean reg, boolean g) {
 		this.registrationNumber = r;
 		this.level = l;
 		this.period = p;
 		this.registered = reg;
+		this.graduated = g;
 	}
 	
 	public boolean isRegistered() {
@@ -151,6 +152,7 @@ public class StudentStatus {
 					}
 				}
 			}
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -189,6 +191,7 @@ public class StudentStatus {
 				}
 				
 			}
+		
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {

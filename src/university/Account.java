@@ -79,6 +79,7 @@ public class Account {
 		}
 		con.close();
 		
+		con.close();
 		return this;
 
 	}

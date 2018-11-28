@@ -5,19 +5,14 @@ import javax.swing.*;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import university.UI.ProfileScreen;
 import university.ScreenManager;
 import university.Student;
 import university.TableModel;
-import university.Account;
-import university.ModuleChoice;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.*;
 
@@ -31,9 +26,6 @@ class StudentManagementScreen extends JPanel implements ActionListener {
     private ProfileScreen profileScreen;
     private boolean canEdit;
     private JTable studentTable;
-
-    private Connection con = null;
-    private Statement stmt = null;
 
     StudentManagementScreen(ScreenManager scr, ProfileScreen prof, boolean edit) {
         this.initComponents();

@@ -27,6 +27,10 @@ public class DegreeResult {
 		this.masters = m;
 		this.result = res;
 	}
+
+	public String getResult() {
+		return this.result;
+	}
 	
 	public int createDegreeResult() throws SQLException {
 		connectToDB();
@@ -45,8 +49,9 @@ public class DegreeResult {
 				newresult.setString(2, this.result);
 				count = newresult.executeUpdate();
 			}	
-		    
-		 }catch (Exception ex) {
+			res.close();
+		 }catch (SQLException ex) {
+
 			 ex.printStackTrace();
 		 }finally {
 				if (newresult != null)
