@@ -17,7 +17,6 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.*;
 
-import java.sql.*;
 import java.util.ArrayList;
 
 class ModuleCreationScreen extends JPanel implements ActionListener {
@@ -32,31 +31,12 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
 
     ModuleCreationScreen(ScreenManager scr, ModuleManagementScreen moduleManage) {
         this.initComponents();
+        this.initListeners();
         this.screen = scr;
         this.moduleManagement = moduleManage;
     }
 
-    public void draw() throws Exception{
-        this.moduleCreationScreen = new JPanel();
-        this.moduleCreationScreen.setBackground(new Color(70, 70, 70));
-        this.moduleCreationScreen.setLayout(null);
-
-        this.moduleCreationScreen.add(backToProfileBtn);
-        this.moduleCreationScreen.add(createTxt);
-        this.moduleCreationScreen.add(promptTxt);
-        this.moduleCreationScreen.add(nameTxt);
-        this.moduleCreationScreen.add(departmentTxt);
-        this.moduleCreationScreen.add(nameInput);
-        this.moduleCreationScreen.add(departmentInput);
-        this.moduleCreationScreen.add(submitBtn);
-        this.moduleCreationScreen.add(moduleTxt);
-        this.moduleCreationScreen.add(levelTxt);
-        this.moduleCreationScreen.add(levelInput);
-        this.moduleCreationScreen.add(durationInput);
-        this.moduleCreationScreen.add(durationTxt);
-        this.moduleCreationScreen.add(isDissertationLabel);
-        this.moduleCreationScreen.add(isDissertationInput);
-
+    public void initListeners() {
         backToProfileBtn.addActionListener(e -> {
             this.moduleCreationScreen.setVisible(false);
             try {
@@ -105,13 +85,28 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(null, "SQL error, please try again");
             }
         }));
+    }
 
-        // try {
-        // departments = Department.getAllDepNames();
-        // departmentInput = new JComboBox((departments.toArray()));
-        // } catch (Exception e1) {
-        // e1.printStackTrace();
-        // }
+    public void draw() throws Exception{
+        this.moduleCreationScreen = new JPanel();
+        this.moduleCreationScreen.setBackground(new Color(70, 70, 70));
+        this.moduleCreationScreen.setLayout(null);
+
+        this.moduleCreationScreen.add(backToProfileBtn);
+        this.moduleCreationScreen.add(createTxt);
+        this.moduleCreationScreen.add(promptTxt);
+        this.moduleCreationScreen.add(nameTxt);
+        this.moduleCreationScreen.add(departmentTxt);
+        this.moduleCreationScreen.add(nameInput);
+        this.moduleCreationScreen.add(departmentInput);
+        this.moduleCreationScreen.add(submitBtn);
+        this.moduleCreationScreen.add(moduleTxt);
+        this.moduleCreationScreen.add(levelTxt);
+        this.moduleCreationScreen.add(levelInput);
+        this.moduleCreationScreen.add(durationInput);
+        this.moduleCreationScreen.add(durationTxt);
+        this.moduleCreationScreen.add(isDissertationLabel);
+        this.moduleCreationScreen.add(isDissertationInput);
 
         screen.frame.add(this.moduleCreationScreen);
     }

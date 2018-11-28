@@ -29,6 +29,7 @@ public class StudentStatusScreen extends JPanel {
 
     StudentStatusScreen(ScreenManager screen, ProfileScreen prof, Student stu) {
         initComponents();
+        this.initListeners();
         this.profileScreen = prof;
         this.screen = screen;
         this.student = stu;

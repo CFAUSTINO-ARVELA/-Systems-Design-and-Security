@@ -28,6 +28,7 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
 
     DegreeManagementScreen(ScreenManager scr,TeachingManagementScreen teach) {
         this.initComponents();
+        this.initListeners();
         this.screen = scr;
         this.teachingScreen = teach;
     }
@@ -46,29 +47,14 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
     private ScreenManager getScreen() {
     	return this.screen;
     }
-    
-   
-    public void draw() throws Exception {
-        this.degreeManagement = new JPanel();
-        this.degreeManagement.setBackground(new Color(70, 70, 70));
 
-        this.degreeManagement.add(backToTeachingBtn);
-        this.degreeManagement.add(degreeManagementTxt);
-        this.degreeManagement.add(createBtn);
-        this.degreeManagement.add(deleteBtn);
-        this.degreeManagement.add(tablePanel);
-
-        this.tablePanel.setLayout(new BorderLayout());
-
-        this.degreeManagement.setLayout(null);
-
+    private void initListeners() {
         backToTeachingBtn.addActionListener(e -> {
             this.degreeManagement.setVisible(false);
             
             try {
 				this.teachingScreen.draw();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
         });
@@ -92,7 +78,6 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
                 try {
 					newDegMan.draw();
 				} catch (Exception e1) {
-					//newDegMan TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
                 JOptionPane.showMessageDialog(null, "Successfully deleted degree: " + name);
@@ -100,6 +85,22 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Please select a Degree to delete");
             }
         });
+    }
+    
+   
+    public void draw() throws Exception {
+        this.degreeManagement = new JPanel();
+        this.degreeManagement.setBackground(new Color(70, 70, 70));
+
+        this.degreeManagement.add(backToTeachingBtn);
+        this.degreeManagement.add(degreeManagementTxt);
+        this.degreeManagement.add(createBtn);
+        this.degreeManagement.add(deleteBtn);
+        this.degreeManagement.add(tablePanel);
+
+        this.tablePanel.setLayout(new BorderLayout());
+
+        this.degreeManagement.setLayout(null);
 
         degreeTable = new JTable(TableModel.buildTableModel(Degree.getDegList()));
 

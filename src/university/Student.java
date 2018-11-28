@@ -246,7 +246,7 @@ public class Student {
 			period = res.getString("period");
 			registered = res.getBoolean("registered");
 			boolean graduated = res.getBoolean("graduated");
-			status = new StudentStatus(regNum, level, period, registered, graduated);
+			status = new StudentStatus(regNum, level, period, registered, graduated, false);
 			res.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();

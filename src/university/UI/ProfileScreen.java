@@ -39,7 +39,7 @@ public class ProfileScreen extends JPanel {
             this.profileScreen.setVisible(false);
         });
         teachingManagementBtn.addActionListener(e -> {
-            TeachingManagementScreen teachingScreen = new TeachingManagementScreen(this.screen, this.account, this);
+            TeachingManagementScreen teachingScreen = new TeachingManagementScreen(this.screen, this);
             try {
                 teachingScreen.draw();
             } catch (SQLException e1) {
@@ -149,9 +149,6 @@ public class ProfileScreen extends JPanel {
     }
 
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY
-        // //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Katie
         profileTxt = new JLabel();
         welcomeTxt = new JLabel();
         logoutButton = new JButton();
@@ -161,9 +158,6 @@ public class ProfileScreen extends JPanel {
         titleTxt = new JLabel();
         nameTxt = new JLabel();
 
-        // ======== this ========
-
-        // JFormDesigner evaluation mark
         setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
                 new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
                 javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
@@ -238,17 +232,8 @@ public class ProfileScreen extends JPanel {
             setMinimumSize(preferredSize);
             setPreferredSize(preferredSize);
         }
-        // JFormDesigner - End of component initialization //GEN-END:initComponents
     }
 
-    // @Override
-    // public void actionPerformed(ActionEvent arg0) {
-    // // TODO Auto-generated method stub
-
-    // }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Katie
     private JLabel profileTxt;
     private JLabel welcomeTxt;
     private JButton logoutButton;
@@ -257,5 +242,4 @@ public class ProfileScreen extends JPanel {
     private JButton studentManageBtn;
     private JLabel titleTxt;
     private JLabel nameTxt;
-    // JFormDesigner - End of variables declaration //GEN-END:variables
 }

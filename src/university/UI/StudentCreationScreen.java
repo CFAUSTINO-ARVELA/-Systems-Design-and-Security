@@ -1,8 +1,7 @@
 package university.UI;
 
-import java.awt.*;
-import javax.swing.*;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,17 +12,15 @@ import university.UI.ProfileScreen;
 import university.Account;
 import university.Student;
 import university.Degree;
-import university.Department;
 import university.ScreenManager;
 
 import java.awt.Color;
-import java.awt.Point;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.*;
-
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 class StudentCreationScreen extends JPanel implements ActionListener {
 
@@ -40,9 +37,47 @@ class StudentCreationScreen extends JPanel implements ActionListener {
 
     StudentCreationScreen(ScreenManager scr, StudentManagementScreen studentManage, ProfileScreen prof) {
         this.initComponents();
+        this.initListeners();
         this.screen = scr;
         this.studentManagement = studentManage;
         this.profileScreen = prof;
+    }
+
+    private void initListeners() {
+        backToProfileBtn.addActionListener(e -> {
+            this.studentCreation.setVisible(false);
+            try {
+                this.studentManagement.draw();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        submitBtn.addActionListener(e -> {
+
+            this.studentCreation.setVisible(false);
+            Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(), "password",
+                    "Student");
+            try {
+                Student stu;
+                d = Degree.getDegree(degreeInput.getSelectedItem().toString());
+                try {
+                    stu = new Student(d, tutorInput.getText(), ac.createAccount());
+                    stu.createStudent();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+                this.profileScreen.draw();
+                JOptionPane.showMessageDialog(null,
+                        "Successfully created Student: " + ac.getEmail() + ". Password: " + ac.getPassword() + "They've been added to " + d + "on level 1. Core modules have been assigned.");
+            } catch (SQLException e1) {
+                JOptionPane.showMessageDialog(null, "SQL error, please try again");
+            }
+            // }
+            catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        });
     }
 
     public void draw() {
@@ -69,48 +104,10 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         this.studentCreation.add(tutorInput);
         this.studentCreation.add(degreeInput);
 
-        backToProfileBtn.addActionListener(e -> {
-            this.studentCreation.setVisible(false);
-            try {
-                this.studentManagement.draw();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
-
-        submitBtn.addActionListener(e -> {
-
-            this.studentCreation.setVisible(false);
-            Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(), "password",
-                    "Student");
-            try {
-                Student stu;
-                d = Degree.getDegree(degreeInput.getSelectedItem().toString());
-                try {
-                    stu = new Student(d, tutorInput.getText(), ac.createAccount());
-                    stu.createStudent();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-                this.profileScreen.draw();
-                JOptionPane.showMessageDialog(null,
-                        "Successfully created Student: " + ac.getEmail() + ". Password: " + ac.getPassword());
-            } catch (SQLException e1) {
-                JOptionPane.showMessageDialog(null, "SQL error, please try again");
-            }
-            // }
-            catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        });
-
         screen.frame.add(this.studentCreation);
     }
 
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY
-        // //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Katie
         welcomeTxt = new JLabel();
         promptTxt = new JLabel();
         titleTxt = new JLabel();
@@ -239,11 +236,8 @@ class StudentCreationScreen extends JPanel implements ActionListener {
             setMinimumSize(preferredSize);
             setPreferredSize(preferredSize);
         }
-        // JFormDesigner - End of component initialization //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Katie
     private JLabel welcomeTxt;
     private JLabel promptTxt;
     private JLabel titleTxt;
@@ -259,7 +253,6 @@ class StudentCreationScreen extends JPanel implements ActionListener {
     private JLabel tutorTxt;
     private JTextField tutorInput;
     private JComboBox degreeInput;
-    // JFormDesigner - End of variables declaration //GEN-END:variables
 
     @Override
     public void actionPerformed(ActionEvent e) {

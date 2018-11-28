@@ -19,41 +19,15 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
     private DegreeManagementScreen degreeManagement;
     private JTable moduleTable;
     
-
     public DegreeDetailsScreen(ScreenManager scr,DegreeManagementScreen degreeManagement, Degree deg) throws SQLException {
         this.screen = scr;
         this.deg = deg;
         this.degreeManagement = degreeManagement;
         this.initComponents();
+        this.initListeners();
     }
 
-    public void draw() throws SQLException, Exception {
-        this.degreDetScreen = new JPanel();
-        this.degreDetScreen.setBackground(new Color(70, 70, 70));
-        this.degreDetScreen.setLayout(null);
-
-        
-        this.degreDetScreen.add(backToProfileBtn);
-        this.degreDetScreen.add(courseTxt);
-        this.degreDetScreen.add(codeTxt);
-        this.degreDetScreen.add(durationTxt);
-        this.degreDetScreen.add(secondaryTxt);
-        this.degreDetScreen.add(titleTxt);
-        this.degreDetScreen.add(typeTxt);
-        //this.degreDetScreen.add(placementTxt);
-        this.degreDetScreen.add(promptTxt);
-        this.degreDetScreen.add(degreeCode);
-        this.degreDetScreen.add(degreeDuration);
-        this.degreDetScreen.add(degreeType);
-        this.degreDetScreen.add(degreeSecondDept);
-        this.degreDetScreen.add(moduleTxt);
-        this.degreDetScreen.add(tablePanel);
-        this.degreDetScreen.add(deleteBtn);
-        
-        this.tablePanel.setLayout(new BorderLayout());
-
-        this.degreDetScreen.setLayout(null);
-        
+    public void initListeners() {
         backToProfileBtn.addActionListener(e -> {
             this.degreDetScreen.setVisible(false);
             DegreeManagementScreen newDegMangSecreen = new DegreeManagementScreen(this.screen,degreeManagement.getTecMaangScree());
@@ -91,8 +65,35 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
                 JOptionPane.showMessageDialog(null, "Please select a Module to remove");
             }
         });
+    }
+
+    public void draw() throws SQLException, Exception {
+        this.degreDetScreen = new JPanel();
+        this.degreDetScreen.setBackground(new Color(70, 70, 70));
+        this.degreDetScreen.setLayout(null);
 
         
+        this.degreDetScreen.add(backToProfileBtn);
+        this.degreDetScreen.add(courseTxt);
+        this.degreDetScreen.add(codeTxt);
+        this.degreDetScreen.add(durationTxt);
+        this.degreDetScreen.add(secondaryTxt);
+        this.degreDetScreen.add(titleTxt);
+        this.degreDetScreen.add(typeTxt);
+        //this.degreDetScreen.add(placementTxt);
+        this.degreDetScreen.add(promptTxt);
+        this.degreDetScreen.add(degreeCode);
+        this.degreDetScreen.add(degreeDuration);
+        this.degreDetScreen.add(degreeType);
+        this.degreDetScreen.add(degreeSecondDept);
+        this.degreDetScreen.add(moduleTxt);
+        this.degreDetScreen.add(tablePanel);
+        this.degreDetScreen.add(deleteBtn);
+        
+        this.tablePanel.setLayout(new BorderLayout());
+
+        this.degreDetScreen.setLayout(null);
+
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(moduleTable);
 
