@@ -29,17 +29,6 @@ public class ProfileScreen extends JPanel {
             this.profileScreen.setVisible(false);
             screen.navToLogin();
         });
-        studentManageBtn.addActionListener(e -> {
-            this.profileScreen.setVisible(false);
-            Student stu;
-            try {
-                stu = Student.getStudent(this.account.getUsername());
-                StudentStatusScreen status = new StudentStatusScreen(screen, this, stu);
-                status.draw();
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
         accountManagementBtn.addActionListener(e -> {
             AccountManagementScreen accountScreen = new AccountManagementScreen(this.screen, this.account, this);
             try {
@@ -106,6 +95,22 @@ public class ProfileScreen extends JPanel {
         this.profileScreen.add(titleTxt);
         this.profileScreen.add(nameTxt);
         this.profileScreen.add(studentManageBtn);
+
+        studentManageBtn.addActionListener(e -> {
+            Student stu;
+            try {
+                stu = Student.getStudent(this.account.getUsername());
+                if (!stu.getStudentStatus().isRegistered()) {
+                    JOptionPane.showMessageDialog(null, "You are not yet registered for the period");
+                } else {
+                    StudentStatusScreen status = new StudentStatusScreen(screen, this, stu);
+                    status.draw();
+                    this.profileScreen.setVisible(false);
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
 
         studentManageBtn.setText("Student Status");
     }

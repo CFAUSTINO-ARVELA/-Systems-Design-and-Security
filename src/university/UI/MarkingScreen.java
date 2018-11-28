@@ -50,9 +50,17 @@ public class MarkingScreen extends JPanel {
 						for (int i = 0; i < rows; i++) {
 							try {
 								String code = (String) table.getValueAt(i, 1);
-								ModuleGrades grade = new ModuleGrades(Module.getModule(code),
-										Integer.parseInt((String) table.getValueAt(i, 2)));
-								allGrades.add(grade);
+								int firstGrade = Integer.parseInt((String) table.getValueAt(i, 2));
+								ModuleGrades grades;
+
+								if (this.isResitGrade()) {
+									int resit = Integer.parseInt((String) table.getValueAt(i, 3));
+									grades = new ModuleGrades(Module.getModule(code), firstGrade, resit);
+								} else {
+									grades = new ModuleGrades(Module.getModule(code), firstGrade);
+								}
+								
+								allGrades.add(grades);
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
@@ -71,6 +79,8 @@ public class MarkingScreen extends JPanel {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
+			// Add meaningful message output here
+			JOptionPane.showMessageDialog(null,"Success");
 		});
 	}
 
@@ -91,7 +101,17 @@ public class MarkingScreen extends JPanel {
 		this.addModules();
 
 		screen.frame.add(this.markingScreen);
+	}
 
+	private boolean isResitGrade() {
+		for (int i = 0; i < rows; i++) {
+			System.out.println(i);
+			if (table.getValueAt(i, 3) == null) {
+				System.out.println(table.getValueAt(i, 2));
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private boolean checkEntered() {

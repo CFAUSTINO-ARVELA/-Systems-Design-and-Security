@@ -8,6 +8,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import university.DegreeResult;
+import university.Module;
+import university.ModuleChoice;
 import university.PeriodResult;
 import university.ScreenManager;
 import university.Student;
@@ -23,6 +25,7 @@ public class StudentStatusScreen extends JPanel {
     private Student student;
     private StudentStatus status;
     private JTable resultTable;
+    private JTable moduleTable;
 
     StudentStatusScreen(ScreenManager screen, ProfileScreen prof, Student stu) {
         initComponents();
@@ -72,6 +75,8 @@ public class StudentStatusScreen extends JPanel {
             results = this.student.getPrevResults();
             DefaultTableModel model = new DefaultTableModel();
             resultTable = new JTable(model);
+            DefaultTableModel moduleModel = new DefaultTableModel();
+            moduleTable = new JTable(moduleModel);
 
             model.addColumn("Period");
             model.addColumn("Level");
@@ -83,11 +88,21 @@ public class StudentStatusScreen extends JPanel {
 
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setViewportView(resultTable);
-
             gradePanel.setLayout(new BorderLayout());
-
             gradePanel.add(scrollPane);
             this.studentStatusScreen.add(gradePanel);
+
+            JScrollPane scrollPaneModule = new JScrollPane();
+            scrollPaneModule.setViewportView(moduleTable);
+            modulePanel.setLayout(new BorderLayout());
+            modulePanel.add(scrollPane);
+            this.studentStatusScreen.add(modulePanel);
+
+            moduleModel.addColumn("Module Name");
+
+            for (ModuleChoice module : this.status.getCurrentModules()) {
+                moduleModel.addRow(new Object[] { Module.getModule(module.getModuleCode()).getName() });
+            }
 
             if (this.status.isGraduated()) {
                 gradeTxt.setText("You have graduated with: "
@@ -96,7 +111,7 @@ public class StudentStatusScreen extends JPanel {
                 gradeTxt.setText("Current grade: ");
             }
 
-            nameTxt.setText("Student ID: " + this.student.getRegistrationNumber());
+            nameTxt.setText("Degree: " + this.student.getDegree().getName());
             startDateTxt.setText("Start Date: " + this.status.getStartDate());
             endDateTxt.setText("End Date: " + this.status.getEndDate());
             levelStudiesTxt.setText("Level Studies: " + this.status.getLevel());
@@ -120,6 +135,8 @@ public class StudentStatusScreen extends JPanel {
     }
 
     private void initComponents() {
+        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
+        // Generated using JFormDesigner Evaluation license - Katie
         nameTxt = new JLabel();
         startDateTxt = new JLabel();
         levelStudiesTxt = new JLabel();
@@ -129,61 +146,63 @@ public class StudentStatusScreen extends JPanel {
         endDateTxt = new JLabel();
         gradePanel = new JPanel();
         gradeTxt = new JLabel();
+        modulePanel = new JPanel();
 
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
-                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
-                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
-                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
-        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent e) {
-                if ("border".equals(e.getPropertyName()))
-                    throw new RuntimeException();
-            }
-        });
+        //======== this ========
 
-        nameTxt.setText("Name:");
+        // JFormDesigner evaluation mark
+        setBorder(new javax.swing.border.CompoundBorder(
+            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
+                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
+                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+
+        setLayout(null);
+
+        //---- nameTxt ----
+        nameTxt.setText("Degree:");
         add(nameTxt);
         nameTxt.setBounds(180, 145, 360, 45);
 
-        // ---- startDateTxt ----
+        //---- startDateTxt ----
         startDateTxt.setText("End Date: ");
         add(startDateTxt);
         startDateTxt.setBounds(180, 190, 360, 45);
 
-        // ---- levelStudiesTxt ----
+        //---- levelStudiesTxt ----
         levelStudiesTxt.setText("Level Of Studies:");
         add(levelStudiesTxt);
         levelStudiesTxt.setBounds(180, 280, 360, 45);
 
-        // ---- titleTxt ----
+        //---- titleTxt ----
         titleTxt.setText("Welcome To Student Status");
         titleTxt.setHorizontalAlignment(SwingConstants.CENTER);
         titleTxt.setFont(titleTxt.getFont().deriveFont(titleTxt.getFont().getSize() + 12f));
         add(titleTxt);
         titleTxt.setBounds(233, 45, 530, 45);
 
-        // ---- backToProfileBtn ----
+        //---- backToProfileBtn ----
         backToProfileBtn.setText("Back To Profile");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(414, 500, 170, 50);
 
-        // ---- periodStudiesTxt ----
+        //---- periodStudiesTxt ----
         periodStudiesTxt.setText("Period Of Studies:");
         add(periodStudiesTxt);
         periodStudiesTxt.setBounds(180, 330, 360, 45);
 
-        // ---- endDateTxt ----
+        //---- endDateTxt ----
         endDateTxt.setText("Start Date: ");
         add(endDateTxt);
         endDateTxt.setBounds(180, 235, 360, 45);
 
-        // ======== gradePanel ========
+        //======== gradePanel ========
         {
             gradePanel.setLayout(null);
 
             { // compute preferred size
                 Dimension preferredSize = new Dimension();
-                for (int i = 0; i < gradePanel.getComponentCount(); i++) {
+                for(int i = 0; i < gradePanel.getComponentCount(); i++) {
                     Rectangle bounds = gradePanel.getComponent(i).getBounds();
                     preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                     preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -196,16 +215,37 @@ public class StudentStatusScreen extends JPanel {
             }
         }
         add(gradePanel);
-        gradePanel.setBounds(550, 145, 365, 230);
+        gradePanel.setBounds(545, 145, 365, 125);
 
-        // ---- gradeTxt ----
+        //---- gradeTxt ----
         gradeTxt.setText("Grade:");
         add(gradeTxt);
         gradeTxt.setBounds(180, 380, 360, 45);
 
+        //======== modulePanel ========
+        {
+            modulePanel.setLayout(null);
+
+            { // compute preferred size
+                Dimension preferredSize = new Dimension();
+                for(int i = 0; i < modulePanel.getComponentCount(); i++) {
+                    Rectangle bounds = modulePanel.getComponent(i).getBounds();
+                    preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+                    preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+                }
+                Insets insets = modulePanel.getInsets();
+                preferredSize.width += insets.right;
+                preferredSize.height += insets.bottom;
+                modulePanel.setMinimumSize(preferredSize);
+                modulePanel.setPreferredSize(preferredSize);
+            }
+        }
+        add(modulePanel);
+        modulePanel.setBounds(545, 300, 365, 120);
+
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for (int i = 0; i < getComponentCount(); i++) {
+            for(int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -216,8 +256,11 @@ public class StudentStatusScreen extends JPanel {
             setMinimumSize(preferredSize);
             setPreferredSize(preferredSize);
         }
+        // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - Katie
     private JLabel nameTxt;
     private JLabel startDateTxt;
     private JLabel levelStudiesTxt;
@@ -227,4 +270,6 @@ public class StudentStatusScreen extends JPanel {
     private JLabel endDateTxt;
     private JPanel gradePanel;
     private JLabel gradeTxt;
+    private JPanel modulePanel;
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
