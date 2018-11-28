@@ -605,7 +605,7 @@ public class Student {
 				return true;
 				
 			} else {
-				System.out.println("3rd year failed twice, degree failed");
+				System.out.println("Year failed twice, degree failed");
 				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
 				currentResult.createPeriodResult();
 				degreeResult = new DegreeResult(student.getRegistrationNumber(), false, "fail");
