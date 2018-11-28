@@ -69,12 +69,9 @@ public class Degree{
 			//System.out.println(res.getString(0).isEmpty()+ "Aqui");
 			if(res.getString("MAX(code)") != null)
 				no = Integer.parseInt(res.getString("MAX(code)").substring(4)) + 1;
-<<<<<<< HEAD
+
 			res.close();
 		 }catch (SQLException ex) {
-=======
-		 }catch (Exception ex) {
->>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
 			 ex.printStackTrace();
 		 }finally {
 				if (noDeg != null)
@@ -121,18 +118,13 @@ public class Degree{
 	@SuppressWarnings("resource")
 	public int createDegree() throws SQLException  {
 		connectToDB();
-<<<<<<< HEAD
 		PreparedStatement newDeg,deg, newSeconDep,checkDeser= null;
 		int count = 0;
 		deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE name = ?");
 		newDeg = con.prepareStatement("INSERT INTO degree (code, name, mainDept, type, placement)  VALUES (?,?,?,?,?)");
 		newSeconDep = con.prepareStatement("INSERT INTO seconDepts VALUES(?,?)");
 		checkDeser = con.prepareStatement("SELECT code FROM module WHERE name = \"Dissertation\" AND code LIKE ?");
-=======
-		PreparedStatement newDeg = null, deg = null, newSeconDep = null;
-		int count = 0;
-	
->>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
+
 		try {
 			deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE name = ?");
 			newDeg = con.prepareStatement("INSERT INTO degree (code, name, mainDept, type, placement)  VALUES (?,?,?,?,?)");
@@ -209,17 +201,13 @@ public class Degree{
 	public int deleteDegree() throws SQLException {
 		int count = 0;
 		connectToDB();
-<<<<<<< HEAD
 		PreparedStatement delDeg,delSDept,deg,delAssoMod,countAsso = null;
 		deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE code = ?");
 		delDeg = con.prepareStatement("DELETE FROM degree WHERE code = ?");
 		delSDept = con.prepareStatement("DELETE FROM seconDepts WHERE degreeCode = ?");
 		countAsso = con.prepareStatement("SELECT COUNT(*) FROM assoModDeg WHERE degCode = ?");
 		delAssoMod = con.prepareStatement("DELETE FROM assoModDeg WHERE degCode = ?");
-=======
-		PreparedStatement delDeg = null, delSDept = null, deg = null;
-		
->>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
+
 		try {
 			deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE code = ?");
 			delDeg = con.prepareStatement("DELETE FROM degree WHERE code = ?");
@@ -241,15 +229,11 @@ public class Degree{
 				delAssoMod.setString(1, getCode());
 				count += delAssoMod.executeUpdate();
 
-<<<<<<< HEAD
 			}
 			
 		    res.close();
 		 }catch (SQLException ex) {
-=======
-		    
-		 }catch (Exception ex) {
->>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
+
 			 ex.printStackTrace();
 		 }finally {
 				if (delDeg != null)
@@ -306,14 +290,10 @@ public class Degree{
 				res.close();
 				res1.close();
 			}
-			
-<<<<<<< HEAD
+
 			res1.close();
 		 }catch (SQLException ex) {
-=======
-			
-		 }catch (Exception ex) {
->>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
+
 			 ex.printStackTrace();
 		 }finally {
 				if (deg != null)
@@ -330,20 +310,14 @@ public class Degree{
 			ArrayList<String> degreeList = new ArrayList<String>();
 			
 			connectToDB();
-<<<<<<< HEAD
+
 			Statement stmt = con.createStatement();
 			PreparedStatement getDeg= con.prepareStatement("SELECT code FROM degree; " );
 			
 			
 			try {
 				ResultSet res  = getDeg.executeQuery();
-=======
-			PreparedStatement deg= null;
-			
-			try {
-				deg = con.prepareStatement("SELECT code FROM degree; " );
-				ResultSet res  = deg.executeQuery();
->>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
+
 				
 				while(res.next()) {
 					
@@ -358,26 +332,21 @@ public class Degree{
 			 }catch (SQLException ex) {
 				 ex.printStackTrace();
 			 }finally {
-<<<<<<< HEAD
+
 					if (stmt != null) {
 						getDeg.close();
 						getDeg.close();
 					}
-=======
-					if (deg != null)
-						deg.close();
->>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
-				}
-			
+
+			 }
 			con.close();
 			return degreeList;
+			
 		}
 		
-<<<<<<< HEAD
+
 		public static ArrayList<String> getAllDegNames() throws SQLException {
-=======
-		public static ArrayList<String> getAllDegNames() throws Exception {
->>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
+
 			ArrayList<String> degreeList = new ArrayList<String>();
 			
 			connectToDB();
@@ -532,10 +501,7 @@ public class Degree{
 			}
 			
 			con.close();
-<<<<<<< HEAD
-=======
-			
->>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
+
 			return coreModules;
 		}
 		
@@ -560,11 +526,7 @@ public class Degree{
 			}
 			
 			con.close();
-<<<<<<< HEAD
-=======
-			
-			
->>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
+
 			return optionalModules;
 		}
 		
