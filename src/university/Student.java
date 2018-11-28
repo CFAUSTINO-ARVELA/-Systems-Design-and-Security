@@ -16,7 +16,7 @@ public class Student {
       
       try {
     	  this.registrationNumber = this.generateRegistrationNumber();
-      } catch (SQLException ex) {
+      } catch (Exception ex) {
     	  ex.printStackTrace();
       }
       
@@ -47,8 +47,8 @@ public class Student {
 		String dcode = null;
 		PreparedStatement stu = null;
 		connectToDB();
-		stu = con.prepareStatement("SELECT * FROM student WHERE registrationNumber = ?");
 		try {
+			stu = con.prepareStatement("SELECT * FROM student WHERE registrationNumber = ?");
 			stu.setInt(1, r);
 			ResultSet res = stu.executeQuery();
 			res.next();
@@ -59,7 +59,7 @@ public class Student {
 			s = new Student(r, deg, tutor);
 			res.close();
 			
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (stu != null)
@@ -73,7 +73,7 @@ public class Student {
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 		   }
-		   catch(SQLException ex) {
+		   catch(Exception ex) {
 			   ex.printStackTrace();
 		   }
 	}
@@ -94,13 +94,14 @@ public class Student {
 					
 
 			System.out.println(count);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
 				stmt.close();
 		}
 		con.close();
+
 		return this;
 
 	}
@@ -118,7 +119,7 @@ public class Student {
 			count = stmt.executeUpdate(String.format("DELETE FROM studentStatus WHERE registrationNumber = %d;", this.registrationNumber));
 
 			System.out.println(count);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
@@ -154,6 +155,7 @@ public class Student {
     			stmt.close();
     	}
     	con.close();
+
     	return (count + 1);
     }
     
@@ -173,7 +175,6 @@ public class Student {
 		String result = null;
 		
 		try {
-			connectToDB();
 			stmt = con.createStatement();
 			ResultSet res = stmt.executeQuery(String.format("SELECT level FROM studentStatus WHERE registrationNumber = %d", regNum));
 			
@@ -215,7 +216,7 @@ public class Student {
 			}
 			res.close();
 			
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (dept != null)
@@ -233,10 +234,10 @@ public class Student {
 		char level;
 		String period = null;
 		boolean registered;
-		
+		connectToDB();
 		
 		try {
-			connectToDB();
+
 			stmt = con.createStatement();
 			ResultSet res = stmt.executeQuery(String.format("SELECT * FROM studentStatus WHERE registrationNumber = %d", regNum));
 			
@@ -244,10 +245,10 @@ public class Student {
 			level = res.getString("level").charAt(0);
 			period = res.getString("period");
 			registered = res.getBoolean("registered");
-			
-			status = new StudentStatus(regNum, level, period, registered);
+			boolean graduated = res.getBoolean("graduated");
+			status = new StudentStatus(regNum, level, period, registered, graduated);
 			res.close();
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null) {
@@ -255,6 +256,7 @@ public class Student {
 			}
 		}
 		con.close();
+
 		return status;
 	}
 	
@@ -263,12 +265,12 @@ public class Student {
 		Student student = null;
 		
 		connectToDB();
-		PreparedStatement stu,noStu = null;
-		noStu = con.prepareStatement("SELECT COUNT(*) FROM student WHERE username = ?");
-		stu = con.prepareStatement("SELECT * FROM student WHERE username = ?");
+		PreparedStatement stu = null, noStu = null;
 		Statement stmt = con.createStatement();
 		
 		try {
+			noStu = con.prepareStatement("SELECT COUNT(*) FROM student WHERE username = ?");
+			stu = con.prepareStatement("SELECT * FROM student WHERE username = ?");
 			noStu.setString(1, u);
 			System.out.println(noStu);
 			ResultSet res1 = noStu.executeQuery();
@@ -291,7 +293,7 @@ public class Student {
 			}
 			
 			
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (stmt != null)
@@ -331,8 +333,9 @@ public class Student {
 				result = new PeriodResult(this.registrationNumber, level, prev, grade, passed);
 				res.close();
 			}
-			
-		} catch (SQLException ex) {
+
+		} catch (Exception ex) {
+
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null) {
@@ -340,40 +343,43 @@ public class Student {
 			}
 		}
 		con.close();
+
 		return result;
 	}
 	
 	public ArrayList<PeriodResult> getPrevResults() throws SQLException {
-		connectToDB();
 		Statement stmt = null;
+		Connection con = null;
 		ArrayList<PeriodResult> results = new ArrayList<PeriodResult>();
 		PeriodResult result = null;
 		
 		StudentStatus status = null;
 		try {
+			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+
 			status = this.getStudentStatus();
 				
-				stmt = con.createStatement();
-				String query = String.format("SELECT * FROM periodResult WHERE registrationNumber = %d AND passed = true;", this.registrationNumber);
-				System.out.println(query);
-				ResultSet res = stmt.executeQuery(query);
+			stmt = con.createStatement();
+			String query = String.format("SELECT * FROM periodResult WHERE registrationNumber = %d AND passed = true;", this.registrationNumber);
+			System.out.println(query);
+			ResultSet res = stmt.executeQuery(query);
 				
-				while(res.next()) {
-					char level = res.getString("level").charAt(0);
-					String period = res.getString("period");
-					int grade = res.getInt("grade");
+			while(res.next()) {
+				char level = res.getString("level").charAt(0);
+				String period = res.getString("period");
+				int grade = res.getInt("grade");
 					
-					System.out.println("Past result, level = " + level + "period = " + period + "grade = " + grade);
+				System.out.println("Past result, level = " + level + "period = " + period + "grade = " + grade);
 				
-					if (level != 'P') {
-						result = new PeriodResult(this.registrationNumber, level, period, grade, true);
-						results.add(result);
-					}
+				if (level != 'P') {
+					result = new PeriodResult(this.registrationNumber, level, period, grade, true);
+					results.add(result);
 				}
-				
-				res.close();
-			
-		} catch (SQLException ex) {
+			}
+			res.close();
+
+		} catch (Exception ex) {
+
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null) {
@@ -764,7 +770,6 @@ public class Student {
 		String result = null;
 		
 		try {
-			connectToDB();
 			stmt = con.createStatement();
 			int count = stmt.executeUpdate(String.format("DELETE FROM moduleChoice WHERE registrationNumber = %d", reg));
 			
@@ -773,7 +778,7 @@ public class Student {
 				count += stmt.executeUpdate(String.format("INSERT INTO moduleChoice (registrationNumber, moduleCode, period) VALUES (%d, \"%s\", \"%s\");", reg, moduleCode, period));
 				count += stmt.executeUpdate(String.format("UPDATE studentStatus SET registered = 1 WHERE registrationNumber = %d;", reg));
 			}
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null) {

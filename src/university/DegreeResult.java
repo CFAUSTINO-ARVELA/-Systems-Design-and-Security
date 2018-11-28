@@ -17,7 +17,7 @@ public class DegreeResult {
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 		   }
-		   catch(SQLException ex) {
+		   catch(Exception ex) {
 			   ex.printStackTrace();
 		   }
 	}
@@ -27,14 +27,18 @@ public class DegreeResult {
 		this.masters = m;
 		this.result = res;
 	}
+
+	public String getResult() {
+		return this.result;
+	}
 	
 	public int createDegreeResult() throws SQLException {
 		connectToDB();
 		int count = 0;
-		PreparedStatement newresult, result = null;
-		result = con.prepareStatement("SELECT COUNT(*) FROM degreeResult WHERE registrationNumber = ?");
-		newresult = con.prepareStatement( "INSERT INTO degreeResult VALUES (?, ?, ?)");
+		PreparedStatement newresult = null, result = null;
 		try {
+			result = con.prepareStatement("SELECT COUNT(*) FROM degreeResult WHERE registrationNumber = ?");
+			newresult = con.prepareStatement( "INSERT INTO degreeResult VALUES (?, ?, ?)");
 			result.setInt(1, this.registrationNumber);
 			ResultSet res = result.executeQuery();
 			res.next();
@@ -45,8 +49,9 @@ public class DegreeResult {
 				newresult.setString(2, this.result);
 				count = newresult.executeUpdate();
 			}	
-		    res.close();
+			res.close();
 		 }catch (SQLException ex) {
+
 			 ex.printStackTrace();
 		 }finally {
 				if (newresult != null)
@@ -63,8 +68,8 @@ public class DegreeResult {
 		String dbresult = null;
 		PreparedStatement result = null;
 		connectToDB();
-		result = con.prepareStatement("SELECT * FROM degreeResult WHERE registrationNumber = ?");
 		try {
+			result = con.prepareStatement("SELECT * FROM degreeResult WHERE registrationNumber = ?");
 			result.setInt(1, r);
 			ResultSet res = result.executeQuery();
 			res.next();

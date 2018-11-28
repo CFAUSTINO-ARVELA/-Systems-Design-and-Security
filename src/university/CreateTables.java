@@ -74,6 +74,7 @@ public class CreateTables {
 		} finally {
 			if (stmt != null)
 				stmt.close();
+				con.close();
 		}
 
 	}

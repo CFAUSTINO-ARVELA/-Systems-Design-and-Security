@@ -14,25 +14,26 @@ public class PrintTables {
 
 			stmt = con.createStatement();
 			
-		ResultSet res = stmt.executeQuery("SELECT * FROM account;");
+			ResultSet res = stmt.executeQuery("SELECT * FROM account;");
 		
-		ResultSetMetaData rsmd = res.getMetaData();
-		int columnsNumber = rsmd.getColumnCount();
-		while (res.next()) {
-		    for (int i = 1; i <= columnsNumber; i++) {
-		        if (i > 1) System.out.print(",  ");
-		        String columnValue = res.getString(i);
-		        System.out.print(columnValue + " " + rsmd.getColumnName(i));
-		    }
-		    System.out.println("");
-		}
+			ResultSetMetaData rsmd = res.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			while (res.next()) {
+				for (int i = 1; i <= columnsNumber; i++) {
+					if (i > 1) System.out.print(",  ");
+					String columnValue = res.getString(i);
+					System.out.print(columnValue + " " + rsmd.getColumnName(i));
+				}
+				System.out.println("");
+			}
 		
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
 				stmt.close();
 		}
+		con.close();
 
 	}
 

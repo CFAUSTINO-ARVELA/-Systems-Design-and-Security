@@ -19,16 +19,17 @@ public class StudentStatus {
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 		   }
-		   catch(SQLException ex) {
+		   catch(Exception ex) {
 			   ex.printStackTrace();
 		   }
 	}
 	
-	public StudentStatus(int r, char l, String p, boolean reg) {
+	public StudentStatus(int r, char l, String p, boolean reg, boolean g) {
 		this.registrationNumber = r;
 		this.level = l;
 		this.period = p;
 		this.registered = reg;
+		this.graduated = g;
 	}
 	
 	public boolean isRegistered() {
@@ -57,7 +58,7 @@ public class StudentStatus {
 					
 
 			System.out.println(count);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
@@ -94,7 +95,7 @@ public class StudentStatus {
 					String.format("UPDATE studentStatus SET graduated = true WHERE registrationNumber = %d;", this.registrationNumber));
 			
 			System.out.println(count);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
@@ -114,7 +115,7 @@ public class StudentStatus {
 					String.format("UPDATE studentStatus SET resitting = %b WHERE registrationNumber = %d;", b, this.registrationNumber));
 			
 			System.out.println(count);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
@@ -219,6 +220,7 @@ public class StudentStatus {
 			if (stmt != null)
 				stmt.close();
 		}
+		con.close();
 	}
 	
 	public void setRegistered(boolean r) throws SQLException {

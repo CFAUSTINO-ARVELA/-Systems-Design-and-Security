@@ -41,7 +41,7 @@ public class Degree{
 			   try {
 				   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			   }
-			   catch(SQLException ex) {
+			   catch(Exception ex) {
 				   ex.printStackTrace();
 			   }
 		}
@@ -57,8 +57,8 @@ public class Degree{
 		//System.out.println(degCode+"%");
 		connectToDB();
 		PreparedStatement noDeg = null;
-		noDeg = con.prepareStatement("SELECT MAX(code) FROM degree WHERE mainDept =  ? AND code LIKE ?");
 		try {
+			noDeg = con.prepareStatement("SELECT MAX(code) FROM degree WHERE mainDept =  ? AND code LIKE ?");
 			noDeg.setString(1, getMainDept().getCode());
 			noDeg.setString(2, degCode+"%");
 			//System.out.println(noDeg.toString());
@@ -69,8 +69,12 @@ public class Degree{
 			//System.out.println(res.getString(0).isEmpty()+ "Aqui");
 			if(res.getString("MAX(code)") != null)
 				no = Integer.parseInt(res.getString("MAX(code)").substring(4)) + 1;
+<<<<<<< HEAD
 			res.close();
 		 }catch (SQLException ex) {
+=======
+		 }catch (Exception ex) {
+>>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
 			 ex.printStackTrace();
 		 }finally {
 				if (noDeg != null)
@@ -117,13 +121,22 @@ public class Degree{
 	@SuppressWarnings("resource")
 	public int createDegree() throws SQLException  {
 		connectToDB();
+<<<<<<< HEAD
 		PreparedStatement newDeg,deg, newSeconDep,checkDeser= null;
 		int count = 0;
 		deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE name = ?");
 		newDeg = con.prepareStatement("INSERT INTO degree (code, name, mainDept, type, placement)  VALUES (?,?,?,?,?)");
 		newSeconDep = con.prepareStatement("INSERT INTO seconDepts VALUES(?,?)");
 		checkDeser = con.prepareStatement("SELECT code FROM module WHERE name = \"Dissertation\" AND code LIKE ?");
+=======
+		PreparedStatement newDeg = null, deg = null, newSeconDep = null;
+		int count = 0;
+	
+>>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
 		try {
+			deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE name = ?");
+			newDeg = con.prepareStatement("INSERT INTO degree (code, name, mainDept, type, placement)  VALUES (?,?,?,?,?)");
+			newSeconDep = con.prepareStatement("INSERT INTO seconDepts VALUES(?,?)");
 			deg.setString(1, getName());
 			ResultSet res = deg.executeQuery();
 			
@@ -177,7 +190,7 @@ public class Degree{
 					
 			
 		}
-		}catch (SQLException ex) {
+		}catch (Exception ex) {
 			ex.printStackTrace();
 		}finally {
 			if (newDeg != null)
@@ -196,13 +209,21 @@ public class Degree{
 	public int deleteDegree() throws SQLException {
 		int count = 0;
 		connectToDB();
+<<<<<<< HEAD
 		PreparedStatement delDeg,delSDept,deg,delAssoMod,countAsso = null;
 		deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE code = ?");
 		delDeg = con.prepareStatement("DELETE FROM degree WHERE code = ?");
 		delSDept = con.prepareStatement("DELETE FROM seconDepts WHERE degreeCode = ?");
 		countAsso = con.prepareStatement("SELECT COUNT(*) FROM assoModDeg WHERE degCode = ?");
 		delAssoMod = con.prepareStatement("DELETE FROM assoModDeg WHERE degCode = ?");
+=======
+		PreparedStatement delDeg = null, delSDept = null, deg = null;
+		
+>>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
 		try {
+			deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE code = ?");
+			delDeg = con.prepareStatement("DELETE FROM degree WHERE code = ?");
+			delSDept = con.prepareStatement("DELETE FROM seconDepts WHERE degreeCode = ?");
 			deg.setString(1, getCode());
 			ResultSet res = deg.executeQuery();
 			res.next();
@@ -220,10 +241,15 @@ public class Degree{
 				delAssoMod.setString(1, getCode());
 				count += delAssoMod.executeUpdate();
 
+<<<<<<< HEAD
 			}
 			
 		    res.close();
 		 }catch (SQLException ex) {
+=======
+		    
+		 }catch (Exception ex) {
+>>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
 			 ex.printStackTrace();
 		 }finally {
 				if (delDeg != null)
@@ -246,12 +272,12 @@ public class Degree{
 		//System.out.println(c);
 		
 		connectToDB();
-		PreparedStatement deg,noDeg,secDep = null;
-		noDeg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE code = ?");
-		deg = con.prepareStatement("SELECT * FROM degree JOIN department WHERE degree.mainDept=department.code AND degree.code =  ?");
-		secDep = con.prepareStatement("SELECT dept FROM seconDepts WHERE degreeCode = ?");
+		PreparedStatement deg = null, noDeg = null, secDep = null;
 		
 		try {
+			noDeg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE code = ?");
+			deg = con.prepareStatement("SELECT * FROM degree JOIN department WHERE degree.mainDept=department.code AND degree.code =  ?");
+			secDep = con.prepareStatement("SELECT dept FROM seconDepts WHERE degreeCode = ?");
 			noDeg.setString(1, c);
 			//System.out.println(noDeg);
 			ResultSet res1 = noDeg.executeQuery();
@@ -281,8 +307,13 @@ public class Degree{
 				res1.close();
 			}
 			
+<<<<<<< HEAD
 			res1.close();
 		 }catch (SQLException ex) {
+=======
+			
+		 }catch (Exception ex) {
+>>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
 			 ex.printStackTrace();
 		 }finally {
 				if (deg != null)
@@ -299,12 +330,20 @@ public class Degree{
 			ArrayList<String> degreeList = new ArrayList<String>();
 			
 			connectToDB();
+<<<<<<< HEAD
 			Statement stmt = con.createStatement();
 			PreparedStatement getDeg= con.prepareStatement("SELECT code FROM degree; " );
 			
 			
 			try {
 				ResultSet res  = getDeg.executeQuery();
+=======
+			PreparedStatement deg= null;
+			
+			try {
+				deg = con.prepareStatement("SELECT code FROM degree; " );
+				ResultSet res  = deg.executeQuery();
+>>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
 				
 				while(res.next()) {
 					
@@ -319,25 +358,34 @@ public class Degree{
 			 }catch (SQLException ex) {
 				 ex.printStackTrace();
 			 }finally {
+<<<<<<< HEAD
 					if (stmt != null) {
 						getDeg.close();
 						getDeg.close();
 					}
+=======
+					if (deg != null)
+						deg.close();
+>>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
 				}
 			
+			con.close();
 			return degreeList;
 		}
 		
+<<<<<<< HEAD
 		public static ArrayList<String> getAllDegNames() throws SQLException {
+=======
+		public static ArrayList<String> getAllDegNames() throws Exception {
+>>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
 			ArrayList<String> degreeList = new ArrayList<String>();
 			
 			connectToDB();
-			Statement stmt = con.createStatement();
 			PreparedStatement deg= null;
-			deg = con.prepareStatement("SELECT name FROM degree; " );
-			
 			
 			try {
+				deg = con.prepareStatement("SELECT name FROM degree; " );
+				
 				ResultSet res = deg.executeQuery();
 				
 				while(res.next()) {
@@ -347,14 +395,14 @@ public class Degree{
 					degreeList.add(dName);
 				}
 				res.close();
-				con.close();
-			 }catch (SQLException ex) {
+			 }catch (Exception ex) {
 				 ex.printStackTrace();
 			 }finally {
-					if (stmt != null)
+					if (deg != null)
 						deg.close();
-						stmt.close();
 				}
+			
+			con.close();
 			
 			return degreeList;
 		}
@@ -366,8 +414,8 @@ public class Degree{
 			ResultSet res = null;
 			PreparedStatement dept = null;
 			connectToDB();
-			dept = con.prepareStatement("SELECT * FROM degree;");
 			try {
+				dept = con.prepareStatement("SELECT * FROM degree;");
 				res  = dept.executeQuery();
 				deg.add("Code");
 				deg.add("Name");
@@ -408,7 +456,7 @@ public class Degree{
 				}
 				res.close();
 				
-			 }catch (SQLException ex) {
+			 }catch (Exception ex) {
 				 ex.printStackTrace();
 			 }finally {
 					if (dept != null)
@@ -423,8 +471,8 @@ public class Degree{
 			ResultSet res = null;
 			PreparedStatement getMod = null;
 			connectToDB();
-			getMod = con.prepareStatement("SELECT modCode, name, mandatory,year,duration, credits  FROM assoModDeg JOIN module WHERE assoModDeg.modCode = module.code AND degCode = ?;");
 			try {
+				getMod = con.prepareStatement("SELECT modCode, name, mandatory,year,duration, credits  FROM assoModDeg JOIN module WHERE assoModDeg.modCode = module.code AND degCode = ?;");
 				getMod.setString(1, getCode());
 				res  = getMod.executeQuery();
 				mod.add("Code");
@@ -452,7 +500,7 @@ public class Degree{
 				res.close();
 				
 				
-			 }catch (SQLException ex) {
+			 }catch (Exception ex) {
 				 ex.printStackTrace();
 			 }finally {
 					if (getMod != null)
@@ -484,6 +532,10 @@ public class Degree{
 			}
 			
 			con.close();
+<<<<<<< HEAD
+=======
+			
+>>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
 			return coreModules;
 		}
 		
@@ -508,14 +560,20 @@ public class Degree{
 			}
 			
 			con.close();
+<<<<<<< HEAD
+=======
+			
+			
+>>>>>>> 8dce98cbcc5ae34c9d444f4c39cd0aba365eb93e
 			return optionalModules;
 		}
 		
 		public static int getCredits(String degreeCode, int level) throws SQLException {
 			int totCredits = 0;
 			connectToDB();
-			PreparedStatement credSum = con.prepareStatement("SELECT SUM(credits) FROM module JOIN assoModDeg WHERE degCode = ? AND year = ? AND mandatory = true;");
+			PreparedStatement credSum = null;
 			try {
+				credSum = con.prepareStatement("SELECT SUM(credits) FROM module JOIN assoModDeg WHERE degCode = ? AND year = ? AND mandatory = true;");
 				credSum.setString(1, degreeCode);
 				credSum.setInt(2, level);
 				ResultSet res = credSum.executeQuery();
@@ -524,13 +582,14 @@ public class Degree{
 					totCredits = res.getInt(1);
 				}
 				res.close();
-			 }catch (SQLException ex) {
+			 }catch (Exception ex) {
 				 ex.printStackTrace();
 			 }finally {
 					if (credSum != null)
 						credSum.close();
-						con.close();
 				}
+			
+			con.close();
 			
 			return totCredits;
 		}
@@ -538,8 +597,9 @@ public class Degree{
 		public static int getNoMod (String degreeCode, String moduleCode, int level) throws SQLException{
 			int noMod = 0;
 			connectToDB();
-			PreparedStatement credSum = con.prepareStatement("SELECT COUNT(*) FROM assoModDeg WHERE degCode = ? AND year = ? AND modCode = ?;");
+			PreparedStatement credSum = null;
 			try {
+				credSum = con.prepareStatement("SELECT COUNT(*) FROM assoModDeg WHERE degCode = ? AND year = ? AND modCode = ?;");
 				credSum.setString(1, degreeCode);
 				credSum.setInt(2, level);
 				credSum.setString(3, moduleCode);
@@ -549,13 +609,14 @@ public class Degree{
 					noMod = res.getInt(1);
 				}
 				res.close();
-			 }catch (SQLException ex) {
+			 }catch (Exception ex) {
 				 ex.printStackTrace();
 			 }finally {
 					if (credSum != null)
 						credSum.close();
-						con.close();
 				}
+			
+			con.close();
 			
 			return noMod;
 		}

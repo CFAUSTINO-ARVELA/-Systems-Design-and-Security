@@ -32,7 +32,7 @@ public class Department{
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 		   }
-		   catch(SQLException ex) {
+		   catch(Exception ex) {
 			   ex.printStackTrace();
 		   }
 	}
@@ -41,10 +41,10 @@ public class Department{
 	public int createDept() throws SQLException  {
 		connectToDB();
 		int count = 0;
-		PreparedStatement newDept, dept = null;
-		dept = con.prepareStatement("SELECT COUNT(*) FROM department WHERE code = ?");
-		newDept = con.prepareStatement( "INSERT INTO department VALUES (? , ? )");
+		PreparedStatement newDept = null, dept = null;
 		try {
+			dept = con.prepareStatement("SELECT COUNT(*) FROM department WHERE code = ?");
+			newDept = con.prepareStatement( "INSERT INTO department VALUES (? , ? )");
 			dept.setString(1, getCode());
 			ResultSet res = dept.executeQuery();
 			res.next();
@@ -54,6 +54,7 @@ public class Department{
 				newDept.setString(2, getName());
 				count = newDept.executeUpdate();
 			}	
+
 		    res.close();
 		 }catch (SQLException ex) {
 			 ex.printStackTrace();
@@ -73,12 +74,12 @@ public class Department{
 		connectToDB();
 		int count = 0;
 		Degree c = null;
-		PreparedStatement dept, delDept, deg= null;
-		dept = con.prepareStatement("SELECT COUNT(*) FROM department WHERE code = ?");
-		delDept = con.prepareStatement( "DELETE FROM department WHERE code = ?");
-		deg = con.prepareStatement("SELECT code FROM degree WHERE mainDept = ?");
+		PreparedStatement dept = null, delDept = null, deg= null;
 		
 		try {
+			dept = con.prepareStatement("SELECT COUNT(*) FROM department WHERE code = ?");
+			delDept = con.prepareStatement( "DELETE FROM department WHERE code = ?");
+			deg = con.prepareStatement("SELECT code FROM degree WHERE mainDept = ?");
 			dept.setString(1, getCode());
 			ResultSet res = dept.executeQuery();
 			res.next();
@@ -101,7 +102,7 @@ public class Department{
 			res.close();
 				
 			}
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (delDept != null)
@@ -117,15 +118,16 @@ public class Department{
 	public static ArrayList<String> getAllDepNames() throws SQLException  {
 		ArrayList<String> deptList = new ArrayList<String>();
 		connectToDB();
-		Statement stmt = con.createStatement();
+		Statement stmt = null;
 		try {
+			stmt = con.createStatement();
 			ResultSet res  = stmt.executeQuery("SELECT name FROM department");
 			while (res.next()) {
 				String name = res.getString("name");
 				deptList.add(name);
 			}
 			res.close();
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (stmt != null)
@@ -138,15 +140,16 @@ public class Department{
 		Department department = new Department();
 		ArrayList<Department> deptList = new ArrayList<Department>();
 		connectToDB();
-		Statement stmt = con.createStatement();
+		Statement stmt = null;
 		try {
+			stmt = con.createStatement();
 			ResultSet res  = stmt.executeQuery("SELECT code FROM department");
 			while (res.next()) {
 				String code = res.getString("code");
 				deptList.add(department.getDept(code));
 			}
 			res.close();
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (stmt != null)
@@ -161,8 +164,8 @@ public class Department{
 		String dcode = null;
 		PreparedStatement dept = null;
 		connectToDB();
-		dept = con.prepareStatement("SELECT code FROM department WHERE name = ?");
 		try {
+			dept = con.prepareStatement("SELECT code FROM department WHERE name = ?");
 			dept.setString(1, n);
 			ResultSet res  = dept.executeQuery();
 			res.next();
@@ -170,7 +173,7 @@ public class Department{
 			d = new Department(dcode,n);
 			res.close();
 			
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (dept != null)
@@ -184,8 +187,8 @@ public class Department{
 		Department d = new Department();
 		PreparedStatement dept = null;
 		connectToDB();
-		dept = con.prepareStatement("SELECT name FROM department WHERE code = ?");
 		try {
+			dept = con.prepareStatement("SELECT name FROM department WHERE code = ?");
 			dept.setString(1, c);
 			ResultSet res  = dept.executeQuery();
 			res.next();
@@ -193,7 +196,7 @@ public class Department{
 			d = new Department(c,name);
 			res.close();
 			
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (dept != null)
@@ -209,8 +212,8 @@ public class Department{
 		ResultSet res = null;
 		PreparedStatement dept = null;
 		connectToDB();
-		dept = con.prepareStatement("SELECT * FROM department;");
 		try {
+			dept = con.prepareStatement("SELECT * FROM department;");
 			res  = dept.executeQuery();
 			depart.add("Code");
 			depart.add("Name");
@@ -223,7 +226,7 @@ public class Department{
 			}
 			res.close();
 			
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (dept != null)

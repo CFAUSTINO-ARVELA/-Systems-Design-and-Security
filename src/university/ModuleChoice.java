@@ -20,7 +20,7 @@ public class ModuleChoice {
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 		   }
-		   catch(SQLException ex) {
+		   catch(Exception ex) {
 			   ex.printStackTrace();
 		   }
 	}
@@ -66,13 +66,13 @@ public class ModuleChoice {
 					
 
 			System.out.println(count);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
 				stmt.close();
-				con.close();
 		}
+		con.close();
 		
 
 	}
@@ -81,8 +81,9 @@ public class ModuleChoice {
 		ArrayList<ModuleGrades> choices = new ArrayList<ModuleGrades>();
 		
 		connectToDB();
-		Statement stmt = con.createStatement();
+		Statement stmt = null;
 		try {
+			stmt = con.createStatement();
 			ResultSet res  = stmt.executeQuery(String.format("SELECT * FROM moduleChoice WHERE registrationNumber = %d AND period = \"%s\";", r, p));
 			while (res.next()) {
 				Module modCode = Module.getModule(res.getString("moduleCode"));
@@ -93,7 +94,7 @@ public class ModuleChoice {
 				
 			}
 			res.close();
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (stmt != null)

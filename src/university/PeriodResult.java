@@ -20,7 +20,7 @@ public class PeriodResult {
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 		   }
-		   catch(SQLException ex) {
+		   catch(Exception ex) {
 			   ex.printStackTrace();
 		   }
 	}
@@ -29,9 +29,9 @@ public class PeriodResult {
 		connectToDB();
 		int count = 0;
 		PreparedStatement newresult = null;
-		newresult = con.prepareStatement( "INSERT INTO periodResult VALUES (?, ?, ?, ?, ?)");
 		try {
 			
+			newresult = con.prepareStatement( "INSERT INTO periodResult VALUES (?, ?, ?, ?, ?)");
 			newresult.setInt(1, this.registrationNumber);
 			newresult.setString(3, Character.toString(this.level));
 			newresult.setString(2, this.period);
@@ -40,7 +40,7 @@ public class PeriodResult {
 			count = newresult.executeUpdate();
 	
 		    
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (newresult != null)

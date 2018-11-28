@@ -5,19 +5,14 @@ import javax.swing.*;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import university.UI.ProfileScreen;
 import university.ScreenManager;
 import university.Student;
 import university.TableModel;
-import university.Account;
-import university.ModuleChoice;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.*;
 
@@ -31,9 +26,6 @@ class StudentManagementScreen extends JPanel implements ActionListener {
     private ProfileScreen profileScreen;
     private boolean canEdit;
     private JTable studentTable;
-
-    private Connection con = null;
-    private Statement stmt = null;
 
     StudentManagementScreen(ScreenManager scr, ProfileScreen prof, boolean edit) {
         this.initComponents();
@@ -63,7 +55,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         this.studentManagement.setLayout(null);
 
         backToProfileBtn.addActionListener(e -> {
-            studentTable.clearSelection(); 
+            studentTable.clearSelection();
             this.studentManagement.setVisible(false);
             this.profileScreen.draw();
         });
@@ -97,8 +89,13 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                 Student student;
                 try {
                     student = Student.getStudentReg(index);
-                    ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this, student);
-                    choiceScreen.draw();
+                    if (student.getStudentStatus().isGraduated()) {
+                        JOptionPane.showMessageDialog(null, "This student has graduated");
+                    } else {
+                        ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this, student);
+                        choiceScreen.draw();
+                        this.studentManagement.setVisible(false);
+                    }
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -113,9 +110,14 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                 String username = (String) studentTable.getValueAt(studentTable.getSelectedRow(), 3);
                 MarkingScreen markingScr;
                 try {
-                    markingScr = new MarkingScreen(this.screen, this, Student.getStudent(username));
-                    markingScr.draw();
-                    this.studentManagement.setVisible(false);
+                    Student student = Student.getStudent(username);
+                    if (student.getStudentStatus().isGraduated()) {
+                        JOptionPane.showMessageDialog(null, "This student has graduated");
+                    } else {
+                        markingScr = new MarkingScreen(this.screen, this, student);
+                        markingScr.draw();
+                        this.studentManagement.setVisible(false);
+                    }
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }

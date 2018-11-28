@@ -21,8 +21,6 @@ import javax.swing.SwingConstants;
 
 import university.*;
 
-
-
 public class LoginScreen extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -65,7 +63,7 @@ public class LoginScreen extends JPanel {
     public static void connectToDB() throws SQLException {
         try {
             con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -129,10 +127,10 @@ public class LoginScreen extends JPanel {
 			ex.printStackTrace();
 		} finally {
 			if (res2 != null)
-	    		con.close();
 	    		pst1.close();
 	    		pst2.close();
 		}
+		con.close();
 
 
     }

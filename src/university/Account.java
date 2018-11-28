@@ -23,7 +23,7 @@ public class Account {
 		
 		try {
 			this.username = this.generateUsername();
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 
@@ -54,7 +54,7 @@ public class Account {
 			   try {
 				   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			   }
-			   catch(SQLException ex) {
+			   catch(Exception ex) {
 				   ex.printStackTrace();
 			   }
 		}
@@ -71,12 +71,13 @@ public class Account {
 					
 
 			System.out.println(count);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
 				stmt.close();
 		}
+		con.close();
 		
 		con.close();
 		return this;
@@ -117,13 +118,14 @@ public class Account {
 				}
 			}
 
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
 				stmt.close();
 		}
 		con.close();
+
 		return initials + this.surname.replaceAll("\\s+","").toLowerCase() + count;
 	}
 	
@@ -157,13 +159,14 @@ public class Account {
 					String.format("UPDATE account SET title = %s WHERE username = %s;", t, this.username));
 
 			System.out.println(count);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
 				stmt.close();
 		}
 		con.close();
+
 		this.title = t;
 
 	}
@@ -183,13 +186,14 @@ public class Account {
 					String.format("UPDATE account SET forename = %s WHERE username = %s;", f, this.username));
 
 			System.out.println(count);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
 				stmt.close();
 		}
 		con.close();
+
 		this.forename = f;
 
 	}
@@ -210,13 +214,14 @@ public class Account {
 					String.format("UPDATE account SET surname = %s WHERE username = %s;", s, this.username));
 
 			System.out.println(count);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
 				stmt.close();
 		}
 		con.close();
+
 		this.surname = s;
 
 	}
@@ -257,7 +262,7 @@ public class Account {
 					String.format("DELETE FROM account WHERE username = \"%s\";", this.username));
 
 			System.out.println(count);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
@@ -302,7 +307,7 @@ public class Account {
 			}
 			res.close();
 			
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (dept != null)
