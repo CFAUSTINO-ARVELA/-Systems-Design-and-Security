@@ -44,37 +44,37 @@ public class Degree {
 		}
 	}
 
-	public void setCode() throws SQLException{
+	public void setCode() throws SQLException {
 		int no = 1;
-		
+
 		String degCode = getMainDept().getCode();
 		if (getType() == "MSc")
 			degCode += "P";
 		else
 			degCode += "U";
-		//System.out.println(degCode+"%");
+		// System.out.println(degCode+"%");
 		connectToDB();
 		PreparedStatement noDeg = null;
 		try {
 			noDeg = con.prepareStatement("SELECT MAX(code) FROM degree WHERE mainDept =  ? AND code LIKE ?");
 			noDeg.setString(1, getMainDept().getCode());
-			noDeg.setString(2, degCode+"%");
-			//System.out.println(noDeg.toString());
+			noDeg.setString(2, degCode + "%");
+			// System.out.println(noDeg.toString());
 			ResultSet res = noDeg.executeQuery();
 			res.next();
-			//System.out.println(res.getString("MAX(code)"));
-			//System.out.println(res.getString("MAX(code)") == null);
-			//System.out.println(res.getString(0).isEmpty()+ "Aqui");
-			if(res.getString("MAX(code)") != null)
+			// System.out.println(res.getString("MAX(code)"));
+			// System.out.println(res.getString("MAX(code)") == null);
+			// System.out.println(res.getString(0).isEmpty()+ "Aqui");
+			if (res.getString("MAX(code)") != null)
 				no = Integer.parseInt(res.getString("MAX(code)").substring(4)) + 1;
-		 }catch (Exception ex) {
-			 ex.printStackTrace();
-		 }finally {
-				if (noDeg != null)
-					noDeg.close();
-			}
-		
-		degCode += String.format("%02d", no); 
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (noDeg != null)
+				noDeg.close();
+		}
+
+		degCode += String.format("%02d", no);
 		con.close();
 		setCode(degCode);
 	}
@@ -121,11 +121,11 @@ public class Degree {
 		int count = 0;
 
 		try {
-			checkDeser = con.prepareStatement("SELECT code FROM module WHERE name = \"Dissertation\" AND code LIKE ?");
 			deg = con.prepareStatement("SELECT COUNT(*) FROM degree WHERE name = ?");
 			newDeg = con
 					.prepareStatement("INSERT INTO degree (code, name, mainDept, type, placement)  VALUES (?,?,?,?,?)");
 			newSeconDep = con.prepareStatement("INSERT INTO seconDepts VALUES(?,?)");
+			checkDeser = con.prepareStatement("SELECT code FROM module WHERE name = \"Dissertation\" AND code LIKE ?");
 			deg.setString(1, getName());
 			ResultSet res = deg.executeQuery();
 
@@ -223,7 +223,9 @@ public class Degree {
 			}
 
 			res.close();
-		} catch (Exception ex) {
+		} catch (
+
+		Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (delDeg != null)
@@ -283,10 +285,11 @@ public class Degree {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			if (deg != null)
+			if (deg != null) {
 				noDeg.close();
-			deg.close();
-			secDep.close();
+				deg.close();
+				secDep.close();
+			}
 		}
 		con.close();
 		return degree;
@@ -322,10 +325,11 @@ public class Degree {
 			
 			con.close();
 			return degreeList;
+			
 		}
-		
 
-	public static ArrayList<String> getAllDegNames() throws Exception {
+	public static ArrayList<String> getAllDegNames() throws SQLException {
+
 			ArrayList<String> degreeList = new ArrayList<String>();
 			
 			connectToDB();
@@ -504,7 +508,7 @@ public class Degree {
 			}
 			
 			con.close();
-			
+
 			return optionalModules;
 		}
 
