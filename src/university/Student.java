@@ -16,7 +16,7 @@ public class Student {
       
       try {
     	  this.registrationNumber = this.generateRegistrationNumber();
-      } catch (SQLException ex) {
+      } catch (Exception ex) {
     	  ex.printStackTrace();
       }
       
@@ -47,8 +47,8 @@ public class Student {
 		String dcode = null;
 		PreparedStatement stu = null;
 		connectToDB();
-		stu = con.prepareStatement("SELECT * FROM student WHERE registrationNumber = ?");
 		try {
+			stu = con.prepareStatement("SELECT * FROM student WHERE registrationNumber = ?");
 			stu.setInt(1, r);
 			ResultSet res = stu.executeQuery();
 			res.next();
@@ -59,7 +59,7 @@ public class Student {
 			s = new Student(r, deg, tutor);
 			res.close();
 			
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (stu != null)
@@ -73,7 +73,7 @@ public class Student {
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 		   }
-		   catch(SQLException ex) {
+		   catch(Exception ex) {
 			   ex.printStackTrace();
 		   }
 	}
@@ -94,12 +94,13 @@ public class Student {
 					
 
 			System.out.println(count);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
 				stmt.close();
 		}
+		con.close();
 		
 		return this;
 
@@ -118,12 +119,13 @@ public class Student {
 			count = stmt.executeUpdate(String.format("DELETE FROM studentStatus WHERE registrationNumber = %d;", this.registrationNumber));
 
 			System.out.println(count);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null)
 				stmt.close();
 		}
+		con.close();
 	}
 
     public Degree getDegree() {
@@ -152,6 +154,7 @@ public class Student {
     		if (stmt != null)
     			stmt.close();
     	}
+    	con.close();
     	
     	return (count + 1);
     }
@@ -213,7 +216,7 @@ public class Student {
 			}
 			res.close();
 			
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (dept != null)
@@ -231,10 +234,10 @@ public class Student {
 		char level;
 		String period = null;
 		boolean registered;
-		
+		connectToDB();
 		
 		try {
-			connectToDB();
+
 			stmt = con.createStatement();
 			ResultSet res = stmt.executeQuery(String.format("SELECT * FROM studentStatus WHERE registrationNumber = %d", regNum));
 			
@@ -244,13 +247,14 @@ public class Student {
 			registered = res.getBoolean("registered");
 			
 			status = new StudentStatus(regNum, level, period, registered);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null) {
 				stmt.close();
 			}
 		}
+		con.close();
 		
 		return status;
 	}
@@ -260,12 +264,12 @@ public class Student {
 		Student student = null;
 		
 		connectToDB();
-		PreparedStatement stu,noStu = null;
-		noStu = con.prepareStatement("SELECT COUNT(*) FROM student WHERE username = ?");
-		stu = con.prepareStatement("SELECT * FROM student WHERE username = ?");
+		PreparedStatement stu = null, noStu = null;
 		Statement stmt = con.createStatement();
 		
 		try {
+			noStu = con.prepareStatement("SELECT COUNT(*) FROM student WHERE username = ?");
+			stu = con.prepareStatement("SELECT * FROM student WHERE username = ?");
 			noStu.setString(1, u);
 			System.out.println(noStu);
 			ResultSet res1 = noStu.executeQuery();
@@ -288,7 +292,7 @@ public class Student {
 			}
 			
 			
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (stmt != null)
@@ -327,13 +331,14 @@ public class Student {
 				
 				result = new PeriodResult(this.registrationNumber, level, prev, grade, passed);
 			}
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null) {
 				stmt.close();
 			}
 		}
+		con.close();
 		
 		return result;
 	}
@@ -368,13 +373,14 @@ public class Student {
 				
 				
 			
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null) {
 				stmt.close();
 			}
 		}
+		con.close();
 		
 		return results;
 	}
@@ -397,6 +403,7 @@ public class Student {
 			if (stmt != null)
 				stmt.close();
 		}
+		con.close();
 	}
 	
 	public boolean progress(Student student, ArrayList<ModuleGrades> grades) throws Exception {
@@ -758,7 +765,6 @@ public class Student {
 		String result = null;
 		
 		try {
-			connectToDB();
 			stmt = con.createStatement();
 			int count = stmt.executeUpdate(String.format("DELETE FROM moduleChoice WHERE registrationNumber = %d", reg));
 			
@@ -767,13 +773,14 @@ public class Student {
 				count += stmt.executeUpdate(String.format("INSERT INTO moduleChoice (registrationNumber, moduleCode, period) VALUES (%d, \"%s\", \"%s\");", reg, moduleCode, period));
 				count += stmt.executeUpdate(String.format("UPDATE studentStatus SET registered = 1 WHERE registrationNumber = %d;", reg));
 			}
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			if (stmt != null) {
 				stmt.close();
 			}
 		}
+		con.close();
 	}
 }
 

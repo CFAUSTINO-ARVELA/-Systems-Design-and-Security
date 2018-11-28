@@ -62,6 +62,7 @@ public class Module {
 		if (stmt != null) {
 			stmt.close();
 		}
+		con.close();
  		return finalCode;
 	}
 	
@@ -70,7 +71,7 @@ public class Module {
 		   try {
 			   con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 		   }
-		   catch(SQLException ex) {
+		   catch(Exception ex) {
 			   ex.printStackTrace();
 		   }
 	}
@@ -78,12 +79,12 @@ public class Module {
 	//Creates module
 	public Module createModule() throws Exception {
 		connectToDB();
-		PreparedStatement mod, newMod = null;
+		PreparedStatement mod = null, newMod = null;
 		int count = 0;
-		mod = con.prepareStatement("SELECT COUNT(*) FROM module WHERE code = ?");
-		newMod = con.prepareStatement("INSERT INTO module VALUES (?,?,?,?)");
 		
 		try {
+			mod = con.prepareStatement("SELECT COUNT(*) FROM module WHERE code = ?");
+			newMod = con.prepareStatement("INSERT INTO module VALUES (?,?,?,?)");
 			mod.setString(1, getName());
 			ResultSet res = mod.executeQuery();
 			
@@ -97,7 +98,7 @@ public class Module {
 			}
 			
 			}
-		catch (SQLException ex) {
+		catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		finally {
@@ -113,11 +114,11 @@ public class Module {
 	public void deleteModule() throws Exception {
 		int count = 0;
 		connectToDB();
-		PreparedStatement modCount, delMod = null;
-		modCount = con.prepareStatement("SELECT COUNT(*) FROM module WHERE code = ?");
-		delMod = con.prepareStatement("DELETE FROM module WHERE code = ?");
+		PreparedStatement modCount = null, delMod = null;
 		
 		try {
+			modCount = con.prepareStatement("SELECT COUNT(*) FROM module WHERE code = ?");
+			delMod = con.prepareStatement("DELETE FROM module WHERE code = ?");
 			modCount.setString(1, getCode());
 			ResultSet res = modCount.executeQuery();
 			res.next();
@@ -142,12 +143,12 @@ public class Module {
 		Module module = null;
 		
 		connectToDB();
-		PreparedStatement mod,noMod = null;
-		noMod = con.prepareStatement("SELECT COUNT(*) FROM module WHERE code = ?");
-		mod = con.prepareStatement("SELECT * FROM module WHERE code =  ?");
+		PreparedStatement mod = null, noMod = null;
 		Statement stmt = con.createStatement();
 		
 		try {
+			noMod = con.prepareStatement("SELECT COUNT(*) FROM module WHERE code = ?");
+			mod = con.prepareStatement("SELECT * FROM module WHERE code =  ?");
 			noMod.setString(1, c);
 			System.out.println(noMod);
 			ResultSet res1 = noMod.executeQuery();
@@ -168,7 +169,7 @@ public class Module {
 			}
 			
 			
-		 }catch (SQLException ex) {
+		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
 				if (stmt != null)
@@ -191,29 +192,32 @@ public class Module {
 		System.out.println("AssignModule " + count);
 		if (stmt != null) {
 			stmt.close();
-			con.close();
 		}
 		
+		con.close();
 		return count;
 	}
 	
 	public static void remAssoModDeg(String modCode,String degCode, int year) throws Exception {
 		connectToDB();
 		
-		PreparedStatement query = con.prepareStatement("DELETE FROM assoModDeg WHERE modCode = ? AND degCode = ? AND year = ? ");
+		PreparedStatement query = null;
 		try {
+			query = con.prepareStatement("DELETE FROM assoModDeg WHERE modCode = ? AND degCode = ? AND year = ? ");
 			query.setString(1, modCode);
 			query.setString(2, degCode);
 			query.setInt(3, year);
 			System.out.println(query.toString());
 			System.out.println(query.executeUpdate());
 			
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}finally {
 			if ( query != null)
 				query.close();
 		}
+		
+		con.close();
 				
 		
 	}
@@ -246,8 +250,8 @@ public class Module {
 		ResultSet res = null;
 		PreparedStatement dept = null;
 		connectToDB();
-		dept = con.prepareStatement("SELECT * FROM module;");
 		try {
+			dept = con.prepareStatement("SELECT * FROM module;");
 			res  = dept.executeQuery();
 			mod.add("Name");
 			mod.add("Code");

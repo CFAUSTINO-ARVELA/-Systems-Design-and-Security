@@ -32,8 +32,9 @@ public class DropTables {
 		} finally {
 			if (stmt != null)
 				stmt.close();
+				con.close();
 		}
-
+		
 	}
 
 }
