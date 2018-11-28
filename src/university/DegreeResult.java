@@ -27,6 +27,10 @@ public class DegreeResult {
 		this.masters = m;
 		this.result = res;
 	}
+
+	public String getResult() {
+		return this.result;
+	}
 	
 	public int createDegreeResult() throws SQLException {
 		connectToDB();

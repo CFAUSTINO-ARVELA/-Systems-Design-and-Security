@@ -175,7 +175,6 @@ public class Student {
 		String result = null;
 		
 		try {
-			connectToDB();
 			stmt = con.createStatement();
 			ResultSet res = stmt.executeQuery(String.format("SELECT level FROM studentStatus WHERE registrationNumber = %d", regNum));
 			
@@ -245,8 +244,9 @@ public class Student {
 			level = res.getString("level").charAt(0);
 			period = res.getString("period");
 			registered = res.getBoolean("registered");
+			boolean graduated = res.getBoolean("graduated");
 			
-			status = new StudentStatus(regNum, level, period, registered);
+			status = new StudentStatus(regNum, level, period, registered, graduated);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -344,35 +344,35 @@ public class Student {
 	}
 	
 	public ArrayList<PeriodResult> getPrevResults() throws SQLException {
-		connectToDB();
 		Statement stmt = null;
+		Connection con = null;
 		ArrayList<PeriodResult> results = new ArrayList<PeriodResult>();
 		PeriodResult result = null;
 		
 		StudentStatus status = null;
 		try {
+			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
+
 			status = this.getStudentStatus();
 				
-				stmt = con.createStatement();
-				String query = String.format("SELECT * FROM periodResult WHERE registrationNumber = %d AND passed = true;", this.registrationNumber);
-				System.out.println(query);
-				ResultSet res = stmt.executeQuery(query);
+			stmt = con.createStatement();
+			String query = String.format("SELECT * FROM periodResult WHERE registrationNumber = %d AND passed = true;", this.registrationNumber);
+			System.out.println(query);
+			ResultSet res = stmt.executeQuery(query);
 				
-				while(res.next()) {
-					char level = res.getString("level").charAt(0);
-					String period = res.getString("period");
-					int grade = res.getInt("grade");
+			while(res.next()) {
+				char level = res.getString("level").charAt(0);
+				String period = res.getString("period");
+				int grade = res.getInt("grade");
 					
-					System.out.println("Past result, level = " + level + "period = " + period + "grade = " + grade);
+				System.out.println("Past result, level = " + level + "period = " + period + "grade = " + grade);
 				
-					if (level != 'P') {
-						result = new PeriodResult(this.registrationNumber, level, period, grade, true);
-						results.add(result);
-					}
+				if (level != 'P') {
+					result = new PeriodResult(this.registrationNumber, level, period, grade, true);
+					results.add(result);
 				}
+			}
 				
-				
-			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -380,7 +380,6 @@ public class Student {
 				stmt.close();
 			}
 		}
-		con.close();
 		
 		return results;
 	}
