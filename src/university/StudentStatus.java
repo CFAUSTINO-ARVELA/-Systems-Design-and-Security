@@ -24,13 +24,15 @@ public class StudentStatus {
 		   }
 	}
 	
-	public StudentStatus(int r, char l, String p, boolean reg, boolean g, boolean re) {
+	public StudentStatus(int r, char l, String p, boolean reg, boolean g, boolean re, Date s, Date e) {
 		this.registrationNumber = r;
 		this.level = l;
 		this.period = p;
 		this.registered = reg;
 		this.graduated = g;
 		this.resitting = re;
+		this.startDate = s;
+		this.endDate = e;
 	}
 	
 	public boolean isRegistered() {
