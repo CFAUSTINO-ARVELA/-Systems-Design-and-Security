@@ -238,11 +238,12 @@ public class StudentStatus {
 	
 	public void setRegistered(boolean r) throws SQLException {
 		
-		connectToDB();
+		Connection con = null;
 		Statement stmt = null;
 
 		try {
 			
+			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
 			int count = stmt.executeUpdate(
 					String.format("UPDATE studentStatus SET registered = %b WHERE registrationNumber = %d;", r, this.registrationNumber));
@@ -254,6 +255,5 @@ public class StudentStatus {
 			if (stmt != null)
 				stmt.close();
 		}	
-		con.close();
 	}
 }
