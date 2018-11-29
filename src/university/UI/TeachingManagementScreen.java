@@ -72,7 +72,7 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
                 e1.printStackTrace();
             } catch (Exception e1) {
 				e1.printStackTrace();
-			}
+            }
         });
     }
 

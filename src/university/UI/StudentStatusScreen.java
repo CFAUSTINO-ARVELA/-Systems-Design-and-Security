@@ -73,7 +73,12 @@ public class StudentStatusScreen extends JPanel {
         ArrayList<PeriodResult> results;
         try {
             results = this.student.getPrevResults();
-            DefaultTableModel model = new DefaultTableModel();
+            DefaultTableModel model = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                   return false;
+                }
+            };
             resultTable = new JTable(model);
 
             model.addColumn("Period");
@@ -90,7 +95,13 @@ public class StudentStatusScreen extends JPanel {
             gradePanel.add(scrollPane);
             this.studentStatusScreen.add(gradePanel);
 
-            DefaultTableModel moduleModel = new DefaultTableModel();
+            DefaultTableModel moduleModel = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                   return false;
+                }
+            };
+
             moduleTable = new JTable(moduleModel);
 
             for (ModuleChoice module : this.status.getCurrentModules()) {
