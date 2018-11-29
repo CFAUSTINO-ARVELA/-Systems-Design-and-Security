@@ -514,7 +514,7 @@ public class Student {
 			} else if (level == '4' && modulegrade < 50) {
 				System.out.println("4th year, too many failed, year failed");
 				failed = true;
-			} else if (modulegrade < 30 && conceded == false && credits == 20) {
+			} else if (modulegrade >= 30 && modulegrade < 40 && conceded == false && credits == 20) {
 				System.out.println("First module failed, conceded pass so far");
 				conceded = true;
 			} else if (modulegrade < 40) {
