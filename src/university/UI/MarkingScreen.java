@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import sun.java2d.cmm.Profile;
 import university.Module;
 import university.ModuleChoice;
 import university.ModuleGrades;
@@ -19,13 +20,15 @@ public class MarkingScreen extends JPanel {
 	private ScreenManager screen;
 	private Student student;
 	private StudentManagementScreen studentManagement;
+	private ProfileScreen profile;
 	private int rows;
 	private JTable table;
 
-	public MarkingScreen(ScreenManager scr, StudentManagementScreen stuScreen, Student stu) {
+	public MarkingScreen(ScreenManager scr, StudentManagementScreen stuScreen, Student stu, ProfileScreen prof) {
 		this.screen = scr;
 		this.studentManagement = stuScreen;
 		this.student = stu;
+		this.profile = prof;
 		initComponents();
 		this.initListeners();
 	}
@@ -34,7 +37,7 @@ public class MarkingScreen extends JPanel {
 		backToProfileBtn.addActionListener(e -> {
 			try {
 				this.markingScreen.setVisible(false);
-				this.studentManagement.draw();
+				this.profile.draw();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -223,7 +226,7 @@ public class MarkingScreen extends JPanel {
 		markingPanel.setBounds(195, 95, 610, 340);
 
 		// ---- backToProfileBtn ----
-		backToProfileBtn.setText("Back To Students");
+		backToProfileBtn.setText("Back To Profile");
 		add(backToProfileBtn);
 		backToProfileBtn.setBounds(414, 500, 170, 50);
 

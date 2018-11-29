@@ -73,13 +73,9 @@ public class StudentStatusScreen extends JPanel {
         ArrayList<PeriodResult> results;
         try {
             results = this.student.getPrevResults();
-            DefaultTableModel model = new DefaultTableModel() {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                   return false;
-                }
-            };
+            DefaultTableModel model = new DefaultTableModel();
             resultTable = new JTable(model);
+            resultTable.setEnabled(false);
 
             model.addColumn("Period");
             model.addColumn("Level");
@@ -95,32 +91,28 @@ public class StudentStatusScreen extends JPanel {
             gradePanel.add(scrollPane);
             this.studentStatusScreen.add(gradePanel);
 
-            DefaultTableModel moduleModel = new DefaultTableModel() {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                   return false;
-                }
-            };
+            DefaultTableModel moduleModel = new DefaultTableModel();
 
             moduleTable = new JTable(moduleModel);
+            moduleTable.setEnabled(false);
+
+            moduleModel.addColumn("Current Modules");
 
             for (ModuleChoice module : this.status.getCurrentModules()) {
-                moduleModel.addRow(new Object[] { Module.getModule(module.getModuleCode()).getName() });
+                moduleModel.addRow(new Object[] { Module.getModule(module.getModuleCode()).getName()  });
             }
 
             JScrollPane scrollPaneModule = new JScrollPane();
             scrollPaneModule.setViewportView(moduleTable);
             modulePanel.setLayout(new BorderLayout());
-            modulePanel.add(scrollPane);
+            modulePanel.add(scrollPaneModule);
             this.studentStatusScreen.add(modulePanel);
-
-            moduleModel.addColumn("Module Name");
 
             if (this.status.isGraduated()) {
                 gradeTxt.setText("You have graduated with: "
                         + DegreeResult.getDegreeResult(this.student.getRegistrationNumber()).getResult());
             } else {
-                gradeTxt.setText("Current grade: ");
+                gradeTxt.setText("You are currently enrolled");
             }
 
             nameTxt.setText("Degree: " + this.student.getDegree().getName());
