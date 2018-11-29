@@ -271,9 +271,9 @@ class StudentCreationScreen extends JPanel implements ActionListener {
     private JTextField tutorInput;
     private JComboBox degreeInput;
 
-    @Override
+    
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+        
 
     }
 }

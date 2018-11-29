@@ -38,6 +38,10 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
         this.teachingScreen = teach;
     }
 
+    public TeachingManagementScreen getTeachingScreen() {
+    	return teachingScreen;
+    }
+
     private void initListeners() {
         backToTeachingBtn.addActionListener(e -> {
             this.moduleScreen.setVisible(false);
@@ -184,9 +188,9 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
     private JButton createBtn;
     private JPanel tablePanel;
 
-    @Override
+    
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+        
     }
 
 }

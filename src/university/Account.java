@@ -299,7 +299,6 @@ public class Account {
 			account.add("Surname");
 			account.add("Email");
 			account.add("Clearance");
-			//System.out.println(account.toString());
 			accList.add((ArrayList)account.clone());
 			
 			while (res.next()) {
@@ -310,11 +309,8 @@ public class Account {
 				account.add(res.getString("Surname"));
 				account.add(res.getString("Email"));
 				account.add(res.getString("Clearance"));
-				//System.out.println("Depart" + depart.toString());
 				accList.add((ArrayList) account.clone());
-				//for (int o = 0; o < deptList.size(); o++) {
-				//	System.out.println("deptList" + deptList.get(o).toString());
-				//	}
+				
 			}
 			res.close();
 			
@@ -363,7 +359,7 @@ public class Account {
 	}
 	
     public Account login(String emailInput, String passwordInput) throws SQLException {
-    
+    	 
         connectToDB();
         PreparedStatement pst1 = null, pst2 = null;
         ResultSet res1, res2 = null;
@@ -464,18 +460,4 @@ public class Account {
     }
 
 	
-	/**
-	public static void main(String[] args){
-		Account g = new Account();
-		try {
-		ArrayList<ArrayList<String>> t = g.getAcctList();
-		for (int o = 0; o < t.size(); o++) {
-			System.out.println(o);
-			System.out.println(t.get(o).toString());
-			}
-		} catch(Exception ex) {
-			 ex.printStackTrace();
-		}
-	}*/
-
 }

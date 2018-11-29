@@ -44,6 +44,7 @@ public class Module {
 
 	public static String generateCode(Department dep, int level) throws SQLException {
 		connectToDB();
+		int count = 001;
 		Statement stmt = con.createStatement();
 		String name = dep.getName();
 		ResultSet res  = stmt.executeQuery(String.format("SELECT code FROM department WHERE name = \"%s\";", name));
@@ -52,9 +53,14 @@ public class Module {
 		
 		String codeSoFar = deptCode + Integer.toString(level);
 		
-		res = stmt.executeQuery(String.format("SELECT COUNT(*) FROM module WHERE code LIKE \"%s%%\";", codeSoFar));
-		res.next();
-		int count = res.getInt(1) + 1;
+		res = stmt.executeQuery(String.format("SELECT MAX(Code) FROM module WHERE code LIKE \"%s%%\";", codeSoFar));
+		
+		
+		
+		if(res.next()) {
+			count = Integer.parseInt( res.getString(1).substring(4)) + 1;
+		}
+		
 		
 		String formatted = String.format("%03d", count);
 		String finalCode = codeSoFar + formatted;
@@ -104,9 +110,10 @@ public class Module {
 			ex.printStackTrace();
 		}
 		finally {
-			if (newMod != null)
+			if (newMod != null) {
 				mod.close();
 				newMod.close();
+			}
 		}
 		con.close();
 		return this;
@@ -147,11 +154,12 @@ public class Module {
 			ex.printStackTrace();
 			}
 		finally {
-			if ( delMod != null)
+			if ( delMod != null) {
 				modCount.close();
 				delMod.close();
 				assoCount.close();
 				delAssoMod.close();
+			}
 		}
 		con.close();
 	}
@@ -161,13 +169,12 @@ public class Module {
 		
 		connectToDB();
 		PreparedStatement mod = null, noMod = null;
-		Statement stmt = con.createStatement();
+		
 		
 		try {
 			noMod = con.prepareStatement("SELECT COUNT(*) FROM module WHERE code = ?");
 			mod = con.prepareStatement("SELECT * FROM module WHERE code =  ?");
 			noMod.setString(1, c);
-			//System.out.println(noMod);
 			ResultSet res1 = noMod.executeQuery();
 			res1.next();
 			
@@ -190,10 +197,11 @@ public class Module {
 
 			 ex.printStackTrace();
 		 }finally {
-				if (stmt != null)
+				if (noMod != null) {
 					noMod.close();
 					mod.close();
-					stmt.close();
+					}
+					
 			}
 		con.close();
 		return module;
@@ -203,11 +211,8 @@ public class Module {
 		connectToDB();
 		
 		Statement stmt = con.createStatement();
-		//System.out.println(d + m + l + c);
 		String query = String.format("INSERT INTO assoModDeg (degCode, modCode, year, mandatory) VALUES (\"%s\", \"%s\", %d, %b);", d, m, l, c);
-		//System.out.println(query);
 		int count = stmt.executeUpdate(query);
-		//System.out.println("AssignModule " + count);
 		if (stmt != null) {
 			stmt.close();
 		}
@@ -225,8 +230,6 @@ public class Module {
 			query.setString(1, modCode);
 			query.setString(2, degCode);
 			query.setInt(3, year);
-			//System.out.println(query.toString());
-			//System.out.println(query.executeUpdate());
 			query.executeUpdate();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -235,7 +238,6 @@ public class Module {
 				query.close();
 		}
 
-		
 		con.close();
 				
 

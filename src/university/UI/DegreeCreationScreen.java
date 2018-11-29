@@ -72,7 +72,6 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
             try {
             	newDeg.draw();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -112,8 +111,6 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
                         int count = 0;
                         Degree deg;
                         if (placement == true) {
-                            // System.out.println("Yes");
-                            // System.out.println(secondaryDepts.size() + "Aqui");
                             Department dep = Department.getDept(mainInput.getSelectedItem().toString());
                             deg = new Degree(nameInput.getText(), dep, secondaryDepts, type, false);
                             deg.setCode();
@@ -123,16 +120,12 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
                                     secondaryDepts, type, placement);
                             deg2.setCode();
                             count += deg2.createDegree();
-                            // System.out.println(count);
+
                         } else {
-                            // System.out.println(secondaryDepts.size() + "Aqui");
-                            // System.out.println("Yes");
                             Department dep = Department.getDept(mainInput.getSelectedItem().toString());
                             deg = new Degree(nameInput.getText(), dep, secondaryDepts, type, false);
                             deg.setCode();
-                            // System.out.println(deg.getSeconDepts().size());
                             count += deg.createDegree();
-                            // System.out.println(count);
                         }
 
                         if (count == 0)
@@ -150,46 +143,13 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
                         try {
                             this.degreeManagement.draw();
                         } catch (Exception e1) {
-                            // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
                         JOptionPane.showMessageDialog(null, "SQL error, please try again");
                     }
                 }
             }
-            /**
-             * =======
-             * 
-             * ArrayList<Department> secondaryDepts = new ArrayList<Department>();
-             * 
-             * for (JCheckBox box : checkboxes) { if (box.isSelected()) { try {
-             * secondaryDepts.add(Department.getDept(box.getText())); } catch (Exception e1)
-             * { // TODO Auto-generated catch block e1.printStackTrace(); } } }
-             * 
-             * this.degreeCreation.setVisible(false);
-             * 
-             * String typebox = typeInput.getSelectedItem().toString();
-             * 
-             * String type = Character.toString((typebox.charAt(0))); boolean placement;
-             * boolean fouryears; String placementText =
-             * placementInput.getSelectedItem().toString();
-             * 
-             * if (placementText.equals("Yes")) { placement = true; } else { placement =
-             * false; }
-             * 
-             * if (typebox.equals("Undergraduate 4 years")) { fouryears = true; } else {
-             * fouryears = false; }
-             * 
-             * try { Department dep =
-             * Department.getDept(mainInput.getSelectedItem().toString()); Degree deg = new
-             * Degree(nameInput.getText(), dep, secondaryDepts, type, placement, fouryears);
-             * deg.setCode(); Degree newDeg = deg.createDegree();
-             * this.degreeManagement.draw(); JOptionPane.showMessageDialog(null,
-             * "Successfully created Degree: " + newDeg.getName()); } catch (Exception ex) {
-             * ex.printStackTrace(); this.degreeManagement.draw();
-             * JOptionPane.showMessageDialog(null, "SQL error, please try again"); } >>>>>>>
-             * be6d3e369968de5b9330658105e05417da2e3195
-             */
+           
         }));
 
         screen.frame.add(this.degreeCreation);
@@ -357,9 +317,8 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
     private JPanel checkboxPanel;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
-    @Override
+
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
 
     }
 }

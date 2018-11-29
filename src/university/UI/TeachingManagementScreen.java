@@ -177,9 +177,9 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
     private JButton moduleBtn;
     private JButton moduleAssignmentBtn;
 
-	@Override
+	
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+
 		
 	}
 }

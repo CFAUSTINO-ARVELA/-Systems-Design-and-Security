@@ -66,12 +66,12 @@ public class ModuleAssignmentScreen extends JPanel {
                             JOptionPane.showMessageDialog(null, "The degree selected does not offer level " + level
                                     + ". \n Please select the correct level.");
                         } else if (Degree.getCredits(degreeCode, level)
-                                + Module.getModule(moduleCode).getCredits() >= 180 && core) {
+                                + Module.getModule(moduleCode).getCredits() > 180 && core) {
                             JOptionPane.showMessageDialog(null,
                                     "Adding this module will exceed 180 credits. \n Please insert the correct information.");
                         } else {
-                            int success = Module.assignModule(degreeCode, moduleCode, level, core);
-                            System.out.println("Module Assignment page " + success);
+                            Module.assignModule(degreeCode, moduleCode, level, core);
+                           
 
                             this.moduleAssScreen.setVisible(false);
                             ModuleAssignmentScreen newScreen = new ModuleAssignmentScreen(this.screen,
@@ -88,7 +88,7 @@ public class ModuleAssignmentScreen extends JPanel {
                             JOptionPane.showMessageDialog(null,
                                     "The degree selected does not offer level 4. \n Please select the correct level.");
                         } else if (Degree.getCredits(degreeCode, level)
-                                + Module.getModule(moduleCode).getCredits() >= 120 && core) {
+                                + Module.getModule(moduleCode).getCredits() > 120 && core) {
                             JOptionPane.showMessageDialog(null,
                                     "Adding this module will exceed 120 credits. \n Please insert the correct information.");
                         } else if (Degree.getNoMod(degreeCode, moduleCode, level) != 0) {
@@ -96,8 +96,8 @@ public class ModuleAssignmentScreen extends JPanel {
                                     "This module is already assigned to this degree's level " + level
                                             + ". \n Please insert the correct information.");
                         } else {
-                            int success = Module.assignModule(degreeCode, moduleCode, level, core);
-                            System.out.println("Module Assignment page " + success);
+                            Module.assignModule(degreeCode, moduleCode, level, core);
+                            
 
                             this.moduleAssScreen.setVisible(false);
                             ModuleAssignmentScreen newScreen = new ModuleAssignmentScreen(this.screen,

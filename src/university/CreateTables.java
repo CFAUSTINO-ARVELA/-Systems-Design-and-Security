@@ -14,7 +14,7 @@ public class CreateTables {
 			con.setAutoCommit(false); // turn off auto-commit
 			stmt = con.createStatement();
 			
-			/**
+			
 			int count = stmt.executeUpdate(
 					"CREATE TABLE student (RegistrationNumber int NOT NULL PRIMARY KEY, Degree varchar(255), Tutor varchar(255), Username varchar(255) REFERENCES account(Username));");
 			count += stmt.executeUpdate(
@@ -26,7 +26,7 @@ public class CreateTables {
 			count+= stmt.executeUpdate("CREATE TABLE moduleChoice (RegistrationNumber int NOT NULL, ModuleCode varchar(7) NOT NULL, Period char, Grade int);");
 			count+= stmt.executeUpdate("CREATE TABLE periodResult (RegistrationNumber int, Period char, Level char, Grade int, Passed boolean);");
 			count+= stmt.executeUpdate("CREATE TABLE degreeResult (RegistrationNumber int, Result varchar(255), Masters boolean);");
-			count+= stmt.executeUpdate("INSERT INTO account VALUES ("Mr", "Admin", "Admin", "admin", "f26405525c549627ee3797a23d366402", "admin@sheffield.ac.uk", 3);")
+			count+= stmt.executeUpdate("INSERT INTO account VALUES (\"Mr\", \"Admin\", \"Admin\", \"admin\", \"f26405525c549627ee3797a23d366402\", \"admin@sheffield.ac.uk\", 3);");
 
 			System.out.println(count);
 
@@ -64,12 +64,9 @@ public class CreateTables {
 			// Create table for associated modules and degrees
 			int assoModDeg = stmt.executeUpdate(
 					"CREATE TABLE assoModDeg (modCode varchar(7) REFERENCES module(code), degCode varchar(6) REFERENCES degree(code), mandatory BOOL, year varchar(1) );");
-		**/
+		
 			
-			ResultSet res = stmt.executeQuery("SELECT Email, Password FROM account"); 
-			//System.out.println(count + depart + degree + secondDep); 
-			while(res.next())
-				System.out.println(res.getString(1) + "   " + res.getString(2));
+			
 			con.commit(); // commit manually
 		} catch (SQLException ex) {
 			ex.printStackTrace();

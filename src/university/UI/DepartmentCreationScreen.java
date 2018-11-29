@@ -187,9 +187,8 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
     private JButton backToProfileBtn;
     private JLabel departmentTxt;
 
-	@Override
+	
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 }
