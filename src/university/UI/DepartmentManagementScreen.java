@@ -192,8 +192,8 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
     private JButton createBtn;
     private JPanel tablePanel;
 
-    @Override
+    
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+        
     }
 }

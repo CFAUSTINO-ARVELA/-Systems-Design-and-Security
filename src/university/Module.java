@@ -104,9 +104,10 @@ public class Module {
 			ex.printStackTrace();
 		}
 		finally {
-			if (newMod != null)
+			if (newMod != null) {
 				mod.close();
 				newMod.close();
+			}
 		}
 		con.close();
 		return this;
@@ -147,28 +148,27 @@ public class Module {
 			ex.printStackTrace();
 			}
 		finally {
-			if ( delMod != null)
+			if ( delMod != null) {
 				modCount.close();
 				delMod.close();
 				assoCount.close();
 				delAssoMod.close();
+			}
 		}
 		con.close();
 	}
 	
 	public static Module getModule(String c) throws SQLException {
-		//System.out.println(c);
 		Module module = null;
 		
 		connectToDB();
 		PreparedStatement mod = null, noMod = null;
-		Statement stmt = con.createStatement();
+		
 		
 		try {
 			noMod = con.prepareStatement("SELECT COUNT(*) FROM module WHERE code = ?");
 			mod = con.prepareStatement("SELECT * FROM module WHERE code =  ?");
 			noMod.setString(1, c);
-			//System.out.println(noMod);
 			ResultSet res1 = noMod.executeQuery();
 			res1.next();
 			
@@ -191,10 +191,11 @@ public class Module {
 
 			 ex.printStackTrace();
 		 }finally {
-				if (stmt != null)
+				if (noMod != null) {
 					noMod.close();
 					mod.close();
-					stmt.close();
+					}
+					
 			}
 		con.close();
 		return module;
@@ -204,11 +205,8 @@ public class Module {
 		connectToDB();
 		
 		Statement stmt = con.createStatement();
-		//System.out.println(d + m + l + c);
 		String query = String.format("INSERT INTO assoModDeg (degCode, modCode, year, mandatory) VALUES (\"%s\", \"%s\", %d, %b);", d, m, l, c);
-		//System.out.println(query);
 		int count = stmt.executeUpdate(query);
-		//System.out.println("AssignModule " + count);
 		if (stmt != null) {
 			stmt.close();
 		}
@@ -226,8 +224,6 @@ public class Module {
 			query.setString(1, modCode);
 			query.setString(2, degCode);
 			query.setInt(3, year);
-			//System.out.println(query.toString());
-			//System.out.println(query.executeUpdate());
 			query.executeUpdate();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -236,7 +232,6 @@ public class Module {
 				query.close();
 		}
 
-		
 		con.close();
 				
 

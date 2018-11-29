@@ -22,9 +22,7 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private TeachingManagementScreen teachingScreen;
     private JTable degreeTable;
-    private Connection con = null;
-    private Statement stmt = null;
-
+   
     DegreeManagementScreen(ScreenManager scr, TeachingManagementScreen teach) {
         this.initComponents();
         this.initListeners();
@@ -141,7 +139,6 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
 				if (e.getClickCount() == 2) {
             		MouseAdapter();
             		 String code = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 0);
-                     String name = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 1);
             		try {
 						deg = Degree.getDegree(code);
 					} catch (Exception e1) {
@@ -248,9 +245,8 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
     private JLabel promptTxt;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
-    @Override
+    
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
 
     }
 

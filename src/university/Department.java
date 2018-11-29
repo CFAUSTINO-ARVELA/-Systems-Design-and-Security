@@ -59,17 +59,16 @@ public class Department{
 		 }catch (SQLException ex) {
 			 ex.printStackTrace();
 		 }finally {
-				if (newDept != null)
+				if (newDept != null) {
 					dept.close();
 					newDept.close();
+				}
 		}
 		con.close();
 		return count;
 	}
 	
 	//Delete Department
-	//ADICIONAR APAGAR MÓDULOS
-	//TESTAR APAGAR DEGREES E MÓDULOS
 	public int deleteDep() throws Exception  {
 		connectToDB();
 		int count = 0;
@@ -105,10 +104,11 @@ public class Department{
 		 }catch (Exception ex) {
 			 ex.printStackTrace();
 		 }finally {
-				if (delDept != null)
+				if (delDept != null) {
 					dept.close();
 					delDept.close();
 					deg.close();
+				}
 			}
 		con.close();
 		return count;

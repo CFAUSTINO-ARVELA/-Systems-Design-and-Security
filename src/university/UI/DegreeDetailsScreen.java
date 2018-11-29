@@ -36,7 +36,6 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
             try {
 				newDegMangSecreen.draw();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
         });
@@ -92,7 +91,6 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         this.degreDetScreen.add(secondaryTxt);
         this.degreDetScreen.add(titleTxt);
         this.degreDetScreen.add(typeTxt);
-        //this.degreDetScreen.add(placementTxt);
         this.degreDetScreen.add(promptTxt);
         this.degreDetScreen.add(degreeCode);
         this.degreDetScreen.add(degreeDuration);
@@ -126,7 +124,6 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         backToProfileBtn = new JButton();
         titleTxt = new JLabel();
         typeTxt = new JLabel();
-        //placementTxt = new JLabel();
         promptTxt = new JLabel();
         degreeCode = new JLabel();
         degreeDuration = new JLabel();
@@ -294,9 +291,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - Katie
-    //Nome do curso
     private JLabel courseTxt;
-    //Legenda para code
     private JLabel codeTxt;
     private JLabel promptTxt;
     private JLabel durationTxt;
@@ -304,7 +299,6 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
     private JButton backToProfileBtn;
     private JLabel titleTxt;
     private JLabel typeTxt;
-    //private JLabel placementTxt;
     private JLabel degreeCode; 
     private JLabel degreeDuration;
     private JLabel degreeType;
@@ -314,9 +308,9 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
     private JButton deleteBtn;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
-    @Override
+    
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+       
 
     }
 }
