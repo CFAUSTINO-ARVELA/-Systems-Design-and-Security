@@ -127,27 +127,27 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
 
         degreeTable.addMouseListener(new MouseAdapter() {
             private JComponent degreeManagement;
-            private ScreenManager screen;
-            private DegreeManagementScreen DegreeManagementScreen;
-            private Degree deg;
+			private ScreenManager screen;
+			private DegreeManagementScreen DegreeManagementScreen;
+			private Degree deg;
 
-            public void MouseAdapter() {
-                this.DegreeManagementScreen = getdegreeManagement();
-                this.screen = getScreen();
-                this.degreeManagement = getJPanel();
+			public void MouseAdapter() {
+				this.DegreeManagementScreen= getdegreeManagement();
+				this.screen = getScreen();
+				this.degreeManagement = getJPanel();
+		
+			}
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+            		MouseAdapter();
+            		 String code = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 0);
+                     String name = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 1);
+            		try {
+						deg = Degree.getDegree(code);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 
-            }
-
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    MouseAdapter();
-                    String code = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 0);
-                    String name = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 1);
-                    try {
-                        deg = Degree.getDegree(code);
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
                     this.degreeManagement.setVisible(false);
                     DegreeDetailsScreen degreeCreate;
 
