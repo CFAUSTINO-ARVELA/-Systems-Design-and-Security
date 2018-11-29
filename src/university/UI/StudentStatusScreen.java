@@ -29,6 +29,7 @@ public class StudentStatusScreen extends JPanel {
 
     StudentStatusScreen(ScreenManager screen, ProfileScreen prof, Student stu) {
         initComponents();
+        this.initListeners();
         this.profileScreen = prof;
         this.screen = screen;
         this.student = stu;
@@ -75,8 +76,7 @@ public class StudentStatusScreen extends JPanel {
             results = this.student.getPrevResults();
             DefaultTableModel model = new DefaultTableModel();
             resultTable = new JTable(model);
-            DefaultTableModel moduleModel = new DefaultTableModel();
-            moduleTable = new JTable(moduleModel);
+
 
             model.addColumn("Period");
             model.addColumn("Level");
@@ -92,6 +92,13 @@ public class StudentStatusScreen extends JPanel {
             gradePanel.add(scrollPane);
             this.studentStatusScreen.add(gradePanel);
 
+            DefaultTableModel moduleModel = new DefaultTableModel();
+            moduleTable = new JTable(moduleModel);
+
+            for (ModuleChoice module : this.status.getCurrentModules()) {
+                moduleModel.addRow(new Object[] { Module.getModule(module.getModuleCode()).getName() });
+            }
+
             JScrollPane scrollPaneModule = new JScrollPane();
             scrollPaneModule.setViewportView(moduleTable);
             modulePanel.setLayout(new BorderLayout());
@@ -99,10 +106,6 @@ public class StudentStatusScreen extends JPanel {
             this.studentStatusScreen.add(modulePanel);
 
             moduleModel.addColumn("Module Name");
-
-            for (ModuleChoice module : this.status.getCurrentModules()) {
-                moduleModel.addRow(new Object[] { Module.getModule(module.getModuleCode()).getName() });
-            }
 
             if (this.status.isGraduated()) {
                 gradeTxt.setText("You have graduated with: "

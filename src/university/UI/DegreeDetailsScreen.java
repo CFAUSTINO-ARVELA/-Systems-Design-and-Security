@@ -20,18 +20,79 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
     private JTable moduleTable;
     
 
-    public DegreeDetailsScreen(ScreenManager scr,DegreeManagementScreen degreeManagement, Degree deg) throws SQLException {
+
+    public DegreeDetailsScreen(ScreenManager scr,DegreeManagementScreen degreeManagement, Degree deg) {
         this.screen = scr;
         this.deg = deg;
         this.degreeManagement = degreeManagement;
         this.initComponents();
+        this.initListeners();
     }
 
-    public void draw() throws SQLException, Exception {
+    public void initListeners() {
+        backToProfileBtn.addActionListener(e -> {
+            this.degreDetScreen.setVisible(false);
+            DegreeManagementScreen newDegMangSecreen = new DegreeManagementScreen(this.screen,degreeManagement.getTecMaangScree());
+            try {
+				newDegMangSecreen.draw();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        });
+        
+        deleteBtn.addActionListener(e -> {
+           if (moduleTable.getSelectedRow() > -1) {
+                String code = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 0);
+                String year = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 3);
+                
+                
+                
+                
+                JLabel label_login = new JLabel("If you wish to continue please insert your account details.");
+                JLabel labem_email = new JLabel("Email:");
+                JTextField email = new JTextField();
+
+                JLabel label_password = new JLabel("Password:");
+                JPasswordField password = new JPasswordField();
+
+                Object[] array = {label_login, labem_email, email, label_password, password };
+
+                int res = JOptionPane.showConfirmDialog(null, array, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                if (res == JOptionPane.OK_OPTION) {
+	                try {
+	                	if(Account.delVerification(email.getText(), password.getText(), 3)) {
+	                		Module.remAssoModDeg(code, deg.getCode(), Integer.parseInt(year));
+	                		
+	                	}else
+	                		JOptionPane.showMessageDialog(null, "Please insert the correct account details");    
+	                } catch (Exception e1) {
+	                    e1.printStackTrace();
+	                }
+	                this.degreDetScreen.setVisible(false);
+	              
+	                DegreeDetailsScreen newDegDet = new DegreeDetailsScreen(this.screen,this.degreeManagement,this.deg);
+	                
+	                try {	
+	                	newDegDet.draw();
+					} catch (Exception e1) {
+						//newDegMan TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	                JOptionPane.showMessageDialog(null, "Successfully remove Module.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a Module to remove");
+            }
+        });
+    }
+
+    public void draw() throws Exception {
         this.degreDetScreen = new JPanel();
         this.degreDetScreen.setBackground(new Color(70, 70, 70));
         this.degreDetScreen.setLayout(null);
 
+       
         
         this.degreDetScreen.add(backToProfileBtn);
         this.degreDetScreen.add(courseTxt);
@@ -53,46 +114,8 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         this.tablePanel.setLayout(new BorderLayout());
 
         this.degreDetScreen.setLayout(null);
-        
-        backToProfileBtn.addActionListener(e -> {
-            this.degreDetScreen.setVisible(false);
-            DegreeManagementScreen newDegMangSecreen = new DegreeManagementScreen(this.screen,degreeManagement.getTecMaangScree());
-            try {
-				newDegMangSecreen.draw();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-        });
-        
-        deleteBtn.addActionListener(e -> {
-           if (moduleTable.getSelectedRow() > -1) {
-                String code = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 0);
-                String year = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 3);
-                
-                try {
-                	
-                    Module.remAssoModDeg(code, deg.getCode(), Integer.parseInt(year));
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-                this.degreeManagement.setVisible(false);
-                
-                try {
-                	DegreeDetailsScreen newDegDet = new DegreeDetailsScreen(this.screen,this.degreeManagement,this.deg);
-                	System.out.println("Entra?");
-                	newDegDet.draw();
-				} catch (Exception e1) {
-					//newDegMan TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-                JOptionPane.showMessageDialog(null, "Successfully remove Module.");
-            } else {
-                JOptionPane.showMessageDialog(null, "Please select a Module to remove");
-            }
-        });
 
-        
+        moduleTable = new JTable(TableModel.buildTableModel(deg.getDegModules()));
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(moduleTable);
 
@@ -101,7 +124,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         screen.frame.add(this.degreDetScreen);
     }
 
-    private void initComponents() throws SQLException {
+    private void initComponents(){
         // JFormDesigner - Component initialization - DO NOT MODIFY
         // //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Katie
@@ -123,7 +146,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
         deleteBtn = new JButton();
         //======== this ========
 
-        moduleTable = new JTable(TableModel.buildTableModel(deg.getDegModules()));
+        
         // JFormDesigner evaluation mark
         setBorder(new javax.swing.border.CompoundBorder(
             new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),

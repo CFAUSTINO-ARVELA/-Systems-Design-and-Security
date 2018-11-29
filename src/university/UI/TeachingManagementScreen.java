@@ -1,20 +1,15 @@
 package university.UI;
 
 import java.awt.*;
-import javax.swing.*;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import university.UI.ProfileScreen;
 import university.ScreenManager;
-import university.Account;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.*;
 
@@ -26,13 +21,57 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
     public JPanel teachingManagement;
     private ScreenManager screen;
     private ProfileScreen profileScreen;
-    private Account account;
 
-    TeachingManagementScreen(ScreenManager scr, Account acc, ProfileScreen prof) {
+    TeachingManagementScreen(ScreenManager scr, ProfileScreen prof) {
         this.initComponents();
-        this.account = acc;
+        this.initListeners();
         this.profileScreen = prof;
         this.screen = scr;
+    }
+
+    private void initListeners() {
+        backToProfileBtn.addActionListener(e -> {
+            this.teachingManagement.setVisible(false);
+            this.profileScreen.draw();
+        });
+        degreeBtn.addActionListener(e -> {
+            this.teachingManagement.setVisible(false);
+            DegreeManagementScreen degreeScreen = new DegreeManagementScreen(this.screen, this);
+            try {
+				degreeScreen.draw();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        });
+        departmentBtn.addActionListener(e -> {
+            this.teachingManagement.setVisible(false);
+            DepartmentManagementScreen departmentScreen = new DepartmentManagementScreen(this.screen, this);
+            try {
+				departmentScreen.draw();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        });
+        moduleBtn.addActionListener(e -> {
+            this.teachingManagement.setVisible(false);
+            ModuleManagementScreen moduleScreen = new ModuleManagementScreen(this.screen, this);
+            try {
+				moduleScreen.draw();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        });
+        moduleAssignmentBtn.addActionListener(e -> {
+            this.teachingManagement.setVisible(false);
+            ModuleAssignmentScreen moduleAssScreen = new ModuleAssignmentScreen(this.screen, this);
+            try {
+                moduleAssScreen.draw();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            } catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        });
     }
 
     public void draw() throws SQLException{
@@ -50,62 +89,11 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
         this.teachingManagement.setBackground(new Color(70, 70, 70));
         this.teachingManagement.setLayout(null);
 
-        backToProfileBtn.addActionListener(e -> {
-            this.teachingManagement.setVisible(false);
-            this.profileScreen.draw();
-        });
-        degreeBtn.addActionListener(e -> {
-            this.teachingManagement.setVisible(false);
-            DegreeManagementScreen degreeScreen = new DegreeManagementScreen(this.screen, this);
-            try {
-				degreeScreen.draw();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-        });
-        departmentBtn.addActionListener(e -> {
-            this.teachingManagement.setVisible(false);
-            DepartmentManagementScreen departmentScreen = new DepartmentManagementScreen(this.screen, this);
-            try {
-				departmentScreen.draw();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-        });
-        moduleBtn.addActionListener(e -> {
-            this.teachingManagement.setVisible(false);
-            ModuleManagementScreen moduleScreen = new ModuleManagementScreen(this.screen, this);
-            try {
-				moduleScreen.draw();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-        });
-        moduleAssignmentBtn.addActionListener(e -> {
-            this.teachingManagement.setVisible(false);
-            ModuleAssignmentScreen moduleAssScreen = new ModuleAssignmentScreen(this.screen, this);
-            try {
-                moduleAssScreen.draw();
-            } catch (SQLException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-        });
-
         screen.frame.add(this.teachingManagement);
     }
 
 
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY
-        // //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Katie
         welcomeTxt = new JLabel();
         backToProfileBtn = new JButton();
         titleTxt = new JLabel();
@@ -114,9 +102,6 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
         moduleBtn = new JButton();
         moduleAssignmentBtn = new JButton();
 
-        //======== this ========
-
-        // JFormDesigner evaluation mark
         setBorder(new javax.swing.border.CompoundBorder(
             new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
                 "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
@@ -179,11 +164,8 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
             setMinimumSize(preferredSize);
             setPreferredSize(preferredSize);
         }
-        // JFormDesigner - End of component initialization //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Katie
     private JLabel welcomeTxt;
     private JButton backToProfileBtn;
     private JLabel titleTxt;
@@ -191,7 +173,6 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
     private JButton departmentBtn;
     private JButton moduleBtn;
     private JButton moduleAssignmentBtn;
-    // JFormDesigner - End of variables declaration //GEN-END:variables
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

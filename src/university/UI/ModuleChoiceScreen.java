@@ -9,7 +9,6 @@ import university.StudentStatus;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +30,66 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         this.student = stu;
         this.studentScreen = stuScreen;
         initComponents();
+        this.initListeners();
+    }
+
+    private void initListeners() {
+        submitBtn.addActionListener(e -> {
+
+            for (JCheckBox box : coreCheckBoxes) {
+                if (box.isSelected()) {
+                    try {
+                        chosenModules.add(Module.getModule(box.getText().substring(0, 7)));
+                        System.out.println(box.getText().substring(0, 7));
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+            for (JCheckBox box : optionalCheckBoxes) {
+                if (box.isSelected()) {
+                    try {
+                        chosenModules.add(Module.getModule(box.getText().substring(0, 7)));
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+
+            boolean degreeType = false;
+            if (this.student.getDegree().getType().equals("MSc")) {
+                degreeType = true;
+            }
+
+            if (Module.checkCredits(chosenModules, degreeType)) {
+                try {
+                    this.student.setModuleChoices(chosenModules);
+                    StudentStatus status = this.student.getStudentStatus();
+                    status.setRegistered(true);
+                    this.moduleScreen.setVisible(false);
+                    this.studentScreen.draw();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            } else {
+                if (degreeType) {
+                    JOptionPane.showMessageDialog(null, "Please ensure 180 credits are selected");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please ensure 120 credits are selected");
+                }
+            }
+            chosenModules = new ArrayList<>();
+            JOptionPane.showMessageDialog(null, "Successfully assigned modules");
+        });
+
+        backToProfileBtn.addActionListener(e -> {
+            try {
+                this.studentScreen.draw();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            this.moduleScreen.setVisible(false);
+        });
     }
 
     public void draw() {
@@ -96,62 +155,10 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
             e2.printStackTrace();
         }
 
-        submitBtn.addActionListener(e -> {
-
-            for (JCheckBox box : coreCheckBoxes) {
-                if (box.isSelected()) {
-                    try {
-                        chosenModules.add(Module.getModule(box.getText().substring(0, 7)));
-                        System.out.println(box.getText().substring(0, 7));
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            }
-            for (JCheckBox box : optionalCheckBoxes) {
-                if (box.isSelected()) {
-                    try {
-                        chosenModules.add(Module.getModule(box.getText().substring(0, 7)));
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            }
-
-            if (Module.checkCredits(chosenModules, false)) {
-                
-                try {
-                    this.student.setModuleChoices(chosenModules);
-                    StudentStatus status = this.student.getStudentStatus();
-                    status.setRegistered(true);
-                    this.moduleScreen.setVisible(false);
-                    this.studentScreen.draw();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Please ensure the correct number of credits are selected");
-            }
-            chosenModules = new ArrayList<>();
-            JOptionPane.showMessageDialog(null, "Successfully assigned modules");
-        });
-
-        backToProfileBtn.addActionListener(e -> {
-            try {
-                this.studentScreen.draw();
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-            this.moduleScreen.setVisible(false);
-        });
-
         this.screen.frame.add(this.moduleScreen);
     }
 
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY
-        // //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Katie
         degreeTxt = new JLabel();
         backToProfileBtn = new JButton();
         submitBtn = new JButton();
@@ -163,9 +170,6 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         optionalTxt = new JLabel();
         promptTxt = new JLabel();
 
-        // ======== this ========
-
-        // JFormDesigner evaluation mark
         setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
                 new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
                 javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
@@ -179,7 +183,6 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
 
         setLayout(null);
 
-        // ---- degreeTxt ----
         degreeTxt.setText("Module Choice");
         degreeTxt.setFont(degreeTxt.getFont().deriveFont(degreeTxt.getFont().getSize() + 10f));
         degreeTxt.setHorizontalAlignment(SwingConstants.CENTER);
@@ -187,12 +190,10 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         add(degreeTxt);
         degreeTxt.setBounds(347, 35, 305, 31);
 
-        // ---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(415, 500, 170, 50);
 
-        // ---- submitBtn ----
         submitBtn.setText("Submit");
         add(submitBtn);
         submitBtn.setBounds(415, 465, 170, 30);
@@ -282,11 +283,8 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
             setMinimumSize(preferredSize);
             setPreferredSize(preferredSize);
         }
-        // JFormDesigner - End of component initialization //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Katie
     private JLabel degreeTxt;
     private JButton backToProfileBtn;
     private JButton submitBtn;
@@ -297,7 +295,6 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
     private JLabel coreTxt;
     private JLabel optionalTxt;
     private JLabel promptTxt;
-    // JFormDesigner - End of variables declaration //GEN-END:variables
 
     @Override
     public void actionPerformed(ActionEvent arg0) {

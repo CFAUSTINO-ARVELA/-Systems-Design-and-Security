@@ -228,13 +228,14 @@ public class Module {
 			query.setInt(3, year);
 			//System.out.println(query.toString());
 			//System.out.println(query.executeUpdate());
-			
+			query.executeUpdate();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}finally {
 			if ( query != null)
 				query.close();
 		}
+
 		
 		con.close();
 				

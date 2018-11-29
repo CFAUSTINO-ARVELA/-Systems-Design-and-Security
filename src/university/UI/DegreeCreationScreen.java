@@ -30,7 +30,6 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
         this.screen = scr;
         this.degreeManagement = degreeManage;
     }
-
     public void draw() {
         this.degreeCreation = new JPanel();
         this.degreeCreation.setBackground(new Color(70, 70, 70));

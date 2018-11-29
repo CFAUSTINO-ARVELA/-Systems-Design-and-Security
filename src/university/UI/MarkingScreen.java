@@ -1,7 +1,6 @@
 package university.UI;
 
 import java.awt.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -59,14 +58,14 @@ public class MarkingScreen extends JPanel {
 								} else {
 									grades = new ModuleGrades(Module.getModule(code), firstGrade);
 								}
-								
+
 								allGrades.add(grades);
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
 						}
 						try {
-							System.out.println(this.student.progress(student, allGrades));
+							JOptionPane.showMessageDialog(null, this.student.progress(student, allGrades));
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -74,18 +73,15 @@ public class MarkingScreen extends JPanel {
 						System.out.println("Missed a grade");
 					}
 				} else {
-					System.out.println(this.student.progress(student, null));
+					JOptionPane.showMessageDialog(null, this.student.progress(student, null));
 				}
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			// Add meaningful message output here
-			JOptionPane.showMessageDialog(null,"Success");
 		});
 	}
 
 	public void draw() {
-
 		this.markingScreen = new JPanel();
 		this.markingScreen.setLayout(null);
 		this.markingScreen.setBackground(new Color(70, 70, 70));
