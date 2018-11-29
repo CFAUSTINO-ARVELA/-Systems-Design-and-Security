@@ -66,8 +66,9 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
 
         backToProfileBtn.addActionListener(e -> {
             this.degreeCreation.setVisible(false);
+            DegreeManagementScreen newDeg = new DegreeManagementScreen(this.screen, degreeManagement.getTecMaangScree());
             try {
-				this.degreeManagement.draw();
+            	newDeg.draw();
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

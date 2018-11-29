@@ -147,7 +147,7 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
 		
 			}
 			public void mouseClicked(MouseEvent e) {
-            	if (e.getClickCount() == 2) {
+				if (e.getClickCount() == 2) {
             		MouseAdapter();
             		 String code = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 0);
                      String name = (String) degreeTable.getValueAt(degreeTable.getSelectedRow(), 1);
