@@ -148,17 +148,19 @@ public class Student {
     	connectToDB();
     	Statement stmt = null;
     	int count = 1;
+    	int maxnum = 1;
     	
     	try {
 			
 
 			stmt = con.createStatement();
-			String query = "SELECT COUNT(*) FROM student;";
+
+			String query = "SELECT MAX(registrationNumber) FROM student;";
 			
 			ResultSet res = stmt.executeQuery(query);
-			
 			res.next();
-			count = res.getInt(1);
+			maxnum = res.getInt(1);
+			
     	} catch (SQLException ex) {
     		ex.printStackTrace();
     	} finally {
@@ -167,7 +169,7 @@ public class Student {
     	}
     	con.close();
 
-    	return (count + 1);
+    	return (maxnum + 1);
     }
     
     public int getRegistrationNumber() {

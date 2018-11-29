@@ -38,12 +38,22 @@ public class LoginScreen extends JPanel {
     public void initListeners() {
         submitButton.addActionListener(e -> {
             try {
-                this.login();
+            	String email = emailInput.getText();
+            	String password = passwordInput.getText();
+                Account logIn = new Account();
+            	Account c = logIn.login(email, password);
+
+                if (c != null)
+            	{profileScreen = new ProfileScreen(this.screen, c);
+                 
+                 this.loginScreen.setVisible(false);
+                 profileScreen.draw();}
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         });
     }
+
 
     public void draw() {
         this.loginScreen = new JPanel();
@@ -69,73 +79,6 @@ public class LoginScreen extends JPanel {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    public void login() throws SQLException {
-
-        connectToDB();
-        Statement stmt = null;
-        PreparedStatement pst1 = null, pst2 = null;
-        ResultSet res1, res2 = null;
-        String sql = "select * from account where Email=? and Password=?";
-        String clearLvl = "select Clearance from account where Email = ? and Password =?";
-
-        try {
-            pst1 = con.prepareStatement(sql);
-            pst1.setString(1, emailInput.getText());
-            pst1.setString(2, passwordInput.getText());
-            res1 = pst1.executeQuery();
-
-            pst2 = con.prepareStatement(clearLvl);
-            pst2.setString(1, emailInput.getText());
-            pst2.setString(2, passwordInput.getText());
-            res2 = pst2.executeQuery();
-
-            if (!ValidCheck.email(emailInput) || !ValidCheck.input(passwordInput)) {
-                JOptionPane.showMessageDialog(null, "Please do not enter illegal characters");
-            } else if (emailInput.getText().equals("") || passwordInput.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Please enter an email and password");
-            } else if (!res1.next()) {
-                JOptionPane.showMessageDialog(null, "Account details not found");
-            } else {
-                res2.next();
-                // get data
-                String title = res1.getString("Title");
-                String forename = res1.getString("Forename");
-                String surname = res1.getString("Surname");
-                String username = res1.getString("Username");
-                String password = res1.getString("Password");
-                Clearance clearance = null;
-
-                switch (res2.getInt("Clearance")) {
-                case 1:
-                    clearance = Clearance.TEACHER;
-                    break;
-                case 2:
-                    clearance = Clearance.REGISTRAR;
-                    break;
-                case 3:
-                    clearance = Clearance.ADMIN;
-                    break;
-                default:
-                    clearance = Clearance.STUDENT;
-                    break;
-                }
-                Account account = new Account(title, forename, surname, username, password, clearance);
-                profileScreen = new ProfileScreen(this.screen, account);
-                this.loginScreen.setVisible(false);
-                profileScreen.draw();
-    		}
-    		res1.close();
-    	}
-    	catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			if (pst1 != null)
-	    		pst1.close();
-	    		pst2.close();
-		}
-		con.close();
     }
 
     private void initComponents() {
