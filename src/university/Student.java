@@ -591,7 +591,9 @@ public class Student {
 				System.out.println("4th year failed twice, getting past results");
 				
 				for (PeriodResult result : pastResults) {
-					if (result.getLevel() == '2') {
+					if (result.getLevel() == '1') {
+						System.out.println("1st year doesn't count");
+					} else if (result.getLevel() == '2') {
 						System.out.println("2nd year grade = " + result.getGrade());
 						finalgrade += result.getGrade();
 					} else {
