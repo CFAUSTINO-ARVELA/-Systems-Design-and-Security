@@ -88,18 +88,20 @@ public class Student {
 			String query = String.format("INSERT INTO student (registrationNumber, degree, tutor, username) VALUES (%d, \"%s\", \"%s\", \"%s\");",
 					this.registrationNumber, this.degree.getCode(), this.tutor, this.accountDetails.getUsername());
 			int count = stmt.executeUpdate(query);
+			char level = '1';
 			Date startDate = new Date(118, 8, 1);
 			Date endDate;
 			String type = this.getDegree().getType();
 			if (type.equals("MSc")) {
 				endDate = new Date(119, 7, 1);
+				level = '4';
 			} else if (type.equals("MComp") || type.equals("MEng")) {
 				endDate = new Date(122, 7, 1);
 			} else {
 				endDate = new Date(121, 7, 1);
 			}
 			
-			query = String.format("INSERT INTO studentStatus (registrationNumber, level, period, startDate, endDate) VALUES (%d, \"%s\", \"%s\", \"%s\", \"%s\");", this.registrationNumber, '1', 'A', startDate, endDate);
+			query = String.format("INSERT INTO studentStatus (registrationNumber, level, period, startDate, endDate) VALUES (%d, \"%s\", \"%s\", \"%s\", \"%s\");", this.registrationNumber, level, 'A', startDate, endDate);
 			System.out.println(query);
 			count = stmt.executeUpdate(query);
 					
