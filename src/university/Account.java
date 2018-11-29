@@ -1,4 +1,7 @@
 package university;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
@@ -370,12 +373,12 @@ public class Account {
         try {
             pst1 = con.prepareStatement(sql);
             pst1.setString(1, emailInput);
-            pst1.setString(2, passwordInput);
+            pst1.setString(2, Account.md5hash(passwordInput));
             res1 = pst1.executeQuery();
 
             pst2 = con.prepareStatement(clearLvl);
             pst2.setString(1, emailInput);
-            pst2.setString(2, passwordInput);
+            pst2.setString(2, Account.md5hash(passwordInput));
             res2 = pst2.executeQuery();
 
             if (!ValidCheck.email(emailInput) || !ValidCheck.pass(passwordInput)) {
@@ -425,6 +428,38 @@ public class Account {
         con.close();
         return a;
 		
+    }
+    
+    public static String md5hash(String s) throws Exception {
+    	byte[] bytesOfString = s.getBytes("UTF-8");
+    	MessageDigest md = MessageDigest.getInstance("MD5");
+    	byte[] thedigest = md.digest(bytesOfString);
+    
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < thedigest.length; i++)
+            sb.append(Integer.toString((thedigest[i] & 0xff) + 0x100, 16).substring(1));
+        
+        return sb.toString();
+    }
+    
+    public void securePassword() throws SQLException {
+		connectToDB();
+		Statement stmt = null;
+
+		try {
+			String secure = Account.md5hash(this.password);
+			stmt = con.createStatement();
+			int count = stmt.executeUpdate(
+					String.format("UPDATE account SET password = \"%s\" WHERE username = \"%s\";", secure, this.username));
+			
+			System.out.println(count);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (stmt != null)
+				stmt.close();
+		}
+		con.close();
     }
 
 	
