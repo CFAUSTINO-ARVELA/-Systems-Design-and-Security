@@ -109,7 +109,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                     if (student.getStudentStatus().isGraduated()) {
                         JOptionPane.showMessageDialog(null, "This student has graduated or failed");
                     } else {
-                        ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this, student);
+                        ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this.profileScreen, student);
                         choiceScreen.draw();
                         this.studentManagement.setVisible(false);
                     }

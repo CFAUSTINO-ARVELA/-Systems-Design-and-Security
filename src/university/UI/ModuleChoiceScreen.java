@@ -19,16 +19,16 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
     private static final long serialVersionUID = 1L;
     private JPanel moduleScreen;
     private ScreenManager screen;
-    private StudentManagementScreen studentScreen;
+    private ProfileScreen profileScreen;
     private Student student;
     private List<JCheckBox> coreCheckBoxes = new ArrayList<>();
     private List<JCheckBox> optionalCheckBoxes = new ArrayList<>();
     private ArrayList<Module> chosenModules = new ArrayList<>();
 
-    public ModuleChoiceScreen(ScreenManager scr, StudentManagementScreen stuScreen, Student stu) {
+    public ModuleChoiceScreen(ScreenManager scr, ProfileScreen prof, Student stu) {
         this.screen = scr;
         this.student = stu;
-        this.studentScreen = stuScreen;
+        this.profileScreen = prof;
         initComponents();
         this.initListeners();
     }
@@ -67,7 +67,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                     StudentStatus status = this.student.getStudentStatus();
                     status.setRegistered(true);
                     this.moduleScreen.setVisible(false);
-                    this.studentScreen.draw();
+                    this.profileScreen.draw();
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -84,7 +84,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
 
         backToProfileBtn.addActionListener(e -> {
             try {
-                this.studentScreen.draw();
+                this.profileScreen.draw();
             } catch (Exception e1) {
                 e1.printStackTrace();
             }

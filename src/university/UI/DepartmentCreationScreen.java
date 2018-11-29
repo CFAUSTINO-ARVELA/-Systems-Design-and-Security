@@ -59,7 +59,7 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
         });
         
         submitBtn.addActionListener(e -> {
-            if (ValidCheck.input(nameInput) || ValidCheck.input(codeInput)) {
+            if (!ValidCheck.input(nameInput) || !ValidCheck.input(codeInput)) {
                 JOptionPane.showMessageDialog(null, "Please do not insert any symbols");
             } else if(nameInput.getText().isEmpty())
         		JOptionPane.showMessageDialog(null, "Please insert the name of the Department");
