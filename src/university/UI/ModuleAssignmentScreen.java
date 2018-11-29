@@ -65,9 +65,12 @@ public class ModuleAssignmentScreen extends JPanel {
                             JOptionPane.showMessageDialog(null, "The degree selected does not offer level " + level
                                     + ". \n Please select the correct level.");
                         else if (Degree.getCredits(degreeCode, level)
-                                + Module.getModule(moduleCode).getCredits() >= 180 && core)
+                                + Module.getModule(moduleCode).getCredits() >= 180 && core) {
+                        	System.out.println(Degree.getCredits(degreeCode, level));
+                    		System.out.println(Module.getModule(moduleCode).getCredits());
                             JOptionPane.showMessageDialog(null,
                                     "Adding this module will exceed 180 credits. \n Please insert the correct information.");
+                        }
                         else {
                             if (Degree.getDegree(degreeCode).getType().charAt(0) == 'B' && level == 4)
                                 JOptionPane.showMessageDialog(null,

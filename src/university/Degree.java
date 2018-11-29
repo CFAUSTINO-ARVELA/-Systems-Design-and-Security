@@ -518,7 +518,7 @@ public class Degree {
 		PreparedStatement credSum = null;
 		try {
 			credSum = con.prepareStatement(
-					"SELECT SUM(credits) FROM module JOIN assoModDeg WHERE degCode = ? AND year = ? AND mandatory = true;");
+					"SELECT SUM(credits) FROM module INNER JOIN assoModDeg ON assoModDeg.modCode=module.code WHERE degCode = ? AND year = ? AND mandatory = true;");
 			credSum.setString(1, degreeCode);
 			credSum.setInt(2, level);
 			ResultSet res = credSum.executeQuery();
