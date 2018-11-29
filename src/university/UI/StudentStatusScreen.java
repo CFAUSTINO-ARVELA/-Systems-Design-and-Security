@@ -135,6 +135,11 @@ public class StudentStatusScreen extends JPanel {
         }
     }
 
+    public boolean isCellEditable(int row, int column) {
+        // all cells false
+        return false;
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY
         // //GEN-BEGIN:initComponents
