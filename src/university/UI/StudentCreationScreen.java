@@ -69,7 +69,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
                 }
                 this.profileScreen.draw();
                 JOptionPane.showMessageDialog(null,
-                        "Successfully created Student: " + ac.getEmail() + ". Password: " + ac.getPassword() + "They've been added to " + d + "on level 1. Core modules have been assigned.");
+                        "Successfully created Student: " + ac.getEmail() + ". Password: " + ac.getPassword() + "\nThey've been added to degree " + d.getName() + " on Level 1 \nCore modules have been added");
             } catch (SQLException e1) {
                 JOptionPane.showMessageDialog(null, "SQL error, please try again");
             }

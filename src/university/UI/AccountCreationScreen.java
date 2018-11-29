@@ -41,12 +41,7 @@ class AccountCreationScreen extends JPanel implements ActionListener {
     public void initListeners() {
         backToProfileBtn.addActionListener(e -> {
             this.accountCreation.setVisible(false);
-
-            try {
-                this.accountManagement.draw();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            this.accountManagement.draw();
         });
 
         submitBtn.addActionListener(e -> {
