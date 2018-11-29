@@ -154,16 +154,10 @@ public class Student {
 			
 
 			stmt = con.createStatement();
-			String query = "SELECT COUNT(*) FROM student;";
+
+			String query = "SELECT MAX(registrationNumber) FROM student;";
 			
 			ResultSet res = stmt.executeQuery(query);
-			
-			res.next();
-			count = res.getInt(1);
-			
-			query = "SELECT MAX(registrationNumber) FROM student;";
-			
-			res = stmt.executeQuery(query);
 			res.next();
 			maxnum = res.getInt(1);
 			
@@ -175,7 +169,7 @@ public class Student {
     	}
     	con.close();
 
-    	return Math.max((maxnum + 1),(count + 1));
+    	return (maxnum + 1);
     }
     
     public int getRegistrationNumber() {
