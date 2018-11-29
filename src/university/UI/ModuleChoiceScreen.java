@@ -105,6 +105,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         this.moduleScreen.add(coreTxt);
         this.moduleScreen.add(optionalTxt);
         this.moduleScreen.add(promptTxt);
+        this.moduleScreen.add(approvedTxt);
 
         JPanel corePanel = new JPanel();
         JPanel optionalPanel = new JPanel();
@@ -139,7 +140,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                         Integer.parseInt(this.student.getLevel()));
 
                 if (deg.getType().equals("MSc")) {
-                    promptTxt.setText("Please choose 180 credits");
+                    promptTxt.setText("Please choose 180 credits \n Only approved modules are shown");
                 }
 
                 for (Module module : optionalModules) {
@@ -174,6 +175,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         coreTxt = new JLabel();
         optionalTxt = new JLabel();
         promptTxt = new JLabel();
+        approvedTxt = new JLabel();
 
         setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
                 new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
@@ -269,11 +271,18 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
 
         // ---- promptTxt ----
         promptTxt.setText("Please choose 120 credits");
-        promptTxt.setFont(promptTxt.getFont().deriveFont(promptTxt.getFont().getSize() + 2f));
+        promptTxt.setFont(promptTxt.getFont().deriveFont(promptTxt.getFont().getSize() + 0f));
         promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
         promptTxt.setForeground(Color.white);
         add(promptTxt);
-        promptTxt.setBounds(362, 65, 275, 45);
+        promptTxt.setBounds(362, 55, 275, 45);
+
+        approvedTxt.setText("Only approved modules are shown");
+        approvedTxt.setFont(promptTxt.getFont().deriveFont(promptTxt.getFont().getSize() + 0f));
+        approvedTxt.setHorizontalAlignment(SwingConstants.CENTER);
+        approvedTxt.setForeground(Color.white);
+        add(promptTxt);
+        approvedTxt.setBounds(362, 75, 275, 45);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
@@ -300,6 +309,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
     private JLabel coreTxt;
     private JLabel optionalTxt;
     private JLabel promptTxt;
+    private JLabel approvedTxt;
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
