@@ -78,6 +78,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
 	                try {
 	                	if(Account.delVerification(email.getText(), password.getText(), 3)) {
                             accountToDelete.deleteAccount();
+                            this.accountManagement.setVisible(false);
                             this.profileScreen.draw();
                             JOptionPane.showMessageDialog(null, "Successfully deleted account: " + index);
 	                		
@@ -87,7 +88,6 @@ class AccountManagementScreen extends JPanel implements ActionListener {
 	                } catch (SQLException e1) {
 	                    e1.printStackTrace();
 	                }
-	                this.accountManagement.setVisible(false);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Please select an Account to delete");
