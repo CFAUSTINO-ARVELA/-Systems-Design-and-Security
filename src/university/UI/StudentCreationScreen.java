@@ -75,6 +75,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
                             "Successfully created Student: " + ac.getEmail() + ". Password: " + ac.getPassword()
                                     + "\nThey've been added to degree " + d.getName()
                                     + " on Level 1 \nCore modules have been added");
+                    ac.securePassword();
                 } catch (SQLException e1) {
                     JOptionPane.showMessageDialog(null, "SQL error, please try again");
                 }
