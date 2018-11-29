@@ -132,7 +132,9 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                     Student student = Student.getStudent(username);
                     if (student.getStudentStatus().isGraduated()) {
                         JOptionPane.showMessageDialog(null, "This student has graduated");
-                    } else {
+                    } else if (!student.getStudentStatus().isRegistered()) {
+                        JOptionPane.showMessageDialog(null, "This student has not yet been registered for the period");
+                    } {
                         markingScr = new MarkingScreen(this.screen, this, student);
                         markingScr.draw();
                         this.studentManagement.setVisible(false);
