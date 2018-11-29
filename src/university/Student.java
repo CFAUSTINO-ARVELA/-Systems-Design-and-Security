@@ -794,6 +794,7 @@ public class Student {
 				nextLevel = Integer.parseInt(Character.toString(level)) + 1;
 				char nextLevelC = Integer.toString(nextLevel).charAt(0);
 				outcome += "Next level is " + nextLevelC + "\nNext period is " + nextPeriod;
+				outcome += "\nCore modules assigned";
 				status.updateStatus(nextLevelC, nextPeriod);
 				return outcome;
 			}
