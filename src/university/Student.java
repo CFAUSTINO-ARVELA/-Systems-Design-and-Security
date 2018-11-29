@@ -88,18 +88,20 @@ public class Student {
 			String query = String.format("INSERT INTO student (registrationNumber, degree, tutor, username) VALUES (%d, \"%s\", \"%s\", \"%s\");",
 					this.registrationNumber, this.degree.getCode(), this.tutor, this.accountDetails.getUsername());
 			int count = stmt.executeUpdate(query);
+			char level = '1';
 			Date startDate = new Date(118, 8, 1);
 			Date endDate;
 			String type = this.getDegree().getType();
 			if (type.equals("MSc")) {
 				endDate = new Date(119, 7, 1);
+				level = '4';
 			} else if (type.equals("MComp") || type.equals("MEng")) {
 				endDate = new Date(122, 7, 1);
 			} else {
 				endDate = new Date(121, 7, 1);
 			}
 			
-			query = String.format("INSERT INTO studentStatus (registrationNumber, level, period, startDate, endDate) VALUES (%d, \"%s\", \"%s\", \"%s\", \"%s\");", this.registrationNumber, '1', 'A', startDate, endDate);
+			query = String.format("INSERT INTO studentStatus (registrationNumber, level, period, startDate, endDate) VALUES (%d, \"%s\", \"%s\", \"%s\", \"%s\");", this.registrationNumber, level, 'A', startDate, endDate);
 			System.out.println(query);
 			count = stmt.executeUpdate(query);
 					
@@ -154,16 +156,10 @@ public class Student {
 			
 
 			stmt = con.createStatement();
-			String query = "SELECT COUNT(*) FROM student;";
+
+			String query = "SELECT MAX(registrationNumber) FROM student;";
 			
 			ResultSet res = stmt.executeQuery(query);
-			
-			res.next();
-			count = res.getInt(1);
-			
-			query = "SELECT MAX(registrationNumber) FROM student;";
-			
-			res = stmt.executeQuery(query);
 			res.next();
 			maxnum = res.getInt(1);
 			
@@ -175,7 +171,7 @@ public class Student {
     	}
     	con.close();
 
-    	return Math.max((maxnum + 1),(count + 1));
+    	return (maxnum + 1);
     }
     
     public int getRegistrationNumber() {
@@ -564,17 +560,20 @@ public class Student {
 			float finalgrade = weightedmean;
 			
 			if (failed & status.isResitting()) {
-				System.out.println("Degree failed, final grade = " + finalgrade);
+				outcome += "Degree failed, final grade = " + finalgrade;
 				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
 				currentResult.createPeriodResult();
 				degreeResult = new DegreeResult(student.getRegistrationNumber(), true, "fail");
 				degreeResult.createDegreeResult();
+				status.setGraduated();
+				return outcome;
 			} else if (failed) {
-				System.out.println("Year failed, student will resit next period");
+				outcome += "Year failed, student will resit next period";
 				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
 				currentResult.createPeriodResult();
 				status.updateStatus(level, nextPeriod);
 				status.setResitting(true);
+				return outcome;
 			} else {
 				System.out.println("Final grade = " + weightedmean);
 				
@@ -601,6 +600,7 @@ public class Student {
 				currentResult.createPeriodResult();
 				degreeResult = new DegreeResult(student.getRegistrationNumber(), true, finalresult);
 				degreeResult.createDegreeResult();
+				status.setGraduated();
 				return outcome;
 			}
 		}
@@ -794,6 +794,7 @@ public class Student {
 				nextLevel = Integer.parseInt(Character.toString(level)) + 1;
 				char nextLevelC = Integer.toString(nextLevel).charAt(0);
 				outcome += "Next level is " + nextLevelC + "\nNext period is " + nextPeriod;
+				outcome += "\nCore modules assigned";
 				status.updateStatus(nextLevelC, nextPeriod);
 				return outcome;
 			}

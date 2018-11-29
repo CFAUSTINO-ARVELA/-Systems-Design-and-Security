@@ -38,15 +38,15 @@ class StudentManagementScreen extends JPanel implements ActionListener {
 
     public void initListeners() {
         backToProfileBtn.addActionListener(e -> {
-            studentTable.clearSelection();
             this.studentManagement.setVisible(false);
             this.profileScreen.draw();
+            studentTable.clearSelection();
         });
         createBtn.addActionListener(e -> {
-            studentTable.clearSelection();
             this.studentManagement.setVisible(false);
             StudentCreationScreen studentCreate = new StudentCreationScreen(this.screen, this, this.profileScreen);
             studentCreate.draw();
+            studentTable.clearSelection();
         });
         deleteBtn.addActionListener(e -> {
             if (studentTable.getSelectedRow() > -1) {
@@ -98,6 +98,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Student to view");
             }
+            studentTable.clearSelection();
         });
         moduleBtn.addActionListener(e -> {
             if (studentTable.getSelectedRow() > -1) {
@@ -108,7 +109,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                     if (student.getStudentStatus().isGraduated()) {
                         JOptionPane.showMessageDialog(null, "This student has graduated or failed");
                     } else {
-                        ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this, student);
+                        ModuleChoiceScreen choiceScreen = new ModuleChoiceScreen(this.screen, this.profileScreen, student);
                         choiceScreen.draw();
                         this.studentManagement.setVisible(false);
                     }
@@ -131,7 +132,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                     } else if (!student.getStudentStatus().isRegistered()) {
                         JOptionPane.showMessageDialog(null, "This student has not yet been registered for the period");
                     } else {
-                        markingScr = new MarkingScreen(this.screen, this, student);
+                        markingScr = new MarkingScreen(this.screen, this, student, this.profileScreen);
                         markingScr.draw();
                         this.studentManagement.setVisible(false);
                     }
@@ -158,13 +159,12 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             this.studentManagement.add(deleteBtn);
             this.studentManagement.add(moduleBtn);
         }
-
         if (this.isTeacher) {
             this.studentManagement.add(statusBtn);
+            this.studentManagement.add(markingBtn);
         }
 
         this.studentManagement.add(tablePanel);
-        this.studentManagement.add(markingBtn);
         this.tablePanel.setLayout(new BorderLayout());
 
         this.studentManagement.setLayout(null);
@@ -258,7 +258,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         statusBtn.setBounds(415, 410, 170, 30);
 
         // ---- markingBtn ----
-        markingBtn.setText("Student grades");
+        markingBtn.setText("Student Grades");
         add(markingBtn);
         markingBtn.setBounds(415, 375, 170, 30);
 

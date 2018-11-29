@@ -19,16 +19,16 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
     private static final long serialVersionUID = 1L;
     private JPanel moduleScreen;
     private ScreenManager screen;
-    private StudentManagementScreen studentScreen;
+    private ProfileScreen profileScreen;
     private Student student;
     private List<JCheckBox> coreCheckBoxes = new ArrayList<>();
     private List<JCheckBox> optionalCheckBoxes = new ArrayList<>();
     private ArrayList<Module> chosenModules = new ArrayList<>();
 
-    public ModuleChoiceScreen(ScreenManager scr, StudentManagementScreen stuScreen, Student stu) {
+    public ModuleChoiceScreen(ScreenManager scr, ProfileScreen prof, Student stu) {
         this.screen = scr;
         this.student = stu;
-        this.studentScreen = stuScreen;
+        this.profileScreen = prof;
         initComponents();
         this.initListeners();
     }
@@ -67,7 +67,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                     StudentStatus status = this.student.getStudentStatus();
                     status.setRegistered(true);
                     this.moduleScreen.setVisible(false);
-                    this.studentScreen.draw();
+                    this.profileScreen.draw();
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -84,7 +84,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
 
         backToProfileBtn.addActionListener(e -> {
             try {
-                this.studentScreen.draw();
+                this.profileScreen.draw();
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -105,6 +105,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         this.moduleScreen.add(coreTxt);
         this.moduleScreen.add(optionalTxt);
         this.moduleScreen.add(promptTxt);
+        this.moduleScreen.add(approvedTxt);
 
         JPanel corePanel = new JPanel();
         JPanel optionalPanel = new JPanel();
@@ -133,9 +134,14 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                 }
 
                 coreScrollPane.setViewportView(corePanel);
+                Degree deg = this.student.getDegree();
                 corePanel.setLayout(new BoxLayout(corePanel, BoxLayout.Y_AXIS));
-                coreModules = Degree.getCoreModules(this.student.getDegree(),
+                coreModules = Degree.getCoreModules(deg,
                         Integer.parseInt(this.student.getLevel()));
+
+                if (deg.getType().equals("MSc")) {
+                    promptTxt.setText("Please choose 180 credits \n Only approved modules are shown");
+                }
 
                 for (Module module : optionalModules) {
                     String moduleCode = module.getCode();
@@ -169,6 +175,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
         coreTxt = new JLabel();
         optionalTxt = new JLabel();
         promptTxt = new JLabel();
+        approvedTxt = new JLabel();
 
         setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
                 new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
@@ -264,11 +271,18 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
 
         // ---- promptTxt ----
         promptTxt.setText("Please choose 120 credits");
-        promptTxt.setFont(promptTxt.getFont().deriveFont(promptTxt.getFont().getSize() + 2f));
+        promptTxt.setFont(promptTxt.getFont().deriveFont(promptTxt.getFont().getSize() + 0f));
         promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
         promptTxt.setForeground(Color.white);
         add(promptTxt);
-        promptTxt.setBounds(362, 65, 275, 45);
+        promptTxt.setBounds(362, 55, 275, 45);
+
+        approvedTxt.setText("Only approved modules are shown");
+        approvedTxt.setFont(promptTxt.getFont().deriveFont(promptTxt.getFont().getSize() + 0f));
+        approvedTxt.setHorizontalAlignment(SwingConstants.CENTER);
+        approvedTxt.setForeground(Color.white);
+        add(promptTxt);
+        approvedTxt.setBounds(362, 75, 275, 45);
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
@@ -295,6 +309,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
     private JLabel coreTxt;
     private JLabel optionalTxt;
     private JLabel promptTxt;
+    private JLabel approvedTxt;
 
     @Override
     public void actionPerformed(ActionEvent arg0) {

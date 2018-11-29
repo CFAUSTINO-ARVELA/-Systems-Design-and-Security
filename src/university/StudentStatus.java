@@ -142,11 +142,12 @@ public class StudentStatus {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
-			ResultSet res = stmt.executeQuery(String.format("SELECT moduleCode, period FROM moduleChoice WHERE registrationNumber = %d;", this.registrationNumber));
+			ResultSet res = stmt.executeQuery(String.format("SELECT moduleCode, period, grade FROM moduleChoice WHERE registrationNumber = %d;", this.registrationNumber));
 			
 			while (res.next()) {
 				code = res.getString("moduleCode");
 				period = res.getString("period");
+				int grade = res.getInt("grade");
 
 				System.out.println(period);
 				System.out.println(this.period);
@@ -154,14 +155,14 @@ public class StudentStatus {
 				
 				if (period.equals(this.period)) {
 					
-					if (!this.resitting) {
+					if (!this.resitting && grade == 0) {
 						module = new ModuleChoice(this.registrationNumber, code, period);
 						modules.add(module);
 						System.out.println("add");
 					}
 				} else if (period.equals(prevPeriod)) {
 
-					if (this.resitting) {
+					if (this.resitting && grade == 0) {
 						module = new ModuleChoice(this.registrationNumber, code, period);
 						modules.add(module);
 						System.out.println("add");

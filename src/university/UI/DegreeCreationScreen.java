@@ -80,7 +80,7 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
         submitBtn.addActionListener((e -> {
             if (nameInput.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Please insert the name of the degree");
-            } else if (ValidCheck.input(nameInput)) {
+            } else if (!ValidCheck.input(nameInput)) {
                 JOptionPane.showMessageDialog(null, "Please do not insert illegal characters");
             } else {
                 ArrayList<Department> secondaryDepts = new ArrayList<Department>();
