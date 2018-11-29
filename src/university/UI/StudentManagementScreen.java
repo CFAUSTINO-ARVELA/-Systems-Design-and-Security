@@ -37,16 +37,47 @@ class StudentManagementScreen extends JPanel implements ActionListener {
     }
 
     public void initListeners() {
+       
+    }
+
+    public void draw() throws Exception {
+        this.studentManagement = new JPanel();
+        this.studentManagement.setBackground(new Color(70, 70, 70));
+
+        this.studentManagement.add(backToProfileBtn);
+        this.studentManagement.add(studentManagementTxt);
+
+        if (this.canEdit) {
+            this.studentManagement.add(createBtn);
+            this.studentManagement.add(deleteBtn);
+            this.studentManagement.add(moduleBtn);
+        }
+        if (this.isTeacher) {
+            this.studentManagement.add(statusBtn);
+        }
+
+        this.studentManagement.add(tablePanel);
+        this.studentManagement.add(markingBtn);
+        this.tablePanel.setLayout(new BorderLayout());
+
+        this.studentManagement.setLayout(null);
+
+        studentTable = new JTable(TableModel.buildTableModel(Student.getStutList()));
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(studentTable);
+
+        tablePanel.add(scrollPane);
+
         backToProfileBtn.addActionListener(e -> {
-            studentTable.clearSelection();
             this.studentManagement.setVisible(false);
             this.profileScreen.draw();
+            studentTable.clearSelection();
         });
         createBtn.addActionListener(e -> {
-            studentTable.clearSelection();
             this.studentManagement.setVisible(false);
             StudentCreationScreen studentCreate = new StudentCreationScreen(this.screen, this, this.profileScreen);
             studentCreate.draw();
+            studentTable.clearSelection();
         });
         deleteBtn.addActionListener(e -> {
             if (studentTable.getSelectedRow() > -1) {
@@ -98,6 +129,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Student to view");
             }
+            studentTable.clearSelection();
         });
         moduleBtn.addActionListener(e -> {
             if (studentTable.getSelectedRow() > -1) {
@@ -131,7 +163,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                     } else if (!student.getStudentStatus().isRegistered()) {
                         JOptionPane.showMessageDialog(null, "This student has not yet been registered for the period");
                     } else {
-                        markingScr = new MarkingScreen(this.screen, this, student);
+                        markingScr = new MarkingScreen(this.screen, this, student, this.profileScreen);
                         markingScr.draw();
                         this.studentManagement.setVisible(false);
                     }
@@ -144,36 +176,6 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             }
             studentTable.clearSelection();
         });
-    }
-
-    public void draw() throws Exception {
-        this.studentManagement = new JPanel();
-        this.studentManagement.setBackground(new Color(70, 70, 70));
-
-        this.studentManagement.add(backToProfileBtn);
-        this.studentManagement.add(studentManagementTxt);
-
-        if (this.canEdit) {
-            this.studentManagement.add(createBtn);
-            this.studentManagement.add(deleteBtn);
-            this.studentManagement.add(moduleBtn);
-        }
-
-        if (this.isTeacher) {
-            this.studentManagement.add(statusBtn);
-        }
-
-        this.studentManagement.add(tablePanel);
-        this.studentManagement.add(markingBtn);
-        this.tablePanel.setLayout(new BorderLayout());
-
-        this.studentManagement.setLayout(null);
-
-        studentTable = new JTable(TableModel.buildTableModel(Student.getStutList()));
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportView(studentTable);
-
-        tablePanel.add(scrollPane);
 
         this.studentManagement.setVisible(true);
         screen.frame.add(this.studentManagement);
@@ -258,7 +260,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
         statusBtn.setBounds(415, 410, 170, 30);
 
         // ---- markingBtn ----
-        markingBtn.setText("Student grades");
+        markingBtn.setText("Student Grades");
         add(markingBtn);
         markingBtn.setBounds(415, 375, 170, 30);
 
