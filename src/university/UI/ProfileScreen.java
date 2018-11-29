@@ -169,11 +169,11 @@ public class ProfileScreen extends JPanel {
 
         // ---- profileTxt ----
         profileTxt.setText("Profile");
+        profileTxt.setFont(profileTxt.getFont().deriveFont(profileTxt.getFont().getSize() + 10f));
         profileTxt.setHorizontalAlignment(SwingConstants.CENTER);
-        profileTxt.setFont(profileTxt.getFont().deriveFont(profileTxt.getFont().getSize() + 12f));
+        profileTxt.setForeground(Color.white);
         add(profileTxt);
-        profileTxt.setBounds(362, 20, 275, 40);
-
+        profileTxt.setBounds(347, 35, 305, 31);
         // ---- welcomeTxt ----
         welcomeTxt.setText("Welcome");
         welcomeTxt.setFont(welcomeTxt.getFont().deriveFont(welcomeTxt.getFont().getSize() + 6f));

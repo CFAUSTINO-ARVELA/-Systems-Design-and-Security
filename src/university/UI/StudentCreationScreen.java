@@ -48,7 +48,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         backToProfileBtn.addActionListener(e -> {
             this.studentCreation.setVisible(false);
             try {
-                this.studentManagement.draw();
+                this.profileScreen.draw();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

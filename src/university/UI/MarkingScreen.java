@@ -43,7 +43,7 @@ public class MarkingScreen extends JPanel {
 			}
 		});
 		submitBtn.addActionListener(e -> {
-
+			table.getCellEditor().stopCellEditing();
 			try {
 				if (this.student.getLevel() != "P") {
 					ArrayList<ModuleGrades> allGrades = new ArrayList<>();

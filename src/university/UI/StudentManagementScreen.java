@@ -37,37 +37,6 @@ class StudentManagementScreen extends JPanel implements ActionListener {
     }
 
     public void initListeners() {
-       
-    }
-
-    public void draw() throws Exception {
-        this.studentManagement = new JPanel();
-        this.studentManagement.setBackground(new Color(70, 70, 70));
-
-        this.studentManagement.add(backToProfileBtn);
-        this.studentManagement.add(studentManagementTxt);
-
-        if (this.canEdit) {
-            this.studentManagement.add(createBtn);
-            this.studentManagement.add(deleteBtn);
-            this.studentManagement.add(moduleBtn);
-        }
-        if (this.isTeacher) {
-            this.studentManagement.add(statusBtn);
-        }
-
-        this.studentManagement.add(tablePanel);
-        this.studentManagement.add(markingBtn);
-        this.tablePanel.setLayout(new BorderLayout());
-
-        this.studentManagement.setLayout(null);
-
-        studentTable = new JTable(TableModel.buildTableModel(Student.getStutList()));
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportView(studentTable);
-
-        tablePanel.add(scrollPane);
-
         backToProfileBtn.addActionListener(e -> {
             this.studentManagement.setVisible(false);
             this.profileScreen.draw();
@@ -176,6 +145,35 @@ class StudentManagementScreen extends JPanel implements ActionListener {
             }
             studentTable.clearSelection();
         });
+    }
+
+    public void draw() throws Exception {
+        this.studentManagement = new JPanel();
+        this.studentManagement.setBackground(new Color(70, 70, 70));
+
+        this.studentManagement.add(backToProfileBtn);
+        this.studentManagement.add(studentManagementTxt);
+
+        if (this.canEdit) {
+            this.studentManagement.add(createBtn);
+            this.studentManagement.add(deleteBtn);
+            this.studentManagement.add(moduleBtn);
+        }
+        if (this.isTeacher) {
+            this.studentManagement.add(statusBtn);
+            this.studentManagement.add(markingBtn);
+        }
+
+        this.studentManagement.add(tablePanel);
+        this.tablePanel.setLayout(new BorderLayout());
+
+        this.studentManagement.setLayout(null);
+
+        studentTable = new JTable(TableModel.buildTableModel(Student.getStutList()));
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(studentTable);
+
+        tablePanel.add(scrollPane);
 
         this.studentManagement.setVisible(true);
         screen.frame.add(this.studentManagement);

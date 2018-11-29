@@ -133,9 +133,14 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                 }
 
                 coreScrollPane.setViewportView(corePanel);
+                Degree deg = this.student.getDegree();
                 corePanel.setLayout(new BoxLayout(corePanel, BoxLayout.Y_AXIS));
-                coreModules = Degree.getCoreModules(this.student.getDegree(),
+                coreModules = Degree.getCoreModules(deg,
                         Integer.parseInt(this.student.getLevel()));
+
+                if (deg.getType().equals("MSc")) {
+                    promptTxt.setText("Please choose 180 credits");
+                }
 
                 for (Module module : optionalModules) {
                     String moduleCode = module.getCode();

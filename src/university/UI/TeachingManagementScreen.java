@@ -79,6 +79,8 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
     public void draw() throws SQLException{
         this.teachingManagement = new JPanel();
 
+        welcomeTxt.setForeground(new Color(255, 255, 255));
+
         teachingManagement.setForeground(new Color(255,255,255));
         this.teachingManagement.add(welcomeTxt);
         this.teachingManagement.add(backToProfileBtn);
@@ -113,12 +115,11 @@ class TeachingManagementScreen extends JPanel implements ActionListener {
         setLayout(null);
 
         //---- welcomeTxt ----
-        welcomeTxt.setText("Welcome");
-        welcomeTxt.setFont(welcomeTxt.getFont().deriveFont(welcomeTxt.getFont().getSize() + 12f));
+        welcomeTxt.setText("Please make a selection below");
+        welcomeTxt.setFont(welcomeTxt.getFont().deriveFont(welcomeTxt.getFont().getSize() + 6f));
         welcomeTxt.setHorizontalAlignment(SwingConstants.CENTER);
-        welcomeTxt.setForeground(Color.white);
         add(welcomeTxt);
-        welcomeTxt.setBounds(331, 90, 336, 31);
+        welcomeTxt.setBounds(347, 95, 305, 50);
 
         //---- backToProfileBtn ----
         backToProfileBtn.setText("Back");

@@ -62,7 +62,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         deleteBtn.addActionListener(e -> {
             System.out.println(accountTable.getSelectedRow());
             if (accountTable.getSelectedRow() > -1) {
-                String index = (String) accountTable.getValueAt(accountTable.getSelectedRow(), 3);
+                String index = (String) accountTable.getValueAt(accountTable.getSelectedRow(), 0);
                 Account accountToDelete = new Account(index);
                 JLabel label_login = new JLabel("If you wish to continue please insert your account details.");
                 JLabel labem_email = new JLabel("Email:");

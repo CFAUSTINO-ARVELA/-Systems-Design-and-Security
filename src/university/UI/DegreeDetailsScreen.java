@@ -46,9 +46,6 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
                 String code = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 0);
                 String year = (String) moduleTable.getValueAt(moduleTable.getSelectedRow(), 3);
                 
-                
-                
-                
                 JLabel label_login = new JLabel("If you wish to continue please insert your account details.");
                 JLabel labem_email = new JLabel("Email:");
                 JTextField email = new JTextField();
@@ -62,24 +59,18 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
                 if (res == JOptionPane.OK_OPTION) {
 	                try {
 	                	if(Account.delVerification(email.getText(), password.getText(), 3)) {
-	                		Module.remAssoModDeg(code, deg.getCode(), Integer.parseInt(year));
+                            Module.remAssoModDeg(code, deg.getCode(), Integer.parseInt(year));
+                            JOptionPane.showMessageDialog(null, "Successfully remove Module.");
+                            this.degreDetScreen.setVisible(false);
+                            DegreeDetailsScreen newDegDet = new DegreeDetailsScreen(this.screen,this.degreeManagement,this.deg);
+                            newDegDet.draw();
+                            
 	                		
 	                	}else
 	                		JOptionPane.showMessageDialog(null, "Please insert the correct account details");    
 	                } catch (Exception e1) {
 	                    e1.printStackTrace();
 	                }
-	                this.degreDetScreen.setVisible(false);
-	              
-	                DegreeDetailsScreen newDegDet = new DegreeDetailsScreen(this.screen,this.degreeManagement,this.deg);
-	                
-	                try {	
-	                	newDegDet.draw();
-					} catch (Exception e1) {
-						//newDegMan TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-	                JOptionPane.showMessageDialog(null, "Successfully remove Module.");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Module to remove");

@@ -291,10 +291,10 @@ public class Account {
 		dept = con.prepareStatement("SELECT Title, Forename, Surname, Username, Email, Clearance FROM account;");
 		try {
 			res  = dept.executeQuery();
+			account.add("Username");
 			account.add("Title");
 			account.add("Forename");
 			account.add("Surname");
-			account.add("Username");
 			account.add("Email");
 			account.add("Clearance");
 			//System.out.println(account.toString());
@@ -302,10 +302,10 @@ public class Account {
 			
 			while (res.next()) {
 				account.clear();
+				account.add(res.getString("Username"));
 				account.add(res.getString("Title"));
 				account.add(res.getString("Forename"));
 				account.add(res.getString("Surname"));
-				account.add(res.getString("Username"));
 				account.add(res.getString("Email"));
 				account.add(res.getString("Clearance"));
 				//System.out.println("Depart" + depart.toString());

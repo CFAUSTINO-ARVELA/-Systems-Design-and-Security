@@ -60,41 +60,53 @@ public class ModuleAssignmentScreen extends JPanel {
                 }
 
                 try {
-                    if (Degree.getDegree(degreeCode).getType().equals("MSc"))
-                        if (level != 4)
+                    if (Degree.getDegree(degreeCode).getType().equals("MSc")) {
+
+                        if (level != 4) {
                             JOptionPane.showMessageDialog(null, "The degree selected does not offer level " + level
                                     + ". \n Please select the correct level.");
-                        else if (Degree.getCredits(degreeCode, level)
+                        } else if (Degree.getCredits(degreeCode, level)
                                 + Module.getModule(moduleCode).getCredits() >= 180 && core) {
-                        	System.out.println(Degree.getCredits(degreeCode, level));
-                    		System.out.println(Module.getModule(moduleCode).getCredits());
                             JOptionPane.showMessageDialog(null,
                                     "Adding this module will exceed 180 credits. \n Please insert the correct information.");
+                        } else {
+                            int success = Module.assignModule(degreeCode, moduleCode, level, core);
+                            System.out.println("Module Assignment page " + success);
+
+                            this.moduleAssScreen.setVisible(false);
+                            ModuleAssignmentScreen newScreen = new ModuleAssignmentScreen(this.screen,
+                                    this.teachScreen);
+
+                            newScreen.draw();
+
+                            JOptionPane.showMessageDialog(null, "Successfully linked modules");
                         }
-                        else {
-                            if (Degree.getDegree(degreeCode).getType().charAt(0) == 'B' && level == 4)
-                                JOptionPane.showMessageDialog(null,
-                                        "The degree selected does not offer level 4. \n Please select the correct level.");
-                            else if (Degree.getCredits(degreeCode, level)
-                                    + Module.getModule(moduleCode).getCredits() >= 120 && core)
-                                JOptionPane.showMessageDialog(null,
-                                        "Adding this module will exceed 120 credits. \n Please insert the correct information.");
+
+                    } else {
+
+                        if (Degree.getDegree(degreeCode).getType().charAt(0) == 'B' && level == 4) {
+                            JOptionPane.showMessageDialog(null,
+                                    "The degree selected does not offer level 4. \n Please select the correct level.");
+                        } else if (Degree.getCredits(degreeCode, level)
+                                + Module.getModule(moduleCode).getCredits() >= 120 && core) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Adding this module will exceed 120 credits. \n Please insert the correct information.");
+                        } else if (Degree.getNoMod(degreeCode, moduleCode, level) != 0) {
+                            JOptionPane.showMessageDialog(null,
+                                    "This module is already assigned to this degree's level " + level
+                                            + ". \n Please insert the correct information.");
+                        } else {
+                            int success = Module.assignModule(degreeCode, moduleCode, level, core);
+                            System.out.println("Module Assignment page " + success);
+
+                            this.moduleAssScreen.setVisible(false);
+                            ModuleAssignmentScreen newScreen = new ModuleAssignmentScreen(this.screen,
+                                    this.teachScreen);
+
+                            newScreen.draw();
+
+                            JOptionPane.showMessageDialog(null, "Successfully linked modules");
                         }
-                    else if (Degree.getNoMod(degreeCode, moduleCode, level) != 0)
-                        JOptionPane.showMessageDialog(null, "This module is already assigned to this degree's level "
-                                + level + ". \n Please insert the correct information.");
-
-                    else { // Successful
-
-                        int success = Module.assignModule(degreeCode, moduleCode, level, core);
-                        System.out.println("Module Assignment page " + success);
-
-                        this.moduleAssScreen.setVisible(false);
-                        ModuleAssignmentScreen newScreen = new ModuleAssignmentScreen(this.screen, this.teachScreen);
-
-                        newScreen.draw();
-
-                        JOptionPane.showMessageDialog(null, "Successfully linked modules");
                     }
                 } catch (Exception e1) {
                     e1.printStackTrace();
@@ -105,6 +117,7 @@ public class ModuleAssignmentScreen extends JPanel {
 
             }
         }));
+
     }
 
     public void draw() throws Exception {
