@@ -584,7 +584,7 @@ public class Student {
 			}
 		}
 		
-		if (failed && status.isResitting()) {
+		if (failed) {
 			if (level == '4') {
 				pastResults = this.getPrevResults();
 				float finalgrade = 0;
@@ -622,7 +622,7 @@ public class Student {
 				outcome += "Student graduated with bachelors, degree result recorded";
 				return outcome;
 				
-			} else {
+			} else if (status.isResitting()) {
 				outcome += "Year failed twice, degree failed";
 				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
 				currentResult.createPeriodResult();
@@ -770,11 +770,12 @@ public class Student {
 				
 				nextLevel = Integer.parseInt(Character.toString(level)) + 1;
 				char nextLevelC = Integer.toString(nextLevel).charAt(0);
-				outcome += "Next level is " + nextLevelC + "next period is " + nextPeriod;
+				outcome += "Next level is " + nextLevelC + "\nNext period is " + nextPeriod;
 				status.updateStatus(nextLevelC, nextPeriod);
 				return outcome;
 			}
 		}
+		return outcome;
 	}
 	
 	public void setModuleChoices(ArrayList<Module> modules) throws SQLException {
