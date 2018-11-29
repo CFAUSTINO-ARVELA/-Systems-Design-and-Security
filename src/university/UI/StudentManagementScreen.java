@@ -53,9 +53,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                 int index = Integer.parseInt((String) studentTable.getValueAt(studentTable.getSelectedRow(), 0));
                 String username = (String) studentTable.getValueAt(studentTable.getSelectedRow(), 3);
                 Student stuToDelete = new Student(index);
-                
-                
-                
+
                 JLabel label_login = new JLabel("If you wish to continue please insert your account details.");
                 JLabel labem_email = new JLabel("Email:");
                 JTextField email = new JTextField();
@@ -63,23 +61,22 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                 JLabel label_password = new JLabel("Password:");
                 JPasswordField password = new JPasswordField();
 
-                Object[] array = {label_login, labem_email, email, label_password, password };
+                Object[] array = { label_login, labem_email, email, label_password, password };
 
-                int res = JOptionPane.showConfirmDialog(null, array, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                int res = JOptionPane.showConfirmDialog(null, array, "Login", JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.PLAIN_MESSAGE);
                 if (res == JOptionPane.OK_OPTION) {
-	                try {
-	                	if(Account.delVerification(email.getText(), password.getText(), 3)) {
-	                		stuToDelete.deleteStudent();
-	                		
-	                	}else
-	                		JOptionPane.showMessageDialog(null, "Please insert the correct account details");
-                    
-	                } catch (SQLException e1) {
-	                    e1.printStackTrace();
-	                }
-	                this.studentManagement.setVisible(false);
-	                this.profileScreen.draw();
-	                JOptionPane.showMessageDialog(null, "Successfully deleted student: " + username);
+                    try {
+                        if (Account.delVerification(email.getText(), password.getText(), 3)) {
+                            stuToDelete.deleteStudent();
+                            this.studentManagement.setVisible(false);
+                            this.profileScreen.draw();
+                            JOptionPane.showMessageDialog(null, "Successfully deleted student: " + username);
+                        } else
+                            JOptionPane.showMessageDialog(null, "Please insert the correct account details");
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Student to delete");
@@ -133,7 +130,8 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                         JOptionPane.showMessageDialog(null, "This student has graduated");
                     } else if (!student.getStudentStatus().isRegistered()) {
                         JOptionPane.showMessageDialog(null, "This student has not yet been registered for the period");
-                    } {
+                    }
+                    {
                         markingScr = new MarkingScreen(this.screen, this, student);
                         markingScr.draw();
                         this.studentManagement.setVisible(false);

@@ -103,7 +103,7 @@ class DegreeCreationScreen extends JPanel implements ActionListener {
 
                 if (type == "MSc" && placement == true)
                     JOptionPane.showMessageDialog(null,
-                            "This degree cannot offer a year in industry. /n Please select a different type of degree.");
+                            "This degree cannot offer a year in industry. \n Please select a different type of degree.");
                 else {
 
                     try {

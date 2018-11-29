@@ -32,7 +32,7 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
     private TeachingManagementScreen teachingScreen;
     private JTable departmentTable;
 
-    DepartmentManagementScreen(ScreenManager scr,TeachingManagementScreen teach) {
+    DepartmentManagementScreen(ScreenManager scr, TeachingManagementScreen teach) {
         this.initComponents();
         this.initListeners();
         this.screen = scr;
@@ -40,9 +40,10 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
     }
 
     public TeachingManagementScreen getTecMangScree() {
-    	return teachingScreen;
+        return teachingScreen;
     }
-    public void draw() throws SQLException{
+
+    public void draw() throws SQLException {
         this.departmentScreen = new JPanel();
         this.departmentScreen.setBackground(new Color(70, 70, 70));
 
@@ -54,16 +55,14 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
 
         this.tablePanel.setLayout(new BorderLayout());
 
-
         this.departmentScreen.setLayout(null);
-        
+
         Department dep = new Department();
         departmentTable = new JTable(TableModel.buildTableModel(dep.getDeptList()));
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(departmentTable);
 
         tablePanel.add(scrollPane);
-
 
         screen.frame.add(this.departmentScreen);
 
@@ -73,27 +72,26 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
         backToTeachingBtn.addActionListener(e -> {
             this.departmentScreen.setVisible(false);
             try {
-				this.teachingScreen.draw();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
+                this.teachingScreen.draw();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         });
         createBtn.addActionListener(e -> {
             this.departmentScreen.setVisible(false);
             DepartmentCreationScreen departmentCreate = new DepartmentCreationScreen(this.screen, this);
             try {
-				departmentCreate.draw();
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+                departmentCreate.draw();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         });
         deleteBtn.addActionListener(e -> {
             if (departmentTable.getSelectedRow() > -1) {
                 String code = (String) departmentTable.getValueAt(departmentTable.getSelectedRow(), 0);
                 String name = (String) departmentTable.getValueAt(departmentTable.getSelectedRow(), 1);
                 Department depToDelete = new Department(code);
-               
-                
+
                 JLabel label_warning = new JLabel("Warning: Deleting this department will delete all its degrees.");
                 JLabel label_login = new JLabel("If you wish to continue please insert your account details.");
                 JLabel labem_email = new JLabel("Email:");
@@ -102,27 +100,24 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
                 JLabel label_password = new JLabel("Password:");
                 JPasswordField password = new JPasswordField();
 
-                Object[] array = {label_warning, label_login, labem_email, email, label_password, password };
+                Object[] array = { label_warning, label_login, labem_email, email, label_password, password };
 
-                int res = JOptionPane.showConfirmDialog(null, array, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                int res = JOptionPane.showConfirmDialog(null, array, "Login", JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.PLAIN_MESSAGE);
                 if (res == JOptionPane.OK_OPTION) {
-	                try {
-	                	if(Account.delVerification(email.getText(), password.getText(), 3)) {
-	                		depToDelete.deleteDep();
-	                		JOptionPane.showMessageDialog(null, "Successfully deleted department: " + name);
-	                	}else
-	                		JOptionPane.showMessageDialog(null, "Please insert the correct account details");
-	                } catch (Exception e1) {
-	                    e1.printStackTrace();
-	                }
-	                this.departmentScreen.setVisible(false);
-	                DepartmentManagementScreen newDepScreen = new DepartmentManagementScreen(this.screen,this.teachingScreen);
-	                try {
-						newDepScreen.draw();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+                    try {
+                        if (Account.delVerification(email.getText(), password.getText(), 3)) {
+                            depToDelete.deleteDep();
+                            JOptionPane.showMessageDialog(null, "Successfully deleted department: " + name);
+                            this.departmentScreen.setVisible(false);
+                            DepartmentManagementScreen newDepScreen = new DepartmentManagementScreen(this.screen,
+                                    this.teachingScreen);
+                            newDepScreen.draw();
+                        } else
+                            JOptionPane.showMessageDialog(null, "Please insert the correct account details");
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Department to delete");
@@ -137,33 +132,39 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
         createBtn = new JButton();
         tablePanel = new JPanel();
 
-        setBorder(new javax.swing.border.CompoundBorder(
-            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
+                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
+                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
+                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent e) {
+                if ("border".equals(e.getPropertyName()))
+                    throw new RuntimeException();
+            }
+        });
 
         setLayout(null);
 
-        //---- backToTeachingBtn ----
+        // ---- backToTeachingBtn ----
         backToTeachingBtn.setText("Back");
         add(backToTeachingBtn);
         backToTeachingBtn.setBounds(414, 500, 170, 50);
 
-        //---- departmentManagementTxt ----
+        // ---- departmentManagementTxt ----
         departmentManagementTxt.setText("Department Management");
-        departmentManagementTxt.setFont(departmentManagementTxt.getFont().deriveFont(departmentManagementTxt.getFont().getSize() + 10f));
+        departmentManagementTxt.setFont(
+                departmentManagementTxt.getFont().deriveFont(departmentManagementTxt.getFont().getSize() + 10f));
         departmentManagementTxt.setHorizontalAlignment(SwingConstants.CENTER);
         departmentManagementTxt.setForeground(Color.white);
         add(departmentManagementTxt);
         departmentManagementTxt.setBounds(347, 35, 305, 31);
 
-        //---- deleteBtn ----
+        // ---- deleteBtn ----
         deleteBtn.setText("Delete Department");
         add(deleteBtn);
         deleteBtn.setBounds(415, 465, 170, 30);
 
-        //---- createBtn ----
+        // ---- createBtn ----
         createBtn.setText("Create Department");
         add(createBtn);
         createBtn.setBounds(415, 430, 170, 30);
@@ -172,7 +173,7 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -191,8 +192,8 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
     private JButton createBtn;
     private JPanel tablePanel;
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+    }
 }
