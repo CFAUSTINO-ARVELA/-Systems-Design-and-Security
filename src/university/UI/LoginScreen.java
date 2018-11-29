@@ -91,7 +91,7 @@ public class LoginScreen extends JPanel {
             pst2.setString(2, passwordInput.getText());
             res2 = pst2.executeQuery();
 
-            if (!ValidCheck.email(emailInput) || !ValidCheck.input(passwordInput)) {
+            if (!ValidCheck.email(emailInput) || ValidCheck.input(passwordInput)) {
                 JOptionPane.showMessageDialog(null, "Please do not enter illegal characters");
             } else if (emailInput.getText().equals("") || passwordInput.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Please enter an email and password");
