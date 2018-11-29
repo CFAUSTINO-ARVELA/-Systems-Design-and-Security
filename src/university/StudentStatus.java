@@ -155,14 +155,14 @@ public class StudentStatus {
 				
 				if (period.equals(this.period)) {
 					
-					if (!this.resitting && grade != 0) {
+					if (!this.resitting && grade == 0) {
 						module = new ModuleChoice(this.registrationNumber, code, period);
 						modules.add(module);
 						System.out.println("add");
 					}
 				} else if (period.equals(prevPeriod)) {
 
-					if (this.resitting && grade != 0) {
+					if (this.resitting && grade == 0) {
 						module = new ModuleChoice(this.registrationNumber, code, period);
 						modules.add(module);
 						System.out.println("add");
