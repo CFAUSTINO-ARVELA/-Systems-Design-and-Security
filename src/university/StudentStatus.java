@@ -24,13 +24,15 @@ public class StudentStatus {
 		   }
 	}
 	
-	public StudentStatus(int r, char l, String p, boolean reg, boolean g, boolean re) {
+	public StudentStatus(int r, char l, String p, boolean reg, boolean g, boolean re, Date s, Date e) {
 		this.registrationNumber = r;
 		this.level = l;
 		this.period = p;
 		this.registered = reg;
 		this.graduated = g;
 		this.resitting = re;
+		this.startDate = s;
+		this.endDate = e;
 	}
 	
 	public boolean isRegistered() {
@@ -53,6 +55,7 @@ public class StudentStatus {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
+			
 			String query = String.format("INSERT INTO studentStatus (registrationNumber, level, period, registered) VALUES (%d, \"%s\", \"%s\", %b);",
 					this.registrationNumber, this.level, this.period, false);
 			int count = stmt.executeUpdate(query);
@@ -238,11 +241,12 @@ public class StudentStatus {
 	
 	public void setRegistered(boolean r) throws SQLException {
 		
-		connectToDB();
+		Connection con = null;
 		Statement stmt = null;
 
 		try {
 			
+			con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 			stmt = con.createStatement();
 			int count = stmt.executeUpdate(
 					String.format("UPDATE studentStatus SET registered = %b WHERE registrationNumber = %d;", r, this.registrationNumber));
@@ -254,6 +258,5 @@ public class StudentStatus {
 			if (stmt != null)
 				stmt.close();
 		}	
-		con.close();
 	}
 }
