@@ -192,7 +192,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         add(surnameTxt);
         surnameTxt.setBounds(155, 265, 215, 16);
         add(titleInput);
-        titleInput.setBounds(382, 180, 235, titleInput.getPreferredSize().height);
+        titleInput.setBounds(382, 180, 235, 30);
         add(forenameInput);
         forenameInput.setBounds(382, 220, 235, 30);
         add(surnameInput);

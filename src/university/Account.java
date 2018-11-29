@@ -139,8 +139,7 @@ public class Account {
 	}
 	
 	private String generatePassword() {
-		return "password";
-		// return randomString(12);
+		return randomString(12);
 	}
 	
 	public String getEmail() {
