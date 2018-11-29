@@ -26,7 +26,8 @@ public class CreateTables {
 			count+= stmt.executeUpdate("CREATE TABLE moduleChoice (RegistrationNumber int NOT NULL, ModuleCode varchar(7) NOT NULL, Period char, Grade int);");
 			count+= stmt.executeUpdate("CREATE TABLE periodResult (RegistrationNumber int, Period char, Level char, Grade int, Passed boolean);");
 			count+= stmt.executeUpdate("CREATE TABLE degreeResult (RegistrationNumber int, Result varchar(255), Masters boolean);");
-			
+			count+= stmt.executeUpdate("INSERT INTO account VALUES ("Mr", "Admin", "Admin", "admin", "f26405525c549627ee3797a23d366402", "admin@sheffield.ac.uk", 3);")
+
 			System.out.println(count);
 
 			// Create table for department

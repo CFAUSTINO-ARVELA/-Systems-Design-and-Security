@@ -449,9 +449,10 @@ public class Account {
 		try {
 			String secure = Account.md5hash(this.password);
 			stmt = con.createStatement();
+			System.out.println(this.username);
 			int count = stmt.executeUpdate(
 					String.format("UPDATE account SET password = \"%s\" WHERE username = \"%s\";", secure, this.username));
-			
+
 			System.out.println(count);
 		} catch (Exception ex) {
 			ex.printStackTrace();

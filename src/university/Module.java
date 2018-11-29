@@ -157,7 +157,6 @@ public class Module {
 	}
 	
 	public static Module getModule(String c) throws SQLException {
-		//System.out.println(c);
 		Module module = null;
 		
 		connectToDB();

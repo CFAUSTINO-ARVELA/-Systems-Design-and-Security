@@ -1,5 +1,8 @@
 package university.UI;
 
+import java.awt.event.*;
+import java.sql.*;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -19,8 +22,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Rectangle;
-import java.awt.event.*;
-import java.sql.*;
+
 import java.util.ArrayList;
 
 class StudentCreationScreen extends JPanel implements ActionListener {
