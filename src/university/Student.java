@@ -560,17 +560,20 @@ public class Student {
 			float finalgrade = weightedmean;
 			
 			if (failed & status.isResitting()) {
-				System.out.println("Degree failed, final grade = " + finalgrade);
+				outcome += "Degree failed, final grade = " + finalgrade;
 				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
 				currentResult.createPeriodResult();
 				degreeResult = new DegreeResult(student.getRegistrationNumber(), true, "fail");
 				degreeResult.createDegreeResult();
+				status.setGraduated();
+				return outcome;
 			} else if (failed) {
-				System.out.println("Year failed, student will resit next period");
+				outcome += "Year failed, student will resit next period";
 				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
 				currentResult.createPeriodResult();
 				status.updateStatus(level, nextPeriod);
 				status.setResitting(true);
+				return outcome;
 			} else {
 				System.out.println("Final grade = " + weightedmean);
 				
@@ -597,6 +600,7 @@ public class Student {
 				currentResult.createPeriodResult();
 				degreeResult = new DegreeResult(student.getRegistrationNumber(), true, finalresult);
 				degreeResult.createDegreeResult();
+				status.setGraduated();
 				return outcome;
 			}
 		}
