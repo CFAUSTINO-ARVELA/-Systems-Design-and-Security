@@ -1,20 +1,19 @@
 package university.UI;
 
-import java.awt.*;
 import javax.swing.*;
+import java.sql.*;
 
-import university.UI.ProfileScreen;
 import university.ScreenManager;
 import university.TableModel;
 import university.Account;
 import university.Degree;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Point;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.*;
-
-import java.sql.*;
 
 class DegreeManagementScreen extends JPanel implements ActionListener {
 
@@ -119,6 +118,7 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
         this.degreeManagement.add(createBtn);
         this.degreeManagement.add(deleteBtn);
         this.degreeManagement.add(tablePanel);
+        this.degreeManagement.add(promptTxt);
 
         this.tablePanel.setLayout(new BorderLayout());
 
@@ -133,7 +133,7 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
 
         screen.frame.add(this.degreeManagement);
 
-        
+    
         degreeTable.addMouseListener(new MouseAdapter() {
             private JComponent degreeManagement;
 			private ScreenManager screen;
@@ -154,7 +154,6 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
             		try {
 						deg = Degree.getDegree(code);
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
             		this.degreeManagement.setVisible(false);
@@ -164,12 +163,8 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
                     	degreeCreate = new DegreeDetailsScreen(this.screen, this.DegreeManagementScreen, deg);
 						degreeCreate.draw();
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-                    
-            	
-            		
             	}
             }
         });
@@ -187,6 +182,7 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
         deleteBtn = new JButton();
         createBtn = new JButton();
         tablePanel = new JPanel();
+        promptTxt = new JLabel();
 
         //======== this ========
 
@@ -199,7 +195,7 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
 
         setLayout(null);
 
-        tablePanel.setBounds(177, 100, 645, 290);
+        tablePanel.setBounds(177, 120, 645, 290);
 
         //---- backToTeachingBtn ----
         backToTeachingBtn.setText("Back");
@@ -213,6 +209,12 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
         degreeManagementTxt.setForeground(Color.white);
         add(degreeManagementTxt);
         degreeManagementTxt.setBounds(347, 35, 305, 31);
+
+        promptTxt.setBounds(347, 70, 305, 31);
+        promptTxt.setFont(promptTxt.getFont().deriveFont(promptTxt.getFont().getSize() + 0f));
+        promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
+        promptTxt.setForeground(Color.white);
+        promptTxt.setText("Double click a degree to see more infomation");
 
         //---- deleteBtn ----
         deleteBtn.setText("Delete Degree");
@@ -248,6 +250,7 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
     private JButton deleteBtn;
     private JButton createBtn;
     private JPanel tablePanel;
+    private JLabel promptTxt;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
 	@Override

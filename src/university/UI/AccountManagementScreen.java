@@ -44,23 +44,13 @@ class AccountManagementScreen extends JPanel implements ActionListener {
 
     AccountManagementScreen(ScreenManager scr, Account acc, ProfileScreen prof) {
         this.initComponents();
+        this.initListeners();
         this.profileScreen = prof;
         this.screen = scr;
         this.account = acc;
     }
 
-    public void draw() throws SQLException {
-        this.accountManagement = new JPanel();
-        this.accountManagement.setBackground(new Color(70, 70, 70));
-
-        this.accountManagement.add(backToProfileBtn);
-        this.accountManagement.add(accountManagementTxt);
-        this.accountManagement.add(createBtn);
-        this.accountManagement.add(deleteBtn);
-        this.accountManagement.setLayout(null);
-
-        this.accountManagement.add(tablePanel);
-
+    private void initListeners() {
         backToProfileBtn.addActionListener(e -> {
             this.accountManagement.setVisible(false);
             this.profileScreen.draw();
@@ -75,9 +65,6 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             if (accountTable.getSelectedRow() > -1) {
                 String index = (String) accountTable.getValueAt(accountTable.getSelectedRow(), 3);
                 Account accountToDelete = new Account(index);
-                
-
-
                 JLabel label_login = new JLabel("If you wish to continue please insert your account details.");
                 JLabel labem_email = new JLabel("Email:");
                 JTextField email = new JTextField();
@@ -107,7 +94,9 @@ class AccountManagementScreen extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Please select an Account to delete");
             }
         });
+    }
 
+    public void drawTable() throws SQLException {
         try {
             con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team002", "team002", "e8f208af");
 
@@ -128,19 +117,28 @@ class AccountManagementScreen extends JPanel implements ActionListener {
             }
             stmt.close();
         }
+    }
+
+    public void draw()  {
+        this.accountManagement = new JPanel();
+        this.accountManagement.setBackground(new Color(70, 70, 70));
+
+        this.accountManagement.add(backToProfileBtn);
+        this.accountManagement.add(accountManagementTxt);
+        this.accountManagement.add(createBtn);
+        this.accountManagement.add(deleteBtn);
+        this.accountManagement.add(promptTxt);
+        this.accountManagement.setLayout(null);
+
+        this.accountManagement.add(tablePanel);
 
         this.accountManagement.setVisible(true);
         screen.frame.add(this.accountManagement);
-    }
-
-    public void returnFromManagement(String status) {
-        JLabel statusTxt = new JLabel(status);
-        this.accountManagement.add(statusTxt);
 
         try {
-            this.draw();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            this.drawTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -153,6 +151,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         deleteBtn = new JButton();
         createBtn = new JButton();
         tablePanel = new JPanel();
+        promptTxt = new JLabel();
 
         // ======== this ========
 
@@ -174,6 +173,13 @@ class AccountManagementScreen extends JPanel implements ActionListener {
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(414, 500, 170, 50);
+
+        promptTxt.setBounds(347, 70, 305, 31);
+        promptTxt.setFont(promptTxt.getFont().deriveFont(promptTxt.getFont().getSize() + 0f));
+        promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
+        promptTxt.setForeground(Color.white);
+        promptTxt.setText("Select an account from the list to delete");
+
 
         // ---- accountManagementTxt ----
         accountManagementTxt.setText("Account Management");
@@ -224,6 +230,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
     private JButton deleteBtn;
     private JButton createBtn;
     private JPanel tablePanel;
+    private JLabel promptTxt;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
     @Override

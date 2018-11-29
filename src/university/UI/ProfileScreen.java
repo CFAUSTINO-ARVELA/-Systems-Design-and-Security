@@ -31,11 +31,7 @@ public class ProfileScreen extends JPanel {
         });
         accountManagementBtn.addActionListener(e -> {
             AccountManagementScreen accountScreen = new AccountManagementScreen(this.screen, this.account, this);
-            try {
-                accountScreen.draw();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            accountScreen.draw();
             this.profileScreen.setVisible(false);
         });
         teachingManagementBtn.addActionListener(e -> {
