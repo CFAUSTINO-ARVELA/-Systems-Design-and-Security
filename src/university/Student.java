@@ -829,5 +829,84 @@ public class Student {
 		}
 		con.close();
 	}
+
+	public String calculate(Student student, ArrayList<ModuleGrades> grades) throws Exception {
+		StudentStatus status = student.getStudentStatus();
+		char level = status.getLevel();
+		String period = status.getPeriod();
+		int periodvalue = period.charAt(0);
+		String prevPeriod = String.valueOf((char)(periodvalue - 1));
+		String outcome = "";
+		
+		int credits, grade, resit, modulegrade, weightedgrade;
+		int credittotal = 0;
+		
+		ArrayList<Integer> weightedGrades = new ArrayList<Integer>();
+		
+		if (level == 'P') {
+			return "Year in industry, no grade to calculate";
+		}
+		
+		if (status.isResitting()) {
+			System.out.println("resitting");
+			grades.addAll(ModuleChoice.getPastChoices(student.getRegistrationNumber(), prevPeriod));
+		}
+		
+		for (ModuleGrades module : grades) {
+			
+			Module mod = module.getModule();
+			System.out.println(mod.getCode() + mod.getCredits());
+			credits = mod.getCredits();
+			credittotal += credits;
+			System.out.println("credittotal so far = " + credittotal);
+				
+				
+			if (module.getResit()) {
+
+				grade = module.getGrade();
+				resit = module.getResitGrade();
+				System.out.println("resit module, resit grade = " + resit + "first grade = " + grade);
+				
+				if (resit > grade && resit > 50 && level == '4') {
+					System.out.println("4th year, mark reduced to 50");
+					if (outcome.equals("") ) {
+						outcome += "Resit grades capped\n";
+					}
+					modulegrade = 50;
+				} else if (resit > grade && resit > 40 && level != '4') {
+					System.out.println("Mark reduced to 40");
+					if (outcome.equals("") ) {
+						outcome += "Resit grades capped\n";
+					}
+					modulegrade = 40;
+				} else if (resit > grade) {
+					System.out.println("Resit grade used");
+					modulegrade = resit;
+				} else {
+					System.out.println("First grade used");
+					modulegrade = grade;
+				}
+			} else {
+				modulegrade = module.getGrade();
+				System.out.println("no resit, grade = " + modulegrade);
+			}
+				
+			weightedgrade = (modulegrade * credits);
+			
+			weightedGrades.add(weightedgrade);
+			
+		}
+			
+		int weightedmean = 0;
+			
+		for (int wg : weightedGrades) {
+			weightedmean += wg;
+		}
+			
+		weightedmean = weightedmean / credittotal; 
+		outcome += "Weighted mean grade is " + weightedmean;
+		outcome += "\nYou can now either change the grades or progress the student accordingly";
+		return outcome;
+	}
 }
 

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import university.*;
+import university.Module;
 
 public class DegreeDetailsScreen extends JPanel implements ActionListener{
 
