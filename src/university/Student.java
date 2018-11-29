@@ -88,7 +88,18 @@ public class Student {
 			String query = String.format("INSERT INTO student (registrationNumber, degree, tutor, username) VALUES (%d, \"%s\", \"%s\", \"%s\");",
 					this.registrationNumber, this.degree.getCode(), this.tutor, this.accountDetails.getUsername());
 			int count = stmt.executeUpdate(query);
-			query = String.format("INSERT INTO studentStatus (registrationNumber, level, period) VALUES (%d, \"%s\", \"%s\");", this.registrationNumber, '1', 'A');
+			Date startDate = new Date(118, 8, 1);
+			Date endDate;
+			String type = this.getDegree().getType();
+			if (type.equals("MSc")) {
+				endDate = new Date(119, 7, 1);
+			} else if (type.equals("MComp") || type.equals("MEng")) {
+				endDate = new Date(122, 7, 1);
+			} else {
+				endDate = new Date(121, 7, 1);
+			}
+			
+			query = String.format("INSERT INTO studentStatus (registrationNumber, level, period, startDate, endDate) VALUES (%d, \"%s\", \"%s\", \"%s\", \"%s\");", this.registrationNumber, '1', 'A', startDate, endDate);
 			System.out.println(query);
 			count = stmt.executeUpdate(query);
 					
@@ -247,7 +258,9 @@ public class Student {
 			registered = res.getBoolean("registered");
 			boolean graduated = res.getBoolean("graduated");
 			boolean resitting = res.getBoolean("resitting");
-			status = new StudentStatus(regNum, level, period, registered, graduated, resitting);
+			Date startDate = res.getDate("startDate");
+			Date endDate = res.getDate("endDate");
+			status = new StudentStatus(regNum, level, period, registered, graduated, resitting, startDate, endDate);
 			res.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -514,7 +527,7 @@ public class Student {
 			} else if (level == '4' && modulegrade < 50) {
 				System.out.println("4th year, too many failed, year failed");
 				failed = true;
-			} else if (modulegrade < 30 && conceded == false && credits == 20) {
+			} else if (modulegrade >= 30 && modulegrade < 40 && conceded == false && credits == 20) {
 				System.out.println("First module failed, conceded pass so far");
 				conceded = true;
 			} else if (modulegrade < 40) {
@@ -584,14 +597,16 @@ public class Student {
 			}
 		}
 		
-		if (failed && status.isResitting()) {
+		if (failed) {
 			if (level == '4') {
 				pastResults = this.getPrevResults();
 				float finalgrade = 0;
 				System.out.println("4th year failed twice, getting past results");
 				
 				for (PeriodResult result : pastResults) {
-					if (result.getLevel() == '2') {
+					if (result.getLevel() == '1') {
+						System.out.println("1st year doesn't count");
+					} else if (result.getLevel() == '2') {
 						System.out.println("2nd year grade = " + result.getGrade());
 						finalgrade += result.getGrade();
 					} else {
@@ -622,7 +637,7 @@ public class Student {
 				outcome += "Student graduated with bachelors, degree result recorded";
 				return outcome;
 				
-			} else {
+			} else if (status.isResitting()) {
 				outcome += "Year failed twice, degree failed";
 				currentResult = new PeriodResult(student.getRegistrationNumber(), level, period, weightedmean, false);
 				currentResult.createPeriodResult();
@@ -770,11 +785,12 @@ public class Student {
 				
 				nextLevel = Integer.parseInt(Character.toString(level)) + 1;
 				char nextLevelC = Integer.toString(nextLevel).charAt(0);
-				outcome += "Next level is " + nextLevelC + "next period is " + nextPeriod;
+				outcome += "Next level is " + nextLevelC + "\nNext period is " + nextPeriod;
 				status.updateStatus(nextLevelC, nextPeriod);
 				return outcome;
 			}
 		}
+		return outcome;
 	}
 	
 	public void setModuleChoices(ArrayList<Module> modules) throws SQLException {

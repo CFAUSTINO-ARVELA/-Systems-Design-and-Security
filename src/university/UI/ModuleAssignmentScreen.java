@@ -65,20 +65,20 @@ public class ModuleAssignmentScreen extends JPanel {
                             JOptionPane.showMessageDialog(null, "The degree selected does not offer level " + level
                                     + ". \n Please select the correct level.");
                         else if (Degree.getCredits(degreeCode, level)
-                                + Module.getModule(moduleCode).getCredits() >= 180)
+                                + Module.getModule(moduleCode).getCredits() >= 180 && core)
                             JOptionPane.showMessageDialog(null,
-                                    "Adding this module will exceed 120 credits. \n Please insert the correct information.");
+                                    "Adding this module will exceed 180 credits. \n Please insert the correct information.");
                         else {
                             if (Degree.getDegree(degreeCode).getType().charAt(0) == 'B' && level == 4)
                                 JOptionPane.showMessageDialog(null,
                                         "The degree selected does not offer level 4. \n Please select the correct level.");
                             else if (Degree.getCredits(degreeCode, level)
-                                    + Module.getModule(moduleCode).getCredits() >= 120)
+                                    + Module.getModule(moduleCode).getCredits() >= 120 && core)
                                 JOptionPane.showMessageDialog(null,
                                         "Adding this module will exceed 120 credits. \n Please insert the correct information.");
                         }
                     else if (Degree.getNoMod(degreeCode, moduleCode, level) != 0)
-                        JOptionPane.showMessageDialog(null, "This modules is already assigned to this degree's level "
+                        JOptionPane.showMessageDialog(null, "This module is already assigned to this degree's level "
                                 + level + ". \n Please insert the correct information.");
 
                     else { // Successful

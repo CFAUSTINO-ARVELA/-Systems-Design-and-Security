@@ -65,12 +65,6 @@ public class TableModel {
         return new DefaultTableModel(data, columnNames) {
 
             private static final long serialVersionUID = 1L;
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                // all cells false
-                return false;
-            }
         };
     }  */
    
