@@ -2,6 +2,12 @@ package university;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Objects;
+
+import javax.swing.JPanel;
+
+import university.UI.ProfileScreen;
+import javax.swing.*;
 
 public class Account {
 
@@ -13,6 +19,9 @@ public class Account {
 	private String password;
 	private Clearance clearance;
 	private static Connection con;
+    private ScreenManager screen;
+    private JPanel loginScreen;
+    private ProfileScreen profileScreen;
 
 	public Account(String _title, String _forename, String _surname, String _password,
 			String _clearance) {
@@ -350,6 +359,75 @@ public class Account {
 		con.close();
 		return valid;
 	}
+	
+    public Account login(String emailInput, String passwordInput) throws SQLException {
+    
+        connectToDB();
+        PreparedStatement pst1 = null, pst2 = null;
+        ResultSet res1, res2 = null;
+        String sql = "select * from account where Email=? and Password=?";
+        String clearLvl = "select Clearance from account where Email = ? and Password =?";
+        Account a = null;
+        try {
+            pst1 = con.prepareStatement(sql);
+            pst1.setString(1, emailInput);
+            pst1.setString(2, passwordInput);
+            res1 = pst1.executeQuery();
+
+            pst2 = con.prepareStatement(clearLvl);
+            pst2.setString(1, emailInput);
+            pst2.setString(2, passwordInput);
+            res2 = pst2.executeQuery();
+
+            if (!ValidCheck.email(emailInput) || !ValidCheck.pass(passwordInput)) {
+                JOptionPane.showMessageDialog(null, "Please do not enter illegal characters");
+            } else if (emailInput.equals("") || passwordInput.equals("")) {
+                JOptionPane.showMessageDialog(null, "Please enter an email and password");
+            } else if (!res1.next()) {
+                JOptionPane.showMessageDialog(null, "Account details not found");
+            } else {
+                res2.next();
+                // get data
+                String title = res1.getString("Title");
+                String forename = res1.getString("Forename");
+                String surname = res1.getString("Surname");
+                String username = res1.getString("Username");
+                String password = res1.getString("Password");
+                Clearance clearance = null;
+
+                switch (res2.getInt("Clearance")) {
+                case 1:
+                    clearance = Clearance.TEACHER;
+                    break;
+                case 2:
+                    clearance = Clearance.REGISTRAR;
+                    break;
+                case 3:
+                    clearance = Clearance.ADMIN;
+                    break;
+                default:
+                    clearance = Clearance.STUDENT;
+                    break;
+                }
+                
+                a = new Account(title, forename, surname, username, null, clearance);
+               
+    		}
+    		res1.close();
+    		res2.close();
+    	}
+    	catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (pst1 != null)
+	    		pst1.close();
+	    		pst2.close();
+		}
+        con.close();
+        return a;
+		
+    }
+
 	
 	/**
 	public static void main(String[] args){
