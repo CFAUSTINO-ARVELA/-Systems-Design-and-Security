@@ -75,6 +75,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
                             "Successfully created Student: " + ac.getEmail() + ". Password: " + ac.getPassword()
                                     + "\nThey've been added to degree " + d.getName()
                                     + " on Level 1 \nCore modules have been added");
+                    ac.securePassword();
                 } catch (SQLException e1) {
                     JOptionPane.showMessageDialog(null, "SQL error, please try again");
                 }
@@ -192,7 +193,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         add(surnameTxt);
         surnameTxt.setBounds(155, 265, 215, 16);
         add(titleInput);
-        titleInput.setBounds(382, 180, 235, titleInput.getPreferredSize().height);
+        titleInput.setBounds(382, 180, 235, 30);
         add(forenameInput);
         forenameInput.setBounds(382, 220, 235, 30);
         add(surnameInput);
@@ -268,9 +269,9 @@ class StudentCreationScreen extends JPanel implements ActionListener {
     private JTextField tutorInput;
     private JComboBox degreeInput;
 
-    @Override
+    
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+        
 
     }
 }

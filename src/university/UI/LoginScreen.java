@@ -130,7 +130,7 @@ public class LoginScreen extends JPanel {
         emailText.setHorizontalAlignment(SwingConstants.CENTER);
         emailText.setForeground(Color.white);
         add(emailText);
-        emailText.setBounds(470, 215, 55, emailText.getPreferredSize().height);
+        emailText.setBounds(470, 215, 55, 30);
 
         // ---- passwordText ----
         passwordText.setText("Password");

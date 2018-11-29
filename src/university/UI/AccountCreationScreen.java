@@ -49,7 +49,7 @@ class AccountCreationScreen extends JPanel implements ActionListener {
 
         submitBtn.addActionListener(e -> {
 
-            if (ValidCheck.input(titleInput) || ValidCheck.input(forenameInput) || ValidCheck.input(surnameInput)) {
+            if (!ValidCheck.input(titleInput) || !ValidCheck.input(forenameInput) || !ValidCheck.input(surnameInput)) {
                 JOptionPane.showMessageDialog(null, "Please enter all fields and ensure there are no symbols");
             } else {
                 this.accountCreation.setVisible(false);
@@ -62,6 +62,7 @@ class AccountCreationScreen extends JPanel implements ActionListener {
                     this.profileScreen.draw();
                     JOptionPane.showMessageDialog(null, "Successfully created Account: " + newAccount.getEmail()
                             + ". Password: " + newAccount.getPassword());
+                    newAccount.securePassword();
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "SQL error, please try again");
                 }
@@ -240,9 +241,9 @@ class AccountCreationScreen extends JPanel implements ActionListener {
     private JLabel accountManagementTxt;
     // JFormDesigner - End of variables declaration //GEN-END:variables
 
-    @Override
+    
     public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
+       
 
     }
 }

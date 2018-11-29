@@ -74,6 +74,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
                 code = Module.generateCode(dep, level);
                 Module mod = new Module(name, code, credits, duration);
                 Module newMod = mod.createModule();
+                
                 this.moduleManagement.draw();
                 JOptionPane.showMessageDialog(null, "Successfully created Module: " + newMod.getName());
             } catch (Exception ex) {
