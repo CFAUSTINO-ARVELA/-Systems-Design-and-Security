@@ -67,7 +67,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                         JOptionPane.PLAIN_MESSAGE);
                 if (res == JOptionPane.OK_OPTION) {
                     try {
-                        if (Account.delVerification(email.getText(), password.getText(), 3)) {
+                        if (Account.delVerification(email.getText(), password.getText(), 2)) {
                             stuToDelete.deleteStudent();
                             this.studentManagement.setVisible(false);
                             this.profileScreen.draw();
@@ -130,8 +130,7 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                         JOptionPane.showMessageDialog(null, "This student has graduated");
                     } else if (!student.getStudentStatus().isRegistered()) {
                         JOptionPane.showMessageDialog(null, "This student has not yet been registered for the period");
-                    }
-                    {
+                    } else {
                         markingScr = new MarkingScreen(this.screen, this, student);
                         markingScr.draw();
                         this.studentManagement.setVisible(false);
