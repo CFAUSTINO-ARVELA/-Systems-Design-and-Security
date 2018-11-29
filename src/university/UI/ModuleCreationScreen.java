@@ -27,6 +27,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
     private ScreenManager screen;
     private ModuleManagementScreen moduleManagement;
     private String[] durations = { "Autumn", "Spring", "Year" };
+    private String[] levels = {"1","2","3","4"};
     private String[] isDissertation = { "Yes", "No" };
     private ArrayList<String> departments = new ArrayList<String>();
 
@@ -40,8 +41,9 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
     public void initListeners() {
         backToProfileBtn.addActionListener(e -> {
             this.moduleCreationScreen.setVisible(false);
+            ModuleManagementScreen newMan = new ModuleManagementScreen(this.screen,moduleManagement.getTeachingScreen());
             try {
-				this.moduleManagement.draw();
+            	newMan.draw();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -50,11 +52,11 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
 
             ArrayList<Department> secondaryDepts = new ArrayList<Department>();
 
-            if (ValidCheck.input(nameInput) && ValidCheck.input(levelInput)) {
+            if (ValidCheck.input(nameInput)) {
 
             String name = nameInput.getText();
             String code;
-            int level = Integer.parseInt(levelInput.getText());
+            int level = Integer.parseInt(levelInput.getSelectedItem().toString());
             int credits;
             Department dep;
             String duration = durationInput.getSelectedItem().toString();
@@ -75,8 +77,11 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
                 Module mod = new Module(name, code, credits, duration);
                 Module newMod = mod.createModule();
                 
-                this.moduleManagement.draw();
                 JOptionPane.showMessageDialog(null, "Successfully created Module: " + newMod.getName());
+                this.moduleCreationScreen.setVisible(false);
+                ModuleCreationScreen newS = new ModuleCreationScreen(this.screen,this.moduleManagement);
+                
+                newS.draw();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 try {
@@ -129,7 +134,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
         backToProfileBtn = new JButton();
         moduleTxt = new JLabel();
         levelTxt = new JLabel();
-        levelInput = new JTextField();
+        levelInput = new JComboBox(levels);
         durationTxt = new JLabel();
         durationInput = new JComboBox(durations);
         isDissertationInput = new JComboBox(isDissertation);
@@ -266,7 +271,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
     private JButton backToProfileBtn;
     private JLabel moduleTxt;
     private JLabel levelTxt;
-    private JTextField levelInput;
+    private JComboBox levelInput;
     private JLabel durationTxt;
     private JComboBox durationInput;
     private JComboBox departmentInput;

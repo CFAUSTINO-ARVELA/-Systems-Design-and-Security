@@ -73,12 +73,13 @@ public class Department{
 		connectToDB();
 		int count = 0;
 		Degree c = null;
-		PreparedStatement dept = null, delDept = null, deg= null;
+		PreparedStatement dept = null, delDept = null, deg= null,mod=null;
 		
 		try {
 			dept = con.prepareStatement("SELECT COUNT(*) FROM department WHERE code = ?");
 			delDept = con.prepareStatement( "DELETE FROM department WHERE code = ?");
 			deg = con.prepareStatement("SELECT code FROM degree WHERE mainDept = ?");
+			mod = con.prepareStatement("SELECT code FROM module WHERE code LIKE ?");
 			dept.setString(1, getCode());
 			ResultSet res = dept.executeQuery();
 			res.next();
@@ -97,8 +98,16 @@ public class Department{
 				
 				delDept.setString(1, getCode());
 				count = delDept.executeUpdate();
+			
+				mod.setString(1, getCode()+ "%");
+				System.out.println(mod.toString());
+				res = mod.executeQuery();
+				while(res.next()) {
+					System.out.println(res.getString(1));
+					Module.getModule(res.getString(1)).deleteModule();
+				}
 				
-			res.close();
+				res.close();
 				
 			}
 		 }catch (Exception ex) {
@@ -108,6 +117,7 @@ public class Department{
 					dept.close();
 					delDept.close();
 					deg.close();
+					mod.close();
 				}
 			}
 		con.close();

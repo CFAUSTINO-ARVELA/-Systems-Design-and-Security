@@ -44,6 +44,7 @@ public class Module {
 
 	public static String generateCode(Department dep, int level) throws SQLException {
 		connectToDB();
+		int count = 001;
 		Statement stmt = con.createStatement();
 		String name = dep.getName();
 		ResultSet res  = stmt.executeQuery(String.format("SELECT code FROM department WHERE name = \"%s\";", name));
@@ -52,9 +53,14 @@ public class Module {
 		
 		String codeSoFar = deptCode + Integer.toString(level);
 		
-		res = stmt.executeQuery(String.format("SELECT COUNT(*) FROM module WHERE code LIKE \"%s%%\";", codeSoFar));
-		res.next();
-		int count = res.getInt(1) + 1;
+		res = stmt.executeQuery(String.format("SELECT MAX(Code) FROM module WHERE code LIKE \"%s%%\";", codeSoFar));
+		
+		
+		
+		if(res.next()) {
+			count = Integer.parseInt( res.getString(1).substring(4)) + 1;
+		}
+		
 		
 		String formatted = String.format("%03d", count);
 		String finalCode = codeSoFar + formatted;

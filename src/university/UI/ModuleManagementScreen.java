@@ -38,6 +38,10 @@ class ModuleManagementScreen extends JPanel implements ActionListener {
         this.teachingScreen = teach;
     }
 
+    public TeachingManagementScreen getTeachingScreen() {
+    	return teachingScreen;
+    }
+
     private void initListeners() {
         backToTeachingBtn.addActionListener(e -> {
             this.moduleScreen.setVisible(false);
