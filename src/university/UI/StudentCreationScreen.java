@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import university.UI.ProfileScreen;
 import university.Account;
 import university.Student;
+import university.ValidCheck;
 import university.Degree;
 import university.ScreenManager;
 
@@ -55,27 +56,34 @@ class StudentCreationScreen extends JPanel implements ActionListener {
 
         submitBtn.addActionListener(e -> {
 
-            this.studentCreation.setVisible(false);
-            Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(), "password",
-                    "Student");
-            try {
-                Student stu;
-                d = Degree.getDegree(degreeInput.getSelectedItem().toString());
+            if (ValidCheck.input(titleInput) && ValidCheck.input(forenameInput) && ValidCheck.input(surnameInput)) {
+
+                this.studentCreation.setVisible(false);
+                Account ac = new Account(titleInput.getText(), forenameInput.getText(), surnameInput.getText(),
+                        "password", "Student");
                 try {
-                    stu = new Student(d, tutorInput.getText(), ac.createAccount());
-                    stu.createStudent();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
+                    Student stu;
+                    d = Degree.getDegree(degreeInput.getSelectedItem().toString());
+                    try {
+                        stu = new Student(d, tutorInput.getText(), ac.createAccount());
+                        stu.createStudent();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                    this.profileScreen.draw();
+                    JOptionPane.showMessageDialog(null,
+                            "Successfully created Student: " + ac.getEmail() + ". Password: " + ac.getPassword()
+                                    + "\nThey've been added to degree " + d.getName()
+                                    + " on Level 1 \nCore modules have been added");
+                } catch (SQLException e1) {
+                    JOptionPane.showMessageDialog(null, "SQL error, please try again");
                 }
-                this.profileScreen.draw();
-                JOptionPane.showMessageDialog(null,
-                        "Successfully created Student: " + ac.getEmail() + ". Password: " + ac.getPassword() + "\nThey've been added to degree " + d.getName() + " on Level 1 \nCore modules have been added");
-            } catch (SQLException e1) {
-                JOptionPane.showMessageDialog(null, "SQL error, please try again");
-            }
-            // }
-            catch (Exception e2) {
-                e2.printStackTrace();
+                // }
+                catch (Exception e2) {
+                    e2.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please ensure no fields are blank and no symbols have been entered");
             }
         });
     }
@@ -129,18 +137,23 @@ class StudentCreationScreen extends JPanel implements ActionListener {
             e1.printStackTrace();
         }
 
-        //======== this ========
+        // ======== this ========
 
         // JFormDesigner evaluation mark
-        setBorder(new javax.swing.border.CompoundBorder(
-            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(
+                new javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFormDesigner Evaluation",
+                javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM,
+                new java.awt.Font("Dialog", java.awt.Font.BOLD, 12), java.awt.Color.red), getBorder()));
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent e) {
+                if ("border".equals(e.getPropertyName()))
+                    throw new RuntimeException();
+            }
+        });
 
         setLayout(null);
 
-        //---- welcomeTxt ----
+        // ---- welcomeTxt ----
         welcomeTxt.setText("Student Account");
         welcomeTxt.setFont(welcomeTxt.getFont().deriveFont(welcomeTxt.getFont().getSize() + 12f));
         welcomeTxt.setHorizontalAlignment(SwingConstants.CENTER);
@@ -148,14 +161,14 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         add(welcomeTxt);
         welcomeTxt.setBounds(389, 90, 220, welcomeTxt.getPreferredSize().height);
 
-        //---- promptTxt ----
+        // ---- promptTxt ----
         promptTxt.setText("Please enter details below");
         promptTxt.setHorizontalAlignment(SwingConstants.CENTER);
         promptTxt.setForeground(Color.white);
         add(promptTxt);
         promptTxt.setBounds(387, 130, 225, promptTxt.getPreferredSize().height);
 
-        //---- titleTxt ----
+        // ---- titleTxt ----
         titleTxt.setText("Title");
         titleTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         titleTxt.setFont(titleTxt.getFont().deriveFont(titleTxt.getFont().getSize() + 3f));
@@ -163,7 +176,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         add(titleTxt);
         titleTxt.setBounds(185, 185, 185, titleTxt.getPreferredSize().height);
 
-        //---- forenameTxt ----
+        // ---- forenameTxt ----
         forenameTxt.setText("Forename");
         forenameTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         forenameTxt.setFont(forenameTxt.getFont().deriveFont(forenameTxt.getFont().getSize() + 3f));
@@ -171,7 +184,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         add(forenameTxt);
         forenameTxt.setBounds(230, 227, 140, 16);
 
-        //---- surnameTxt ----
+        // ---- surnameTxt ----
         surnameTxt.setText("Surname");
         surnameTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         surnameTxt.setFont(surnameTxt.getFont().deriveFont(surnameTxt.getFont().getSize() + 3f));
@@ -185,25 +198,26 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         add(surnameInput);
         surnameInput.setBounds(382, 260, 235, 30);
 
-        //---- submitBtn ----
+        // ---- submitBtn ----
         submitBtn.setText("Submit");
         add(submitBtn);
         submitBtn.setBounds(432, 465, 135, submitBtn.getPreferredSize().height);
 
-        //---- backToProfileBtn ----
+        // ---- backToProfileBtn ----
         backToProfileBtn.setText("Back");
         add(backToProfileBtn);
         backToProfileBtn.setBounds(414, 500, 170, 50);
 
-        //---- studentManagementTxt ----
+        // ---- studentManagementTxt ----
         studentManagementTxt.setText("Account Management");
-        studentManagementTxt.setFont(studentManagementTxt.getFont().deriveFont(studentManagementTxt.getFont().getSize() + 10f));
+        studentManagementTxt
+                .setFont(studentManagementTxt.getFont().deriveFont(studentManagementTxt.getFont().getSize() + 10f));
         studentManagementTxt.setHorizontalAlignment(SwingConstants.CENTER);
         studentManagementTxt.setForeground(Color.white);
         add(studentManagementTxt);
         studentManagementTxt.setBounds(347, 35, 305, 31);
 
-        //---- degreeTxt ----
+        // ---- degreeTxt ----
         degreeTxt.setText("Degree");
         degreeTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         degreeTxt.setFont(degreeTxt.getFont().deriveFont(degreeTxt.getFont().getSize() + 3f));
@@ -211,7 +225,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
         add(degreeTxt);
         degreeTxt.setBounds(155, 305, 215, 16);
 
-        //---- tutorTxt ----
+        // ---- tutorTxt ----
         tutorTxt.setText("Tutor");
         tutorTxt.setHorizontalAlignment(SwingConstants.RIGHT);
         tutorTxt.setFont(tutorTxt.getFont().deriveFont(tutorTxt.getFont().getSize() + 3f));
@@ -225,7 +239,7 @@ class StudentCreationScreen extends JPanel implements ActionListener {
 
         { // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);

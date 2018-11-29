@@ -1,11 +1,11 @@
 package university.UI;
 
 import java.awt.*;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import university.DegreeResult;
 import university.Module;

@@ -1,8 +1,11 @@
 package university.UI;
 
+import java.awt.*;
+import java.sql.*;
+
 import university.UI.ProfileScreen;
 import university.ScreenManager;
-import university.Valid;
+import university.ValidCheck;
 import university.Account;
 
 import javax.swing.JLabel;
@@ -46,9 +49,8 @@ class AccountCreationScreen extends JPanel implements ActionListener {
 
         submitBtn.addActionListener(e -> {
 
-            if (Valid.check(titleInput) || Valid.check(forenameInput) || Valid.check(surnameInput)) {
+            if (ValidCheck.input(titleInput) || ValidCheck.input(forenameInput) || ValidCheck.input(surnameInput)) {
                 JOptionPane.showMessageDialog(null, "Please enter all fields and ensure there are no symbols");
-
             } else {
                 this.accountCreation.setVisible(false);
                 String cle = clearanceInput.getSelectedItem().toString();

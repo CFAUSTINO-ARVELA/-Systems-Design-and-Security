@@ -3,7 +3,6 @@ package university.UI;
 import university.UI.ProfileScreen;
 import university.ScreenManager;
 import university.Account;
-import university.Module;
 import university.TableModel;
 
 import java.awt.BorderLayout;
@@ -78,7 +77,9 @@ class AccountManagementScreen extends JPanel implements ActionListener {
                 if (res == JOptionPane.OK_OPTION) {
 	                try {
 	                	if(Account.delVerification(email.getText(), password.getText(), 3)) {
-	                		accountToDelete.deleteAccount();
+                            accountToDelete.deleteAccount();
+                            this.profileScreen.draw();
+                            JOptionPane.showMessageDialog(null, "Successfully deleted account: " + index);
 	                		
 	                	}else
 	                		JOptionPane.showMessageDialog(null, "Please insert the correct account details");
@@ -87,8 +88,6 @@ class AccountManagementScreen extends JPanel implements ActionListener {
 	                    e1.printStackTrace();
 	                }
 	                this.accountManagement.setVisible(false);
-	                this.profileScreen.draw();
-	                JOptionPane.showMessageDialog(null, "Successfully deleted account: " + index);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Please select an Account to delete");

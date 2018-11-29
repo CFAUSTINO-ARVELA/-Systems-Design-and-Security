@@ -118,7 +118,6 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
-                this.studentManagement.setVisible(false);
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a Student to complete add/drop");
             }

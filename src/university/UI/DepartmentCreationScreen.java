@@ -2,7 +2,7 @@ package university.UI;
 
 import university.ScreenManager;
 import university.Department;
-import university.Valid;
+import university.ValidCheck;
 import university.UI.DepartmentManagementScreen;
 
 import javax.swing.JLabel;
@@ -54,13 +54,12 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
             try {
 				this.departmentManagement.draw();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
         });
         
         submitBtn.addActionListener(e -> {
-            if (Valid.check(nameInput) || Valid.check(codeInput)) {
+            if (ValidCheck.input(nameInput) || ValidCheck.input(codeInput)) {
                 JOptionPane.showMessageDialog(null, "Please do not insert any symbols");
             } else if(nameInput.getText().isEmpty())
         		JOptionPane.showMessageDialog(null, "Please insert the name of the Department");
@@ -75,7 +74,7 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
 	                if (count != 0) {
 	                	JOptionPane.showMessageDialog(null, "Successfully created Department: " + dept.getName());
 	                	this.departmentScreen.setVisible(false);
-	                	DepartmentManagementScreen newDeptMana= new DepartmentManagementScreen(this.screen,departmentManagement.getTecMaangScree());
+	                	DepartmentManagementScreen newDeptMana= new DepartmentManagementScreen(this.screen,departmentManagement.getTecMangScree());
 	                	newDeptMana.draw();
 	                } else {
 	                	JOptionPane.showMessageDialog(null, "Please choose a differente Department Code.");
@@ -85,8 +84,6 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
 	            }
         	}
         });
-        
-        
         	screen.frame.add(this.departmentScreen);
     }
 
@@ -178,11 +175,8 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
             setMinimumSize(preferredSize);
             setPreferredSize(preferredSize);
         }
-        // JFormDesigner - End of component initialization //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Katie
     private JLabel createTxt;
     private JLabel promptTxt;
     private JLabel nameTxt;
@@ -192,7 +186,6 @@ class DepartmentCreationScreen extends JPanel implements ActionListener {
     private JButton submitBtn;
     private JButton backToProfileBtn;
     private JLabel departmentTxt;
-    // JFormDesigner - End of variables declaration //GEN-END:variables
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

@@ -39,8 +39,7 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
         this.teachingScreen = teach;
     }
 
-
-    public TeachingManagementScreen getTecMaangScree() {
+    public TeachingManagementScreen getTecMangScree() {
     	return teachingScreen;
     }
     public void draw() throws SQLException{

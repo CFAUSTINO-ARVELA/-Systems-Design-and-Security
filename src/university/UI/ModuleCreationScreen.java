@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import university.Department;
 import university.Module;
 import university.ScreenManager;
+import university.ValidCheck;
 
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -42,13 +43,14 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
             try {
 				this.moduleManagement.draw();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
         });
         submitBtn.addActionListener((e -> {
 
             ArrayList<Department> secondaryDepts = new ArrayList<Department>();
+
+            if (ValidCheck.input(nameInput) && ValidCheck.input(levelInput)) {
 
             String name = nameInput.getText();
             String code;
@@ -79,11 +81,13 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
                 try {
 					this.moduleManagement.draw();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
                 JOptionPane.showMessageDialog(null, "SQL error, please try again");
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please check you have entered all fields and there are no symbols");
+        }
         }));
     }
 
