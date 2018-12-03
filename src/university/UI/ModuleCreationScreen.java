@@ -28,7 +28,7 @@ class ModuleCreationScreen extends JPanel implements ActionListener {
     private ModuleManagementScreen moduleManagement;
     private String[] durations = { "Autumn", "Spring", "Year" };
     private String[] levels = {"1","2","3","4"};
-    private String[] isDissertation = { "Yes", "No" };
+    private String[] isDissertation =  {"No", "Yes" };
     private ArrayList<String> departments = new ArrayList<String>();
 
     ModuleCreationScreen(ScreenManager scr, ModuleManagementScreen moduleManage) {

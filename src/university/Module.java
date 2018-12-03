@@ -57,7 +57,8 @@ public class Module {
 		
 		
 		
-		if(res.next()) {
+		if(res.next() && res.getString(1) != null ) {
+
 			count = Integer.parseInt( res.getString(1).substring(4)) + 1;
 		}
 		
