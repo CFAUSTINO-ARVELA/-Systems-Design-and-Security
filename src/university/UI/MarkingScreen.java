@@ -42,7 +42,10 @@ public class MarkingScreen extends JPanel {
 			}
 		});
 		calculateBtn.addActionListener(e -> {
-			table.getCellEditor().stopCellEditing();
+			if (table.getEditingRow() != -1) {
+				table.getCellEditor().stopCellEditing();
+			}
+			
 			try {
 				if (this.student.getLevel() != "P") {
 					ArrayList<ModuleGrades> allGrades = new ArrayList<>();
@@ -82,7 +85,10 @@ public class MarkingScreen extends JPanel {
 			}
 		});
 		submitBtn.addActionListener(e -> {
-			table.getCellEditor().stopCellEditing();
+			if (table.getEditingRow() != -1) {
+				table.getCellEditor().stopCellEditing();
+			}
+			
 			try {
 				if (this.student.getLevel() != "P") {
 					ArrayList<ModuleGrades> allGrades = new ArrayList<>();
@@ -285,13 +291,13 @@ public class MarkingScreen extends JPanel {
 			setPreferredSize(preferredSize);
 		}
 		
-		calculateBtn.setText("Calculate grade");
+		calculateBtn.setText("Calculate Grade");
 		add(calculateBtn);
-		calculateBtn.setBounds(415,435,170,20);
+		calculateBtn.setBounds(415,445,170,20);
 
-		submitBtn.setText("Progress student");
+		submitBtn.setText("Progress Student");
 		add(submitBtn);
-		submitBtn.setBounds(415, 465, 170, 20);
+		submitBtn.setBounds(415, 475, 170, 20);
 
 		// JFormDesigner - End of component initialization //GEN-END:initComponents
 	}
