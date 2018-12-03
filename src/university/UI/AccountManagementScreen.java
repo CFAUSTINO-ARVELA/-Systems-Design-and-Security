@@ -75,7 +75,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
                 int res = JOptionPane.showConfirmDialog(null, array, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (res == JOptionPane.OK_OPTION) {
 	                try {
-	                	if(Account.delVerification(email.getText(), password.getText(), 3)) {
+	                	if(Account.delVerification(email.getText(), Account.md5hash(password.getText()), 3)) {
                             accountToDelete.deleteAccount();
                             this.accountManagement.setVisible(false);
                             this.profileScreen.draw();
@@ -84,7 +84,7 @@ class AccountManagementScreen extends JPanel implements ActionListener {
 	                	}else
 	                		JOptionPane.showMessageDialog(null, "Please insert the correct account details");
                     
-	                } catch (SQLException e1) {
+	                } catch (Exception e1) {
 	                    e1.printStackTrace();
 	                }
                 }

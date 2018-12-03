@@ -58,7 +58,7 @@ public class DegreeDetailsScreen extends JPanel implements ActionListener{
                 int res = JOptionPane.showConfirmDialog(null, array, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (res == JOptionPane.OK_OPTION) {
 	                try {
-	                	if(Account.delVerification(email.getText(), password.getText(), 3)) {
+	                	if(Account.delVerification(email.getText(), Account.md5hash(password.getText()), 3)) {
                             Module.remAssoModDeg(code, deg.getCode(), Integer.parseInt(year));
                             JOptionPane.showMessageDialog(null, "Successfully remove Module.");
                             this.degreDetScreen.setVisible(false);

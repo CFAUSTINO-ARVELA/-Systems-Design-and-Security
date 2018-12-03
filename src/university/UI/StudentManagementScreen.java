@@ -67,14 +67,14 @@ class StudentManagementScreen extends JPanel implements ActionListener {
                         JOptionPane.PLAIN_MESSAGE);
                 if (res == JOptionPane.OK_OPTION) {
                     try {
-                        if (Account.delVerification(email.getText(), password.getText(), 2)) {
+                        if (Account.delVerification(email.getText(), Account.md5hash(password.getText()), 2)) {
                             stuToDelete.deleteStudent();
                             this.studentManagement.setVisible(false);
                             this.profileScreen.draw();
                             JOptionPane.showMessageDialog(null, "Successfully deleted student: " + username);
                         } else
                             JOptionPane.showMessageDialog(null, "Please insert the correct account details");
-                    } catch (SQLException e1) {
+                    } catch (Exception e1) {
                         e1.printStackTrace();
                     }
                 }

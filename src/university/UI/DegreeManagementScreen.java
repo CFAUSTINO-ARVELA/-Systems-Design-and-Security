@@ -80,7 +80,7 @@ class DegreeManagementScreen extends JPanel implements ActionListener {
                         JOptionPane.PLAIN_MESSAGE);
                 if (res == JOptionPane.OK_OPTION) {
                     try {
-                        if (Account.delVerification(email.getText(), password.getText(), 3)) {
+                        if (Account.delVerification(email.getText(), Account.md5hash(password.getText()), 3)) {
                             degToDelete.deleteDegree();
                             JOptionPane.showMessageDialog(null, "Successfully deleted degree: " + name);
                             this.degreeManagement.setVisible(false);
