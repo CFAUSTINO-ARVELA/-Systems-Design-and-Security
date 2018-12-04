@@ -66,6 +66,7 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                     this.student.setModuleChoices(chosenModules);
                     StudentStatus status = this.student.getStudentStatus();
                     status.setRegistered(true);
+                    JOptionPane.showMessageDialog(null, "Successfully assigned modules");
                     this.moduleScreen.setVisible(false);
                     this.profileScreen.draw();
                 } catch (Exception e1) {
@@ -79,7 +80,6 @@ public class ModuleChoiceScreen extends JPanel implements ActionListener {
                 }
             }
             chosenModules = new ArrayList<>();
-            JOptionPane.showMessageDialog(null, "Successfully assigned modules");
         });
 
         backToProfileBtn.addActionListener(e -> {

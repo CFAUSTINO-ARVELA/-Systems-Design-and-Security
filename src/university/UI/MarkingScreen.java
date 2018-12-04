@@ -45,7 +45,7 @@ public class MarkingScreen extends JPanel {
 			if (table.getEditingRow() != -1) {
 				table.getCellEditor().stopCellEditing();
 			}
-			
+
 			try {
 				if (this.student.getLevel() != "P") {
 					ArrayList<ModuleGrades> allGrades = new ArrayList<>();
@@ -54,11 +54,11 @@ public class MarkingScreen extends JPanel {
 						for (int i = 0; i < rows; i++) {
 							try {
 								String code = (String) table.getValueAt(i, 1);
-								int firstGrade = Integer.parseInt((String) table.getValueAt(i, 2));
+								int firstGrade = Integer.parseInt((String) table.getValueAt(i, 3));
 								ModuleGrades grades;
 
-								if (this.isResitGrade()) {
-									int resit = Integer.parseInt((String) table.getValueAt(i, 3));
+								if (this.isResitGrade(i)) {
+									int resit = Integer.parseInt((String) table.getValueAt(i, 4));
 									grades = new ModuleGrades(Module.getModule(code), firstGrade, resit);
 								} else {
 									grades = new ModuleGrades(Module.getModule(code), firstGrade);
@@ -88,7 +88,7 @@ public class MarkingScreen extends JPanel {
 			if (table.getEditingRow() != -1) {
 				table.getCellEditor().stopCellEditing();
 			}
-			
+
 			try {
 				if (this.student.getLevel() != "P") {
 					ArrayList<ModuleGrades> allGrades = new ArrayList<>();
@@ -97,11 +97,11 @@ public class MarkingScreen extends JPanel {
 						for (int i = 0; i < rows; i++) {
 							try {
 								String code = (String) table.getValueAt(i, 1);
-								int firstGrade = Integer.parseInt((String) table.getValueAt(i, 2));
+								int firstGrade = Integer.parseInt((String) table.getValueAt(i, 3));
 								ModuleGrades grades;
 
-								if (this.isResitGrade()) {
-									int resit = Integer.parseInt((String) table.getValueAt(i, 3));
+								if (this.isResitGrade(i)) {
+									int resit = Integer.parseInt((String) table.getValueAt(i, 4));
 									grades = new ModuleGrades(Module.getModule(code), firstGrade, resit);
 								} else {
 									grades = new ModuleGrades(Module.getModule(code), firstGrade);
@@ -148,13 +148,9 @@ public class MarkingScreen extends JPanel {
 		screen.frame.add(this.markingScreen);
 	}
 
-	private boolean isResitGrade() {
-		for (int i = 0; i < rows; i++) {
-			System.out.println(i);
-			if (table.getValueAt(i, 3) == null) {
-				System.out.println(table.getValueAt(i, 2));
+	private boolean isResitGrade(int row) {
+			if (table.getValueAt(row, 4) == null) {
 				return false;
-			}
 		}
 		return true;
 	}
@@ -162,8 +158,8 @@ public class MarkingScreen extends JPanel {
 	private boolean checkEntered() {
 		for (int i = 0; i < rows; i++) {
 			System.out.println(i);
-			if (table.getValueAt(i, 2) == null) {
-				System.out.println(table.getValueAt(i, 2));
+			if (table.getValueAt(i, 3) == null) {
+				System.out.println(table.getValueAt(i, 3));
 				return false;
 			}
 		}
@@ -176,18 +172,28 @@ public class MarkingScreen extends JPanel {
 			StudentStatus stuStatus = this.student.getStudentStatus();
 
 			if (stuStatus.isRegistered() && stuStatus.getLevel() != 'P') {
-				DefaultTableModel model = new DefaultTableModel();
+				DefaultTableModel model = new DefaultTableModel() {
+					
+					@Override
+					public boolean isCellEditable(int row, int column) {
+						// all cells false
+						return column == 3 || column == 4;
+					}
+				};
+
 				table = new JTable(model);
 
 				// Create a couple of columns
 				model.addColumn("Name");
 				model.addColumn("Code");
+				model.addColumn("Credits");
 				model.addColumn("Grade");
 				model.addColumn("Resit Grade");
 				for (ModuleChoice module : stuStatus.getCurrentModules()) {
-					System.out.println(Module.getModule(module.getModuleCode()).getName());
-					String name = Module.getModule(module.getModuleCode()).getName();
-					model.addRow(new Object[] { name, module.getModuleCode(), null, null });
+					Module mod = Module.getModule(module.getModuleCode());
+					String name = mod.getName();
+					int credits = mod.getCredits();
+					model.addRow(new Object[] { name, module.getModuleCode(), credits, null, null });
 					rows++;
 				}
 
@@ -210,7 +216,6 @@ public class MarkingScreen extends JPanel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private void initComponents() {
@@ -290,10 +295,10 @@ public class MarkingScreen extends JPanel {
 			setMinimumSize(preferredSize);
 			setPreferredSize(preferredSize);
 		}
-		
+
 		calculateBtn.setText("Calculate Grade");
 		add(calculateBtn);
-		calculateBtn.setBounds(415,445,170,20);
+		calculateBtn.setBounds(415, 445, 170, 20);
 
 		submitBtn.setText("Progress Student");
 		add(submitBtn);

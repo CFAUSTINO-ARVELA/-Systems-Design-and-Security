@@ -68,7 +68,7 @@ public class ModuleAssignmentScreen extends JPanel {
                         } else if (Degree.getCredits(degreeCode, level)
                                 + Module.getModule(moduleCode).getCredits() > 180 && core) {
                             JOptionPane.showMessageDialog(null,
-                                    "Adding this module will exceed 180 credits. \n Please insert the correct information.");
+                                    "Adding this module will exceed 180 core credits. \n Please insert the correct information.");
                         } else {
                             Module.assignModule(degreeCode, moduleCode, level, core);
                            
@@ -79,7 +79,7 @@ public class ModuleAssignmentScreen extends JPanel {
 
                             newScreen.draw();
 
-                            JOptionPane.showMessageDialog(null, "Successfully linked modules");
+                            JOptionPane.showMessageDialog(null, "Successfully linked module and degree");
                         }
 
                     } else {
@@ -90,7 +90,7 @@ public class ModuleAssignmentScreen extends JPanel {
                         } else if (Degree.getCredits(degreeCode, level)
                                 + Module.getModule(moduleCode).getCredits() > 120 && core) {
                             JOptionPane.showMessageDialog(null,
-                                    "Adding this module will exceed 120 credits. \n Please insert the correct information.");
+                                    "Adding this module will exceed 120 core credits. \n Please insert the correct information.");
                         } else if (Degree.getNoMod(degreeCode, moduleCode, level) != 0) {
                             JOptionPane.showMessageDialog(null,
                                     "This module is already assigned to this degree's level " + level
@@ -105,7 +105,7 @@ public class ModuleAssignmentScreen extends JPanel {
 
                             newScreen.draw();
 
-                            JOptionPane.showMessageDialog(null, "Successfully linked modules");
+                            JOptionPane.showMessageDialog(null, "Successfully linked module and degree");
                         }
                     }
                 } catch (Exception e1) {
