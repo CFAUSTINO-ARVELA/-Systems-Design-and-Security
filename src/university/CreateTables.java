@@ -27,7 +27,8 @@ public class CreateTables {
 			count+= stmt.executeUpdate("CREATE TABLE periodResult (RegistrationNumber int, Period char, Level char, Grade int, Passed boolean);");
 			count+= stmt.executeUpdate("CREATE TABLE degreeResult (RegistrationNumber int, Result varchar(255), Masters boolean);");
 			count+= stmt.executeUpdate("INSERT INTO account VALUES (\"Mr\", \"Admin\", \"Admin\", \"admin\", \"f26405525c549627ee3797a23d366402\", \"admin@sheffield.ac.uk\", 3);");
-
+			count+= stmt.executeUpdate("INSERT INTO account VALUES (\"Mr\", \"Registrar\", \"Registrar\", \"registrar\", \"72d35af0866c8166e17d1789717f8467\", \"registrar@sheffield.ac.uk\", 2);");
+			
 			System.out.println(count);
 
 			// Create table for department
