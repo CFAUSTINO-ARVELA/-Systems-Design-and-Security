@@ -6,12 +6,15 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.IntType;
+
 import university.Module;
 import university.ModuleChoice;
 import university.ModuleGrades;
 import university.ScreenManager;
 import university.Student;
 import university.StudentStatus;
+import university.ValidCheck;
 
 public class MarkingScreen extends JPanel {
 
@@ -49,28 +52,46 @@ public class MarkingScreen extends JPanel {
 			try {
 				if (this.student.getLevel() != "P") {
 					ArrayList<ModuleGrades> allGrades = new ArrayList<>();
+					boolean invalid = false;
 					if (this.checkEntered()) {
-						System.out.println("None empty");
 						for (int i = 0; i < rows; i++) {
 							try {
 								String code = (String) table.getValueAt(i, 1);
-								int firstGrade = Integer.parseInt((String) table.getValueAt(i, 3));
-								ModuleGrades grades;
+								String firstGradeTxt = (String) table.getValueAt(i, 3);
+								ModuleGrades grades = null;
 
-								if (this.isResitGrade(i)) {
-									int resit = Integer.parseInt((String) table.getValueAt(i, 4));
-									grades = new ModuleGrades(Module.getModule(code), firstGrade, resit);
+								if (ValidCheck.grade(firstGradeTxt)) {
+									int firstGrade = Integer.parseInt(firstGradeTxt);
+
+									if (this.isResitGrade(i)) {
+
+										String resitTxt = (String) table.getValueAt(i, 4);
+
+										if (ValidCheck.grade(resitTxt)) {
+											int resit = Integer.parseInt(resitTxt);
+											grades = new ModuleGrades(Module.getModule(code), firstGrade, resit);
+										} else {
+											JOptionPane.showMessageDialog(null, "A grade you entered was invalid");
+										}
+
+									} else {
+										grades = new ModuleGrades(Module.getModule(code), firstGrade);
+									}
+
+									allGrades.add(grades);
 								} else {
-									grades = new ModuleGrades(Module.getModule(code), firstGrade);
+									invalid = true;
 								}
-
-								allGrades.add(grades);
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
 						}
 						try {
-							JOptionPane.showMessageDialog(null, this.student.calculate(student, allGrades));
+							if (!invalid) {
+								JOptionPane.showMessageDialog(null, this.student.calculate(student, allGrades));
+							} else {
+								JOptionPane.showMessageDialog(null, "A grade you entered was invalid");
+							}
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -92,28 +113,46 @@ public class MarkingScreen extends JPanel {
 			try {
 				if (this.student.getLevel() != "P") {
 					ArrayList<ModuleGrades> allGrades = new ArrayList<>();
+					boolean invalid = false;
 					if (this.checkEntered()) {
-						System.out.println("None empty");
 						for (int i = 0; i < rows; i++) {
 							try {
 								String code = (String) table.getValueAt(i, 1);
-								int firstGrade = Integer.parseInt((String) table.getValueAt(i, 3));
-								ModuleGrades grades;
+								String firstGradeTxt = (String) table.getValueAt(i, 3);
+								ModuleGrades grades = null;
 
-								if (this.isResitGrade(i)) {
-									int resit = Integer.parseInt((String) table.getValueAt(i, 4));
-									grades = new ModuleGrades(Module.getModule(code), firstGrade, resit);
+								if (ValidCheck.grade(firstGradeTxt)) {
+									int firstGrade = Integer.parseInt(firstGradeTxt);
+
+									if (this.isResitGrade(i)) {
+
+										String resitTxt = (String) table.getValueAt(i, 4);
+
+										if (ValidCheck.grade(resitTxt)) {
+											int resit = Integer.parseInt(resitTxt);
+											grades = new ModuleGrades(Module.getModule(code), firstGrade, resit);
+										} else {
+											JOptionPane.showMessageDialog(null, "A grade you entered was invalid");
+										}
+
+									} else {
+										grades = new ModuleGrades(Module.getModule(code), firstGrade);
+									}
+
+									allGrades.add(grades);
 								} else {
-									grades = new ModuleGrades(Module.getModule(code), firstGrade);
+									invalid = true;
 								}
-
-								allGrades.add(grades);
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
 						}
 						try {
-							JOptionPane.showMessageDialog(null, this.student.progress(student, allGrades));
+							if (!invalid) {
+								JOptionPane.showMessageDialog(null, this.student.progress(student, allGrades));
+							} else {
+								JOptionPane.showMessageDialog(null, "A grade you entered was invalid");
+							}
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -149,8 +188,8 @@ public class MarkingScreen extends JPanel {
 	}
 
 	private boolean isResitGrade(int row) {
-			if (table.getValueAt(row, 4) == null) {
-				return false;
+		if (table.getValueAt(row, 4) == null) {
+			return false;
 		}
 		return true;
 	}
@@ -173,10 +212,9 @@ public class MarkingScreen extends JPanel {
 
 			if (stuStatus.isRegistered() && stuStatus.getLevel() != 'P') {
 				DefaultTableModel model = new DefaultTableModel() {
-					
+
 					@Override
 					public boolean isCellEditable(int row, int column) {
-						// all cells false
 						return column == 3 || column == 4;
 					}
 				};

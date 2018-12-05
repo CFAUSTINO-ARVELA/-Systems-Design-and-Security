@@ -53,8 +53,8 @@ class DepartmentManagementScreen extends JPanel implements ActionListener {
         this.departmentScreen.add(deleteBtn);
         this.departmentScreen.add(tablePanel);
 
+        this.departmentScreen.add(tablePanel);
         this.tablePanel.setLayout(new BorderLayout());
-
         this.departmentScreen.setLayout(null);
 
         Department dep = new Department();

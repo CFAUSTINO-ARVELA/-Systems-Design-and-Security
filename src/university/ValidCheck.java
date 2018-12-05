@@ -16,9 +16,9 @@ public class ValidCheck {
         return (input.matches("[a-zA-Z0-9 ]+"));
     }
 
-    public static boolean grade(JTextField input) {
+    public static boolean grade(String input) {
         try {
-            int num = Integer.parseInt(input.getText());
+            int num = Integer.parseInt(input);
 
             if (num >= 0 && num <= 100) {
                 return true;
